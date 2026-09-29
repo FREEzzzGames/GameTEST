@@ -1003,3 +1003,225 @@ html,body{
   font:400 8px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
   letter-spacing:1px!important;
 }
+
+
+
+/* =========================================================
+   FREEzzzGames SPACE FLIGHT — 50-DEPTH COMPOSITE
+   Five depth planes × ten star fields. Sparse, smooth and
+   slightly faster than a relaxed travel speed.
+   ========================================================= */
+.space-depth{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  contain:layout paint;
+  background:
+    radial-gradient(ellipse at 50% 28%,rgba(45,105,170,.09),transparent 46%),
+    radial-gradient(ellipse at 50% 85%,rgba(40,70,125,.08),transparent 48%);
+}
+
+.space-layer,
+.space-clusters,
+.space-comets,
+.space-asteroids{
+  position:absolute;
+  inset:-18%;
+  pointer-events:none;
+  will-change:transform,opacity,background-position;
+}
+
+.space-layer{
+  background-repeat:no-repeat;
+  mix-blend-mode:screen;
+  transform-origin:50% 55%;
+  opacity:.34;
+}
+
+/* 50 deliberately sparse star fields: each plane carries 10
+   independently positioned star/mini-cluster sources. */
+.space-layer-1{
+  background:
+    radial-gradient(circle at 7% 12%,rgba(255,255,255,.42) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 19% 36%,rgba(160,210,255,.32) 0 1px,transparent 1.9px),
+    radial-gradient(circle at 31% 9%,rgba(255,255,255,.28) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 44% 48%,rgba(125,190,255,.30) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 58% 20%,rgba(255,255,255,.34) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 69% 61%,rgba(145,205,255,.28) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 79% 27%,rgba(255,255,255,.30) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 88% 73%,rgba(120,185,255,.26) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 36% 84%,rgba(255,255,255,.25) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 94% 14%,rgba(170,220,255,.28) 0 1px,transparent 1.8px);
+  opacity:.30;
+  animation:spaceDepth1 18s linear infinite,spaceTwinkle1 5.7s ease-in-out infinite;
+}
+.space-layer-2{
+  background:
+    radial-gradient(circle at 4% 68%,rgba(175,220,255,.42) 0 1px,transparent 2px),
+    radial-gradient(circle at 15% 19%,rgba(255,255,255,.32) 0 1.2px,transparent 2px),
+    radial-gradient(circle at 27% 57%,rgba(115,185,255,.34) 0 1px,transparent 2px),
+    radial-gradient(circle at 40% 24%,rgba(255,255,255,.30) 0 1px,transparent 1.9px),
+    radial-gradient(circle at 53% 77%,rgba(150,215,255,.36) 0 1px,transparent 2px),
+    radial-gradient(circle at 63% 43%,rgba(255,255,255,.28) 0 1.1px,transparent 2px),
+    radial-gradient(circle at 75% 11%,rgba(125,195,255,.36) 0 1px,transparent 2px),
+    radial-gradient(circle at 84% 52%,rgba(255,255,255,.34) 0 1px,transparent 2px),
+    radial-gradient(circle at 91% 88%,rgba(155,215,255,.28) 0 1px,transparent 2px),
+    radial-gradient(circle at 58% 8%,rgba(255,255,255,.24) 0 1px,transparent 1.9px);
+  opacity:.38;
+  animation:spaceDepth2 13s linear infinite,spaceTwinkle2 6.9s ease-in-out infinite;
+}
+.space-layer-3{
+  background:
+    radial-gradient(circle at 9% 44%,rgba(255,255,255,.48) 0 1.3px,transparent 2.2px),
+    radial-gradient(circle at 22% 78%,rgba(135,205,255,.40) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 34% 18%,rgba(255,255,255,.36) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 47% 65%,rgba(115,190,255,.40) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 59% 35%,rgba(255,255,255,.38) 0 1.3px,transparent 2.2px),
+    radial-gradient(circle at 70% 86%,rgba(145,210,255,.36) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 81% 46%,rgba(255,255,255,.40) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 90% 21%,rgba(125,195,255,.36) 0 1.2px,transparent 2.2px),
+    radial-gradient(circle at 97% 64%,rgba(255,255,255,.30) 0 1.1px,transparent 2px),
+    radial-gradient(circle at 51% 93%,rgba(145,205,255,.30) 0 1.1px,transparent 2px);
+  opacity:.27;
+  animation:spaceDepth3 9s linear infinite,spaceTwinkle3 4.8s ease-in-out infinite;
+}
+.space-layer-4{
+  background:
+    radial-gradient(circle at 6% 31%,rgba(150,220,255,.52) 0 1.4px,transparent 2.4px),
+    radial-gradient(circle at 18% 62%,rgba(255,255,255,.40) 0 1.4px,transparent 2.4px),
+    radial-gradient(circle at 29% 4%,rgba(120,195,255,.46) 0 1.3px,transparent 2.4px),
+    radial-gradient(circle at 43% 81%,rgba(255,255,255,.44) 0 1.4px,transparent 2.4px),
+    radial-gradient(circle at 56% 51%,rgba(140,210,255,.48) 0 1.3px,transparent 2.4px),
+    radial-gradient(circle at 67% 16%,rgba(255,255,255,.42) 0 1.4px,transparent 2.4px),
+    radial-gradient(circle at 78% 70%,rgba(130,200,255,.46) 0 1.3px,transparent 2.4px),
+    radial-gradient(circle at 87% 38%,rgba(255,255,255,.40) 0 1.3px,transparent 2.4px),
+    radial-gradient(circle at 96% 79%,rgba(150,215,255,.38) 0 1.2px,transparent 2.3px),
+    radial-gradient(circle at 36% 43%,rgba(255,255,255,.34) 0 1.2px,transparent 2.2px);
+  opacity:.22;
+  animation:spaceDepth4 6.8s linear infinite,spaceTwinkle4 5.3s ease-in-out infinite;
+}
+.space-layer-5{
+  background:
+    radial-gradient(circle at 11% 9%,rgba(255,255,255,.70) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 25% 48%,rgba(155,225,255,.62) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 39% 91%,rgba(255,255,255,.56) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 52% 31%,rgba(140,215,255,.60) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 64% 73%,rgba(255,255,255,.58) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 73% 8%,rgba(155,220,255,.58) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 82% 56%,rgba(255,255,255,.54) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 93% 27%,rgba(150,220,255,.52) 0 1.5px,transparent 2.8px),
+    radial-gradient(circle at 47% 12%,rgba(255,255,255,.48) 0 1.3px,transparent 2.6px),
+    radial-gradient(circle at 88% 92%,rgba(175,225,255,.48) 0 1.3px,transparent 2.6px);
+  opacity:.18;
+  animation:spaceDepth5 4.9s linear infinite,spaceTwinkle5 4.2s ease-in-out infinite;
+}
+
+/* Sparse nebular star clusters: soft groups instead of hundreds of dots. */
+.space-clusters{
+  inset:-5%;
+  background:
+    radial-gradient(ellipse at 16% 28%,rgba(72,145,225,.12) 0%,transparent 11%),
+    radial-gradient(ellipse at 78% 22%,rgba(105,75,205,.10) 0%,transparent 12%),
+    radial-gradient(ellipse at 70% 72%,rgba(40,135,200,.10) 0%,transparent 10%),
+    radial-gradient(ellipse at 25% 80%,rgba(90,100,220,.08) 0%,transparent 12%);
+  filter:blur(8px);
+  opacity:.62;
+  animation:clusterDrift 22s ease-in-out infinite alternate;
+}
+
+/* Rare comet passes. Each pseudo-element is one elongated luminous object. */
+.space-comets{
+  inset:0;
+  z-index:2;
+  opacity:.75;
+}
+.space-comets::before,
+.space-comets::after{
+  content:"";
+  position:absolute;
+  width:82px;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(150,220,255,.05) 12%,rgba(205,240,255,.95) 72%,#fff);
+  box-shadow:0 0 5px rgba(170,225,255,.8),0 0 14px rgba(90,180,255,.38);
+  transform:rotate(-27deg);
+  opacity:0;
+}
+.space-comets::before{top:24%;left:-15%;animation:cometPassA 17s linear infinite 5s}
+.space-comets::after{top:67%;left:-20%;width:64px;animation:cometPassB 23s linear infinite 13s}
+
+/* Rare small asteroid silhouettes. */
+.space-asteroids{
+  inset:0;
+  z-index:1;
+}
+.space-asteroids::before,
+.space-asteroids::after{
+  content:"";
+  position:absolute;
+  width:7px;height:7px;
+  border-radius:42% 58% 54% 46%;
+  background:radial-gradient(circle at 35% 30%,#8e98a4 0 12%,#4b5661 38%,#1d252d 78%);
+  box-shadow:0 0 7px rgba(100,130,155,.16);
+  opacity:0;
+}
+.space-asteroids::before{top:38%;left:-8%;animation:asteroidPassA 29s linear infinite 9s}
+.space-asteroids::after{top:76%;left:108%;width:10px;height:8px;animation:asteroidPassB 34s linear infinite 19s}
+
+@keyframes spaceDepth1{
+  from{transform:translate3d(0,-4%,0) scale(.94)}
+  to{transform:translate3d(0,9%,0) scale(1.01)}
+}
+@keyframes spaceDepth2{
+  from{transform:translate3d(0,-7%,0) scale(.91)}
+  to{transform:translate3d(0,13%,0) scale(1.04)}
+}
+@keyframes spaceDepth3{
+  from{transform:translate3d(0,-10%,0) scale(.88)}
+  to{transform:translate3d(0,18%,0) scale(1.08)}
+}
+@keyframes spaceDepth4{
+  from{transform:translate3d(0,-14%,0) scale(.84)}
+  to{transform:translate3d(0,24%,0) scale(1.13)}
+}
+@keyframes spaceDepth5{
+  from{transform:translate3d(0,-18%,0) scale(.80)}
+  to{transform:translate3d(0,31%,0) scale(1.19)}
+}
+@keyframes spaceTwinkle1{0%,100%{opacity:.22}47%{opacity:.34}53%{opacity:.25}76%{opacity:.31}}
+@keyframes spaceTwinkle2{0%,100%{opacity:.28}38%{opacity:.39}42%{opacity:.24}71%{opacity:.36}}
+@keyframes spaceTwinkle3{0%,100%{opacity:.20}31%{opacity:.32}36%{opacity:.19}82%{opacity:.29}}
+@keyframes spaceTwinkle4{0%,100%{opacity:.17}55%{opacity:.29}61%{opacity:.18}88%{opacity:.26}}
+@keyframes spaceTwinkle5{0%,100%{opacity:.12}44%{opacity:.24}49%{opacity:.13}79%{opacity:.20}}
+@keyframes clusterDrift{
+  from{transform:translate3d(-2%,-1%,0) scale(.98);opacity:.45}
+  to{transform:translate3d(3%,3%,0) scale(1.04);opacity:.70}
+}
+@keyframes cometPassA{
+  0%,72%{transform:translate3d(0,0,0) rotate(-27deg);opacity:0}
+  75%{opacity:.85}
+  87%{opacity:.72}
+  100%{transform:translate3d(135vw,55vh,0) rotate(-27deg);opacity:0}
+}
+@keyframes cometPassB{
+  0%,76%{transform:translate3d(0,0,0) rotate(-24deg);opacity:0}
+  79%{opacity:.72}
+  91%{opacity:.62}
+  100%{transform:translate3d(140vw,-34vh,0) rotate(-24deg);opacity:0}
+}
+@keyframes asteroidPassA{
+  0%,78%{transform:translate3d(0,0,0) scale(.7);opacity:0}
+  81%{opacity:.46}
+  100%{transform:translate3d(125vw,18vh,0) scale(1.3);opacity:0}
+}
+@keyframes asteroidPassB{
+  0%,80%{transform:translate3d(0,0,0) scale(.7);opacity:0}
+  83%{opacity:.42}
+  100%{transform:translate3d(-128vw,-22vh,0) scale(1.25);opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .space-layer,.space-clusters,.space-comets,.space-asteroids{animation:none!important}
+  .space-comets::before,.space-comets::after,.space-asteroids::before,.space-asteroids::after{animation:none!important;opacity:0!important}
+}
