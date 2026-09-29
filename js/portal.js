@@ -724,15 +724,15 @@ window.addEventListener('DOMContentLoaded', () => {
     {id:"typehelp",title:"Type Help",emoji:"⌨️",genre:"ПАЗЛ • ДЕТЕКТИВ",desc:"Текстовый детектив: исследуй файлы старого компьютера и собирай улики."},
     {id:"alchemize",title:"Alchemize",emoji:"🧪",genre:"СТРАТЕГИЯ",desc:"Стратегическая настольная игра: размещай зелья, создавай самоцветы и играй против ИИ."},
     {id:"uselessweb",title:"The Useless Web",emoji:"🌀",genre:"ИНТЕРНЕТ-ЭКСПЕРИМЕНТ",desc:"Один клик — и ты попадаешь на случайный необычный сайт."},
-    {id:"krunker",title:"Krunker",emoji:"🎯",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерный соревновательный шутер."},
-    {id:"tanki",title:"Tanki Online",emoji:"🛡️",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерный танковый экшен."},
-    {id:"diepio",title:"Diep.io",emoji:"🔵",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерная аркада с танками и развитием."},
+    {id:"pacman",title:"PAC-MAN",emoji:"🟡",genre:"АРКАДЫ • КЛАССИКА",desc:"Классическая аркада: собирай точки в лабиринте и избегай призраков."},
+    {id:"coptercave",title:"Copter Cave",emoji:"🚁",genre:"АРКАДЫ • РЕАКЦИЯ",desc:"Управляй полётом одним касанием: удерживай, чтобы подниматься, и отпускай, чтобы снижаться."},
+    {id:"helicopter",title:"Helicopter Game",emoji:"🚁",genre:"АРКАДЫ • КЛАССИКА",desc:"Пролети как можно дальше через туннель, избегая препятствий."},
   ];
   const CATEGORIES = [
     {id:"worlds",name:"ИНТЕРАКТИВНЫЕ МИРЫ",icon:"🌌",ids:["deepsea","spacetrekk","windowswap","spaceelevator","ancientearth","radiogarden","geoguessr"]},
     {id:"creative",name:"ТВОРЧЕСТВО • МУЗЫКА • АРТ",icon:"🎨",ids:["patatap","quickdraw","brunosimon","pollock","typatone","plink","linerider"]},
     {id:"puzzles",name:"ПАЗЛЫ • ЛОГИКА",icon:"🧩",ids:["2048","password","remojibus","fillsquare","ricochetdaily","evolutiontrust","littlealchemy2"]},
-    {id:"arcade",name:"АРКАДЫ • КЛАССИКА",icon:"🕹️",ids:["snake","doodlejump","puffpilot","pokeclicker","candybox2","dino","pip","krunker","tanki","diepio"]},
+    {id:"arcade",name:"АРКАДЫ • КЛАССИКА",icon:"🕹️",ids:["snake","doodlejump","puffpilot","pokeclicker","candybox2","dino","pip","pacman","coptercave","helicopter"]},
     {id:"sandbox",name:"СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ",icon:"🌍",ids:["townscaper","infinitecraft","addtown","gridland","bouncyballs","alchemy2"]},
     {id:"experimental",name:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",icon:"⚡",ids:["protocol","lumenoffice","typehelp","alchemize","uselessweb"]},
   ];
@@ -936,7 +936,9 @@ window.addEventListener('DOMContentLoaded', () => {
     "uselessweb":"https://theuselessweb.com/",
     "lumenoffice":"https://samirsaad786.github.io/LumenOfficeRPG/",
     "typehelp":"https://william-rous.itch.io/type-help",
-    "krunker":"https://krunker.io/",
+    "pacman":"https://doodles.google/doodle/30th-anniversary-of-pac-man/",
+    "coptercave":"https://arcade.now/copter-cave/",
+    "helicopter":"https://www.gamesloth.com/arcade/helicopter/",
     "tanki":"https://tankionline.com/",
     "diepio":"https://diep.io/",
   };
