@@ -74,7 +74,7 @@
       noMessages:"Пока сообщений нет. Будь первым.",noDialogs:"Личных диалогов пока нет.",authOpen:"Открой чат внутри Telegram для авторизации.",
       authOk:"Браузер: локальный вход подтверждён",authError:"Ошибка авторизации: ",chatApiError:"Ошибка чата: ",dmApiError:"Ошибка личных сообщений: ",
       profilePortal:"ПОРТАЛ",profileGames:"ИГРЫ",profileLaunches:"ЗАПУСКОВ ИГР",profileMessages:"СООБЩЕНИЙ",profileChat:"В ЧАТЕ",profileDays:"ДНЕЙ АКТИВНОСТИ",
-      profileAchievements:"🏆 АЧИВКИ",write:"НАПИСАТЬ",player:"Игрок"
+      profileAchievements:"🏆 АЧИВКИ",write:"НАПИСАТЬ",player:"Игрок",hintsOn:"💡 ПОДСКАЗКИ: ВКЛ",hintsOff:"💡 ПОДСКАЗКИ: ВЫКЛ",disableHints:"Не показывать подсказки",enableHints:"Показывать подсказки"
     },
     de:{
       code:"DE",subtitle:"ARCADE-PORTAL 🕹️",games:"🎮 SPIELE",top:"🏆 TOP",achievements:"🎖️ ERFOLGE",chat:"💬 CHAT",random:"🎲 ZUFALLSSPIEL",share:"📤 TEILEN",
@@ -86,7 +86,7 @@
       noMessages:"Noch keine Nachrichten. Sei die erste Person.",noDialogs:"Noch keine privaten Gespräche.",authOpen:"Öffne den Chat in Telegram zur Anmeldung.",
       authOk:"Browser: lokaler Zugang bestätigt",authError:"Anmeldung fehlgeschlagen: ",chatApiError:"Chat-Fehler: ",dmApiError:"Fehler bei den Privatnachrichten: ",
       profilePortal:"PORTAL",profileGames:"SPIELE",profileLaunches:"SPIELSTARTS",profileMessages:"NACHRICHTEN",profileChat:"CHATZEIT",profileDays:"AKTIVE TAGE",
-      profileAchievements:"🏆 ERFOLGE",write:"SCHREIBEN",player:"Spieler"
+      profileAchievements:"🏆 ERFOLGE",write:"SCHREIBEN",player:"Spieler",hintsOn:"💡 HINWEISE: AN",hintsOff:"💡 HINWEISE: AUS",disableHints:"Hinweise nicht mehr anzeigen",enableHints:"Hinweise anzeigen"
     },
     en:{
       code:"EN",subtitle:"ARCADE PORTAL 🕹️",games:"🎮 GAMES",top:"🏆 TOP",achievements:"🎖️ ACHIEVEMENTS",chat:"💬 CHAT",random:"🎲 RANDOM GAME",share:"📤 SHARE",
@@ -98,7 +98,7 @@
       noMessages:"No messages yet. Be the first.",noDialogs:"No private conversations yet.",authOpen:"Open the chat inside Telegram to sign in.",
       authOk:"Browser: local access confirmed",authError:"Authorization failed: ",chatApiError:"Chat error: ",dmApiError:"Private message error: ",
       profilePortal:"PORTAL",profileGames:"GAMES",profileLaunches:"GAME LAUNCHES",profileMessages:"MESSAGES",profileChat:"CHAT TIME",profileDays:"ACTIVE DAYS",
-      profileAchievements:"🏆 ACHIEVEMENTS",write:"WRITE",player:"Player"
+      profileAchievements:"🏆 ACHIEVEMENTS",write:"WRITE",player:"Player",hintsOn:"💡 HINTS: ON",hintsOff:"💡 HINTS: OFF",disableHints:"Don’t show hints",enableHints:"Show hints"
     }
   };
   const GAME_TEXT = {
@@ -152,39 +152,125 @@
     game:{title:{ru:"ИГРА",de:"SPIEL",en:"GAME"},text:{ru:"Свайпай карточки влево или вправо. Нажми на активную карточку, чтобы открыть игру.",de:"Wische nach links oder rechts. Tippe auf die aktive Karte, um das Spiel zu öffnen.",en:"Swipe left or right. Tap the active card to open the game."}},
     back:{title:{ru:"НАЗАД",de:"ZURÜCK",en:"BACK"},text:{ru:"Вернись к списку категорий этой кнопкой.",de:"Mit dieser Taste kommst du zur Kategorienliste zurück.",en:"Use this button to return to the category list."}}
   };
+
   const ACTION_HINT_ORDER=["profile","avatar","achievements","radio","language","chat","chatRooms","chatMessage","category","game","back"];
-  const ACTION_HINT_DONE_KEY="freezzzActionHintsV1";
+  const ACTION_HINT_DONE_KEY="freezzzActionHintsV2";
+  const ACTION_HINT_PREF_KEY="freezzzActionHintsEnabledV1";
   let actionHintId=null;
+  let actionHintHideTimer=0;
+  const actionHintDismissedThisSession=new Set();
+  let actionHintsEnabled=localStorage.getItem(ACTION_HINT_PREF_KEY)!=="0";
+
   function actionHintDone(){try{return JSON.parse(localStorage.getItem(ACTION_HINT_DONE_KEY)||"{}")}catch(e){return {}}}
   function actionHintIsDone(id){return !!actionHintDone()[id]}
-  function actionHintMarkDone(id){const s=actionHintDone();s[id]=true;try{localStorage.setItem(ACTION_HINT_DONE_KEY,JSON.stringify(s))}catch(e){}}
-  function actionHintTargetVisible(el){if(!el||el.classList.contains("hidden"))return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth}
+  function actionHintMarkDone(id){const d=actionHintDone();d[id]=true;try{localStorage.setItem(ACTION_HINT_DONE_KEY,JSON.stringify(d))}catch(e){}}
+  function actionHintTargetVisible(el){
+    if(!el||el.classList.contains("hidden"))return false;
+    const r=el.getBoundingClientRect();
+    return r.width>0&&r.height>0&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth;
+  }
+  function actionHintRectOverlap(a,b){
+    return Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))*
+           Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+  }
   function positionActionHint(){
     if(!actionHintId)return;
     const target=document.querySelector("[data-action-hint-target='"+actionHintId+"']");
     const marker=document.getElementById("actionHintTarget"),card=document.getElementById("actionHintCard");
     if(!target||!marker||!card||!actionHintTargetVisible(target))return;
-    const r=target.getBoundingClientRect(),x=Math.max(25,Math.min(innerWidth-25,r.left+r.width/2));
-    marker.style.left=x+"px";marker.style.top=Math.max(25,Math.min(innerHeight-25,r.top+r.height/2))+"px";
-    const gap=14,cw=Math.min(290,innerWidth-28),ch=card.offsetHeight||92;
-    let top=r.bottom+gap;if(top+ch>innerHeight-10)top=r.top-ch-gap;if(top<10)top=10;
-    card.style.left=Math.max(14,Math.min(innerWidth-cw-14,x-cw/2))+"px";card.style.top=top+"px";
+
+    const r=target.getBoundingClientRect();
+    const markerX=Math.max(25,Math.min(innerWidth-25,r.left+r.width/2));
+    const markerY=Math.max(25,Math.min(innerHeight-25,r.top+r.height/2));
+    marker.style.left=markerX+"px";
+    marker.style.top=markerY+"px";
+
+    const safe=12,gap=12,cw=Math.min(270,innerWidth-24),ch=Math.min(card.offsetHeight||96,innerHeight-24);
+    const candidates=[
+      {x:markerX-cw/2,y:r.bottom+gap},
+      {x:markerX-cw/2,y:r.top-ch-gap},
+      {x:r.right+gap,y:r.top+Math.max(0,(r.height-ch)/2)},
+      {x:r.left-cw-gap,y:r.top+Math.max(0,(r.height-ch)/2)}
+    ];
+    const important=[...document.querySelectorAll(".portal-logo,.header-top,.chat-launch-row,.category-head,.games-carousel,.chat-layout,.footer-info")]
+      .filter(el=>el!==target&&actionHintTargetVisible(el))
+      .map(el=>el.getBoundingClientRect());
+
+    let best=null;
+    for(const c of candidates){
+      const x=Math.max(safe,Math.min(innerWidth-cw-safe,c.x));
+      const y=Math.max(safe,Math.min(innerHeight-ch-safe,c.y));
+      const rect={left:x,top:y,right:x+cw,bottom:y+ch};
+      const edgePenalty=(x===safe||y===safe||rect.right===innerWidth-safe||rect.bottom===innerHeight-safe)?18:0;
+      const overlapPenalty=important.reduce((sum,b)=>sum+Math.min(12000,actionHintRectOverlap(rect,b)),0);
+      const targetPenalty=actionHintRectOverlap(rect,r)*40;
+      const score=overlapPenalty/500+targetPenalty/500+edgePenalty;
+      if(!best||score<best.score)best={x,y,score};
+    }
+    card.style.left=best.x+"px";
+    card.style.top=best.y+"px";
+    card.style.width=cw+"px";
   }
-  function hideActionHint(){actionHintId=null;document.getElementById("actionHintLayer")?.classList.add("hidden")}
+  function hideActionHint(animate=true){
+    clearTimeout(actionHintHideTimer);
+    const layer=document.getElementById("actionHintLayer");
+    if(!layer)return;
+    actionHintId=null;
+    if(animate&&!layer.classList.contains("hidden")){
+      layer.classList.add("is-closing");
+      actionHintHideTimer=setTimeout(()=>{layer.classList.add("hidden");layer.classList.remove("is-closing")},180);
+    }else{
+      layer.classList.add("hidden");
+      layer.classList.remove("is-closing");
+    }
+  }
+  function dismissCurrentActionHint(){
+    if(actionHintId)actionHintDismissedThisSession.add(actionHintId);
+    hideActionHint(true);
+  }
   function showActionHint(id){
     const d=ACTION_HINTS[id],layer=document.getElementById("actionHintLayer"),target=document.querySelector("[data-action-hint-target='"+id+"']");
-    if(!d||!layer||!target||actionHintIsDone(id)||!actionHintTargetVisible(target))return false;
+    if(!actionHintsEnabled||!d||!layer||!target||actionHintIsDone(id)||actionHintDismissedThisSession.has(id)||!actionHintTargetVisible(target))return false;
+    clearTimeout(actionHintHideTimer);
     actionHintId=id;
     document.getElementById("actionHintTitle").textContent=d.title[currentLang]||d.title.en;
     document.getElementById("actionHintText").textContent=d.text[currentLang]||d.text.en;
-    layer.classList.remove("hidden");requestAnimationFrame(positionActionHint);return true;
+    layer.classList.remove("hidden","is-closing");
+    requestAnimationFrame(positionActionHint);
+    return true;
   }
-  function showNextActionHint(){hideActionHint();for(const id of ACTION_HINT_ORDER){if(!actionHintIsDone(id)&&showActionHint(id))return}}
-  function completeActionHint(id){if(!actionHintIsDone(id)){actionHintMarkDone(id);if(actionHintId===id)hideActionHint()}}
+  function showNextActionHint(){
+    if(!actionHintsEnabled)return;
+    hideActionHint(false);
+    for(const id of ACTION_HINT_ORDER){if(showActionHint(id))return}
+  }
+  function completeActionHint(id){
+    if(!actionHintIsDone(id)){
+      actionHintMarkDone(id);
+      actionHintDismissedThisSession.delete(id);
+      if(actionHintId===id)hideActionHint(true);
+    }
+  }
+  function setActionHintsEnabled(enabled){
+    actionHintsEnabled=!!enabled;
+    try{localStorage.setItem(ACTION_HINT_PREF_KEY,actionHintsEnabled?"1":"0")}catch(e){}
+    if(!actionHintsEnabled)hideActionHint(true);
+    updateActionHintsControls();
+  }
+  function updateActionHintsControls(){
+    const toggle=document.getElementById("profileHintsToggle");
+    const disable=document.getElementById("actionHintDisable");
+    if(toggle)toggle.textContent=actionHintsEnabled?tr("hintsOn"):tr("hintsOff");
+    if(toggle)toggle.setAttribute("aria-pressed",actionHintsEnabled?"true":"false");
+    if(disable)disable.textContent=actionHintsEnabled?tr("disableHints"):tr("enableHints");
+  }
   function refreshActionHint(){if(actionHintId)requestAnimationFrame(positionActionHint)}
-  document.getElementById("actionHintClose")?.addEventListener("click",hideActionHint);
+  document.getElementById("actionHintClose")?.addEventListener("click",dismissCurrentActionHint);
+  document.getElementById("actionHintDisable")?.addEventListener("click",()=>setActionHintsEnabled(false));
+  document.getElementById("profileHintsToggle")?.addEventListener("click",()=>setActionHintsEnabled(!actionHintsEnabled));
   window.addEventListener("resize",refreshActionHint,{passive:true});
   window.addEventListener("orientationchange",()=>setTimeout(refreshActionHint,100),{passive:true});
+
 
 
   function applyLanguage(){
@@ -224,6 +310,7 @@
       const el=document.getElementById(id); if(el && map[id]) el.textContent=tr(map[id]);
     });
     document.getElementById("userProfileBox")?.setAttribute("aria-label",tr("player"));
+    updateActionHintsControls();
     if(currentCategory) document.getElementById("categoryHeadTitle").textContent=categoryText(currentCategory.id);
     renderCategories();
     if(currentCategory) renderCategoryCarousel();
@@ -1040,7 +1127,8 @@
     }
   }
   bootPortal();
-  setTimeout(showNextActionHint,350);
+  updateActionHintsControls();
+  setTimeout(()=>{if(actionHintsEnabled)showNextActionHint()},800);
 
   // Public bridge for the new application shell. Existing feature functions remain intact.
   window.FZG = window.FZG || {};
