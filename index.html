@@ -145,7 +145,8 @@ h1{color:var(--tg-text);font-size:30px; margin: 2px 0 0; text-shadow: 2px 2px #e
 .chat-room-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:5px}
 .chat-room-tab{min-width:0;padding:7px 3px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:bold 9px monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chat-room-tab.active{background:var(--tg-blue-dark);border-color:var(--tg-blue);color:#fff}
-.chat-toolbar{display:flex;align-items:center;justify-content:space-between;padding:5px 7px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-surface-soft);font-size:9px;font-weight:bold;color:var(--tg-text);margin-bottom:5px}
+.chat-toolbar{display:grid;grid-template-columns:27px minmax(0,1fr) 27px;align-items:center;gap:6px;padding:5px 7px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-surface-soft);font-size:9px;font-weight:bold;color:var(--tg-text);margin-bottom:5px}
+.chat-toolbar #chatRoomTitle{text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chat-mini-btn{width:27px;height:25px;border:1px solid var(--tg-border);border-radius:7px;background:var(--tg-btn);color:var(--tg-text);font-weight:bold}
 .chat-list{max-height:none;flex:1;min-height:130px}
 .chat-compose{flex-shrink:0;margin-top:5px}
@@ -543,8 +544,9 @@ body{
         <button class="chat-room-tab" data-room="dm">✉️ <span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
       </div>
       <div class="chat-toolbar">
+        <button id="chatBackBtn" class="chat-mini-btn" type="button" aria-label="Назад">‹</button>
         <span id="chatRoomTitle">🏠 ОСНОВНАЯ</span>
-        <button id="chatRefreshBtn" class="chat-mini-btn">↻</button>
+        <button id="chatRefreshBtn" class="chat-mini-btn" type="button" aria-label="Обновить">↻</button>
       </div>
       <div class="dm-list hidden" id="dmList"></div>
       <div class="guest-list chat-list" id="guestList"></div>
@@ -1081,6 +1083,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelectorAll(".chat-room-tab").forEach(b=>b.addEventListener("click",()=>b.dataset.room==="dm"?selectDmMode():selectChatRoom(b.dataset.room)));
+  document.getElementById("chatBackBtn").addEventListener("click",()=>switchTab("games"));
   document.getElementById("chatRefreshBtn").addEventListener("click",()=>activeDmUserId?openDm(activeDmUserId):chatRoom?loadMessages():loadDmList());
   document.getElementById("dmBackBtn").addEventListener("click",selectDmMode);
   document.getElementById("sendMsgBtn").addEventListener("click",()=>activeDmUserId?sendDmMessage():sendChatMessage());
@@ -1455,29 +1458,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   
 
-/* POINT FIX — swipe from the left edge back to the main menu */
-const guestViewEl=document.getElementById('guestView');
-if(guestViewEl && !guestViewEl.dataset.backSwipeBound){
-  guestViewEl.dataset.backSwipeBound='1';
-  let chatSwipeStartX=0;
-  let chatSwipeStartY=0;
-  guestViewEl.addEventListener('touchstart',e=>{
-    const t=e.touches[0];
-    if(!t)return;
-    chatSwipeStartX=t.clientX;
-    chatSwipeStartY=t.clientY;
-  },{passive:true});
-  guestViewEl.addEventListener('touchend',e=>{
-    const t=e.changedTouches[0];
-    if(!t)return;
-    const dx=t.clientX-chatSwipeStartX;
-    const dy=t.clientY-chatSwipeStartY;
-    if(chatSwipeStartX<=40 && dx>70 && Math.abs(dx)>Math.abs(dy)*1.2){
-      switchTab('games');
-    }
-  },{passive:true});
-}
-
+/* CHAT BACK — explicit in-app control; no edge-swipe so Telegram/Android system navigation stays untouched */
   document.getElementById('categoryBack').addEventListener('click',returnToMainMenu);
 
   const GAME_LINKS = {
