@@ -66,8 +66,9 @@ body{
 .header-btns { display: flex; gap: 6px; }
 .top-btn { background:var(--tg-btn); border:1px solid var(--tg-border); color: var(--tg-text); padding: 6px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; }
 
-h1{color:var(--tg-text);font-size:30px; margin: 2px 0 0; text-shadow: 2px 2px #e52225; letter-spacing: 2px; flex-shrink: 0; }
-.subtitle { color:var(--tg-blue); font-size: 9px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px; flex-shrink: 0; }
+.portal-logo{text-align:center;flex-shrink:0;padding:2px 0 4px;order:-1}
+h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px 2px #e52225;letter-spacing:2px;flex-shrink:0}
+.subtitle{color:var(--tg-blue);font-size:13.5px;line-height:1.1;text-transform:uppercase;letter-spacing:2px;margin:3px 0 0;flex-shrink:0}
 
 /* КНОПКИ НАВИГАЦИИ */
 .actions-row { display: flex; gap: 4px; justify-content: center; margin-bottom: 2px; flex-wrap: wrap; flex-shrink: 0; }
