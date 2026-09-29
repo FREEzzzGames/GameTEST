@@ -15,6 +15,7 @@ Platform.expand();
 async function bootPortalModule(){
   try{
     await import("./portal.js");
+    await import("./live.js");
     window.FZG.portalModuleReady = true;
     setNavigationBridge((screen, params)=>{
       const legacy=window.FZG.legacy;
