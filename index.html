@@ -359,6 +359,197 @@ button:focus-visible,.profile-box:focus-visible{outline:2px solid var(--tg-blue)
   .header-top .always-btn{width:42px!important;height:42px!important;flex-basis:42px!important}
   .chat-room-tab{font-size:8px}
 }
+
+/* TELEGRAM MINI APP GEOMETRY — FULL VIEWPORT */
+/* The Mini App viewport is the source of truth: use dynamic viewport units and
+   Telegram safe-area insets instead of desktop/Chrome-sized fixed geometry. */
+html{
+  width:100%;
+  min-width:0;
+  height:100%;
+  height:100dvh;
+  min-height:100dvh;
+  overflow:hidden;
+}
+body{
+  width:100%;
+  min-width:0;
+  height:100%;
+  height:100dvh;
+  min-height:100dvh;
+  margin:0;
+  padding:
+    max(0px, env(safe-area-inset-top))
+    max(0px, env(safe-area-inset-right))
+    max(0px, env(safe-area-inset-bottom))
+    max(0px, env(safe-area-inset-left));
+  display:flex;
+  align-items:stretch;
+  justify-content:stretch;
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+}
+#mainPortal,
+.portal{
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  height:100dvh!important;
+  max-height:none!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:
+    6px
+    max(6px, env(safe-area-inset-right))
+    max(6px, env(safe-area-inset-bottom))
+    max(6px, env(safe-area-inset-left))!important;
+  border-radius:0!important;
+  border-left:0!important;
+  border-right:0!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  gap:6px!important;
+}
+#mainPortal > *{
+  min-width:0;
+}
+.header-top{
+  width:100%!important;
+  min-height:48px!important;
+  flex:0 0 auto!important;
+  padding:2px 0!important;
+}
+.chat-launch-row{
+  width:100%!important;
+  flex:0 0 auto!important;
+}
+.chat-launch-row .header-chat-btn{
+  width:100%!important;
+  min-height:44px!important;
+  height:44px!important;
+}
+.games-browser{
+  width:100%!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  overflow:hidden!important;
+}
+.category-list{
+  width:100%!important;
+  min-height:0!important;
+  flex:1 1 auto!important;
+  padding:4px 0 8px!important;
+}
+.category-item{
+  width:100%!important;
+  min-height:60px!important;
+}
+.category-view{
+  width:100%!important;
+  min-height:0!important;
+  flex:1 1 auto!important;
+}
+.games-carousel{
+  width:100%!important;
+  min-height:0!important;
+  flex:1 1 auto!important;
+  padding:4px 0 16px!important;
+}
+.game-card{
+  width:min(92%,430px)!important;
+  max-width:430px!important;
+  height:min(70dvh,520px)!important;
+  max-height:calc(100% - 10px)!important;
+  min-height:260px!important;
+}
+.game-card-art{
+  min-height:0!important;
+}
+#guestView{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:0!important;
+  padding:
+    calc(env(safe-area-inset-top) + 6px)
+    max(6px, env(safe-area-inset-right))
+    max(6px, env(safe-area-inset-bottom))
+    max(6px, env(safe-area-inset-left))!important;
+  overflow:hidden!important;
+}
+#guestView .chat-layout{
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  margin:0!important;
+  border-radius:12px!important;
+  padding:6px!important;
+}
+.modal-overlay,
+.radio-overlay{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  padding:
+    calc(env(safe-area-inset-top) + 8px)
+    max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left))!important;
+}
+.modal-card{
+  max-width:min(340px,100%)!important;
+  max-height:calc(100% - 16px)!important;
+  overflow:auto!important;
+}
+.footer-info{
+  flex:0 0 auto!important;
+  margin-top:0!important;
+}
+@media(max-width:420px){
+  #mainPortal,.portal{
+    padding:
+      4px
+      max(4px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom))
+      max(4px, env(safe-area-inset-left))!important;
+    gap:4px!important;
+  }
+  .header-top{min-height:46px!important}
+  .chat-launch-row .header-chat-btn{height:44px!important}
+  .game-card{
+    width:94%!important;
+    height:min(68dvh,500px)!important;
+  }
+}
+@media(max-width:360px){
+  #mainPortal,.portal{
+    padding:
+      3px
+      max(3px, env(safe-area-inset-right))
+      max(3px, env(safe-area-inset-bottom))
+      max(3px, env(safe-area-inset-left))!important;
+  }
+  .game-card{width:96%!important;min-height:240px!important}
+}
+@media(orientation:landscape){
+  #mainPortal,.portal{
+    gap:4px!important;
+  }
+  .category-list{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-content:start;
+    gap:6px!important;
+  }
+  .category-item{min-height:54px!important}
+}
+
 </style>
 <link rel="stylesheet" href="./css/portal-cyber.css">
 <!-- pages-redeploy -->
@@ -385,6 +576,28 @@ button:focus-visible,.profile-box:focus-visible{outline:2px solid var(--tg-blue)
   yes.addEventListener("click",()=>{localStorage.setItem(key,"1");gate.remove();});
   no.addEventListener("click",()=>{localStorage.removeItem(key);window.location.replace("about:blank");});
 })();
+
+/* TELEGRAM MINI APP VIEWPORT SYNC */
+(function(){
+  function syncMiniAppViewport(){
+    try{
+      const tgApp = window.Telegram && window.Telegram.WebApp;
+      if(tgApp){
+        if(typeof tgApp.ready === "function") tgApp.ready();
+        if(typeof tgApp.expand === "function") tgApp.expand();
+        if(typeof tgApp.setHeaderColor === "function") tgApp.setHeaderColor(getComputedStyle(document.documentElement).getPropertyValue("--tg-surface").trim());
+        if(typeof tgApp.setBackgroundColor === "function") tgApp.setBackgroundColor(getComputedStyle(document.documentElement).getPropertyValue("--tg-bg").trim());
+        const h = tgApp.viewportHeight || tgApp.viewportStableHeight;
+        if(h) document.documentElement.style.setProperty("--tg-viewport-height", h + "px");
+      }
+    }catch(e){}
+  }
+  window.addEventListener("resize", syncMiniAppViewport, {passive:true});
+  window.addEventListener("orientationchange", ()=>setTimeout(syncMiniAppViewport,80), {passive:true});
+  document.addEventListener("DOMContentLoaded", syncMiniAppViewport, {once:true});
+  syncMiniAppViewport();
+})();
+
 </script>
 
 <div class="portal" id="mainPortal">
