@@ -939,8 +939,6 @@ window.addEventListener('DOMContentLoaded', () => {
     "pacman":"https://doodles.google/doodle/30th-anniversary-of-pac-man/",
     "coptercave":"https://arcade.now/copter-cave/",
     "helicopter":"https://www.gamesloth.com/arcade/helicopter/",
-    "tanki":"https://tankionline.com/",
-    "diepio":"https://diep.io/",
   };
   function openExternal(url) {
     if (!url) return;
