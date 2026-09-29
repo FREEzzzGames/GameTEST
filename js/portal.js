@@ -1016,7 +1016,12 @@
     const activePage=Math.floor(pageStart/CATEGORY_PAGE_SIZE);
     dots.innerHTML=Array.from({length:pageCount},(_,i)=>'<span class="carousel-dot '+(i===activePage?'active':'')+'"></span>').join('');
 
-    track.querySel  function moveCategoryGame(delta){
+    track.querySelectorAll('.game-card').forEach(card=>{
+      card.addEventListener('click',()=>openExternal(GAME_LINKS[card.dataset.carouselGame]));
+    });
+  }
+
+  function moveCategoryGame(delta){
     if(!currentCategory)return;
     const len=currentCategory.ids.length;
     if(len<2)return;
