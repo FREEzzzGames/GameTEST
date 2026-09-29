@@ -118,6 +118,12 @@
     ligmar:{ru:['ЖИВОЙ МИР','Большой браузерный мир с развитием и заданиями.'],de:['LEBENDIGE WELT','Eine große Browserwelt mit Entwicklung und Aufgaben.'],en:['LIVING WORLD','A large browser world with progression and quests.']}
   };
   const CATEGORY_TEXT = {
+    worlds:{ru:'ИНТЕРАКТИВНЫЕ МИРЫ',de:'INTERAKTIVE WELTEN',en:'INTERACTIVE WORLDS'},
+    creative:{ru:'ТВОРЧЕСТВО • МУЗЫКА • АРТ',de:'KREATIVITÄT • MUSIK • KUNST',en:'CREATIVE • MUSIC • ART'},
+    puzzles:{ru:'ПАЗЛЫ • ЛОГИКА',de:'PUZZLES • LOGIK',en:'PUZZLES • LOGIC'},
+    arcade:{ru:'АРКАДЫ • КЛАССИКА',de:'ARCADE • KLASSIKER',en:'ARCADE • CLASSICS'},
+    sandbox:{ru:'СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ',de:'SIMULATIONEN • SANDBOX',en:'SIMULATORS • SANDBOX'},
+    experimental:{ru:'ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ',de:'EXPERIMENTELLE PROJEKTE',en:'EXPERIMENTAL PROJECTS'},
     onefinger:{ru:'ОДИН ПАЛЕЦ',de:'EIN FINGER',en:'ONE TOUCH'},
     think:{ru:'НЕ СПЕШИ',de:'NIMM DIR ZEIT',en:'TAKE YOUR TIME'},
     reaction:{ru:'РЕАКТОР',de:'REAKTOR',en:'REACTION'},
