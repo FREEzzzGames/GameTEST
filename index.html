@@ -511,15 +511,6 @@ window.addEventListener('DOMContentLoaded', () => {
     async authenticate(){ return {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}}; }
   };
 
-  // Critical header control: Home only.
-  (function initCriticalControls(){
-    const home=document.getElementById('homeMenuBtn');
-    if(home && !home.dataset.bound){
-      home.dataset.bound='1';
-      home.addEventListener('click',returnToMainMenu);
-    }
-  })();
-
   let userName = "Игрок";
   const nameTxt = document.getElementById('userNameTxt');
   if (nameTxt) nameTxt.textContent = userName;
