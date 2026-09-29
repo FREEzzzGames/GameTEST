@@ -411,11 +411,11 @@ body{
   padding:4px 0 16px!important;
 }
 .game-card{
-  width:min(92%,430px)!important;
-  max-width:430px!important;
-  height:min(70dvh,520px)!important;
+  width:min(46%,320px)!important;
+  max-width:320px!important;
+  height:min(34dvh,420px)!important;
   max-height:calc(100% - 10px)!important;
-  min-height:260px!important;
+  min-height:190px!important;
 }
 .game-card-art{
   min-height:0!important;
