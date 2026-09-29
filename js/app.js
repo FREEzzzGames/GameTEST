@@ -12,21 +12,29 @@ Platform.configure();
 Platform.ready();
 Platform.expand();
 
-import "./portal.js";
+async function bootPortalModule(){
+  try{
+    await import("./portal.js");
+    window.FZG.portalModuleReady = true;
+    setNavigationBridge((screen, params)=>{
+      const legacy=window.FZG.legacy;
+      if(!legacy)return;
+      if(screen==="home") legacy.showCategoryList?.(false);
+      else if(screen==="chat") legacy.switchTab?.("guest");
+      else if(screen==="category") legacy.openCategory?.(params.categoryId);
+    });
+    syncTelegramBackButton();
+  }catch(err){
+    console.error("FREEzzzGames portal module failed",err);
+    window.FZG.portalModuleError=String(err?.stack||err);
+    installEmergencyShell();
+  }
+}
 
-setNavigationBridge((screen, params)=>{
-  const legacy=window.FZG.legacy;
-  if(!legacy)return;
-  if(screen==="home") legacy.showCategoryList?.(false);
-  else if(screen==="chat") legacy.switchTab?.("guest");
-  else if(screen==="category") legacy.openCategory?.(params.categoryId);
-});
-
-window.FZG.navigation = { navigate, back };
-
-const tg=Platform.telegram();
-if(tg?.BackButton){
-  const syncBack=()=>{
+function syncTelegramBackButton(){
+  const tg=Platform.telegram();
+  if(!tg?.BackButton)return;
+  const sync=()=>{
     const screen=getState().screen;
     if(screen==="home") tg.BackButton.hide?.();
     else tg.BackButton.show?.();
@@ -38,9 +46,59 @@ if(tg?.BackButton){
     else if(screen==="category") legacy?.returnToMainMenu?.();
     else back();
   });
-  syncBack();
-  subscribe(syncBack);
+  sync();
+  subscribe(sync);
 }
+
+function installEmergencyShell(){
+  const list=document.getElementById("categoryList");
+  const view=document.getElementById("categoryView");
+  const title=document.getElementById("categoryHeadTitle");
+  const backBtn=document.getElementById("categoryBack");
+  const categories=[
+    ["worlds","🌌","ИНТЕРАКТИВНЫЕ МИРЫ",7],
+    ["creative","🎨","ТВОРЧЕСТВО • МУЗЫКА • АРТ",7],
+    ["puzzles","🧩","ПАЗЛЫ • ЛОГИКА",7],
+    ["arcade","🕹️","АРКАДЫ • КЛАССИКА",10],
+    ["sandbox","🌍","СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ",6],
+    ["experimental","⚡","ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",5]
+  ];
+  if(list){
+    list.querySelectorAll(".category-item").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const c=categories.find(x=>x[0]===btn.dataset.category);
+        if(!c)return;
+        list.classList.add("hidden");
+        view?.classList.remove("hidden");
+        if(title)title.textContent=c[2];
+        setState({screen:"category",categoryId:c[0]});
+      });
+    });
+  }
+  backBtn?.addEventListener("click",()=>{
+    view?.classList.add("hidden");
+    list?.classList.remove("hidden");
+    setState({screen:"home",categoryId:null});
+  });
+  document.getElementById("tabGuest")?.addEventListener("click",()=>{
+    document.getElementById("gamesBrowser")?.classList.add("hidden");
+    document.getElementById("guestView")?.classList.remove("hidden");
+    setState({screen:"chat"});
+  });
+  document.getElementById("langToggleBtn")?.addEventListener("click",()=>{
+    const b=document.getElementById("langToggleBtn");
+    b.textContent=b.textContent==="RU"?"DE":b.textContent==="DE"?"EN":"RU";
+  });
+  document.getElementById("radioPlayBtn")?.addEventListener("click",()=>{
+    document.getElementById("radioOverlay")?.classList.remove("hidden");
+  });
+  document.getElementById("radioCloseBtn")?.addEventListener("click",()=>{
+    document.getElementById("radioOverlay")?.classList.add("hidden");
+  });
+}
+
+window.FZG.navigation={navigate,back};
+bootPortalModule();
 
 window.addEventListener("beforeunload",()=>{
   Storage.set("lastScreen",getState().screen);
