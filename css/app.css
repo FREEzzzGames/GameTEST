@@ -1498,6 +1498,12 @@ html,body{
 #categoryList .category-copy{
   min-width:0!important;
   width:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+}
 
 /* FINAL TOUCH FIX — bottom category dock must remain directly tappable over LIVE */
 #mainPortal.live-home-mode #categoryList{
@@ -1652,4 +1658,76 @@ html,body{
 }
 @media(max-width:380px){
   #liveListPanel .live-list-drawer{width:91vw!important}
+}
+
+
+/* =========================================================
+   TELEGRAM MINI APP — LARGE TEXT CATEGORY DOCK
+   ========================================================= */
+#categoryList{
+  height:108px!important;
+  min-height:108px!important;
+  max-height:108px!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-template-rows:repeat(2,minmax(0,1fr))!important;
+  gap:4px!important;
+  padding:6px!important;
+  border-radius:18px!important;
+  background:rgba(12,22,34,.94)!important;
+  box-shadow:0 10px 32px rgba(0,0,0,.48),0 0 24px rgba(74,145,210,.10)!important;
+}
+#categoryList .category-item{
+  height:auto!important;
+  min-height:46px!important;
+  padding:5px 4px!important;
+  gap:2px!important;
+  justify-content:center!important;
+  border:1px solid rgba(255,255,255,.06)!important;
+  border-radius:11px!important;
+  background:rgba(255,255,255,.025)!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+}
+#categoryList .category-item:active{
+  transform:scale(.97)!important;
+  background:rgba(100,181,246,.18)!important;
+}
+#categoryList .category-icon,
+#categoryList .category-arrow{
+  display:none!important;
+}
+#categoryList .category-copy{
+  display:flex!important;
+  width:100%!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#categoryList .category-name{
+  display:block!important;
+  width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:#fff!important;
+  font:800 10px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  letter-spacing:.1px!important;
+}
+#categoryList .category-count{
+  display:block!important;
+  color:rgba(255,255,255,.46)!important;
+  font:600 8px/1.1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+@media(max-width:380px){
+  #categoryList{
+    left:6px!important;
+    right:6px!important;
+    height:112px!important;
+    min-height:112px!important;
+    max-height:112px!important;
+    padding:5px!important;
+    gap:3px!important;
+  }
+  #categoryList .category-name{font-size:9px!important}
 }
