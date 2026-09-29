@@ -686,14 +686,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const GAME_CARDS = [
     {id:"deepsea",title:"The Deep Sea",emoji:"🌊",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй глубины океана."},
-    {id:"starschrono",title:"Stars Chrono Experiment",emoji:"⭐",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Экспериментальный интерактивный проект."},
+    {id:"spacetrekk",title:"SpaceTrekk",emoji:"🪐",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Интерактивный 3D-исследователь Солнечной системы с планетами и космическими объектами."},
     {id:"windowswap",title:"Window Swap",emoji:"🪟",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Смотри на окна и виды из разных мест."},
     {id:"spaceelevator",title:"Space Elevator",emoji:"🚀",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Поднимайся от поверхности Земли к космосу."},
     {id:"ancientearth",title:"Ancient Earth Globe",emoji:"🌍",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй Землю в разные геологические эпохи."},
     {id:"radiogarden",title:"Radio Garden",emoji:"📻",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй радиостанции по всему миру."},
     {id:"geoguessr",title:"GeoGuessr",emoji:"🗺️",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Определяй места по панорамам и географии."},
     {id:"patatap",title:"Patatap",emoji:"🎹",genre:"ТВОРЧЕСТВО",desc:"Создавай звуки и анимации нажатием клавиш."},
-    {id:"lusion",title:"LUSION",emoji:"✨",genre:"ТВОРЧЕСТВО",desc:"Интерактивный цифровой визуальный опыт."},
+    {id:"quickdraw",title:"Quick, Draw!",emoji:"✏️",genre:"ТВОРЧЕСТВО",desc:"Рисуй объекты, а нейросеть Google попробует угадать их."},
     {id:"brunosimon",title:"Bruno Simon Portfolio",emoji:"🚗",genre:"ТВОРЧЕСТВО",desc:"Интерактивное 3D-портфолио."},
     {id:"pollock",title:"Jackson Pollock Art",emoji:"🎨",genre:"ТВОРЧЕСТВО",desc:"Интерактивный проект о живописи Jackson Pollock."},
     {id:"typatone",title:"Typatone",emoji:"🎵",genre:"ТВОРЧЕСТВО",desc:"Превращай текст в музыку."},
@@ -721,20 +721,20 @@ window.addEventListener('DOMContentLoaded', () => {
     {id:"alchemy2",title:"Alchemy 2",emoji:"⚗️",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Комбинируй элементы и создавай новые."},
     {id:"protocol",title:"Protocol ERRORMIND",emoji:"🧠",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Браузерная серия логических уровней."},
     {id:"lumenoffice",title:"Lumen Office RPG",emoji:"🏢",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Исследуй офис и решай загадки."},
-    {id:"typehelp",title:"Type Help",emoji:"⌨️",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Небольшая браузерная игра на набор текста."},
-    {id:"alchemize",title:"Alchemize",emoji:"🧫",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Эксперимент с комбинациями и алхимией."},
-    {id:"polkadot",title:"Polka Dot Swim Chain",emoji:"🔵",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Название сохранено по записи на фотографии."},
-    {id:"krunker",title:"Krunker",emoji:"🎯",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерный соревновательный шутер."},
-    {id:"tanki",title:"Tanki Online",emoji:"🛡️",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерный танковый экшен."},
-    {id:"diepio",title:"Diep.io",emoji:"🔵",genre:"АРКАДЫ • ЭКШЕН",desc:"Браузерная аркада с танками и развитием."},
+    {id:"typehelp",title:"Type Help",emoji:"⌨️",genre:"ПАЗЛ • ДЕТЕКТИВ",desc:"Текстовый детектив: исследуй файлы старого компьютера и собирай улики."},
+    {id:"alchemize",title:"Alchemize",emoji:"🧪",genre:"СТРАТЕГИЯ",desc:"Стратегическая настольная игра: размещай зелья, создавай самоцветы и играй против ИИ."},
+    {id:"uselessweb",title:"The Useless Web",emoji:"🌀",genre:"ИНТЕРНЕТ-ЭКСПЕРИМЕНТ",desc:"Один клик — и ты попадаешь на случайный необычный сайт."},
+    {id:"pacman",title:"PAC-MAN",emoji:"🟡",genre:"АРКАДЫ • КЛАССИКА",desc:"Классическая аркада: собирай точки в лабиринте и избегай призраков."},
+    {id:"coptercave",title:"Copter Cave",emoji:"🚁",genre:"АРКАДЫ • РЕАКЦИЯ",desc:"Управляй полётом одним касанием: удерживай, чтобы подниматься, и отпускай, чтобы снижаться."},
+    {id:"helicopter",title:"Helicopter Game",emoji:"🚁",genre:"АРКАДЫ • КЛАССИКА",desc:"Пролети как можно дальше через туннель, избегая препятствий."},
   ];
   const CATEGORIES = [
-    {id:"worlds",name:"ИНТЕРАКТИВНЫЕ МИРЫ",icon:"🌌",ids:["deepsea","starschrono","windowswap","spaceelevator","ancientearth","radiogarden","geoguessr"]},
-    {id:"creative",name:"ТВОРЧЕСТВО • МУЗЫКА • АРТ",icon:"🎨",ids:["patatap","lusion","brunosimon","pollock","typatone","plink","linerider"]},
+    {id:"worlds",name:"ИНТЕРАКТИВНЫЕ МИРЫ",icon:"🌌",ids:["deepsea","spacetrekk","windowswap","spaceelevator","ancientearth","radiogarden","geoguessr"]},
+    {id:"creative",name:"ТВОРЧЕСТВО • МУЗЫКА • АРТ",icon:"🎨",ids:["patatap","quickdraw","brunosimon","pollock","typatone","plink","linerider"]},
     {id:"puzzles",name:"ПАЗЛЫ • ЛОГИКА",icon:"🧩",ids:["2048","password","remojibus","fillsquare","ricochetdaily","evolutiontrust","littlealchemy2"]},
-    {id:"arcade",name:"АРКАДЫ • КЛАССИКА",icon:"🕹️",ids:["snake","doodlejump","puffpilot","pokeclicker","candybox2","dino","pip","krunker","tanki","diepio"]},
+    {id:"arcade",name:"АРКАДЫ • КЛАССИКА",icon:"🕹️",ids:["snake","doodlejump","puffpilot","pokeclicker","candybox2","dino","pip","pacman","coptercave","helicopter"]},
     {id:"sandbox",name:"СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ",icon:"🌍",ids:["townscaper","infinitecraft","addtown","gridland","bouncyballs","alchemy2"]},
-    {id:"experimental",name:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",icon:"⚡",ids:["protocol","lumenoffice","typehelp","alchemize","polkadot"]},
+    {id:"experimental",name:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",icon:"⚡",ids:["protocol","lumenoffice","typehelp","alchemize","uselessweb"]},
   ];
   const GAME_BY_ID = Object.fromEntries(GAME_CARDS.map(g => [g.id,g]));
   let currentCategory = null;
@@ -898,12 +898,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const GAME_LINKS = {
     "deepsea":"https://neal.fun/deep-sea/",
+    "spacetrekk":"https://www.spacetrekk.com/",
     "windowswap":"https://window-swap.com/",
     "spaceelevator":"https://neal.fun/space-elevator/",
     "ancientearth":"https://dinosaurpictures.org/ancient-earth/",
     "radiogarden":"https://radio.garden/",
     "geoguessr":"https://www.geoguessr.com/",
     "patatap":"https://patatap.com/",
+    "quickdraw":"https://quickdraw.withgoogle.com/",
     "brunosimon":"https://bruno-simon.com/",
     "pollock":"https://www.moma.org/interactives/exhibitions/1998/pollock/website100/txt_intro.html",
     "typatone":"https://typatone.com/",
@@ -930,11 +932,13 @@ window.addEventListener('DOMContentLoaded', () => {
     "bouncyballs":"https://bouncyballs.org/",
     "alchemy2":"https://littlealchemy2.com/",
     "protocol":"https://protocol-errormind.github.io/",
+    "alchemize":"https://brusi.itch.io/alchemize",
+    "uselessweb":"https://theuselessweb.com/",
     "lumenoffice":"https://samirsaad786.github.io/LumenOfficeRPG/",
     "typehelp":"https://william-rous.itch.io/type-help",
-    "krunker":"https://krunker.io/",
-    "tanki":"https://tankionline.com/",
-    "diepio":"https://diep.io/",
+    "pacman":"https://doodles.google/doodle/30th-anniversary-of-pac-man/",
+    "coptercave":"https://arcade.now/copter-cave/",
+    "helicopter":"https://www.gamesloth.com/arcade/helicopter/",
   };
   function openExternal(url) {
     if (!url) return;
