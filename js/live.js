@@ -22,7 +22,7 @@ function select(id,user){const x=S.all.find(v=>v.id===id);if(!x||!x.live||!x.sel
 function random(){const x=shuffle(S.online)[0]||null;S.selectedId=x?.id||null;S.muted=true;main(x);carousel()}
 function refresh(payload){S.all=normalize(payload);S.online=S.all.filter(x=>x.live&&x.selectedSource);const x=S.all.find(v=>v.id===S.selectedId);if(!x||!x.live||!x.selectedSource)random();else{S.muted=true;main(x);carousel()}list()}
 async function poll(){if(!cfg.endpoint||S.loading)return;S.loading=true;try{const r=await fetch(cfg.endpoint,{cache:"no-store",credentials:"omit"});if(!r.ok)throw Error("LIVE endpoint "+r.status);refresh(await r.json())}catch(e){console.warn("FREEzzzGames LIVE monitor unavailable:",e);if(!S.all.length)refresh([])}finally{S.loading=false}}
-function visibility(){const screen=window.FZG?.state?.get?.().screen||"home";$("liveView")?.classList.toggle("hidden",screen!=="home");if(screen!=="home")closeList()}
+function visibility(){const screen=window.FZG?.state?.get?.().screen||"home";const home=screen==="home";$("liveView")?.classList.toggle("hidden",!home);document.getElementById("mainPortal")?.classList.toggle("live-home-mode",home);if(!home)closeList()}
 function init(){if(!$("liveView"))return;$("liveListBtn")?.addEventListener("click",openList);$("liveListClose")?.addEventListener("click",closeList);$("liveListPanel")?.addEventListener("click",e=>{if(e.target.id==="liveListPanel")closeList()});window.FZG?.state?.subscribe?.(visibility);visibility();refresh([]);poll();setInterval(poll,Math.max(15000,Number(cfg.pollMs)||30000))}
 window.FZG=window.FZG||{};window.FZG.live={refresh,poll,select,getState:()=>({...S}),onSoundChange:null};init();
 })();
