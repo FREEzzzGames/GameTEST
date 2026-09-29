@@ -1107,8 +1107,17 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('guestView').classList.toggle('hidden', tab !== 'guest');
     const chatTab=document.getElementById('tabGuest');
     if(chatTab) chatTab.classList.toggle('active', tab==='guest');
-    if(tab==='games'){showCategoryList(false);}
-    else if(tab==='guest'){markChatSeen();openChatPanel();}
+    if(tab==='games'){
+      showCategoryList(false);
+    }else if(tab==='guest'){
+      const home=document.getElementById('homeMenuBtn');
+      if(home)home.classList.remove('hidden');
+      markChatSeen();
+      openChatPanel().finally(()=>{
+        const home=document.getElementById('homeMenuBtn');
+        if(home)home.classList.remove('hidden');
+      });
+    }
   }
 
   const chatUnreadDot=document.getElementById('chatUnreadDot');
