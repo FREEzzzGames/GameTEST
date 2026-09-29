@@ -38,17 +38,17 @@
   </div>
 
   <div class="header-top">
-    <div class="profile-box" id="userProfileBox">
+    <div class="profile-box" id="userProfileBox" data-action-hint-target="profile">
       <div class="user-avatar" id="currentAvatarEmoji">👾</div>
       <div id="userNameTxt">Игрок</div>
     </div>
     <div class="always-controls" id="alwaysControls">
-      <button class="always-btn radio" id="radioPlayBtn" title="Techno.FM — radio" aria-label="Techno.FM — radio">▶</button>
-      <button class="always-btn lang" id="langToggleBtn" title="Язык" aria-label="Язык">RU</button>
+      <button class="always-btn radio" id="radioPlayBtn" data-action-hint-target="radio" title="Techno.FM — radio" aria-label="Techno.FM — radio">▶</button>
+      <button class="always-btn lang" id="langToggleBtn" data-action-hint-target="language" title="Язык" aria-label="Язык">RU</button>
     </div>
   </div>
   <div class="chat-launch-row">
-    <button class="header-chat-btn" id="tabGuest" type="button" data-tab="guest" title="FREEzzzyChat" aria-label="FREEzzzyChat">FREEzzzyChat<span class="chat-unread-dot hidden" id="chatUnreadDot" aria-hidden="true"></span></button>
+    <button class="header-chat-btn" id="tabGuest" data-action-hint-target="chat" type="button" data-tab="guest" title="FREEzzzyChat" aria-label="FREEzzzyChat">FREEzzzyChat<span class="chat-unread-dot hidden" id="chatUnreadDot" aria-hidden="true"></span></button>
   </div>
 
   <div class="games-browser" id="gamesBrowser">
@@ -62,7 +62,7 @@
     </div>
     <div class="category-view hidden" id="categoryView">
       <div class="category-head">
-        <button class="category-back" id="categoryBack" aria-label="Назад">‹</button>
+        <button class="category-back" id="categoryBack" data-action-hint-target="back"> aria-label="Назад">‹</button>
         <div class="category-head-copy">
           <div class="category-head-title" id="categoryHeadTitle"></div>
           <div class="category-head-sub" data-i18n="swipeHint">СВАЙП ВЛЕВО / ВПРАВО • ИГРА ОТКРЫВАЕТСЯ КАСАНИЕМ</div>
@@ -87,7 +87,7 @@
     <div class="chat-auth-state" id="chatAuthState"></div>
     <div class="chat-layout" id="chatLayout">
       <div class="chat-room-tabs">
-        <button class="chat-room-tab active" data-room="main">🏠 <span data-chat-room-label="main">ОСНОВНАЯ</span></button>
+        <button class="chat-room-tab active" data-room="main" data-action-hint-target="chatRooms">🏠 <span data-chat-room-label="main">ОСНОВНАЯ</span></button>
         <button class="chat-room-tab" data-room="games">🎮 <span data-chat-room-label="games">ИГРЫ</span></button>
         <button class="chat-room-tab" data-room="relax">🌙 <span data-chat-room-label="relax">ОТДЫХ</span></button>
         <button class="chat-room-tab" data-room="dm">✉️ <span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
@@ -108,7 +108,7 @@
       </div>
       <div class="guest-form chat-compose" id="chatCompose">
         <input type="text" id="guestInput" class="guest-input" data-i18n-placeholder="chatPlaceholder" placeholder="Напиши сообщение..." maxlength="500" autocomplete="off">
-        <button class="guest-send" id="sendMsgBtn" data-i18n="send">ОТПРАВИТЬ</button>
+        <button class="guest-send" id="sendMsgBtn" data-action-hint-target="chatMessage" data-i18n="send">ОТПРАВИТЬ</button>
       </div>
     </div>
   </div>
@@ -155,7 +155,7 @@
 <div class="player-profile-overlay hidden" id="playerProfileOverlay">
   <div class="player-profile-card" role="dialog" aria-modal="true" aria-label="Player profile">
     <div class="player-profile-head">
-      <button class="player-profile-avatar" id="playerProfileAvatar" type="button" title="Avatar Loadout">👾</button>
+      <button class="player-profile-avatar" id="playerProfileAvatar" data-action-hint-target="avatar" type="button" title="Avatar Loadout">👾</button>
       <div>
         <div class="player-profile-name" id="playerProfileName">Игрок</div>
         <div class="player-profile-username" id="playerProfileUsername">@player</div>
@@ -169,12 +169,20 @@
       <div class="player-stat"><div class="player-stat-value" id="profileChatTime">0м</div><div class="player-stat-label" id="profileChatTimeLabel">В ЧАТЕ</div></div>
       <div class="player-stat"><div class="player-stat-value" id="profileActiveDays">0</div><div class="player-stat-label" id="profileDaysLabel">ДНЕЙ АКТИВНОСТИ</div></div>
     </div>
-    <button class="player-achievements-trigger" id="profileAchievementsTitle" type="button">🏆 АЧИВКИ</button>
+    <button class="player-achievements-trigger" id="profileAchievementsTitle" data-action-hint-target="achievements" type="button">🏆 АЧИВКИ</button>
     <button class="player-profile-close hidden" id="playerProfileMessageBtn">✉️ НАПИСАТЬ</button>
     <button class="player-profile-close" id="playerProfileClose">ЗАКРЫТЬ</button>
   </div>
 </div>
 
 <script type="module" src="./js/app.js"></script>
-</body>
+<!-- КОНТЕКСТНЫЕ ПОДСКАЗКИ ДЕЙСТВИЙ -->
+<div class="action-hint-layer hidden" id="actionHintLayer" aria-live="polite">
+  <div class="action-hint-target" id="actionHintTarget" aria-hidden="true"></div>
+  <div class="action-hint-card" id="actionHintCard" role="dialog" aria-label="Подсказка">
+    <button class="action-hint-close" id="actionHintClose" type="button" aria-label="Закрыть">×</button>
+    <div class="action-hint-title" id="actionHintTitle"></div>
+    <div class="action-hint-text" id="actionHintText"></div>
+  </div>
+</div></body>
 </html>
