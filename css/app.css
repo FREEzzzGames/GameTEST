@@ -79,6 +79,31 @@ body{
   opacity:.48;
 }
 .portal>*{position:relative;z-index:1}
+
+@keyframes freezzzStarsForward{
+  from{transform:translate3d(0,-8%,0) scale(.82);opacity:.30}
+  50%{opacity:.72}
+  to{transform:translate3d(0,8%,0) scale(1.08);opacity:.30}
+}
+@keyframes freezzzStarfieldDrift{
+  from{background-position:0 0,0 0,0 0,0 0,0 0,0 0,0 0,0 0,0 0,0 0,0 0}
+  to{background-position:0 120px,0 210px,0 310px,0 170px,0 280px,0 240px,0 360px,0 190px,0 330px,0 260px,0 420px}
+}
+.portal::before{
+  animation:freezzzStarfieldDrift 3.8s linear infinite,freezzzStarsForward 3.8s ease-in-out infinite;
+  will-change:background-position,transform,opacity;
+}
+@keyframes freezzzGridFlight{
+  from{transform:perspective(520px) rotateX(64deg) translateY(22%)}
+  to{transform:perspective(520px) rotateX(64deg) translateY(32%)}
+}
+.portal::after{
+  animation:freezzzGridFlight 1.25s linear infinite;
+  will-change:transform;
+}
+@media (prefers-reduced-motion:reduce){
+  .portal::before,.portal::after{animation:none}
+}
 .hidden { display: none !important; }
 
 /* ШАПКА ПОРТАЛА */
