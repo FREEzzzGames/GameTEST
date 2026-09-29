@@ -639,6 +639,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Нижняя навигация: только ЧАТ. Игры — основной экран, достижения находятся в визитке игрока.
   function switchTab(tab) {
     haptic();
+    window.FZG?.state?.set?.({screen: tab === 'guest' ? 'chat' : 'home', categoryId: null, gameId: null});
     document.getElementById('gamesBrowser').classList.toggle('hidden', tab !== 'games');
     document.getElementById('achievementsView').classList.add('hidden');
     document.getElementById('guestView').classList.toggle('hidden', tab !== 'guest');
@@ -737,6 +738,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function openCategory(categoryId){
     const category=CATEGORIES.find(c=>c.id===categoryId);
+    window.FZG?.state?.set?.({screen:'category', categoryId});
     if(!category)return;
     currentCategory=category;
     categoryGameIndex=0;
@@ -861,6 +863,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Language initialization is performed after GAME_CARDS/CATEGORIES/GAME_LINKS are initialized.
 
   function returnToMainMenu(){
+    window.FZG?.state?.set?.({screen:'home', categoryId:null, gameId:null, modal:null});
     const cv=document.getElementById('categoryView');
     const cl=document.getElementById('categoryList');
     if(cv)cv.classList.add('hidden');
