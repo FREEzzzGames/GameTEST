@@ -51,6 +51,21 @@
     <button class="header-chat-btn" id="tabGuest" data-action-hint-target="chat" type="button" data-tab="guest" title="FREEzzzyChat" aria-label="FREEzzzyChat">FREEzzzyChat<span class="chat-unread-dot hidden" id="chatUnreadDot" aria-hidden="true"></span></button>
   </div>
 
+  <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
+    <div class="live-head">
+      <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
+      <button class="live-list-btn" id="liveListBtn" type="button">☰ СТРИМЕРЫ</button>
+    </div>
+    <div class="live-main" id="liveMain"></div>
+    <div class="live-carousel-wrap"><div class="live-carousel" id="liveCarousel"></div></div>
+  </section>
+  <div class="live-list-panel hidden" id="liveListPanel">
+    <div class="live-list-drawer">
+      <div class="live-list-head"><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button">×</button></div>
+      <div class="live-streamer-list" id="liveStreamerList"></div>
+    </div>
+  </div>
+  <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
   <div class="games-browser" id="gamesBrowser">
     <div class="category-list" id="categoryList" aria-label="Категории игр">
       <button class="category-item" data-category="worlds"><span class="category-icon">🌌</span><span class="category-copy"><span class="category-name">ИНТЕРАКТИВНЫЕ МИРЫ</span><span class="category-count">7 ИГР</span></span><span class="category-arrow">›</span></button>
