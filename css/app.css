@@ -1569,3 +1569,22 @@ html,body{
 .live-list-none{font-size:8px;line-height:1.45;color:rgba(255,255,255,.5);padding:7px}
 .live-offline-info{position:fixed;inset:0;z-index:720;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.22);backdrop-filter:blur(3px)}.live-offline-card{width:min(86vw,300px);padding:16px;border:1px solid rgba(100,181,246,.32);border-radius:15px;background:rgba(20,28,38,.90);color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.34)}.live-offline-avatar{font-size:40px}.live-offline-card strong{font-size:15px}.live-offline-card span{font-size:8px;color:rgba(255,255,255,.52)}.live-offline-card small{font-size:8px;color:rgba(255,255,255,.65)}.live-offline-card p{font-size:8px;line-height:1.45;color:rgba(255,255,255,.62);margin:2px 0}
 @keyframes liveDrawerIn{from{transform:translateX(100%);opacity:.65}to{transform:translateX(0);opacity:1}}@keyframes livePanelFade{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.live-list-panel,.live-list-drawer{animation:none}}
+
+
+/* LIVE owns the main home-screen area; the existing category dock remains fixed above it. */
+#mainPortal.live-home-mode .games-browser{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  flex:none!important;
+  pointer-events:none!important;
+  z-index:2!important;
+}
+#mainPortal.live-home-mode #categoryList{
+  pointer-events:auto!important;
+}
+#mainPortal.live-home-mode .live-view{
+  z-index:6!important;
+  padding-bottom:74px!important;
+}
