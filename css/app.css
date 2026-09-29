@@ -476,8 +476,10 @@ body{
   .header-top{min-height:46px!important}
   .chat-launch-row .header-chat-btn{height:44px!important}
   .game-card{
-    width:94%!important;
-    height:min(68dvh,500px)!important;
+    width:min(46%,320px)!important;
+    max-width:320px!important;
+    height:min(34dvh,420px)!important;
+    min-height:190px!important;
   }
 }
 @media(max-width:360px){
@@ -488,7 +490,7 @@ body{
       max(3px, env(safe-area-inset-bottom))
       max(3px, env(safe-area-inset-left))!important;
   }
-  .game-card{width:96%!important;min-height:240px!important}
+  .game-card{width:min(46%,300px)!important;max-width:300px!important;min-height:190px!important;height:min(34dvh,400px)!important}
 }
 @media(orientation:landscape){
   #mainPortal,.portal{
