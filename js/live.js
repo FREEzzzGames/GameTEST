@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const cfg=Object.assign({endpoint:"",pollMs:30000},window.FZG_LIVE_CONFIG||{});
+const cfg=Object.assign({endpoint:"https://freezzgames-live-monitor.onrender.com/api/live",pollMs:30000},window.FZG_LIVE_CONFIG||{});
 const S={all:[],online:[],selectedId:null,muted:true,loading:false};
 const $=id=>document.getElementById(id);
 const h=()=>window.FZG?.platform?.haptic?.("light");
