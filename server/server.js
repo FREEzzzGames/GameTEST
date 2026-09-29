@@ -1,0 +1,14 @@
+import express from 'express';
+const app=express();
+const PORT=Number(process.env.PORT||10000);
+const ALLOW_ORIGIN=process.env.ALLOW_ORIGIN||'*';
+app.use((req,res,next)=>{res.setHeader('Access-Control-Allow-Origin',ALLOW_ORIGIN);res.setHeader('Access-Control-Allow-Methods','GET,OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type');if(req.method==='OPTIONS')return res.sendStatus(204);next()});
+function registry(){try{return JSON.parse(process.env.STREAMER_REGISTRY||'[]')}catch{return[]}}
+let cache={streamers:[],updatedAt:null};let busy=false;
+async function twitchToken(){const id=process.env.TWITCH_CLIENT_ID,secret=process.env.TWITCH_CLIENT_SECRET;if(!id||!secret)return null;const r=await fetch('https://id.twitch.tv/oauth2/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({client_id:id,client_secret:secret,grant_type:'client_credentials'})});if(!r.ok)throw Error('Twitch token '+r.status);return (await r.json()).access_token}
+async function twitch(list){const token=await twitchToken();if(!token)return list.map(x=>({...x,live:false}));const users=list.filter(x=>x.platform==='twitch'&&x.login).slice(0,100);if(!users.length)return list;const q=new URLSearchParams();users.forEach(x=>q.append('user_login',x.login));const r=await fetch('https://api.twitch.tv/helix/streams?'+q,{headers:{'Client-ID':process.env.TWITCH_CLIENT_ID,'Authorization':'Bearer '+token}});if(!r.ok)throw Error('Twitch streams '+r.status);const data=await r.json();const live=new Map((data.data||[]).map(x=>[String(x.user_login).toLowerCase(),x]));return list.map(x=>{if(x.platform!=='twitch')return x;const s=live.get(String(x.login||'').toLowerCase());const parent=process.env.TWITCH_PARENT||'freezzgames.github.io';return {...x,live:!!s,liveStartedAt:s?.started_at||null,lastStreamTitle:s?.title||x.lastStreamTitle||null,game:s?.game_name||x.game||'',sources:s?[{platform:'twitch',embedUrl:'https://player.twitch.tv/?channel='+encodeURIComponent(x.login)+'&parent='+encodeURIComponent(parent),live:true,qualityScore:100,trafficScore:100,stabilityScore:100,latencyScore:80}]:[]}})}
+async function update(){if(busy)return;busy=true;try{let data=registry();data=await twitch(data);cache={streamers:data,updatedAt:new Date().toISOString()}}catch(e){console.error(e)}finally{busy=false}}
+app.get('/health',(req,res)=>res.json({ok:true,updatedAt:cache.updatedAt}));
+app.get('/api/live',(req,res)=>res.set('Cache-Control','no-store').json(cache));
+app.get('/api/streamers',(req,res)=>res.json({streamers:registry()}));
+update();setInterval(update,30000);app.listen(PORT,()=>console.log('FREEzzzGames Live Monitor listening on '+PORT));
