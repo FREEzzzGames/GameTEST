@@ -26,6 +26,7 @@ export const Platform = {
     try{
       tg.ready?.();
       tg.expand?.();
+      if(typeof tg.lockOrientation === "function") tg.lockOrientation();
       tg.setHeaderColor?.(tg.themeParams?.header_bg_color || "#17212b");
       tg.setBackgroundColor?.(tg.themeParams?.bg_color || "#000000");
       tg.setBottomBarColor?.(tg.themeParams?.bottom_bar_bg_color || "#000000");
