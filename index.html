@@ -242,6 +242,44 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 .guest-author:active{opacity:.65}
 
 
+
+/* POINT FIX — profile keeps only its nickname width; chat takes the remaining top-bar space */
+.header-top{
+  grid-template-columns:auto minmax(0,1fr);
+}
+.header-top .profile-box{
+  width:max-content;
+  max-width:100%;
+}
+.header-top .header-chat-btn{
+  width:100%;
+  min-width:0;
+  justify-self:stretch;
+}
+@media(min-width:421px){
+  .header-top{
+    grid-template-columns:auto minmax(0,1fr) auto;
+  }
+  .header-top .header-chat-btn{
+    width:100%;
+    justify-self:stretch;
+  }
+}
+@media(max-width:420px){
+  .header-top{
+    grid-template-columns:auto minmax(0,1fr);
+  }
+  .header-top .header-chat-btn{
+    width:100%;
+    justify-self:stretch;
+  }
+}
+@media(max-width:340px){
+  .header-top{
+    grid-template-columns:auto minmax(0,1fr);
+  }
+}
+
 /* FIXED RESPONSIVE TOP BAR — prevents control overlap on narrow screens */
 .header-top{grid-template-columns:minmax(0,1fr) auto;min-width:0;overflow:visible}
 .profile-box{min-width:0;max-width:100%;overflow:hidden}
