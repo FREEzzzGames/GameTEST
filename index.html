@@ -64,9 +64,9 @@ body{
 .header-chat-btn:active{transform:scale(.94);background:color-mix(in srgb,var(--tg-blue) 28%,transparent)}
 .header-chat-btn.active{border-color:var(--tg-blue);background:var(--tg-blue-dark);color:var(--tg-text)}
 .header-top .always-controls{position:relative;justify-self:end;z-index:1000}
-@media(max-width:420px){.header-chat-btn{height:30px;padding:0 10px;border-radius:8px;font-size:8px}.header-top{gap:4px}.header-top .always-controls{gap:4px}.header-top .always-btn{width:29px;height:29px}}
+@media(max-width:420px){.header-chat-btn{height:30px;padding:0 10px;border-radius:8px;font-size:8px}.header-top{gap:4px}.header-top .always-controls{gap:4px}.header-top .always-btn{width:29px;height:29px}.header-top .profile-box{height:29px;min-height:29px}.header-top .user-avatar{width:23px;height:23px;font-size:13px}}
 @media(max-width:340px){.header-chat-btn{width:32px;padding:0;font-size:0}.header-chat-btn span{display:none}.header-top{grid-template-columns:auto minmax(34px,1fr) auto}}
-.profile-box { font-size: 11px; color:var(--tg-blue); text-align: left; display: flex; align-items: center; gap: 6px; background:var(--tg-btn); padding: 4px 8px; border-radius: 8px; border:1px solid var(--tg-border); cursor: pointer; }
+.profile-box { font-size: 11px; color:var(--tg-blue); text-align: left; display: flex; align-items: center; gap: 6px; background:var(--tg-btn); height:32px; min-height:32px; padding:0 8px; border-radius: 8px; border:1px solid var(--tg-border); cursor: pointer; box-sizing:border-box; }
 .profile-box:active { background: var(--tg-blue-dark); }
 .user-avatar { width: 26px; height: 26px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 15px; border:1px solid var(--tg-blue); flex-shrink: 0; }
 
