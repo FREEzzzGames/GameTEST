@@ -360,7 +360,7 @@
     document.getElementById("profileMessages").textContent=String(s.messagesSent||0);
     document.getElementById("profileChatTime").textContent=formatDuration(s.chatSeconds);
     document.getElementById("profileActiveDays").textContent=String(Array.isArray(s.activeDays)?s.activeDays.length:(s.activeDays||0));
-    const list=document.getElementById("profileAchievementsList");
+    const list=document.getElementById("achievementsModalList");
     if(list){
       const ach=data.achievements||ACHIEVEMENT_DEFS.map(a=>({icon:a.icon,name:a.name[currentLang]||a.name.en,desc:a.desc[currentLang]||a.desc.en,unlocked:!!a.ok(playerStats)}));
       list.innerHTML=ach.map(a=>'<div class="player-achievement '+(a.unlocked?"":"locked")+'"><div class="player-achievement-icon">'+(a.unlocked?a.icon:"🔒")+'</div><div><div class="player-achievement-name">'+a.name+'</div><div class="player-achievement-desc">'+a.desc+'</div></div></div>').join("");
@@ -577,6 +577,16 @@
     document.getElementById('avatarModal').classList.add('hidden');
   }
 
+  function openAchievementsModal(){
+    haptic();
+    document.getElementById('achievementsModal')?.classList.remove('hidden');
+  }
+
+  function closeAchievementsModal(){
+    haptic();
+    document.getElementById('achievementsModal')?.classList.add('hidden');
+  }
+
   function selectAvatar(av) {
     haptic();
     currentAvatar = av;
@@ -590,6 +600,9 @@
   document.getElementById('userProfileBox').addEventListener('click', ()=>openPlayerProfile(playerId));
   document.getElementById('playerProfileAvatar').addEventListener('click', openAvatarModal);
   document.getElementById('closeModalBtn').addEventListener('click', closeAvatarModal);
+  document.getElementById('profileAchievementsTitle')?.addEventListener('click', openAchievementsModal);
+  document.getElementById('closeAchievementsBtn')?.addEventListener('click', closeAchievementsModal);
+  document.getElementById('achievementsModal')?.addEventListener('click',e=>{if(e.target.id==='achievementsModal')closeAchievementsModal();});
 
   // Fixed portal appearance: dark theme is the only standard; sound is always enabled.
   const themes=["theme-dark"];
