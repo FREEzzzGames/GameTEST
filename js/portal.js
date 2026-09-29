@@ -902,6 +902,7 @@
   const GAME_BY_ID = Object.fromEntries(GAME_CARDS.map(g => [g.id,g]));
   let currentCategory = null;
   let categoryGameIndex = 0;
+  const CATEGORY_PAGE_SIZE = 4;
   let swipeStartX = 0;
   let swipeStartY = 0;
   let swipeStartTime = 0;
@@ -992,35 +993,38 @@
     const track=document.getElementById('gamesTrack');
     const dots=document.getElementById('carouselDots');
     if(!track||!dots)return;
-    track.innerHTML=ids.map((id,i)=>{
+
+    const pageStart=Math.floor(categoryGameIndex/CATEGORY_PAGE_SIZE)*CATEGORY_PAGE_SIZE;
+    const visibleIds=ids.slice(pageStart,pageStart+CATEGORY_PAGE_SIZE);
+
+    track.innerHTML=visibleIds.map((id,i)=>{
       const g=GAME_BY_ID[id];
-      const offset=i-categoryGameIndex;
-      let cls='game-card is-hidden';
-      if(offset===0)cls='game-card is-active';
-      else if(offset===-1)cls='game-card is-prev';
-      else if(offset===1)cls='game-card is-next';
-      return '<div class="'+cls+'" data-carousel-game="'+g.id+'" '+(offset===0?'data-action-hint-target="game"':'')+'>'+
+      const absoluteIndex=pageStart+i;
+      return '<div class="game-card is-grid-card" data-carousel-game="'+g.id+'" '+(absoluteIndex===pageStart?'data-action-hint-target="game"':'')+'>'+
         '<div class="game-card-art">'+
           '<img class="game-card-logo" src="'+gameLogoUrl(g.id)+'" alt="'+g.title.replace(/"/g,'&quot;')+'" loading="eager" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">'+
-          '<span class="game-card-logo-fallback" style="display:none">'+g.emoji+'</span>'+        '</div>'+
+          '<span class="game-card-logo-fallback" style="display:none">'+g.emoji+'</span>'+
+        '</div>'+
         '<div class="game-card-body">'+
           '<div class="game-card-title">'+g.title+'</div>'+
           '<div class="game-card-desc">'+gameText(g.id,'desc')+'</div>'+
           '<div class="game-card-meta"><span>'+gameText(g.id,'genre')+'</span><span class="game-card-play">'+tr('play')+'</span></div>'+
         '</div></div>';
     }).join('');
-    dots.innerHTML=ids.map((id,i)=>'<span class="carousel-dot '+(i===categoryGameIndex?'active':'')+'"></span>').join('');
-    const active=track.querySelector('.game-card.is-active');
-    if(active) active.addEventListener('click',()=>openExternal(GAME_LINKS[active.dataset.carouselGame]));
-  }
 
-  function moveCategoryGame(delta){
+    const pageCount=Math.ceil(ids.length/CATEGORY_PAGE_SIZE);
+    const activePage=Math.floor(pageStart/CATEGORY_PAGE_SIZE);
+    dots.innerHTML=Array.from({length:pageCount},(_,i)=>'<span class="carousel-dot '+(i===activePage?'active':'')+'"></span>').join('');
+
+    track.querySel  function moveCategoryGame(delta){
     if(!currentCategory)return;
     const len=currentCategory.ids.length;
     if(len<2)return;
-    const next=Math.max(0,Math.min(len-1,categoryGameIndex+delta));
-    if(next===categoryGameIndex)return;
-    categoryGameIndex=next;
+    const pageCount=Math.ceil(len/CATEGORY_PAGE_SIZE);
+    const currentPage=Math.floor(categoryGameIndex/CATEGORY_PAGE_SIZE);
+    const nextPage=Math.max(0,Math.min(pageCount-1,currentPage+delta));
+    if(nextPage===currentPage)return;
+    categoryGameIndex=nextPage*CATEGORY_PAGE_SIZE;
     haptic();
     renderCategoryCarousel();
   }
