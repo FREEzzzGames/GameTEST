@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="freezzz-build" content="2026-09-29-browser-test-01">
-<title>FREEzzzGames — Browser Test</title>
+<meta name="freezzz-build" content="2026-09-29-telegram-miniapp-production">
+<title>FREEzzzGames</title>
 <style>
 :root {
   --tg-bg:#e7e0d5;
@@ -239,127 +239,6 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 
 
 
-/* POINT FIX — profile keeps only its nickname width; chat takes the remaining top-bar space */
-.header-top{
-  grid-template-columns:auto minmax(0,1fr);
-}
-.header-top .profile-box{
-  width:max-content;
-  max-width:100%;
-}
-.header-top .header-chat-btn{
-  width:100%;
-  min-width:0;
-  justify-self:stretch;
-}
-@media(min-width:421px){
-  .header-top{
-    grid-template-columns:auto minmax(0,1fr) auto;
-  }
-  .header-top .header-chat-btn{
-    width:100%;
-    justify-self:stretch;
-  }
-}
-@media(max-width:420px){
-  .header-top{
-    grid-template-columns:auto minmax(0,1fr);
-  }
-  .header-top .header-chat-btn{
-    width:100%;
-    justify-self:stretch;
-  }
-}
-@media(max-width:340px){
-  .header-top{
-    grid-template-columns:auto minmax(0,1fr);
-  }
-}
-
-/* FIXED RESPONSIVE TOP BAR — prevents control overlap on narrow screens */
-.header-top{grid-template-columns:minmax(0,1fr) auto;min-width:0;overflow:visible}
-.profile-box{min-width:0;max-width:100%;overflow:hidden}
-#userNameTxt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.header-top .always-controls{min-width:0;max-width:100%;display:flex;flex-wrap:nowrap;justify-content:flex-end;overflow:visible}
-@media(min-width:421px){
-  .header-top{grid-template-columns:minmax(0,1fr) auto auto}
-}
-@media(max-width:420px){
-  .header-top{grid-template-columns:minmax(0,1fr) auto;row-gap:5px;padding:4px 4px}
-  .header-top .always-controls{grid-column:1 / -1;grid-row:2;justify-self:center;width:100%;justify-content:center;gap:4px}
-  .header-top .always-btn{width:29px;height:29px;flex:0 0 29px}
-  .header-chat-btn{height:30px;padding:0 9px;flex:0 0 auto}
-}
-@media(max-width:360px){
-  .header-top{padding-left:2px;padding-right:2px}
-  .header-top .always-controls{gap:3px}
-  .header-top .always-btn{width:27px;height:27px;flex-basis:27px;border-radius:7px;font-size:12px}
-  .header-top .always-btn.lang{font-size:8px}
-}
-
-/* FINAL POINT FIX — top row: nickname-sized profile + chat fills remaining space */
-.header-top{grid-template-columns:auto minmax(0,1fr)}
-.header-top .profile-box{width:max-content;max-width:100%}
-.header-top .header-chat-btn{width:100%;min-width:0;justify-self:stretch}
-@media(min-width:421px){
-  .header-top{grid-template-columns:auto minmax(0,1fr) auto}
-  .header-top .header-chat-btn{width:100%;justify-self:stretch}
-}
-@media(max-width:420px){
-  .header-top{grid-template-columns:auto minmax(0,1fr)}
-  .header-top .header-chat-btn{width:100%;justify-self:stretch}
-}
-@media(max-width:340px){
-  .header-top{grid-template-columns:auto minmax(0,1fr)}
-}
-
-
-/* POINT FIX — chat stays below the permanent top bar */
-#guestView{top:48px;bottom:0;padding:12px;overflow:hidden}
-@media(max-width:420px){
-  #guestView{top:88px;padding:12px}
-}
-
-
-/* FINAL PORTAL TOP/CHAT LAYOUT FIX */
-.header-top{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;width:100%!important;min-width:0!important;padding:4px 6px!important;gap:6px!important;position:relative!important}
-.profile-box{width:max-content!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
-#userNameTxt{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
-.header-top .always-controls{position:relative!important;top:auto!important;right:auto!important;justify-self:end!important;display:flex!important;gap:5px!important}
-.header-top .always-btn{position:relative!important;width:32px!important;height:32px!important;flex:0 0 32px!important}
-.chat-launch-row{display:flex!important;width:100%!important;flex-shrink:0!important}
-.chat-launch-row .header-chat-btn{position:static!important;width:100%!important;height:34px!important;justify-self:stretch!important;margin:0!important}
-#guestView{position:absolute!important;left:0!important;right:0!important;top:86px!important;bottom:0!important;width:100%!important;padding:8px!important;z-index:110!important;overflow:hidden!important}
-@media(max-width:420px){.header-top{padding:4px!important;gap:4px!important}.header-top .always-controls{gap:4px!important}.header-top .always-btn{width:29px!important;height:29px!important;flex-basis:29px!important}.chat-launch-row .header-chat-btn{height:32px!important}#guestView{top:80px!important;padding:6px!important}}
-@media(max-width:340px){.header-top{padding-left:2px!important;padding-right:2px!important}.header-top .always-controls{gap:3px!important}.header-top .always-btn{width:27px!important;height:27px!important;flex-basis:27px!important}#guestView{top:76px!important;padding:5px!important}}
-
-/* TOUCH-FIRST PORTAL CONTROLS — mobile is the primary input */
-html,body,#mainPortal{touch-action:manipulation}
-button,.profile-box,.game-card,.category-item,.chat-room-tab,.chat-mini-btn,.guest-send,.always-btn,.action-btn,.category-back,.game-card-play{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-button,.profile-box{min-height:44px}
-.always-btn{min-width:44px!important;min-height:44px!important;width:44px!important;height:44px!important}
-.header-chat-btn{min-height:46px!important}
-.category-item{min-height:64px;padding:14px!important}
-.category-back,.chat-mini-btn{min-width:44px;min-height:44px}
-.chat-room-tab{min-height:44px;padding:10px 5px}
-.guest-send{min-height:44px;padding:0 14px}
-.guest-input{min-height:44px;font-size:16px}
-.action-btn,.top-btn{min-height:44px}
-button:focus-visible,.profile-box:focus-visible{outline:2px solid var(--tg-blue);outline-offset:2px}
-@media(hover:hover) and (pointer:fine){button:hover{filter:brightness(1.08)}}
-@media(hover:none) and (pointer:coarse){button:active,.profile-box:active{transform:scale(.97);transition:transform .06s ease}.game-card:active,.category-item:active{transform:scale(.985)}}
-@media(max-width:420px){
-  .header-top .always-controls{gap:4px!important}
-  .header-top .always-btn{width:44px!important;height:44px!important;flex-basis:44px!important}
-  .header-chat-btn{height:46px!important}
-  .chat-layout{width:100%;height:100%;max-height:none;border-radius:10px;padding:6px}
-  .chat-room-tabs{gap:5px}
-}
-@media(max-width:360px){
-  .header-top .always-btn{width:42px!important;height:42px!important;flex-basis:42px!important}
-  .chat-room-tab{font-size:8px}
-}
-
 /* TELEGRAM MINI APP GEOMETRY — FULL VIEWPORT */
 /* The Mini App viewport is the source of truth: use dynamic viewport units and
    Telegram safe-area insets instead of desktop/Chrome-sized fixed geometry. */
@@ -551,8 +430,6 @@ body{
 }
 
 </style>
-<link rel="stylesheet" href="./css/portal-cyber.css">
-<!-- pages-redeploy -->
 </head>
 <body id="bodyRoot" class="theme-dark">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#e7e0d5;color:#292722;font-family:monospace;padding:20px">
@@ -1661,15 +1538,6 @@ if(guestViewEl && !guestViewEl.dataset.backSwipeBound){
     try{
       applyLanguage();
       showCategoryList(false);
-      // Load visual card animation after the first useful paint.
-      requestAnimationFrame(()=>setTimeout(()=>{
-        if(document.querySelector('script[data-freezzz-visuals]'))return;
-        const script=document.createElement("script");
-        script.src="./js/game-card-animations.js";
-        script.dataset.freezzzVisuals="1";
-        script.defer=true;
-        document.body.appendChild(script);
-      },0));
     }catch(err){
       console.error("FREEzzzGames boot error:",err);
       const list=document.getElementById("categoryList");
