@@ -1518,3 +1518,138 @@ html,body{
 #mainPortal.live-home-mode .live-view .live-list-btn{
   pointer-events:auto!important;
 }
+
+
+/* =========================================================
+   LIVE STREAMER DRAWER — compact Telegram-native sheet
+   ========================================================= */
+#liveListPanel{
+  position:fixed!important;
+  inset:0!important;
+  z-index:7000!important;
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:flex-end!important;
+  background:rgba(5,10,16,.22)!important;
+  backdrop-filter:blur(2px)!important;
+  -webkit-backdrop-filter:blur(2px)!important;
+}
+#liveListPanel.hidden{
+  display:none!important;
+}
+#liveListPanel .live-list-drawer{
+  width:min(330px,88vw)!important;
+  height:100%!important;
+  margin:0!important;
+  padding:calc(env(safe-area-inset-top) + 12px) 10px calc(env(safe-area-inset-bottom) + 78px)!important;
+  box-sizing:border-box!important;
+  overflow:auto!important;
+  background:rgba(18,28,40,.96)!important;
+  border-left:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:-12px 0 34px rgba(0,0,0,.34)!important;
+  backdrop-filter:blur(18px) saturate(125%)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%)!important;
+}
+#liveListPanel .live-list-head{
+  position:sticky!important;
+  top:0!important;
+  z-index:2!important;
+  min-height:44px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  padding:0 2px 8px 8px!important;
+  background:rgba(18,28,40,.96)!important;
+  color:#fff!important;
+  font:700 15px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+#liveListPanel .live-panel-close{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#fff!important;
+  font:400 25px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+}
+#liveListPanel .live-streamer-list{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+}
+#liveListPanel .live-list-section-title{
+  padding:8px 8px 4px!important;
+  color:rgba(255,255,255,.72)!important;
+  font:700 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  letter-spacing:.3px!important;
+}
+#liveListPanel .live-list-section-title.offline-title{
+  margin-top:7px!important;
+  border-top:1px solid rgba(255,255,255,.07)!important;
+  padding-top:12px!important;
+}
+#liveListPanel .live-list-row{
+  width:100%!important;
+  min-height:58px!important;
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:9px!important;
+  padding:7px 8px!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.035)!important;
+  color:#fff!important;
+  text-align:left!important;
+}
+#liveListPanel .live-list-row:active{
+  background:rgba(100,181,246,.13)!important;
+}
+#liveListPanel .live-list-avatar{
+  width:34px!important;
+  height:34px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.07)!important;
+  font-size:18px!important;
+}
+#liveListPanel .live-list-main{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+}
+#liveListPanel .live-list-main strong{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font:700 12px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+#liveListPanel .live-list-main small,
+#liveListPanel .live-list-main em{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:rgba(255,255,255,.50)!important;
+  font:400 9px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font-style:normal!important;
+}
+#liveListPanel .live-list-status{
+  min-width:34px!important;
+  text-align:center!important;
+  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  letter-spacing:.3px!important;
+}
+#liveListPanel .live-list-status.online{color:#ff5b5b!important}
+#liveListPanel .live-list-status.offline{color:rgba(255,255,255,.38)!important}
+#liveListPanel .live-list-none{
+  padding:10px 8px 12px!important;
+  color:rgba(255,255,255,.42)!important;
+  font:400 10px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+@media(max-width:380px){
+  #liveListPanel .live-list-drawer{width:91vw!important}
+}
