@@ -1246,3 +1246,15 @@ html,body{
   from{transform:perspective(520px) rotateX(64deg) translateY(18%)}
   to{transform:perspective(520px) rotateX(64deg) translateY(30%)}
 }
+
+.action-hint-layer{position:fixed;inset:0;z-index:9000;pointer-events:none;overflow:hidden}
+.action-hint-target{position:fixed;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;border:1px solid rgba(255,255,255,.60);background:rgba(255,255,255,.08);box-shadow:0 0 0 4px rgba(255,255,255,.035),0 0 18px rgba(255,255,255,.38),inset 0 0 12px rgba(255,255,255,.16);opacity:.78;animation:actionHintPulse 1.35s ease-in-out infinite;will-change:transform,opacity}
+.action-hint-target::after{content:"";position:absolute;inset:8px;border-radius:50%;background:rgba(255,255,255,.16);filter:blur(3px)}
+.action-hint-card{position:fixed;width:min(290px,calc(100vw - 28px));padding:12px 38px 12px 13px;border:1px solid rgba(255,255,255,.20);border-radius:12px;background:rgba(23,33,43,.94);color:var(--tg-text);box-shadow:0 10px 30px rgba(0,0,0,.38),0 0 20px rgba(255,255,255,.05);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-align:left;pointer-events:auto;animation:actionHintAppear .20s ease-out}
+.action-hint-close{position:absolute;top:5px;right:6px;width:27px;height:27px;border:0;border-radius:8px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.82);font:400 21px/25px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}
+.action-hint-close:active{transform:scale(.92);background:rgba(255,255,255,.14)}
+.action-hint-title{font:700 13px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#fff;margin-bottom:4px}
+.action-hint-text{font:400 11px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:rgba(255,255,255,.72)}
+@keyframes actionHintPulse{0%,100%{transform:scale(.76);opacity:.34}50%{transform:scale(1.12);opacity:.88}}
+@keyframes actionHintAppear{from{opacity:0;transform:translateY(5px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.action-hint-target,.action-hint-card{animation:none}}
