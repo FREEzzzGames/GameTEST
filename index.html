@@ -330,7 +330,7 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 <link rel="stylesheet" href="./css/portal-cyber.css">
 <!-- pages-redeploy -->
 </head>
-<body id="bodyRoot">
+<body id="bodyRoot" class="theme-dark">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#e7e0d5;color:#292722;font-family:monospace;padding:20px">
   <div style="width:min(420px,100%);padding:24px;border:1px solid #c9c0b4;border-radius:16px;background:#eee8de;box-shadow:0 10px 30px rgba(0,0,0,.18);text-align:center">
     <div style="font-size:28px;font-weight:900;margin-bottom:10px">FREEzzzGames</div>
@@ -362,11 +362,7 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
     </div>
     <button class="header-chat-btn" id="tabGuest" type="button" data-tab="guest" title="Чат" aria-label="Чат">💬 <span data-i18n="chat">ЧАТ</span><span class="chat-unread-dot hidden" id="chatUnreadDot" aria-hidden="true"></span></button>
     <div class="always-controls" id="alwaysControls">
-      <button class="always-btn home" id="homeMenuBtn" title="Главное меню" aria-label="Главное меню">⌂</button>
-      <button class="always-btn" id="soundToggle" title="Звук" aria-label="Звук">🔊</button>
-      <button class="always-btn" id="themeToggleBtn" title="Тема" aria-label="Тема">☀️</button>
       <button class="always-btn radio" id="radioPlayBtn" title="Techno.FM — play" aria-label="Techno.FM — play">▶</button>
-      <button class="always-btn radio" id="radioStopBtn" title="Techno.FM — stop" aria-label="Techno.FM — stop">■</button>
       <button class="always-btn lang" id="langToggleBtn" title="Язык" aria-label="Язык">RU</button>
     </div>
   </div>
@@ -455,7 +451,6 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
     <audio id="technoFmAudio" preload="none" playsinline></audio>
     <div class="radio-actions">
       <button id="radioPanelPlay" type="button">▶ PLAY</button>
-      <button id="radioPanelStop" type="button">■ STOP</button>
     </div>
   </div>
 </div>
@@ -507,46 +502,12 @@ window.addEventListener('DOMContentLoaded', () => {
     async authenticate(){ return {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}}; }
   };
 
-  // Critical header controls are initialized first so a later optional module
-  // cannot leave the core navigation/sound/theme buttons dead.
+  // Critical header control: Home only.
   (function initCriticalControls(){
     const home=document.getElementById('homeMenuBtn');
-    const sound=document.getElementById('soundToggle');
-    const theme=document.getElementById('themeToggleBtn');
-
     if(home && !home.dataset.bound){
       home.dataset.bound='1';
-      home.addEventListener('click',()=>{
-        const cv=document.getElementById('categoryView');
-        const cl=document.getElementById('categoryList');
-        if(cv) cv.classList.add('hidden');
-        if(cl) cl.classList.remove('hidden');
-        try{ document.querySelectorAll('.category-item').forEach(b=>b.blur()); }catch(e){}
-      });
-    }
-
-    if(sound && !sound.dataset.bound){
-      sound.dataset.bound='1';
-      sound.addEventListener('click',()=>{
-        const enabled=localStorage.getItem('freezzzSound') !== 'false';
-        const next=!enabled;
-        localStorage.setItem('freezzzSound',String(next));
-        sound.textContent=next?'🔊':'🔇';
-      });
-      sound.textContent=localStorage.getItem('freezzzSound') === 'false' ? '🔇' : '🔊';
-    }
-
-    if(theme && !theme.dataset.bound){
-      theme.dataset.bound='1';
-      theme.addEventListener('click',()=>{
-        const next=Number(localStorage.getItem('freezzzTheme')||0)===0?1:0;
-        localStorage.setItem('freezzzTheme',String(next));
-        document.getElementById('bodyRoot').className=next?'theme-dark':'';
-        theme.textContent=next?'🌙':'☀️';
-      });
-      const current=Number(localStorage.getItem('freezzzTheme')||0);
-      theme.textContent=current===1?'🌙':'☀️';
-      document.getElementById('bodyRoot').className=current===1?'theme-dark':'';
+      home.addEventListener('click',returnToMainMenu);
     }
   })();
 
@@ -652,8 +613,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{el.placeholder=tr(el.dataset.i18nPlaceholder)});
     document.getElementById("langToggleBtn").textContent=L.code;
     document.getElementById("langToggleBtn").title=currentLang==="ru"?"Язык":currentLang==="de"?"Sprache":"Language";
-    const themeBtn=document.getElementById("themeToggleBtn"); if(themeBtn) themeBtn.title=tr("theme");
-    document.getElementById("soundToggle").title=tr("sound");
+    // Theme and sound controls are intentionally fixed: dark theme, sound enabled.
     document.getElementById("userNameTxt").textContent=userName || tr("player");
     document.querySelectorAll("[data-chat-room-label]").forEach(el=>{
       const room=el.parentElement?.dataset?.room || el.dataset.chatRoomLabel;
@@ -1079,40 +1039,14 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('playerProfileAvatar').addEventListener('click', openAvatarModal);
   document.getElementById('closeModalBtn').addEventListener('click', closeAvatarModal);
 
-  // Темы
-  const themes = ["", "theme-dark"];
-  let currentThemeIdx = Number(localStorage.getItem("freezzzTheme") || 0);
-  if (currentThemeIdx > 1) currentThemeIdx = 0;
+  // Fixed portal appearance: dark theme is the only standard; sound is always enabled.
+  const themes=["theme-dark"];
+  let currentThemeIdx=0;
+  function applyTheme(){ document.getElementById('bodyRoot').className='theme-dark'; }
   applyTheme();
 
-  function toggleTheme() {
-    currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-    localStorage.setItem("freezzzTheme", currentThemeIdx);
-    applyTheme();
-  }
-  const themeToggleBtn=document.getElementById('themeToggleBtn'); if(themeToggleBtn && !themeToggleBtn.dataset.bound){ themeToggleBtn.dataset.bound='1'; themeToggleBtn.addEventListener('click', toggleTheme); }
-
-  function applyTheme() {
-    document.getElementById('bodyRoot').className = themes[currentThemeIdx] || "";
-    const btn=document.getElementById('themeToggleBtn');
-    if(btn) btn.textContent = currentThemeIdx===0 ? "☀️" : "🌙";
-  }
-
   // Звук / Вибрация
-  let soundEnabled = localStorage.getItem("freezzzSound") !== "false";
-  updateSoundBtn();
-
-  function toggleSound() {
-    soundEnabled = !soundEnabled;
-    localStorage.setItem("freezzzSound", soundEnabled);
-    updateSoundBtn();
-  }
-  const soundBtn=document.getElementById('soundToggle'); if(soundBtn && !soundBtn.dataset.bound){ soundBtn.dataset.bound='1'; soundBtn.addEventListener('click', toggleSound); }
-
-  function updateSoundBtn() {
-    const btn = document.getElementById('soundToggle');
-    if (btn) btn.textContent = soundEnabled ? "🔊" : "🔇";
-  }
+  let soundEnabled = true;
 
   // TECHNO.FM RADIO — separate module; starts only after a user action.
   const TECHNO_FM_STREAM = "https://stream.techno.fm/radio1-320k.mp3";
@@ -1126,6 +1060,8 @@ window.addEventListener('DOMContentLoaded', () => {
       radioAudio.src=TECHNO_FM_STREAM;
       await radioAudio.play();
       setRadioStatus("PLAYING • TECHNO.FM 320K");
+      const btn=document.getElementById("radioPlayBtn");
+      if(btn){btn.textContent="■";btn.title="Techno.FM — stop";btn.setAttribute("aria-label","Techno.FM — stop");}
     }catch(e){
       setRadioStatus("PLAY ERROR • TAP PLAY AGAIN");
     }
@@ -1134,13 +1070,23 @@ window.addEventListener('DOMContentLoaded', () => {
     if(!radioAudio)return;
     try{radioAudio.pause();radioAudio.currentTime=0;radioAudio.removeAttribute("src");radioAudio.load();}catch(e){}
     setRadioStatus("STOPPED");
+    const btn=document.getElementById("radioPlayBtn");
+    if(btn){btn.textContent="▶";btn.title="Techno.FM — play";btn.setAttribute("aria-label","Techno.FM — play");}
   }
   function openRadioPanel(){radioOverlay?.classList.remove("hidden");setRadioStatus(radioAudio?.paused!==false?"STOPPED":"PLAYING • TECHNO.FM 320K");}
   function closeRadioPanel(){radioOverlay?.classList.add("hidden");}
-  document.getElementById("radioPlayBtn")?.addEventListener("click",()=>{openRadioPanel();playTechnoFm();});
-  document.getElementById("radioStopBtn")?.addEventListener("click",stopTechnoFm);
-  document.getElementById("radioPanelPlay")?.addEventListener("click",playTechnoFm);
-  document.getElementById("radioPanelStop")?.addEventListener("click",stopTechnoFm);
+  function toggleRadioPlayback(){
+    if(radioAudio && !radioAudio.paused){
+      stopTechnoFm();
+      const btn=document.getElementById("radioPlayBtn");
+      if(btn){btn.textContent="▶";btn.title="Techno.FM — play";btn.setAttribute("aria-label","Techno.FM — play");}
+    }else{
+      openRadioPanel();
+      playTechnoFm();
+    }
+  }
+  document.getElementById("radioPlayBtn")?.addEventListener("click",toggleRadioPlayback);
+  document.getElementById("radioPanelPlay")?.addEventListener("click",toggleRadioPlayback);
   document.getElementById("radioCloseBtn")?.addEventListener("click",closeRadioPanel);
   radioOverlay?.addEventListener("click",e=>{if(e.target===radioOverlay)closeRadioPanel();});
 
@@ -1153,6 +1099,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // Нижняя навигация: только ЧАТ. Игры — основной экран, достижения находятся в визитке игрока.
   function switchTab(tab) {
     haptic();
+    const home=document.getElementById('homeMenuBtn');
+    if(home)home.classList.toggle('hidden',tab==='games');
     document.getElementById('gamesBrowser').classList.toggle('hidden', tab !== 'games');
     document.getElementById('achievementsView').classList.add('hidden');
     document.getElementById('guestView').classList.toggle('hidden', tab !== 'guest');
@@ -1237,6 +1185,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showCategoryList(animate=true){
     currentCategory=null;
+    const home=document.getElementById('homeMenuBtn');
+    if(home)home.classList.add('hidden');
     document.getElementById('categoryList').classList.remove('hidden');
     document.getElementById('categoryView').classList.add('hidden');
     if(animate){
@@ -1247,6 +1197,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function openCategory(categoryId){
     const category=CATEGORIES.find(c=>c.id===categoryId);
+    const home=document.getElementById('homeMenuBtn');
+    if(home)home.classList.remove('hidden');
     if(!category)return;
     currentCategory=category;
     categoryGameIndex=0;
@@ -1371,6 +1323,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // Language initialization is performed after GAME_CARDS/CATEGORIES/GAME_LINKS are initialized.
 
   function returnToMainMenu(){
+    const home=document.getElementById('homeMenuBtn');
+    if(home)home.classList.add('hidden');
     const cv=document.getElementById('categoryView');
     const cl=document.getElementById('categoryList');
     if(cv)cv.classList.add('hidden');
