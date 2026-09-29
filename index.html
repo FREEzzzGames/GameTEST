@@ -319,6 +319,13 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
   .header-top{grid-template-columns:auto minmax(0,1fr)}
 }
 
+
+/* POINT FIX — chat stays below the permanent top bar */
+#guestView{top:48px;bottom:0;padding:12px;overflow:hidden}
+@media(max-width:420px){
+  #guestView{top:88px;padding:12px}
+}
+
 </style>
 <link rel="stylesheet" href="./css/portal-cyber.css">
 <!-- pages-redeploy -->
@@ -1374,7 +1381,32 @@ window.addEventListener('DOMContentLoaded', () => {
     haptic();
   }
 
-  const homeBtn=document.getElementById('homeMenuBtn'); if(homeBtn && !homeBtn.dataset.bound){ homeBtn.dataset.bound='1'; homeBtn.addEventListener('click',returnToMainMenu); }
+  
+const homeBtn=document.getElementById('homeMenuBtn'); if(homeBtn && !homeBtn.dataset.bound){ homeBtn.dataset.bound='1'; homeBtn.addEventListener('click',returnToMainMenu); }
+
+/* POINT FIX — swipe from the left edge back to the main menu */
+const guestViewEl=document.getElementById('guestView');
+if(guestViewEl && !guestViewEl.dataset.backSwipeBound){
+  guestViewEl.dataset.backSwipeBound='1';
+  let chatSwipeStartX=0;
+  let chatSwipeStartY=0;
+  guestViewEl.addEventListener('touchstart',e=>{
+    const t=e.touches[0];
+    if(!t)return;
+    chatSwipeStartX=t.clientX;
+    chatSwipeStartY=t.clientY;
+  },{passive:true});
+  guestViewEl.addEventListener('touchend',e=>{
+    const t=e.changedTouches[0];
+    if(!t)return;
+    const dx=t.clientX-chatSwipeStartX;
+    const dy=t.clientY-chatSwipeStartY;
+    if(chatSwipeStartX<=40 && dx>70 && Math.abs(dx)>Math.abs(dy)*1.2){
+      switchTab('games');
+    }
+  },{passive:true});
+}
+
   document.getElementById('categoryBack').addEventListener('click',returnToMainMenu);
 
   const GAME_LINKS = {
