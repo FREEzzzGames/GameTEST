@@ -1225,3 +1225,24 @@ html,body{
   .space-layer,.space-clusters,.space-comets,.space-asteroids{animation:none!important}
   .space-comets::before,.space-comets::after,.space-asteroids::before,.space-asteroids::after{animation:none!important;opacity:0!important}
 }
+
+
+/* Final flight tuning: the original star pseudo-layer becomes atmosphere;
+   the 50-depth field above is the actual moving star volume. */
+.portal::before{
+  background:
+    radial-gradient(ellipse at 50% 20%,rgba(55,125,195,.12),transparent 42%),
+    radial-gradient(ellipse at 12% 70%,rgba(30,110,180,.07),transparent 34%),
+    radial-gradient(ellipse at 88% 62%,rgba(80,55,180,.06),transparent 36%);
+  animation:none!important;
+  opacity:.75;
+  transform:none!important;
+}
+.portal::after{
+  animation:freezzzGridFlight 2.35s linear infinite!important;
+  opacity:.34;
+}
+@keyframes freezzzGridFlight{
+  from{transform:perspective(520px) rotateX(64deg) translateY(18%)}
+  to{transform:perspective(520px) rotateX(64deg) translateY(30%)}
+}
