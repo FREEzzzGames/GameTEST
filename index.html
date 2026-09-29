@@ -429,10 +429,12 @@ body{
   .category-list{
     display:grid!important;
     grid-template-columns:repeat(2,minmax(0,1fr));
-    align-content:start;
-    gap:6px!important;
+    grid-template-rows:repeat(3,minmax(0,1fr));
+    align-content:stretch;
+    align-items:stretch;
+    gap:8px!important;
   }
-  .category-item{min-height:54px!important}
+  .category-item{height:auto!important;min-height:54px!important;align-self:stretch}
 }
 
 </style>
