@@ -37,7 +37,7 @@
 
 
 
-window.addEventListener('DOMContentLoaded', () => {
+(() => {
   const telegram = window.Telegram?.WebApp || null;
   const tg = telegram ? {
     initData: telegram.initData || "",
@@ -983,4 +983,4 @@ window.addEventListener('DOMContentLoaded', () => {
     openRadioPanel,
     closeRadioPanel
   };
-});
+})();
