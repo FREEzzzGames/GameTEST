@@ -12,7 +12,7 @@ Platform.configure();
 Platform.ready();
 Platform.expand();
 
-await import("./portal.js");
+import "./portal.js";
 
 setNavigationBridge((screen, params)=>{
   const legacy=window.FZG.legacy;
