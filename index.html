@@ -170,7 +170,7 @@ h1{color:var(--tg-text);font-size:30px; margin: 2px 0 0; text-shadow: 2px 2px #e
 #guestView .chat-auth-state { flex-shrink:0; }
 
 /* МОДАЛЬНОЕ ОКНО КОЛЛЕКЦИИ АВАТАРОВ */
-.modal-overlay { position: absolute; inset: 0; background: rgba(2,3,11,0.88); z-index: 100; display: flex; justify-content: center; align-items: center; padding: 15px; }
+.modal-overlay { position: absolute; inset: 0; background: rgba(2,3,11,0.88); z-index: 140; display: flex; justify-content: center; align-items: center; padding: 15px; }
 .modal-card { background: var(--tg-surface); border: 2px solid var(--tg-blue); border-radius: 12px; width: 100%; max-width: 340px; padding: 14px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.9); display: flex; flex-direction: column; gap: 8px; }
 .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-height: 200px; overflow-y: auto; padding: 2px; }
 .avatar-item { aspect-ratio: 1/1; background:var(--tg-btn); border:1px solid var(--tg-border); border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 22px; cursor: pointer; }
@@ -918,7 +918,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     if(!data)data={id:String(target||""),avatar:"👾",name:"Игрок",username:"",stats:{portalSeconds:0,gameSeconds:0,gameLaunches:0,messagesSent:0,chatSeconds:0,activeDays:[]}};
     profileTargetId=String(data.id||target||playerId);
-    document.getElementById("playerProfileAvatar").textContent=(isSelf?currentAvatar:(data.avatar||"👾"));
+    const profileAvatarBtn=document.getElementById("playerProfileAvatar");
+    profileAvatarBtn.textContent=(isSelf?currentAvatar:(data.avatar||"👾"));
+    profileAvatarBtn.disabled=!isSelf;
+    profileAvatarBtn.setAttribute("aria-disabled",String(!isSelf));
+    profileAvatarBtn.title=isSelf ? "Avatar Loadout" : "Avatar";
     document.getElementById("playerProfileName").textContent=data.name||data.username||"Игрок";
     document.getElementById("playerProfileUsername").textContent=data.username||"";
     const s=data.stats||{};
