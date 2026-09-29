@@ -924,7 +924,7 @@
     if(!category)return;
     currentCategory=category;
     categoryGameIndex=0;
-    document.getElementById('categoryList').classList.add('hidden');
+    document.getElementById('categoryList').classList.remove('hidden');
     document.getElementById('categoryView').classList.remove('hidden');
     document.getElementById('categoryHeadTitle').textContent=categoryText(category.id);
     renderCategoryCarousel();
