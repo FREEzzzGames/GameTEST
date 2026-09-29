@@ -17,8 +17,13 @@
       if(tgApp){
         if(typeof tgApp.ready === "function") tgApp.ready();
         if(typeof tgApp.expand === "function") tgApp.expand();
-        if(typeof tgApp.setHeaderColor === "function") tgApp.setHeaderColor(getComputedStyle(document.documentElement).getPropertyValue("--tg-surface").trim());
-        if(typeof tgApp.setBackgroundColor === "function") tgApp.setBackgroundColor(getComputedStyle(document.documentElement).getPropertyValue("--tg-bg").trim());
+        const theme=tgApp.themeParams||{};
+        const header=theme.header_bg_color||theme.bg_color||getComputedStyle(document.documentElement).getPropertyValue("--tg-surface").trim();
+        const background=theme.bg_color||getComputedStyle(document.documentElement).getPropertyValue("--tg-bg").trim();
+        if(typeof tgApp.setHeaderColor === "function") tgApp.setHeaderColor(header);
+        if(typeof tgApp.setBackgroundColor === "function") tgApp.setBackgroundColor(background);
+        document.documentElement.style.setProperty("--telegram-header-color",header);
+        document.documentElement.style.setProperty("--telegram-bg-color",background);
         const h = tgApp.viewportHeight || tgApp.viewportStableHeight;
         if(h) document.documentElement.style.setProperty("--tg-viewport-height", h + "px");
       }
@@ -33,11 +38,23 @@
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  const tg = {
+  const telegram = window.Telegram?.WebApp || null;
+  const tg = telegram ? {
+    initData: telegram.initData || "",
+    ready(){ telegram.ready?.(); },
+    expand(){ telegram.expand?.(); },
+    openLink(url){ telegram.openLink?.(url); },
+    HapticFeedback: telegram.HapticFeedback,
+    async authenticate(){
+      const user = telegram.initDataUnsafe?.user;
+      return user ? {user} : {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}};
+    }
+  } : {
     initData: "browser-test",
     ready(){},
     expand(){},
     openLink(url){ window.open(url, "_blank", "noopener,noreferrer"); },
+    HapticFeedback: null,
     async authenticate(){ return {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}}; }
   };
 
