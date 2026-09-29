@@ -139,6 +139,54 @@
   };
   const categoryText=(id)=>CATEGORY_TEXT[id]?.[currentLang]||id;
 
+  const ACTION_HINTS={
+    profile:{title:{ru:"ПРОФИЛЬ",de:"PROFIL",en:"PROFILE"},text:{ru:"Нажми сюда, чтобы открыть свою карточку игрока.",de:"Tippe hier, um deine Spielerkarte zu öffnen.",en:"Tap here to open your player card."}},
+    avatar:{title:{ru:"АВАТАР",de:"AVATAR",en:"AVATAR"},text:{ru:"Открой коллекцию и выбери собранную аватарку.",de:"Öffne deine Sammlung und wähle einen gesammelten Avatar.",en:"Open your collection and choose a collected avatar."}},
+    achievements:{title:{ru:"АЧИВКИ",de:"ERFOLGE",en:"ACHIEVEMENTS"},text:{ru:"Здесь находятся твои достижения и прогресс.",de:"Hier findest du deine Erfolge und deinen Fortschritt.",en:"Your achievements and progress are here."}},
+    radio:{title:{ru:"РАДИО",de:"RADIO",en:"RADIO"},text:{ru:"Нажми, чтобы открыть панель Techno.FM.",de:"Tippe, um das Techno.FM-Panel zu öffnen.",en:"Tap to open the Techno.FM panel."}},
+    language:{title:{ru:"ЯЗЫК",de:"SPRACHE",en:"LANGUAGE"},text:{ru:"Переключай RU / DE / EN одним нажатием.",de:"Wechsle mit einem Tippen zwischen RU / DE / EN.",en:"Switch between RU / DE / EN with one tap."}},
+    chat:{title:{ru:"FREEzzzyChat",de:"FREEzzzyChat",en:"FREEzzzyChat"},text:{ru:"Открой чат портала.",de:"Öffne den Portal-Chat.",en:"Open the portal chat."}},
+    chatRooms:{title:{ru:"РАЗДЕЛЫ ЧАТА",de:"CHAT-BEREICHE",en:"CHAT ROOMS"},text:{ru:"Выбирай комнату здесь: основная, игры, отдых или личные сообщения.",de:"Wähle hier einen Bereich: Hauptchat, Spiele, Pause oder Privatnachrichten.",en:"Choose a room: main, games, relax or private messages."}},
+    chatMessage:{title:{ru:"СООБЩЕНИЕ",de:"NACHRICHT",en:"MESSAGE"},text:{ru:"Напиши сообщение и отправь его кнопкой справа.",de:"Schreibe eine Nachricht und sende sie mit der Taste rechts.",en:"Write a message and send it with the button on the right."}},
+    category:{title:{ru:"КАТЕГОРИЯ",de:"KATEGORIE",en:"CATEGORY"},text:{ru:"Нажми на категорию, чтобы открыть её игры.",de:"Tippe auf eine Kategorie, um ihre Spiele zu öffnen.",en:"Tap a category to open its games."}},
+    game:{title:{ru:"ИГРА",de:"SPIEL",en:"GAME"},text:{ru:"Свайпай карточки влево или вправо. Нажми на активную карточку, чтобы открыть игру.",de:"Wische nach links oder rechts. Tippe auf die aktive Karte, um das Spiel zu öffnen.",en:"Swipe left or right. Tap the active card to open the game."}},
+    back:{title:{ru:"НАЗАД",de:"ZURÜCK",en:"BACK"},text:{ru:"Вернись к списку категорий этой кнопкой.",de:"Mit dieser Taste kommst du zur Kategorienliste zurück.",en:"Use this button to return to the category list."}}
+  };
+  const ACTION_HINT_ORDER=["profile","avatar","achievements","radio","language","chat","chatRooms","chatMessage","category","game","back"];
+  const ACTION_HINT_DONE_KEY="freezzzActionHintsV1";
+  let actionHintId=null;
+  function actionHintDone(){try{return JSON.parse(localStorage.getItem(ACTION_HINT_DONE_KEY)||"{}")}catch(e){return {}}}
+  function actionHintIsDone(id){return !!actionHintDone()[id]}
+  function actionHintMarkDone(id){const s=actionHintDone();s[id]=true;try{localStorage.setItem(ACTION_HINT_DONE_KEY,JSON.stringify(s))}catch(e){}}
+  function actionHintTargetVisible(el){if(!el||el.classList.contains("hidden"))return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth}
+  function positionActionHint(){
+    if(!actionHintId)return;
+    const target=document.querySelector("[data-action-hint-target='"+actionHintId+"']");
+    const marker=document.getElementById("actionHintTarget"),card=document.getElementById("actionHintCard");
+    if(!target||!marker||!card||!actionHintTargetVisible(target))return;
+    const r=target.getBoundingClientRect(),x=Math.max(25,Math.min(innerWidth-25,r.left+r.width/2));
+    marker.style.left=x+"px";marker.style.top=Math.max(25,Math.min(innerHeight-25,r.top+r.height/2))+"px";
+    const gap=14,cw=Math.min(290,innerWidth-28),ch=card.offsetHeight||92;
+    let top=r.bottom+gap;if(top+ch>innerHeight-10)top=r.top-ch-gap;if(top<10)top=10;
+    card.style.left=Math.max(14,Math.min(innerWidth-cw-14,x-cw/2))+"px";card.style.top=top+"px";
+  }
+  function hideActionHint(){actionHintId=null;document.getElementById("actionHintLayer")?.classList.add("hidden")}
+  function showActionHint(id){
+    const d=ACTION_HINTS[id],layer=document.getElementById("actionHintLayer"),target=document.querySelector("[data-action-hint-target='"+id+"']");
+    if(!d||!layer||!target||actionHintIsDone(id)||!actionHintTargetVisible(target))return false;
+    actionHintId=id;
+    document.getElementById("actionHintTitle").textContent=d.title[currentLang]||d.title.en;
+    document.getElementById("actionHintText").textContent=d.text[currentLang]||d.text.en;
+    layer.classList.remove("hidden");requestAnimationFrame(positionActionHint);return true;
+  }
+  function showNextActionHint(){hideActionHint();for(const id of ACTION_HINT_ORDER){if(!actionHintIsDone(id)&&showActionHint(id))return}}
+  function completeActionHint(id){if(!actionHintIsDone(id)){actionHintMarkDone(id);if(actionHintId===id)hideActionHint()}}
+  function refreshActionHint(){if(actionHintId)requestAnimationFrame(positionActionHint)}
+  document.getElementById("actionHintClose")?.addEventListener("click",hideActionHint);
+  window.addEventListener("resize",refreshActionHint,{passive:true});
+  window.addEventListener("orientationchange",()=>setTimeout(refreshActionHint,100),{passive:true});
+
+
   function applyLanguage(){
     const L=LANG[currentLang];
     const staticText={
@@ -190,6 +238,7 @@
   }
 
   document.getElementById("langToggleBtn").addEventListener("click",()=>{
+    completeActionHint("language");
     currentLang=LANGS[(LANGS.indexOf(currentLang)+1)%LANGS.length];
     localStorage.setItem("freezzzLang",currentLang);
     applyLanguage(); haptic();
@@ -371,8 +420,8 @@
     if(dmBtn){const other=profileTargetId && profileTargetId!==playerId && chatAuthorized;dmBtn.classList.toggle("hidden",!other);}
     id.classList.remove("hidden");
   }
-  function closePlayerProfile(){const el=document.getElementById("playerProfileOverlay");if(el)el.classList.add("hidden");}
-  function openPlayerProfile(target){syncTelegramIdentity();renderPlayerProfile(target||playerId);haptic();}
+  function closePlayerProfile(){const el=document.getElementById("playerProfileOverlay");if(el)el.classList.add("hidden");setTimeout(showNextActionHint,80);}
+  function openPlayerProfile(target){completeActionHint("profile");syncTelegramIdentity();renderPlayerProfile(target||playerId);haptic();}
   document.getElementById("playerProfileMessageBtn").addEventListener("click",()=>{if(profileTargetId&&profileTargetId!==playerId){closePlayerProfile();switchTab("guest");setTimeout(()=>openDm(profileTargetId),0);}});
 
   document.getElementById("userNameTxt").addEventListener("click",()=>openPlayerProfile(playerId));
@@ -514,14 +563,15 @@
     loadDmList();
   }
 
-  document.querySelectorAll(".chat-room-tab").forEach(b=>b.addEventListener("click",()=>b.dataset.room==="dm"?selectDmMode():selectChatRoom(b.dataset.room)));
+  document.querySelectorAll(".chat-room-tab").forEach(b=>b.addEventListener("click",()=>{completeActionHint("chatRooms");b.dataset.room==="dm"?selectDmMode():selectChatRoom(b.dataset.room);}));
   document.getElementById("chatBackBtn").addEventListener("click",()=>switchTab("games"));
   document.getElementById("chatRefreshBtn").addEventListener("click",()=>activeDmUserId?openDm(activeDmUserId):chatRoom?loadMessages():loadDmList());
   document.getElementById("dmBackBtn").addEventListener("click",selectDmMode);
-  document.getElementById("sendMsgBtn").addEventListener("click",()=>activeDmUserId?sendDmMessage():sendChatMessage());
+  document.getElementById("sendMsgBtn").addEventListener("click",()=>{completeActionHint("chatMessage");activeDmUserId?sendDmMessage():sendChatMessage();});
   document.getElementById("guestInput").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("sendMsgBtn").click();});
 
   async function openChatPanel(){
+    completeActionHint("chat");
     const ok=await authorizeChat();
     if(ok){selectChatRoom(chatRoom);}
   }
@@ -556,6 +606,7 @@
   if (avatarEmojiEl) avatarEmojiEl.textContent = currentAvatar;
 
   function openAvatarModal() {
+    completeActionHint("avatar");
     haptic();
     const grid = document.getElementById('avatarGrid');
     if (grid) {
@@ -574,16 +625,19 @@
 
   function closeAvatarModal() {
     haptic();
+    setTimeout(showNextActionHint,80);
     document.getElementById('avatarModal').classList.add('hidden');
   }
 
   function openAchievementsModal(){
+    completeActionHint("achievements");
     haptic();
     document.getElementById('achievementsModal')?.classList.remove('hidden');
   }
 
   function closeAchievementsModal(){
     haptic();
+    setTimeout(showNextActionHint,80);
     document.getElementById('achievementsModal')?.classList.add('hidden');
   }
 
@@ -643,12 +697,14 @@
   }
 
   function openRadioPanel(){
+    completeActionHint("radio");
     radioOverlay?.classList.remove("hidden");
     setRadioStatus(radioAudio?.paused!==false?"PLAYING • TECHNO.FM 320K":"STOPPED");
   }
 
   function closeRadioPanel(){
     radioOverlay?.classList.add("hidden");
+    setTimeout(showNextActionHint,80);
   }
 
   // Верхняя кнопка только открывает радио-бар. Она не управляет воспроизведением.
@@ -677,6 +733,7 @@
     if(chatTab) chatTab.classList.toggle('active', tab==='guest');
     if(tab==='games'){
       showCategoryList(false);
+      setTimeout(showNextActionHint,120);
     }else if(tab==='guest'){
       markChatSeen();
       openChatPanel();
@@ -767,6 +824,7 @@
   }
 
   function openCategory(categoryId){
+    completeActionHint("category");
     const category=CATEGORIES.find(c=>c.id===categoryId);
     window.FZG?.state?.set?.({screen:'category', categoryId});
     if(!category)return;
@@ -783,7 +841,7 @@
     const list=document.getElementById('categoryList');
     list.innerHTML=CATEGORIES.map(c=>{
       const count=c.ids.length;
-      return '<button class="category-item" data-category="'+c.id+'">'+
+      return '<button class="category-item" data-category="'+c.id+'" data-action-hint-target="category">'+
         '<span class="category-icon">'+c.icon+'</span>'+
         '<span class="category-copy"><span class="category-name">'+categoryText(c.id)+'</span><span class="category-count">'+count+' '+(count===1?tr('oneGame'):tr('gamesCount'))+'</span></span>'+
         '<span class="category-arrow">›</span>'+
@@ -848,7 +906,7 @@
       if(offset===0)cls='game-card is-active';
       else if(offset===-1)cls='game-card is-prev';
       else if(offset===1)cls='game-card is-next';
-      return '<div class="'+cls+'" data-carousel-game="'+g.id+'">'+
+      return '<div class="'+cls+'" data-carousel-game="'+g.id+'" '+(offset===0?'data-action-hint-target="game"':'')+'>'+
         '<div class="game-card-art">'+
           '<img class="game-card-logo" src="'+gameLogoUrl(g.id)+'" alt="'+g.title.replace(/"/g,'&quot;')+'" loading="eager" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">'+
           '<span class="game-card-logo-fallback" style="display:none">'+g.emoji+'</span>'+        '</div>'+
@@ -907,7 +965,7 @@
   
 
 /* CHAT BACK — explicit in-app control; no edge-swipe so Telegram/Android system navigation stays untouched */
-  document.getElementById('categoryBack').addEventListener('click',returnToMainMenu);
+  document.getElementById('categoryBack').addEventListener('click',()=>{completeActionHint("back");returnToMainMenu();});
 
   const GAME_LINKS = {
     "deepsea":"https://neal.fun/deep-sea/",
@@ -954,6 +1012,7 @@
     "helicopter":"https://www.gamesloth.com/arcade/helicopter/",
   };
   function openExternal(url) {
+    completeActionHint("game");
     if (!url) return;
     haptic();
     const gameId=Object.keys(GAME_LINKS).find(k=>GAME_LINKS[k]===url);
@@ -981,6 +1040,7 @@
     }
   }
   bootPortal();
+  setTimeout(showNextActionHint,350);
 
   // Public bridge for the new application shell. Existing feature functions remain intact.
   window.FZG = window.FZG || {};
