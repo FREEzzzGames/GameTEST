@@ -6,6 +6,28 @@ const ALLOW_ORIGIN=process.env.ALLOW_ORIGIN||'*';
 const POLL_MS=Math.max(300000,Number(process.env.YOUTUBE_POLL_MS||300000));
 const API='https://www.googleapis.com/youtube/v3';
 
+const DEFAULT_STREAMER_REGISTRY=[
+  {"id":"woodskiyded","platform":"youtube","handle":"@woodskiyded","name":"Вудский Дед","avatar":"🎮","category":"MLBB"},
+  {"id":"smetanaml","platform":"youtube","handle":"@smetanaml","name":"СМЕТАНА","avatar":"🎮","category":"MLBB"},
+  {"id":"titamin1","platform":"youtube","handle":"@titamin1","name":"ТИТАМИН","avatar":"🎮","category":"MLBB"},
+  {"id":"dreadztv","platform":"youtube","handle":"@DreadzTV","name":"Dread","avatar":"🎮","category":"Dota 2"},
+  {"id":"stray228","platform":"youtube","handle":"@stray228","name":"Stray228","avatar":"🎮","category":"Dota 2"},
+  {"id":"rostikfacekid","platform":"youtube","handle":"@rostikfacekid","name":"rostikfacekid","avatar":"🎮","category":"Dota 2"},
+  {"id":"bratishkinoff","platform":"youtube","handle":"@bratishkinoff","name":"bratishkinoff","avatar":"🎮","category":"Minecraft"},
+  {"id":"deepins02","platform":"youtube","handle":"@DEEPINSSTREAM","name":"deepins02","avatar":"🎮","category":"Minecraft"},
+  {"id":"t2x2","platform":"youtube","handle":"@T2x2","name":"T2x2","avatar":"🎮","category":"Minecraft"},
+  {"id":"marmok","platform":"youtube","handle":"@Marmok","name":"Marmok","avatar":"🎮","category":"Разное"},
+  {"id":"zubarefff","platform":"youtube","handle":"@zubarefff11","name":"Зубарев","avatar":"🎮","category":"Разное"},
+  {"id":"mlbb-esports","platform":"youtube","handle":"@MLBBEsports","name":"MLBB eSports","avatar":"🏆","category":"MLBB резерв","reserve":true},
+  {"id":"mobile-legends","platform":"youtube","handle":"@MobileLegends5v5MOONTON","name":"Mobile Legends: Bang Bang","avatar":"🏆","category":"MLBB резерв","reserve":true},
+  {"id":"dota2","platform":"youtube","handle":"@dota2","name":"Dota 2","avatar":"🏆","category":"Dota 2 резерв","reserve":true},
+  {"id":"noobfromua","platform":"youtube","handle":"@NoobFromUA","name":"NoobFromUA","avatar":"🎮","category":"Dota 2 резерв","reserve":true},
+  {"id":"minecraft","platform":"youtube","handle":"@minecraft","name":"Minecraft","avatar":"🏆","category":"Minecraft резерв","reserve":true},
+  {"id":"esportsbattle","platform":"youtube","handle":"@EsportsBattle","name":"ESportsBattle | eFootball","avatar":"🏆","category":"EA/eFootball резерв","reserve":true},
+  {"id":"fifa","platform":"youtube","handle":"@easportsfc","name":"FIFA / EA SPORTS FC","avatar":"🏆","category":"EA/FIFA резерв","reserve":true},
+  {"id":"nasa-live","platform":"youtube","handle":"@NASA","name":"NASA Live","avatar":"🚀","category":"Космос • Наука"}
+];
+
 app.use((req,res,next)=>{
   res.setHeader('Access-Control-Allow-Origin',ALLOW_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods','GET,OPTIONS');
@@ -15,11 +37,19 @@ app.use((req,res,next)=>{
 });
 
 function registry(){
-  try{return JSON.parse(process.env.STREAMER_REGISTRY||'[]')}
-  catch{return[]}
+  let configured=[];
+  try{
+    const parsed=JSON.parse(process.env.STREAMER_REGISTRY||'[]');
+    if(Array.isArray(parsed))configured=parsed;
+  }catch{}
+  const map=new Map(DEFAULT_STREAMER_REGISTRY.map(x=>[x.id,x]));
+  for(const x of configured){
+    if(x?.id)map.set(x.id,x);
+  }
+  return [...map.values()];
 }
 
-let cache={streamers:[],updatedAt:null,lastError:null};
+let cache={streamers:registry().map(x=>({...x,live:false,sources:[]})),updatedAt:null,lastError:null};
 let busy=false;
 const channelCache=new Map();
 
@@ -164,4 +194,4 @@ app.get('/api/streamers',(req,res)=>res.json({streamers:registry()}));
 update();
 setInterval(update,POLL_MS);
 
-app.listen(PORT,()=>console.log('FREEzzzGames YouTube Live Monitor listening on '+PORT+' poll='+POLL_MS));
+app.listen(PORT,()=>console.log('FREEzzzGames YouTube Live Monitor listening on '+PORT+' poll='+POLL_MS+' registry='+registry().length));
