@@ -302,6 +302,23 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
   .header-top .always-btn.home{font-size:14px}
   .header-top .always-btn.lang{font-size:8px}
 }
+
+/* FINAL POINT FIX — top row: nickname-sized profile + chat fills remaining space */
+.header-top{grid-template-columns:auto minmax(0,1fr)}
+.header-top .profile-box{width:max-content;max-width:100%}
+.header-top .header-chat-btn{width:100%;min-width:0;justify-self:stretch}
+@media(min-width:421px){
+  .header-top{grid-template-columns:auto minmax(0,1fr) auto}
+  .header-top .header-chat-btn{width:100%;justify-self:stretch}
+}
+@media(max-width:420px){
+  .header-top{grid-template-columns:auto minmax(0,1fr)}
+  .header-top .header-chat-btn{width:100%;justify-self:stretch}
+}
+@media(max-width:340px){
+  .header-top{grid-template-columns:auto minmax(0,1fr)}
+}
+
 </style>
 <link rel="stylesheet" href="./css/portal-cyber.css">
 <!-- pages-redeploy -->
