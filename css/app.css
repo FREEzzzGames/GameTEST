@@ -40,15 +40,45 @@ body{
   width:100%;height:var(--tg-viewport-stable-height,100dvh);max-width:none;max-height:none;
   text-align:center;display:flex;flex-direction:column;gap:6px;
   overflow-y:auto;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:10;
-  background-color:#050505;
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20180%20120%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22b%22%20x%3D%22-20%25%22%20y%3D%22-20%25%22%20width%3D%22140%25%22%20height%3D%22140%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222.8%22%2F%3E%3C%2Ffilter%3E%3CradialGradient%20id%3D%22g%22%20cx%3D%2250%25%22%20cy%3D%2250%25%22%20r%3D%2270%25%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffffff%22%20stop-opacity%3D%22.16%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23ffffff%22%20stop-opacity%3D%22.04%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23000000%22%20stop-opacity%3D%22.22%22%2F%3E%3C%2FradialGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22180%22%20height%3D%22120%22%20fill%3D%22%23020202%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.62%22%20filter%3D%22url(%23b)%22%3E%3Cpath%20d%3D%22M-8-12%20C28%2012%2028%2058%20-8%20132%22%2F%3E%3Cpath%20d%3D%22M22-12%20C58%2012%2058%2058%2022%20132%22%2F%3E%3Cpath%20d%3D%22M52-12%20C88%2012%2088%2058%2052%20132%22%2F%3E%3Cpath%20d%3D%22M82-12%20C118%2012%20118%2058%2082%20132%22%2F%3E%3Cpath%20d%3D%22M112-12%20C148%2012%20148%2058%20112%20132%22%2F%3E%3Cpath%20d%3D%22M142-12%20C178%2012%20178%2058%20142%20132%22%2F%3E%3Cpath%20d%3D%22M172-12%20C208%2012%20208%2058%20172%20132%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23f7f7f7%22%20stroke-width%3D%221.15%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.34%22%3E%3Cpath%20d%3D%22M-8-12%20C28%2012%2028%2058%20-8%20132%22%2F%3E%3Cpath%20d%3D%22M22-12%20C58%2012%2058%2058%2022%20132%22%2F%3E%3Cpath%20d%3D%22M52-12%20C88%2012%2088%2058%2052%20132%22%2F%3E%3Cpath%20d%3D%22M82-12%20C118%2012%20118%2058%2082%20132%22%2F%3E%3Cpath%20d%3D%22M112-12%20C148%2012%20148%2058%20112%20132%22%2F%3E%3Cpath%20d%3D%22M142-12%20C178%2012%20178%2058%20142%20132%22%2F%3E%3Cpath%20d%3D%22M172-12%20C208%2012%20208%2058%20172%20132%22%2F%3E%3C%2Fg%3E%3Crect%20width%3D%22180%22%20height%3D%22120%22%20fill%3D%22url(%23g)%22%2F%3C%2Fsvg%3E");
-  background-size:360px 240px;
-  background-position:center;
-  background-repeat:repeat;
-  border:0;
-  border-radius:0;box-shadow:none;
-  position:relative;
+  background:
+    radial-gradient(ellipse at 50% 18%,rgba(37,94,150,.20) 0%,rgba(13,30,58,.12) 22%,transparent 52%),
+    radial-gradient(ellipse at 15% 72%,rgba(0,120,180,.10) 0%,transparent 38%),
+    radial-gradient(ellipse at 88% 62%,rgba(88,42,180,.09) 0%,transparent 40%),
+    linear-gradient(180deg,#050b16 0%,#02050b 48%,#010204 100%);
+  border:0;border-radius:0;box-shadow:none;
+  position:relative;isolation:isolate;
 }
+.portal::before{
+  content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(circle at 8% 14%,rgba(255,255,255,.70) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 23% 31%,rgba(120,190,255,.55) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 41% 11%,rgba(255,255,255,.50) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 63% 27%,rgba(150,220,255,.60) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 82% 12%,rgba(255,255,255,.55) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 92% 39%,rgba(120,190,255,.48) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 14% 58%,rgba(255,255,255,.42) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 35% 72%,rgba(150,220,255,.45) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 57% 56%,rgba(255,255,255,.48) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 76% 78%,rgba(120,190,255,.45) 0 1px,transparent 1.6px),
+    radial-gradient(circle at 94% 88%,rgba(255,255,255,.38) 0 1px,transparent 1.5px);
+  background-size:100% 100%;
+  filter:blur(.15px);
+  opacity:.72;
+}
+.portal::after{
+  content:"";position:absolute;left:-20%;right:-20%;bottom:-8%;height:58%;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(rgba(65,150,220,.09) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(65,150,220,.09) 1px,transparent 1px);
+  background-size:34px 34px;
+  transform:perspective(520px) rotateX(64deg) translateY(22%);
+  transform-origin:center bottom;
+  mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent 78%);
+  -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent 78%);
+  opacity:.48;
+}
+.portal>*{position:relative;z-index:1}
 .hidden { display: none !important; }
 
 /* ШАПКА ПОРТАЛА */
