@@ -22,7 +22,7 @@ let busy=false;
 
 function youtubeUsers(list){
   return list
-    .filter(x=>x.platform==='youtube'&&x.channelId)
+    .filter(x=>x.platform==='youtube'&&(x.channelId||x.handle))
     .slice(0,50);
 }
 
@@ -35,9 +35,20 @@ async function youtube(list){
   const result=[];
   for(const x of users){
     try{
+      let channelId=x.channelId||'';
+      if(!channelId&&x.handle){
+        const cr=new URL('https://www.googleapis.com/youtube/v3/channels');
+        cr.searchParams.set('part','id');
+        cr.searchParams.set('forHandle',String(x.handle).replace(/^@/,''));
+        cr.searchParams.set('maxResults','1');
+        cr.searchParams.set('key',key);
+        const rr=await fetch(cr);
+        if(rr.ok){const cd=await rr.json();channelId=cd.items?.[0]?.id||'';}
+      }
+      if(!channelId){result.push({...x,live:false,sources:[]});continue;}
       const url=new URL('https://www.googleapis.com/youtube/v3/search');
       url.searchParams.set('part','snippet');
-      url.searchParams.set('channelId',x.channelId);
+      url.searchParams.set('channelId',channelId);
       url.searchParams.set('eventType','live');
       url.searchParams.set('type','video');
       url.searchParams.set('maxResults','1');
@@ -67,7 +78,7 @@ async function youtube(list){
         }]:[]
       });
     }catch(e){
-      console.error('YouTube monitor failed for '+x.channelId,e);
+      console.error('YouTube monitor failed for '+(x.handle||x.channelId),e);
       result.push({...x,live:false,sources:[]});
     }
   }
