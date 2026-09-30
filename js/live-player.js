@@ -33,7 +33,7 @@ export function createLivePlayer({mount, onBack, haptic, openExternal}){
 
     const url=externalUrl(channel);
     mount.innerHTML =
-      '<div class="live-video-window live-video-external" aria-expanded="false">'+
+      '<div class="live-video-window live-video-external'+(expanded?" is-expanded":"")+'" aria-expanded="'+(expanded?"true":"false")+'">'+
         '<div class="live-video-head">'+
           '<strong><span class="live-dot"></span> '+escapeHtml(channel.name)+'</strong>'+
           '<div class="live-video-actions">'+
@@ -104,6 +104,7 @@ export function createLivePlayer({mount, onBack, haptic, openExternal}){
     const src=liveEmbedUrl(channel);
     if(!src){
       expanded=!!options.preserveExpanded && expanded;
+      document.body.classList.toggle("live-video-expanded",expanded);
       renderExternal(channel);
       return;
     }
