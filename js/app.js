@@ -60,18 +60,25 @@ async function bootPortalModule(){
 function syncTelegramBackButton(){
   const tg=Platform.telegram();
   if(!tg?.BackButton)return;
+
   const sync=()=>{
     const screen=getState().screen;
-    if(screen==="home") tg.BackButton.hide?.();
+    const liveOverlayOpen=!!window.FZG.live?.getState?.().overlayOpen;
+    if(screen==="home" && !liveOverlayOpen) tg.BackButton.hide?.();
     else tg.BackButton.show?.();
   };
+
   tg.BackButton.onClick?.(()=>{
+    if(window.FZG.live?.back?.()) return;
+
     const legacy=window.FZG.legacy;
     const screen=getState().screen;
     if(screen==="chat") legacy?.switchTab?.("games");
     else if(screen==="category") legacy?.returnToMainMenu?.();
     else back();
   });
+
+  window.addEventListener("freezzz:live-overlay", sync);
   sync();
   subscribe(sync);
 }
