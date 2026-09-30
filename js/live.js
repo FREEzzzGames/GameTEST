@@ -1,4 +1,4 @@
-import { directSources } from "./live-data/channels.js?v=20260930f";
+import { directSources } from "./live-data/channels.js?v=20260930g";
 
 (() => {
 "use strict";
