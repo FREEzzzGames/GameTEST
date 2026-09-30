@@ -207,8 +207,12 @@ function list(){
       const x=S.all.find(v=>v.id===b.dataset.liveListId);
       if(!x)return;
       closeList();
-      if(x.live&&x.selectedSource)select(x.id,true);
-      else offline(x);
+      // The streamer list is a profile directory. Selecting a row always opens
+      // the streamer card first; the card decides whether to offer LIVE playback.
+      streamerCard(x);
+      S.selectedId=x.id;
+      S.muted=true;
+      h();
     })
   );
 }
