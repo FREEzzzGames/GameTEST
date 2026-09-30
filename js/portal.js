@@ -92,7 +92,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
       {x:r.right+gap,y:r.top+Math.max(0,(r.height-ch)/2)},
       {x:r.left-cw-gap,y:r.top+Math.max(0,(r.height-ch)/2)}
     ];
-    const important=[...document.querySelectorAll(".portal-logo,.header-top,.chat-launch-row,.category-head,.games-carousel,.chat-layout,.footer-info")]
+    const important=[...document.querySelectorAll(".portal-logo,.header-top,.chat-launch-row,.category-head,.chat-layout,.footer-info")]
       .filter(el=>el!==target&&actionHintTargetVisible(el))
       .map(el=>el.getBoundingClientRect());
 
