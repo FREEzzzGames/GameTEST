@@ -18,16 +18,16 @@ app.use((req,res,next)=>{
 });
 
 const DEFAULT_STREAMER_REGISTRY=[
-  {"id":"woodskiyded","platform":"youtube","handle":"@woodskiyded","name":"Вудский Дед","avatar":"🎮","category":"MLBB"},
+  {"id":"woodskiyded","platform":"youtube","channelId":"UCKgQPQj9J3BUgTVci1up75A","handle":"@woodskiyded","name":"Вудский Дед","avatar":"🎮","category":"MLBB"},
   {"id":"smetanaml","platform":"youtube","handle":"@smetanaml","name":"СМЕТАНА","avatar":"🎮","category":"MLBB"},
-  {"id":"titamin1","platform":"youtube","handle":"@titamin1","name":"ТИТАМИН","avatar":"🎮","category":"MLBB"},
+  {"id":"titamin1","platform":"youtube","handle":"@Titamin","name":"ТИТАМИН","avatar":"🎮","category":"MLBB"},
   {"id":"dreadztv","platform":"youtube","handle":"@DreadzTV","name":"Dread","avatar":"🎮","category":"Dota 2"},
   {"id":"stray228","platform":"youtube","handle":"@stray228","name":"Stray228","avatar":"🎮","category":"Dota 2"},
   {"id":"rostikfacekid","platform":"youtube","handle":"@rostikfacekid","name":"rostikfacekid","avatar":"🎮","category":"Dota 2"},
   {"id":"bratishkinoff","platform":"youtube","handle":"@bratishkinoff","name":"bratishkinoff","avatar":"🎮","category":"Minecraft"},
   {"id":"deepins02","platform":"youtube","handle":"@DEEPINSSTREAM","name":"deepins02","avatar":"🎮","category":"Minecraft"},
-  {"id":"t2x2","platform":"youtube","handle":"@T2x2","name":"T2x2","avatar":"🎮","category":"Minecraft"},
-  {"id":"marmok","platform":"youtube","handle":"@Marmok","name":"Marmok","avatar":"🎮","category":"Разное"},
+  {"id":"t2x2","platform":"youtube","handle":"@T2x2_stream","name":"T2x2","avatar":"🎮","category":"Minecraft"},
+  {"id":"marmok","platform":"youtube","handle":"@MarmokLive","name":"Marmok","avatar":"🎮","category":"Разное"},
   {"id":"zubarefff","platform":"youtube","handle":"@zubarefff11","name":"Зубарев","avatar":"🎮","category":"Разное"},
   {"id":"mlbb-esports","platform":"youtube","handle":"@MLBBEsports","name":"MLBB eSports","avatar":"🏆","category":"MLBB резерв","reserve":true},
   {"id":"mobile-legends","platform":"youtube","handle":"@MobileLegends5v5MOONTON","name":"Mobile Legends: Bang Bang","avatar":"🏆","category":"MLBB резерв","reserve":true},
