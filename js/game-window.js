@@ -6,8 +6,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 (() => {
   "use strict";
 
-  const DEFAULT_GAME_ID="ancientearth";
-  const S = { mode:"game", gameId:DEFAULT_GAME_ID, open:true, expanded:false, categoryId:null, page:0 };
+  const S = { mode:"catalog", gameId:null, open:false, expanded:false, categoryId:null, page:0 };
   const PAGE_SIZE=4;
   const $=id=>document.getElementById(id);
   const byId=Object.fromEntries(GAME_CARDS.map(game=>[game.id,game]));
@@ -381,8 +380,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
       getState:()=>({...S})
     };
     bindCatalog();
-    if(DEFAULT_GAME_ID && GAME_LINKS[DEFAULT_GAME_ID]) openGame(DEFAULT_GAME_ID,{preserveFrame:true});
-    else renderCatalog();
+    renderCatalog();
   }
 
   window.addEventListener("freezzz:game-window-open-category",e=>openCategory(e.detail?.id));
