@@ -133,7 +133,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
 
   function openCategory(id){
-    if(!CATEGORIES.some(c=>c.id===id))return false;
+    if(!categoryById[id])return false;
     S.categoryId=id;
     S.page=0;
     S.mode="category";
