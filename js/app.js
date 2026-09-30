@@ -15,9 +15,10 @@ Platform.expand();
 async function bootPortalModule(){
   // LIVE must boot independently. A failure inside the large legacy portal
   // module must never prevent the LIVE module from loading and polling.
-  const [portalResult, liveResult] = await Promise.allSettled([
+  const [portalResult, liveResult, parallaxResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e4"),
-    import("./live.js?v=20260930j")
+    import("./live.js?v=20260930j"),
+    import("./parallax.js?v=20260930a")
   ]);
 
   if(portalResult.status==="fulfilled"){
@@ -37,6 +38,9 @@ async function bootPortalModule(){
     installEmergencyShell();
   }
 
+
+
+  if(parallaxResult.status==="rejected") console.warn("FREEzzzGames parallax layer unavailable",parallaxResult.reason);
   if(liveResult.status==="fulfilled"){
     window.FZG.liveModuleReady=true;
   }else{
