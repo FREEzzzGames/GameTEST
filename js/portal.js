@@ -263,8 +263,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     document.getElementById("userProfileBox")?.setAttribute("aria-label",tr("player"));
     updateActionHintsControls();
     if(currentCategory) document.getElementById("categoryHeadTitle").textContent=categoryText(currentCategory.id);
-    renderCategories();
-    if(currentCategory) renderCategoryCarousel();
+    window.FZG?.gameWindow?.setLanguage?.(currentLang);
     updateGuestEmptyState();
   }
 
@@ -878,8 +877,6 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     window.FZG?.state?.set?.({screen:"home",categoryId:null,gameId:null,modal:null});
     haptic();
   }
-  function renderCategories(){}
-  function renderCategoryCarousel(){}
   function animateIn(){}
   function openExternal(url){
     const gameId=Object.keys(GAME_LINKS).find(k=>GAME_LINKS[k]===url);
