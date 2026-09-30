@@ -403,6 +403,20 @@ function visibility() {
   }
 }
 
+function renderPlayer(channel){
+  if(channel){ openCard(channel); return true; }
+  renderBot();
+  return false;
+}
+
+function stopPlayback(){
+  S.selectedId=null;
+  S.selectedVideo=null;
+  hideOverlay();
+  renderBot();
+  return true;
+}
+
 function init() {
   if (!$("liveView")) return;
 
