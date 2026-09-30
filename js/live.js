@@ -14,7 +14,8 @@ const S = {
   all: directSources(),
   selectedId: null,
   botTimer: null,
-  botPhraseTimer: null
+  botPhraseTimer: null,
+  overlayOpen: false
 };
 
 const $ = id => document.getElementById(id);
@@ -155,16 +156,68 @@ function renderList() {
   });
 }
 
+function overlayLayer() {
+  return $("liveOverlayLayer");
+}
+
+function overlayShell() {
+  return $("liveOverlayShell");
+}
+
+function positionOverlay() {
+  const layer = overlayLayer();
+  const portal = $("mainPortal");
+  const media = $("homeMediaRow");
+  const categories = $("categoryList");
+  if (!layer || !portal || !media || !categories) return;
+
+  const portalRect = portal.getBoundingClientRect();
+  const mediaRect = media.getBoundingClientRect();
+  const categoryRect = categories.getBoundingClientRect();
+
+  const top = Math.max(0, Math.round(mediaRect.bottom - portalRect.top + 6));
+  const bottom = Math.max(0, Math.round(portalRect.bottom - categoryRect.top + 6));
+
+  layer.style.top = top + "px";
+  layer.style.bottom = bottom + "px";
+}
+
+function showOverlay() {
+  const layer = overlayLayer();
+  if (!layer) return;
+
+  positionOverlay();
+  layer.classList.remove("hidden");
+  layer.setAttribute("aria-hidden", "false");
+  S.overlayOpen = true;
+
+  window.addEventListener("resize", positionOverlay, {passive:true});
+  window.addEventListener("orientationchange", positionOverlay, {passive:true});
+}
+
+function hideOverlay() {
+  const layer = overlayLayer();
+  if (!layer) return;
+
+  layer.classList.add("hidden");
+  layer.setAttribute("aria-hidden", "true");
+  S.overlayOpen = false;
+
+  window.removeEventListener("resize", positionOverlay);
+  window.removeEventListener("orientationchange", positionOverlay);
+}
+
 function openCard(channel) {
   S.selectedId = channel.id;
   stopBotTimers();
+  showOverlay();
 
-  const main = $("liveMain");
-  if (!main) return;
+  const shell = overlayShell();
+  if (!shell) return;
 
   const url = channelUrl(channel);
 
-  main.innerHTML =
+  shell.innerHTML =
     '<div class="live-streamer-card">' +
       '<button class="live-streamer-card-close" data-live-action="card-close" type="button" aria-label="Закрыть">×</button>' +
       '<div class="live-streamer-card-avatar">' + esc(channel.avatar) + '</div>' +
@@ -175,31 +228,36 @@ function openCard(channel) {
         (url ? '<button class="live-streamer-card-channel" data-live-action="channel-open" type="button">КАНАЛ ↗</button>' : '') +
       '</div>' +
     '</div>';
+}
 
+function youtubeEmbedUrl(channel) {
+  if (!channel?.channelId) return "";
+
+  return "https://www.youtube.com/embed?listType=user_uploads&list=" +
+    encodeURIComponent(channel.channelId) +
+    "&playsinline=1&rel=0";
 }
 
 function openYouTubePanel(channel) {
-  const main = $("liveMain");
-  if (!main) return;
+  const shell = overlayShell();
+  if (!shell) return;
 
-  const url = channelUrl(channel);
+  const embedUrl = youtubeEmbedUrl(channel);
+  showOverlay();
 
-  main.innerHTML =
+  shell.innerHTML =
     '<div class="live-youtube-panel">' +
       '<div class="live-youtube-head">' +
         '<button class="live-youtube-back" data-live-action="youtube-back" type="button">‹</button>' +
-        '<div><strong>' + esc(channel.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
+        '<div><strong>' + esc(channel.name) + '</strong><small>YOUTUBE • ВНУТРИ LIVE</small></div>' +
         '<button class="live-youtube-close" data-live-action="youtube-close" type="button">×</button>' +
       '</div>' +
-      '<div class="live-youtube-body">' +
-        '<div class="live-youtube-logo">▶</div>' +
-        '<strong>Канал находится на YouTube</strong>' +
-        '<p>' + esc(channel.shortDescription || "Открой канал и выбери нужное видео или стрим.") + '</p>' +
-        '<button class="live-youtube-open" data-live-action="youtube-open" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
-        '<small class="live-youtube-note">FREEzzzGames не копирует и не хранит контент YouTube.</small>' +
+      '<div class="live-youtube-frame">' +
+        (embedUrl
+          ? '<iframe class="live-youtube-iframe" src="' + esc(embedUrl) + '" title="' + esc(channel.name) + ' — YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="eager"></iframe>'
+          : '<div class="live-youtube-unavailable"><strong>YouTube-плеер недоступен для этого канала</strong><p>Для встроенного режима нужен ID канала.</p></div>') +
       '</div>' +
     '</div>';
-
 }
 
 function handleMainAction(event) {
@@ -214,6 +272,7 @@ function handleMainAction(event) {
   if (!channel) return;
 
   if (action === "card-close") {
+    hideOverlay();
     renderBot();
     haptic();
     return;
@@ -232,14 +291,14 @@ function handleMainAction(event) {
   }
 
   if (action === "youtube-close") {
+    hideOverlay();
     renderBot();
     haptic();
     return;
   }
 
   if (action === "youtube-open") {
-    const url = channelUrl(channel);
-    if (url) window.FZG?.platform?.openLink?.(url);
+    openYouTubePanel(channel);
     haptic();
   }
 }
@@ -317,7 +376,10 @@ function syncVisibility() {
   $("liveView")?.classList.toggle("hidden", !isHome);
   $("mainPortal")?.classList.toggle("live-home-mode", isHome);
 
-  if (!isHome) closeList();
+  if (!isHome) {
+    closeList();
+    hideOverlay();
+  }
 }
 
 function init() {
@@ -331,6 +393,13 @@ function init() {
   $("liveMain")?.addEventListener("click", handleMainAction);
   $("liveListPanel")?.addEventListener("click", event => {
     if (event.target.id === "liveListPanel") closeList();
+  });
+
+  overlayLayer()?.addEventListener("click", event => {
+    if (event.target === overlayLayer()) {
+      hideOverlay();
+      renderBot();
+    }
   });
 
   window.FZG?.state?.subscribe?.(syncVisibility);
