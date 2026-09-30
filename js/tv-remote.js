@@ -1,3 +1,4 @@
+/* TV REMOTE — SHELL FOCUS: iframes are entered explicitly, never accidentally. */
 (() => {
   "use strict";
 
@@ -8,8 +9,7 @@
     "input:not([disabled])",
     "select:not([disabled])",
     "textarea:not([disabled])",
-    "[tabindex]:not([tabindex='-1'])",
-    "iframe"
+    "[tabindex]:not([tabindex='-1'])"
   ].join(",");
 
   let active=false;
@@ -207,6 +207,16 @@
     return null;
   }
 
+  function focusShell(){
+    const list=focusables();
+    if(!list.length)return false;
+    const current=document.activeElement;
+    if(current && list.includes(current) && isVisible(current))return true;
+    list[0]?.focus({preventScroll:true});
+    list[0]?.scrollIntoView?.({block:"nearest",inline:"nearest"});
+    return document.activeElement===list[0];
+  }
+
   function focusGameFrame(){
     const frame=document.getElementById("gameWindowFrame");
     if(!active||!frame)return false;
@@ -219,7 +229,8 @@
   window.FZG=window.FZG||{};
   window.FZG.tvRemote={
     isActive:()=>active,
-    focusGameFrame
+    focusGameFrame,
+    focusShell
   };
 
   document.addEventListener("mouseover",rememberPointerTarget,true);
