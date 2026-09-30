@@ -150,16 +150,12 @@ function positionOverlay(){
   const layer=overlayLayer();
   const portal=$("mainPortal");
   const media=$("homeMediaRow");
-  const lower=$("homeCategoryQuick");
   if(!layer||!portal||!media)return;
 
   const portalRect=portal.getBoundingClientRect();
   const mediaRect=media.getBoundingClientRect();
-  const lowerRect=lower?.getBoundingClientRect();
   const top=Math.max(0,Math.round(mediaRect.bottom-portalRect.top));
-  const bottom=lowerRect
-    ? Math.max(0,Math.round(portalRect.bottom-lowerRect.top))
-    : Math.max(0,Math.round(portalRect.bottom-mediaRect.bottom));
+  const bottom=Math.max(0,Math.round(portalRect.bottom-mediaRect.bottom));
 
   layer.style.top=top+"px";
   layer.style.bottom=bottom+"px";
