@@ -131,14 +131,22 @@
   }
 
   function handleKeyDown(event){
-    const key=event.key;
+    const key=String(event.key||"");
     const code=Number(event.keyCode||event.which||0);
-    const isBack=key==="Escape"||key==="BrowserBack"||code===10009;
+    const physical=String(event.code||"");
+    const isBack =
+      key==="Escape" ||
+      key==="BrowserBack" ||
+      key==="XF86Back" ||
+      key==="Back" ||
+      code===27 ||
+      code===461 ||
+      code===10009;
     const direction =
-      key==="ArrowLeft" ? "left" :
-      key==="ArrowRight" ? "right" :
-      key==="ArrowUp" ? "up" :
-      key==="ArrowDown" ? "down" : "";
+      key==="ArrowLeft" || key==="Left" || physical==="ArrowLeft" || code===37 ? "left" :
+      key==="ArrowRight" || key==="Right" || physical==="ArrowRight" || code===39 ? "right" :
+      key==="ArrowUp" || key==="Up" || physical==="ArrowUp" || code===38 ? "up" :
+      key==="ArrowDown" || key==="Down" || physical==="ArrowDown" || code===40 ? "down" : "";
 
     const target=event.target;
     if(target?.tagName?.toLowerCase()==="iframe")return;
@@ -161,7 +169,7 @@
       return;
     }
 
-    if(key==="Enter"||code===13){
+    if(key==="Enter"||key==="Return"||key==="Select"||code===13){
       activate();
       const current=document.activeElement;
       if(current && current!==document.body && isVisible(current)){
