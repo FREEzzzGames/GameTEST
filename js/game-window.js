@@ -159,8 +159,6 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     title(game.title);
     genre(game.genre||"GAME");
     emoji(game.emoji||"🎮");
-    const external=root.querySelector("[data-game-window-external]");
-    if(external)external.dataset.url=url;
 
     root.querySelector(".game-window-empty")?.classList.add("hidden");
     root.querySelector(".game-window-fallback")?.classList.add("hidden");

@@ -100,9 +100,10 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   const gameText=(id,field)=>{
     const x=GAME_TEXT[id]&&GAME_TEXT[id][currentLang];
     if(x) return field==="genre"?x[0]:x[1];
-    const g=GAME_BY_ID[id]; return field==="genre"?g.genre:g.desc;
+    const g=GAME_BY_ID[id]; return field==="genre"?g?.genre||"GAME":g?.desc||"";
   };
   const categoryText=(id)=>CATEGORY_TEXT[id]?.[currentLang]||id;
+  const GAME_BY_ID=Object.fromEntries(GAME_CARDS.map(game=>[game.id,game]));
 
   const ACTION_HINT_ORDER=["profile","avatar","achievements","radio","language","chat","chatRooms","chatMessage","category","game","back"];
   const ACTION_HINT_DONE_KEY="freezzzActionHintsV2";
@@ -262,7 +263,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     });
     document.getElementById("userProfileBox")?.setAttribute("aria-label",tr("player"));
     updateActionHintsControls();
-    if(currentCategory) document.getElementById("categoryHeadTitle").textContent=categoryText(currentCategory.id);
+    if(currentCategory) document.getElementById("categoryHeadTitle")?.replaceChildren(document.createTextNode(categoryText(currentCategory.id)));
     window.FZG?.gameWindow?.setLanguage?.(currentLang);
     updateGuestEmptyState();
   }
@@ -867,7 +868,6 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   // GAME WINDOW owns the entire game catalog. Portal keeps only compatibility bridges.
   function showCategoryList(){
     window.FZG?.gameWindow?.showCatalog?.();
-    window.dispatchEvent(new CustomEvent("freezzz:game-catalog-show"));
   }
   function openCategory(categoryId){
     return !!window.FZG?.gameWindow?.openCategory?.(categoryId);
