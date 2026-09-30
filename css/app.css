@@ -3701,3 +3701,31 @@ html, body,
     max-height:min(390px,calc(100dvh - 410px))!important;
   }
 }
+
+/* LIVE INTERACTION FIX — restore pointer events and touch scrolling after category touch layer */
+#mainPortal.live-home-mode .live-view{
+  pointer-events:auto!important;
+  touch-action:pan-y!important;
+}
+#mainPortal.live-home-mode .live-list-btn,
+#mainPortal.live-home-mode #liveListPanel,
+#mainPortal.live-home-mode #liveListPanel .live-list-drawer,
+#mainPortal.live-home-mode #liveListPanel .live-list-head,
+#mainPortal.live-home-mode #liveListPanel .live-streamer-list,
+#mainPortal.live-home-mode #liveListPanel .live-list-row,
+#mainPortal.live-home-mode #liveListPanel .live-panel-close{
+  pointer-events:auto!important;
+}
+#mainPortal.live-home-mode #liveListPanel{
+  touch-action:pan-y!important;
+}
+#mainPortal.live-home-mode #liveListPanel .live-list-drawer{
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+#mainPortal.live-home-mode #liveListPanel .live-list-row{
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
