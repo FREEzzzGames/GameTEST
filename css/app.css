@@ -3593,3 +3593,101 @@ body > #liveListPanel .live-list-row{
     font-size:8px!important;
   }
 }
+
+/* LIVE STREAMER CARD — profile view inside LIVE panel */
+#mainPortal .live-streamer-card{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  padding:12px 16px!important;
+  border-radius:10px!important;
+  background:radial-gradient(circle at 50% 35%,rgba(50,85,120,.24),rgba(11,20,32,.96) 72%)!important;
+  text-align:center!important;
+}
+#mainPortal .live-streamer-card-avatar{
+  width:42px!important;
+  height:42px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.07)!important;
+  font-size:24px!important;
+}
+#mainPortal .live-streamer-card-name{
+  max-width:90%!important;
+  font:700 14px/1.1 "Handjet",monospace!important;
+  color:#fff!important;
+}
+#mainPortal .live-streamer-card-status{
+  font:600 9px/1 "Handjet",monospace!important;
+  color:rgba(255,255,255,.72)!important;
+}
+#mainPortal .live-streamer-card-game{
+  font:500 8px/1 "Handjet",monospace!important;
+  color:rgba(255,255,255,.48)!important;
+}
+#mainPortal .live-streamer-card-text{
+  max-width:92%!important;
+  margin:5px 0 3px!important;
+  font:400 8px/1.25 "Handjet",monospace!important;
+  color:rgba(255,255,255,.55)!important;
+}
+#mainPortal .live-streamer-card-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  margin-top:2px!important;
+}
+#mainPortal .live-streamer-card-actions button,
+#mainPortal .live-streamer-card-actions a{
+  min-height:28px!important;
+  height:28px!important;
+  padding:0 9px!important;
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:7px!important;
+  background:#202b36!important;
+  color:#fff!important;
+  text-decoration:none!important;
+  font:600 8px/1 "Handjet",monospace!important;
+}
+#mainPortal .live-streamer-card-watch{
+  background:#263b4d!important;
+}
+#mainPortal .live-streamer-card-close{
+  position:absolute!important;
+  top:6px!important;
+  right:6px!important;
+  width:26px!important;
+  min-width:26px!important;
+  max-width:26px!important;
+  height:26px!important;
+  min-height:26px!important;
+  max-height:26px!important;
+  padding:0!important;
+  border-radius:7px!important;
+  font:500 15px/1 "Handjet",monospace!important;
+  z-index:5!important;
+}
+body > #liveListPanel .live-panel-close{
+  width:26px!important;
+  min-width:26px!important;
+  max-width:26px!important;
+  height:26px!important;
+  min-height:26px!important;
+  max-height:26px!important;
+  flex-basis:26px!important;
+  border-radius:7px!important;
+  font:500 14px/1 "Handjet",monospace!important;
+}
