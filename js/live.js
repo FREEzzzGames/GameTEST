@@ -25,7 +25,7 @@ const S = {
 const $ = id => document.getElementById(id);
 const h = () => window.FZG?.platform?.haptic?.("light");
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"
+  "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
 }[c]));
 
 const BOT_PHRASES = [
