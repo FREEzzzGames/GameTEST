@@ -62,79 +62,11 @@
   const nameTxt = document.getElementById('userNameTxt');
   if (nameTxt) nameTxt.textContent = userName;
 
-  const LANGS = ["ru","de","en"];
-  const LANG = {
-    ru:{
-      code:"RU",subtitle:"ARCADE PORTAL 🕹️",games:"🎮 ИГРЫ",top:"🏆 ТОП",achievements:"🎖️ АЧИВКИ",chat:"💬 ЧАТ",random:"🎲 СЛУЧАЙНАЯ ИГРА",share:"📤 ПОДЕЛИТЬСЯ",
-      swipeHint:"СВАЙП ВЛЕВО / ВПРАВО • НАЖМИ, ЧТОБЫ ОТКРЫТЬ ИГРУ",swipeShort:"← СВАЙП →",send:"ОТПРАВИТЬ",close:"ЗАКРЫТЬ",arcadeHub:"АРКАДНЫЙ ПОРТАЛ",
-      avatarCollection:"КОЛЛЕКЦИЯ АВАТАРОВ",avatarHint:"Выбирай собранную аватарку или возвращайся каждый день за новой!",
-      chatPlaceholder:"Напиши сообщение...",back:"НАЗАД",play:"ИГРАТЬ →",oneGame:"ИГРА",gamesCount:"ИГРЫ",
-      score:"СЧЁТ",locked:"🔒",unlocked:"✅",topTitle:"ТОП ИГР",theme:"ТЕМА",sound:"ЗВУК",
-      roomMain:"ОСНОВНАЯ",roomGames:"ИГРЫ",roomRelax:"ОТДЫХ",roomDm:"ЛИЧНЫЕ СООБЩЕНИЯ",dmTitle:"ЛИЧНЫЕ СООБЩЕНИЯ",
-      noMessages:"Пока сообщений нет. Будь первым.",noDialogs:"Личных диалогов пока нет.",authOpen:"Открой чат внутри Telegram для авторизации.",
-      authOk:"Браузер: локальный вход подтверждён",authError:"Ошибка авторизации: ",chatApiError:"Ошибка чата: ",dmApiError:"Ошибка личных сообщений: ",
-      profilePortal:"ПОРТАЛ",profileGames:"ИГРЫ",profileLaunches:"ЗАПУСКОВ ИГР",profileMessages:"СООБЩЕНИЙ",profileChat:"В ЧАТЕ",profileDays:"ДНЕЙ АКТИВНОСТИ",
-      profileAchievements:"🏆 АЧИВКИ",write:"НАПИСАТЬ",player:"Игрок",hintsOn:"💡 ПОДСКАЗКИ: ВКЛ",hintsOff:"💡 ПОДСКАЗКИ: ВЫКЛ",disableHints:"Не показывать подсказки",enableHints:"Показывать подсказки"
-    },
-    de:{
-      code:"DE",subtitle:"ARCADE-PORTAL 🕹️",games:"🎮 SPIELE",top:"🏆 TOP",achievements:"🎖️ ERFOLGE",chat:"💬 CHAT",random:"🎲 ZUFALLSSPIEL",share:"📤 TEILEN",
-      swipeHint:"NACH LINKS / RECHTS WISCHEN • ANTIPPEN, UM DAS SPIEL ZU ÖFFNEN",swipeShort:"← WISCHEN →",send:"SENDEN",close:"SCHLIESSEN",arcadeHub:"ARCADE-PORTAL",
-      avatarCollection:"AVATAR-SAMMLUNG",avatarHint:"Wähle einen gesammelten Avatar oder komm jeden Tag für einen neuen zurück!",
-      chatPlaceholder:"Nachricht schreiben...",back:"ZURÜCK",play:"SPIELEN →",oneGame:"SPIEL",gamesCount:"SPIELE",
-      score:"PUNKTZAHL",locked:"🔒",unlocked:"✅",topTitle:"SPIELE-TOP",theme:"THEMA",sound:"TON",
-      roomMain:"HAUPTRAUM",roomGames:"SPIELE",roomRelax:"PAUSE",roomDm:"PRIVATNACHRICHTEN",dmTitle:"PRIVATNACHRICHTEN",
-      noMessages:"Noch keine Nachrichten. Sei die erste Person.",noDialogs:"Noch keine privaten Gespräche.",authOpen:"Öffne den Chat in Telegram zur Anmeldung.",
-      authOk:"Browser: lokaler Zugang bestätigt",authError:"Anmeldung fehlgeschlagen: ",chatApiError:"Chat-Fehler: ",dmApiError:"Fehler bei den Privatnachrichten: ",
-      profilePortal:"PORTAL",profileGames:"SPIELE",profileLaunches:"SPIELSTARTS",profileMessages:"NACHRICHTEN",profileChat:"CHATZEIT",profileDays:"AKTIVE TAGE",
-      profileAchievements:"🏆 ERFOLGE",write:"SCHREIBEN",player:"Spieler",hintsOn:"💡 HINWEISE: AN",hintsOff:"💡 HINWEISE: AUS",disableHints:"Hinweise nicht mehr anzeigen",enableHints:"Hinweise anzeigen"
-    },
-    en:{
-      code:"EN",subtitle:"ARCADE PORTAL 🕹️",games:"🎮 GAMES",top:"🏆 TOP",achievements:"🎖️ ACHIEVEMENTS",chat:"💬 CHAT",random:"🎲 RANDOM GAME",share:"📤 SHARE",
-      swipeHint:"SWIPE LEFT / RIGHT • TAP TO OPEN THE GAME",swipeShort:"← SWIPE →",send:"SEND",close:"CLOSE",arcadeHub:"ARCADE PORTAL",
-      avatarCollection:"AVATAR COLLECTION",avatarHint:"Choose a collected avatar or come back every day for a new one!",
-      chatPlaceholder:"Write a message...",back:"BACK",play:"PLAY →",oneGame:"GAME",gamesCount:"GAMES",
-      score:"SCORE",locked:"🔒",unlocked:"✅",topTitle:"TOP GAMES",theme:"THEME",sound:"SOUND",
-      roomMain:"MAIN",roomGames:"GAMES",roomRelax:"RELAX",roomDm:"PRIVATE MESSAGES",dmTitle:"PRIVATE MESSAGES",
-      noMessages:"No messages yet. Be the first.",noDialogs:"No private conversations yet.",authOpen:"Open the chat inside Telegram to sign in.",
-      authOk:"Browser: local access confirmed",authError:"Authorization failed: ",chatApiError:"Chat error: ",dmApiError:"Private message error: ",
-      profilePortal:"PORTAL",profileGames:"GAMES",profileLaunches:"GAME LAUNCHES",profileMessages:"MESSAGES",profileChat:"CHAT TIME",profileDays:"ACTIVE DAYS",
-      profileAchievements:"🏆 ACHIEVEMENTS",write:"WRITE",player:"Player",hintsOn:"💡 HINTS: ON",hintsOff:"💡 HINTS: OFF",disableHints:"Don’t show hints",enableHints:"Show hints"
-    }
-  };
-  const GAME_TEXT = {
-    snake:{ru:['ОДИН ПАЛЕЦ','Собирай, расти и бей собственный рекорд.'],de:['EIN FINGER','Sammle, wachse und knacke deinen Rekord.'],en:['ONE TOUCH','Collect, grow and beat your high score.']},
-    '2048':{ru:['ОДИН ПАЛЕЦ','Соединяй одинаковые плитки и доберись до 2048.'],de:['EIN FINGER','Verbinde gleiche Kacheln und erreiche 2048.'],en:['ONE TOUCH','Merge matching tiles and reach 2048.']},
-    wordle:{ru:['СЛОВА','Угадай слово за ограниченное число попыток.'],de:['WÖRTER','Errate das Wort mit begrenzten Versuchen.'],en:['WORD','Guess the word in a limited number of tries.']},
-    princejs:{ru:['МАШИНА ВРЕМЕНИ','Классическое приключение прямо в браузере с touch-управлением.'],de:['ZEITREISE','Klassisches Abenteuer direkt im Browser mit Touch-Steuerung.'],en:['TIME TRIP','A classic browser adventure with touch controls.']},
-    paperio:{ru:['ТЕРРИТОРИЯ','Рисуй свой след и захватывай территорию.'],de:['GEBIET','Ziehe deine Spur und erobere Gebiet.'],en:['TERRITORY','Draw your trail and claim territory.']},
-    txtaria:{ru:['СТРАННЫЕ МИРЫ','Минималистичное ASCII-приключение с сенсорным управлением.'],de:['SELTSAME WELTEN','Minimalistisches ASCII-Abenteuer mit Touch-Steuerung.'],en:['ODD WORLDS','A minimalist ASCII adventure with touch controls.']},
-    labyrinth:{ru:['ПОТЕРЯЙСЯ И НАЙДИСЬ','Найди выход из нового лабиринта.'],de:['VERIRREN & FINDEN','Finde den Ausgang aus einem neuen Labyrinth.'],en:['LOST & FOUND','Find your way out of a fresh maze.']},
-    memory:{ru:['ТРЕНАЖЁР МОЗГА','Открывай пары карточек и тренируй память.'],de:['KOPFTRAINING','Finde Kartenpaare und trainiere dein Gedächtnis.'],en:['BRAIN GYM','Match pairs and train your memory.']},
-    whacmole:{ru:['РЕАКТОР','Лови появляющиеся цели одним быстрым касанием.'],de:['REAKTOR','Triff die auftauchenden Ziele mit schnellen Taps.'],en:['REACTION','Tap the appearing targets as fast as you can.']},
-    pong:{ru:['ДВА БОКА ЭКРАНА','Минималистичная дуэль с мгновенным управлением.'],de:['ZWEI SEITEN','Ein minimalistisches Duell mit direkter Steuerung.'],en:['TWO SIDES','A minimalist duel with instant controls.']},
-    tetris:{ru:['ПАДАЮЩАЯ ЛОГИКА','Собирай линии из падающих фигур.'],de:['FALLENDE LOGIK','Baue Linien aus fallenden Formen.'],en:['FALLING LOGIC','Build lines from falling shapes.']},
-    quickdraw:{ru:['ЧИТАЕТ МЫСЛИ','Рисуй, а нейросеть попробует угадать рисунок.'],de:['GEDANKENLESER','Zeichne und lass die KI dein Bild erraten.'],en:['MIND READER','Draw and let the AI try to guess it.']},
-    slowroads:{ru:['ZEN DRIVE','Бесконечная поездка по процедурным дорогам.'],de:['ZEN DRIVE','Eine endlose Fahrt über prozedurale Straßen.'],en:['ZEN DRIVE','An endless drive on procedural roads.']},
-    ligmar:{ru:['ЖИВОЙ МИР','Большой браузерный мир с развитием и заданиями.'],de:['LEBENDIGE WELT','Eine große Browserwelt mit Entwicklung und Aufgaben.'],en:['LIVING WORLD','A large browser world with progression and quests.']}
-  };
-  const CATEGORY_TEXT = {
-    worlds:{ru:'ИНТЕРАКТИВНЫЕ МИРЫ',de:'INTERAKTIVE WELTEN',en:'INTERACTIVE WORLDS'},
-    creative:{ru:'ТВОРЧЕСТВО • МУЗЫКА • АРТ',de:'KREATIVITÄT • MUSIK • KUNST',en:'CREATIVE • MUSIC • ART'},
-    puzzles:{ru:'ПАЗЛЫ • ЛОГИКА',de:'PUZZLES • LOGIK',en:'PUZZLES • LOGIC'},
-    arcade:{ru:'АРКАДЫ • КЛАССИКА',de:'ARCADE • KLASSIKER',en:'ARCADE • CLASSICS'},
-    sandbox:{ru:'СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ',de:'SIMULATIONEN • SANDBOX',en:'SIMULATORS • SANDBOX'},
-    experimental:{ru:'ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ',de:'EXPERIMENTELLE PROJEKTE',en:'EXPERIMENTAL PROJECTS'},
-    onefinger:{ru:'ОДИН ПАЛЕЦ',de:'EIN FINGER',en:'ONE TOUCH'},
-    think:{ru:'НЕ СПЕШИ',de:'NIMM DIR ZEIT',en:'TAKE YOUR TIME'},
-    reaction:{ru:'РЕАКТОР',de:'REAKTOR',en:'REACTION'},
-    strange:{ru:'СТРАННОЕ',de:'DAS SELTSAME',en:'THE STRANGE'},
-    lost:{ru:'ПОТЕРЯЙСЯ И НАЙДИСЬ',de:'VERIRREN & FINDEN',en:'LOST & FOUND'},
-    timetrip:{ru:'МАШИНА ВРЕМЕНИ',de:'ZEITMASCHINE',en:'TIME MACHINE'},
-    zen:{ru:'НЕ СПЕШИ ЕХАТЬ',de:'ZEN-FAHRT',en:'ZEN DRIVE'},
-    worlds:{ru:'ЖИВЫЕ МИРЫ',de:'LEBENDIGE WELTEN',en:'LIVING WORLDS'},
-    duel:{ru:'ДВА БОКА ЭКРАНА',de:'ZWEI SEITEN',en:'TWO SIDES'},
-    lab:{ru:'FREEzzz LAB',de:'FREEzzz LAB',en:'FREEzzz LAB'}
-  };
+  import { LANGS, LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js";
+import { ACTION_HINTS } from "./portal-data/hints.js";
+import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js";
+import { gameLogoUrl } from "./portal-data/posters.js";
+
   let currentLang = localStorage.getItem("freezzzLang") || "ru";
   if(!LANGS.includes(currentLang)) currentLang="ru";
   const tr=(key)=>LANG[currentLang][key]||LANG.ru[key]||key;
@@ -144,20 +76,6 @@
     const g=GAME_BY_ID[id]; return field==="genre"?g.genre:g.desc;
   };
   const categoryText=(id)=>CATEGORY_TEXT[id]?.[currentLang]||id;
-
-  const ACTION_HINTS={
-    profile:{title:{ru:"ПРОФИЛЬ",de:"PROFIL",en:"PROFILE"},text:{ru:"Нажми сюда, чтобы открыть свою карточку игрока.",de:"Tippe hier, um deine Spielerkarte zu öffnen.",en:"Tap here to open your player card."}},
-    avatar:{title:{ru:"АВАТАР",de:"AVATAR",en:"AVATAR"},text:{ru:"Открой коллекцию и выбери собранную аватарку.",de:"Öffne deine Sammlung und wähle einen gesammelten Avatar.",en:"Open your collection and choose a collected avatar."}},
-    achievements:{title:{ru:"АЧИВКИ",de:"ERFOLGE",en:"ACHIEVEMENTS"},text:{ru:"Здесь находятся твои достижения и прогресс.",de:"Hier findest du deine Erfolge und deinen Fortschritt.",en:"Your achievements and progress are here."}},
-    radio:{title:{ru:"РАДИО",de:"RADIO",en:"RADIO"},text:{ru:"Нажми, чтобы открыть панель Techno.FM.",de:"Tippe, um das Techno.FM-Panel zu öffnen.",en:"Tap to open the Techno.FM panel."}},
-    language:{title:{ru:"ЯЗЫК",de:"SPRACHE",en:"LANGUAGE"},text:{ru:"Переключай RU / DE / EN одним нажатием.",de:"Wechsle mit einem Tippen zwischen RU / DE / EN.",en:"Switch between RU / DE / EN with one tap."}},
-    chat:{title:{ru:"FREEzzzyChat",de:"FREEzzzyChat",en:"FREEzzzyChat"},text:{ru:"Открой чат портала.",de:"Öffne den Portal-Chat.",en:"Open the portal chat."}},
-    chatRooms:{title:{ru:"РАЗДЕЛЫ ЧАТА",de:"CHAT-BEREICHE",en:"CHAT ROOMS"},text:{ru:"Выбирай комнату здесь: основная, игры, отдых или личные сообщения.",de:"Wähle hier einen Bereich: Hauptchat, Spiele, Pause oder Privatnachrichten.",en:"Choose a room: main, games, relax or private messages."}},
-    chatMessage:{title:{ru:"СООБЩЕНИЕ",de:"NACHRICHT",en:"MESSAGE"},text:{ru:"Напиши сообщение и отправь его кнопкой справа.",de:"Schreibe eine Nachricht und sende sie mit der Taste rechts.",en:"Write a message and send it with the button on the right."}},
-    category:{title:{ru:"КАТЕГОРИЯ",de:"KATEGORIE",en:"CATEGORY"},text:{ru:"Нажми на категорию, чтобы открыть её игры.",de:"Tippe auf eine Kategorie, um ihre Spiele zu öffnen.",en:"Tap a category to open its games."}},
-    game:{title:{ru:"ИГРА",de:"SPIEL",en:"GAME"},text:{ru:"Свайпай карточки влево или вправо. Нажми на активную карточку, чтобы открыть игру.",de:"Wische nach links oder rechts. Tippe auf die aktive Karte, um das Spiel zu öffnen.",en:"Swipe left or right. Tap the active card to open the game."}},
-    back:{title:{ru:"НАЗАД",de:"ZURÜCK",en:"BACK"},text:{ru:"Вернись к списку категорий этой кнопкой.",de:"Mit dieser Taste kommst du zur Kategorienliste zurück.",en:"Use this button to return to the category list."}}
-  };
 
   const ACTION_HINT_ORDER=["profile","avatar","achievements","radio","language","chat","chatRooms","chatMessage","category","game","back"];
   const ACTION_HINT_DONE_KEY="freezzzActionHintsV2";
@@ -847,58 +765,6 @@
     chatTabButton.addEventListener('click',()=>switchTab('guest'));
   }
 
-  const GAME_CARDS = [
-    {id:"deepsea",title:"The Deep Sea",emoji:"🌊",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй глубины океана."},
-    {id:"spacetrekk",title:"SpaceTrekk",emoji:"🪐",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Интерактивный 3D-исследователь Солнечной системы с планетами и космическими объектами."},
-    {id:"windowswap",title:"Window Swap",emoji:"🪟",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Смотри на окна и виды из разных мест."},
-    {id:"spaceelevator",title:"Space Elevator",emoji:"🚀",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Поднимайся от поверхности Земли к космосу."},
-    {id:"ancientearth",title:"Ancient Earth Globe",emoji:"🌍",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй Землю в разные геологические эпохи."},
-    {id:"radiogarden",title:"Radio Garden",emoji:"📻",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Исследуй радиостанции по всему миру."},
-    {id:"geoguessr",title:"GeoGuessr",emoji:"🗺️",genre:"ИНТЕРАКТИВНЫЙ МИР",desc:"Определяй места по панорамам и географии."},
-    {id:"patatap",title:"Patatap",emoji:"🎹",genre:"ТВОРЧЕСТВО",desc:"Создавай звуки и анимации нажатием клавиш."},
-    {id:"quickdraw",title:"Quick, Draw!",emoji:"✏️",genre:"ТВОРЧЕСТВО",desc:"Рисуй объекты, а нейросеть Google попробует угадать их."},
-    {id:"brunosimon",title:"Bruno Simon Portfolio",emoji:"🚗",genre:"ТВОРЧЕСТВО",desc:"Интерактивное 3D-портфолио."},
-    {id:"pollock",title:"Jackson Pollock Art",emoji:"🎨",genre:"ТВОРЧЕСТВО",desc:"Интерактивный проект о живописи Jackson Pollock."},
-    {id:"typatone",title:"Typatone",emoji:"🎵",genre:"ТВОРЧЕСТВО",desc:"Превращай текст в музыку."},
-    {id:"plink",title:"Plink",emoji:"🎶",genre:"ТВОРЧЕСТВО",desc:"Интерактивный музыкальный эксперимент."},
-    {id:"linerider",title:"Line Rider",emoji:"✏️",genre:"ТВОРЧЕСТВО",desc:"Рисуй трассы и наблюдай за движением персонажа."},
-    {id:"2048",title:"2048",emoji:"🔢",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Соединяй одинаковые плитки."},
-    {id:"password",title:"The Password Game",emoji:"🔐",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Создай пароль, выполняющий всё больше правил."},
-    {id:"remojibus",title:"Remojibus",emoji:"🧩",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Разгадывай ребусы из эмодзи."},
-    {id:"fillsquare",title:"Fill the Square",emoji:"◼️",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Заполняй поле и решай пространственные задачи."},
-    {id:"ricochetdaily",title:"Ricochet Daily",emoji:"🔵",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Рассчитывай отскоки и проходи ежедневную задачу."},
-    {id:"evolutiontrust",title:"The Evolution of Trust",emoji:"🤝",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Интерактивное исследование доверия и стратегии."},
-    {id:"littlealchemy2",title:"Little Alchemy 2",emoji:"🧪",genre:"ПАЗЛЫ И ЛОГИКА",desc:"Соединяй элементы и открывай новые."},
-    {id:"snake",title:"Snake",emoji:"🐍",genre:"АРКАДЫ И КЛАССИКА",desc:"Классическая змейка."},
-    {id:"doodlejump",title:"Doodle Jump",emoji:"🦘",genre:"АРКАДЫ И КЛАССИКА",desc:"Прыгай всё выше по платформам."},
-    {id:"puffpilot",title:"Puff Pilot",emoji:"💨",genre:"АРКАДЫ И КЛАССИКА",desc:"Проводи воздушный поток через кольца."},
-    {id:"pokeclicker",title:"PokéClicker",emoji:"⚡",genre:"АРКАДЫ И КЛАССИКА",desc:"Кликер с коллекционированием существ."},
-    {id:"candybox2",title:"Candy Box 2",emoji:"🍬",genre:"АРКАДЫ И КЛАССИКА",desc:"Накопление конфет превращается в приключение."},
-    {id:"dino",title:"Dino T-Rex Game",emoji:"🦖",genre:"АРКАДЫ И КЛАССИКА",desc:"Мини-игра с бегущим динозавром."},
-    {id:"pip",title:"PIP: Skull Demo",emoji:"💀",genre:"АРКАДЫ И КЛАССИКА",desc:"Небольшой браузерный игровой прототип."},
-    {id:"townscaper",title:"Townscaper",emoji:"🏘️",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Строй маленькие города без заданного сценария."},
-    {id:"infinitecraft",title:"Infinite Craft",emoji:"🧪",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Комбинируй элементы и открывай новые."},
-    {id:"addtown",title:"Add Town ≈ 2048!",emoji:"🏙️",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Объединяй плитки и развивай город."},
-    {id:"gridland",title:"Gridland",emoji:"🏰",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Соединяй ресурсы и развивай поселение."},
-    {id:"bouncyballs",title:"Bouncy Balls",emoji:"⚪",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Интерактивные прыгающие шарики."},
-    {id:"alchemy2",title:"Alchemy 2",emoji:"⚗️",genre:"СИМУЛЯТОРЫ И ПЕСКОЧНИЦЫ",desc:"Комбинируй элементы и создавай новые."},
-    {id:"protocol",title:"Protocol ERRORMIND",emoji:"🧠",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Браузерная серия логических уровней."},
-    {id:"lumenoffice",title:"Lumen Office RPG",emoji:"🏢",genre:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",desc:"Исследуй офис и решай загадки."},
-    {id:"typehelp",title:"Type Help",emoji:"⌨️",genre:"ПАЗЛ • ДЕТЕКТИВ",desc:"Текстовый детектив: исследуй файлы старого компьютера и собирай улики."},
-    {id:"alchemize",title:"Alchemize",emoji:"🧪",genre:"СТРАТЕГИЯ",desc:"Стратегическая настольная игра: размещай зелья, создавай самоцветы и играй против ИИ."},
-    {id:"uselessweb",title:"The Useless Web",emoji:"🌀",genre:"ИНТЕРНЕТ-ЭКСПЕРИМЕНТ",desc:"Один клик — и ты попадаешь на случайный необычный сайт."},
-    {id:"pacman",title:"PAC-MAN",emoji:"🟡",genre:"АРКАДЫ • КЛАССИКА",desc:"Классическая аркада: собирай точки в лабиринте и избегай призраков."},
-    {id:"coptercave",title:"Copter Cave",emoji:"🚁",genre:"АРКАДЫ • РЕАКЦИЯ",desc:"Управляй полётом одним касанием: удерживай, чтобы подниматься, и отпускай, чтобы снижаться."},
-    {id:"helicopter",title:"Helicopter Game",emoji:"🚁",genre:"АРКАДЫ • КЛАССИКА",desc:"Пролети как можно дальше через туннель, избегая препятствий."},
-  ];
-  const CATEGORIES = [
-    {id:"worlds",name:"ИНТЕРАКТИВНЫЕ МИРЫ",icon:"🌌",ids:["deepsea","spacetrekk","windowswap","spaceelevator","ancientearth","radiogarden","geoguessr"]},
-    {id:"creative",name:"ТВОРЧЕСТВО • МУЗЫКА • АРТ",icon:"🎨",ids:["patatap","quickdraw","brunosimon","pollock","typatone","plink","linerider"]},
-    {id:"puzzles",name:"ПАЗЛЫ • ЛОГИКА",icon:"🧩",ids:["2048","password","remojibus","fillsquare","ricochetdaily","evolutiontrust","littlealchemy2"]},
-    {id:"arcade",name:"АРКАДЫ • КЛАССИКА",icon:"🕹️",ids:["snake","doodlejump","puffpilot","pokeclicker","candybox2","dino","pip","pacman","coptercave","helicopter"]},
-    {id:"sandbox",name:"СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ",icon:"🌍",ids:["townscaper","infinitecraft","addtown","gridland","bouncyballs","alchemy2"]},
-    {id:"experimental",name:"ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",icon:"⚡",ids:["protocol","lumenoffice","typehelp","alchemize","uselessweb"]},
-  ];
   const GAME_BY_ID = Object.fromEntries(GAME_CARDS.map(g => [g.id,g]));
   let currentCategory = null;
   let categoryGameIndex = 0;
@@ -949,44 +815,6 @@
   /* Official/creator-sourced artwork where a direct public image URL is available.
      Other cards use the official game's domain icon as a safe visual fallback. */
   // Polished vector poster for every game: no generic favicon/red placeholder.
-  const GAME_LOGOS = {};
-
-  function escapeSvgText(value){
-    return String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function hashCode(value){
-    let h=0; const s=String(value);
-    for(let i=0;i<s.length;i++) h=((h<<5)-h)+s.charCodeAt(i)|0;
-    return h;
-  }
-
-  function posterDataUrl(id){
-    const g=GAME_BY_ID[id] || {title:id,emoji:'🎮',genre:'ARCADE'};
-    const palettes=[
-      ['#07152f','#0b6e99','#19e6d0'],['#210b38','#7c1fff','#ff4fd8'],
-      ['#351008','#d64b1f','#ffd166'],['#061d19','#078f75','#72f1b8'],
-      ['#17122e','#4d55d9','#8ee3ff'],['#271006','#b83255','#ff9f68']
-    ];
-    const p=palettes[Math.abs(hashCode(id))%palettes.length];
-    const title=escapeSvgText(g.title), genre=escapeSvgText(g.genre||'ARCADE'), emoji=escapeSvgText(g.emoji||'🎮');
-    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620">'+
-      '<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+p[0]+'"/><stop offset=".55" stop-color="'+p[1]+'"/><stop offset="1" stop-color="'+p[2]+'"/></linearGradient>'+
-      '<radialGradient id="glow"><stop stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'+
-      '<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#fff" stroke-opacity=".10"/></pattern>'+
-      '<filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity=".38"/></filter></defs>'+
-      '<rect width="900" height="620" fill="url(#bg)"/><circle cx="690" cy="120" r="230" fill="url(#glow)"/><rect width="900" height="620" fill="url(#grid)"/>'+
-      '<path d="M-60 500 C170 360 280 610 500 445 S760 310 960 430" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="70"/>'+
-      '<path d="M-40 505 C170 375 285 590 500 455 S760 330 940 445" fill="none" stroke="#fff" stroke-opacity=".24" stroke-width="3"/>'+
-      '<g filter="url(#shadow)"><circle cx="450" cy="255" r="126" fill="#07101f" fill-opacity=".52" stroke="#fff" stroke-opacity=".22" stroke-width="3"/><text x="450" y="302" text-anchor="middle" font-size="145" font-family="system-ui,Segoe UI Emoji,Apple Color Emoji,sans-serif">'+emoji+'</text></g>'+
-      '<text x="48" y="72" fill="#fff" fill-opacity=".78" font-size="20" font-family="monospace" font-weight="700" letter-spacing="4">FREEzzzGAMES • '+genre.toUpperCase()+'</text>'+
-      '<text x="48" y="548" fill="#fff" font-size="42" font-family="system-ui,sans-serif" font-weight="900" letter-spacing="2">'+title+'</text>'+
-      '<rect x="48" y="570" width="160" height="5" rx="3" fill="#fff" fill-opacity=".65"/></svg>';
-    return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
-  }
-
-  function gameLogoUrl(id){ return posterDataUrl(id); }
-
   function renderCategoryCarousel(){
     if(!currentCategory)return;
     const ids=currentCategory.ids;
@@ -1002,7 +830,7 @@
       const absoluteIndex=pageStart+i;
       return '<div class="game-card is-grid-card" data-carousel-game="'+g.id+'" '+(absoluteIndex===pageStart?'data-action-hint-target="game"':'')+'>'+
         '<div class="game-card-art">'+
-          '<img class="game-card-logo" src="'+gameLogoUrl(g.id)+'" alt="'+g.title.replace(/"/g,'&quot;')+'" loading="eager" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">'+
+          '<img class="game-card-logo" src="'+gameLogoUrl(g.id, GAME_BY_ID)+'" alt="'+g.title.replace(/"/g,'&quot;')+'" loading="eager" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">'+
           '<span class="game-card-logo-fallback" style="display:none">'+g.emoji+'</span>'+
         '</div>'+
         '<div class="game-card-body">'+
@@ -1069,50 +897,6 @@
 /* CHAT BACK — explicit in-app control; no edge-swipe so Telegram/Android system navigation stays untouched */
   document.getElementById('categoryBack').addEventListener('click',()=>{completeActionHint("back");returnToMainMenu();});
 
-  const GAME_LINKS = {
-    "deepsea":"https://neal.fun/deep-sea/",
-    "spacetrekk":"https://www.spacetrekk.com/",
-    "windowswap":"https://window-swap.com/",
-    "spaceelevator":"https://neal.fun/space-elevator/",
-    "ancientearth":"https://dinosaurpictures.org/ancient-earth/",
-    "radiogarden":"https://radio.garden/",
-    "geoguessr":"https://www.geoguessr.com/",
-    "patatap":"https://patatap.com/",
-    "quickdraw":"https://quickdraw.withgoogle.com/",
-    "brunosimon":"https://bruno-simon.com/",
-    "pollock":"https://www.moma.org/interactives/exhibitions/1998/pollock/website100/txt_intro.html",
-    "typatone":"https://typatone.com/",
-    "plink":"https://www.experiments.withgoogle.com/plink-multiplayer-music-experience",
-    "linerider":"https://www.linerider.com/",
-    "2048":"https://play2048.co/",
-    "password":"https://neal.fun/password-game/",
-    "remojibus":"https://starzonmyarmz.github.io/remojibus/",
-    "fillsquare":"https://ryanbalieiro.github.io/fill-the-square/",
-    "ricochetdaily":"https://teknamin.github.io/ricochet-daily/",
-    "evolutiontrust":"https://ncase.me/trust/",
-    "littlealchemy2":"https://littlealchemy2.com/",
-    "snake":"https://www.snake.at/game/1.3/index.html",
-    "doodlejump":"https://cozyrain.github.io/DoodleJumpGame/",
-    "puffpilot":"https://bte808.github.io/fun-20260601-a-puff-pilot/",
-    "pokeclicker":"https://www.pokeclicker.com/",
-    "candybox2":"https://candybox2.github.io/",
-    "dino":"https://chromedino.com/",
-    "pip":"https://bandinopla.github.io/pip-skull-demo/",
-    "townscaper":"https://www.townscapergame.com/",
-    "infinitecraft":"https://neal.fun/infinite-craft/",
-    "addtown":"https://www.lexaloffle.com/bbs/?pid=add_town",
-    "gridland":"https://gridland.doublespeakgames.com/",
-    "bouncyballs":"https://bouncyballs.org/",
-    "alchemy2":"https://littlealchemy2.com/",
-    "protocol":"https://protocol-errormind.github.io/",
-    "alchemize":"https://brusi.itch.io/alchemize",
-    "uselessweb":"https://theuselessweb.com/",
-    "lumenoffice":"https://samirsaad786.github.io/LumenOfficeRPG/",
-    "typehelp":"https://william-rous.itch.io/type-help",
-    "pacman":"https://doodles.google/doodle/30th-anniversary-of-pac-man/",
-    "coptercave":"https://arcade.now/copter-cave/",
-    "helicopter":"https://www.gamesloth.com/arcade/helicopter/",
-  };
   function openExternal(url) {
     completeActionHint("game");
     if (!url) return;
