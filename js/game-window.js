@@ -1,3 +1,4 @@
+import { Platform } from "./platform.js";
 import { GAME_CARDS, GAME_LINKS, CATEGORIES } from "./portal-data/games.js?v=20260930e4";
 import { LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
 import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
@@ -31,6 +32,8 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     const root=host();
     if(!root)return false;
     S.expanded=!!value;
+    if(S.expanded) Platform.requestFullscreen?.();
+    else if(Platform.isFullscreen?.()) Platform.exitFullscreen?.();
     root.classList.toggle("is-expanded",S.expanded);
     root.setAttribute("aria-expanded",S.expanded?"true":"false");
     document.body.classList.toggle("game-window-expanded",S.expanded);
