@@ -193,6 +193,11 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
   function showNextActionHint(){
     if(!actionHintsEnabled)return;
+    const guestView=document.getElementById("guestView");
+    if(guestView && !guestView.classList.contains("hidden")){
+      hideActionHint(false);
+      return;
+    }
     hideActionHint(false);
     for(const id of ACTION_HINT_ORDER){if(showActionHint(id))return}
   }
@@ -489,10 +494,41 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       write(list);
       return {ok:true};
     }
-    if(path==="/dm") return {conversations:[]};
-    if(path.startsWith("/dm/") && path.endsWith("/messages")) return {messages:[]};
-    if(path.startsWith("/dm/") && options.method==="POST") return {ok:true};
-    if(path.startsWith("/profile/")) return {id:playerId,avatar:"🧑‍💻",name:"Browser Player",username:"@browser_test",stats:playerStats,achievements:null};
+    const dmKey="freezzzBrowserDmV1";
+    const readDm=()=>{try{return JSON.parse(localStorage.getItem(dmKey)||"[]")}catch(e){return []}};
+    const writeDm=v=>localStorage.setItem(dmKey,JSON.stringify(v));
+    if(path==="/dm"){
+      const dm=readDm();
+      const ids=[...new Set(dm.flatMap(m=>[String(m.senderId),String(m.targetId)]).filter(id=>id!==playerId))];
+      return {conversations:ids.map(id=>{
+        const rows=dm.filter(m=>(String(m.senderId)===playerId&&String(m.targetId)===id)||(String(m.senderId)===id&&String(m.targetId)===playerId)).sort((a,b)=>Date.parse(a.createdAt)-Date.parse(b.createdAt));
+        const last=rows[rows.length-1];
+        return {playerId:id,username:last?.targetUsername||last?.username||id,name:last?.targetName||last?.name||"Игрок",avatar:last?.targetAvatar||last?.avatar||"👾",lastMessage:last?.text||""};
+      })};
+    }
+    const dmMatch=path.match(/^\/dm\/([^/]+)\/messages(?:\?.*)?$/);
+    if(dmMatch){
+      const targetId=decodeURIComponent(dmMatch[1]);
+      if(options.method==="POST"){
+        const list=readDm();
+        list.push({senderId:playerId,targetId,text:String(body.text||""),username:"@browser_test",name:"Browser Player",avatar:"🧑‍💻",createdAt:new Date().toISOString()});
+        writeDm(list);
+        return {ok:true};
+      }
+      const messages=readDm().filter(m=>
+        (String(m.senderId)===playerId&&String(m.targetId)===targetId) ||
+        (String(m.senderId)===targetId&&String(m.targetId)===playerId)
+      ).slice(-100);
+      return {messages};
+    }
+    if(path.startsWith("/profile/")){
+      const targetId=decodeURIComponent(path.slice("/profile/".length));
+      if(targetId===playerId) return {id:playerId,avatar:"🧑‍💻",name:"Browser Player",username:"@browser_test",stats:playerStats,achievements:null};
+      const chatRows=read().filter(m=>String(m.playerId)===targetId);
+      const dmRows=readDm().filter(m=>String(m.senderId)===targetId||String(m.targetId)===targetId);
+      const sample=chatRows[chatRows.length-1]||dmRows.find(m=>String(m.senderId)===targetId);
+      return {id:targetId,avatar:sample?.avatar||sample?.targetAvatar||"👾",name:sample?.name||sample?.targetName||"Игрок",username:sample?.username||sample?.targetUsername||("@"+targetId),stats:{portalSeconds:0,gameSeconds:0,gameLaunches:0,messagesSent:0,chatSeconds:0,activeDays:[]},achievements:null};
+    }
     if(path==="/stats") return {ok:true};
     return {};
   }
@@ -581,6 +617,8 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
   function selectChatRoom(room){
     chatRoom=room; activeDmUserId=null;
+    window.FZG?.state?.set?.({chat:{mode:"rooms",room,userId:null}});
+
     document.querySelectorAll(".chat-room-tab").forEach(b=>b.classList.toggle("active",b.dataset.room===room));
     document.getElementById("chatRoomTitle").textContent=roomLabel(room);
     document.getElementById("guestList").classList.remove("hidden");
@@ -592,6 +630,8 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
   function selectDmMode(){
     activeDmUserId=null;
+    window.FZG?.state?.set?.({chat:{mode:"dm",room:chatRoom,userId:null}});
+
     document.querySelectorAll(".chat-room-tab").forEach(b=>b.classList.toggle("active",b.dataset.room==="dm"));
     document.getElementById("chatRoomTitle").textContent="✉️ "+tr("dmTitle");
     document.getElementById("guestList").classList.add("hidden");
@@ -603,7 +643,12 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
   document.querySelectorAll(".chat-room-tab").forEach(b=>b.addEventListener("click",()=>{completeActionHint("chatRooms");b.dataset.room==="dm"?selectDmMode():selectChatRoom(b.dataset.room);}));
   document.getElementById("chatBackBtn").addEventListener("click",()=>switchTab("games"));
-  document.getElementById("chatRefreshBtn").addEventListener("click",()=>activeDmUserId?openDm(activeDmUserId):chatRoom?loadMessages():loadDmList());
+  document.getElementById("chatRefreshBtn").addEventListener("click",()=>{
+    const dmMode=document.querySelector(".chat-room-tab.active")?.dataset.room==="dm";
+    if(activeDmUserId)openDm(activeDmUserId);
+    else if(dmMode)loadDmList();
+    else loadMessages();
+  });
   document.getElementById("dmBackBtn").addEventListener("click",selectDmMode);
   document.getElementById("sendMsgBtn").addEventListener("click",()=>{completeActionHint("chatMessage");activeDmUserId?sendDmMessage():sendChatMessage();});
   document.getElementById("guestInput").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("sendMsgBtn").click();});
@@ -665,11 +710,14 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     }finally{chatBusy=false;}
   }
 
-  document.getElementById("homeChatOpen")?.addEventListener("click",async()=>{
+  document.getElementById("homeChatOpen")?.addEventListener("click",()=>{
     markChatSeen();
-    await openChatPanel();
+    switchTab("guest");
   });
-  document.getElementById("homeChatSend")?.addEventListener("click",sendHomeChatMessage);
+  document.getElementById("homeChatSend")?.addEventListener("click",()=>{
+    completeActionHint("chatMessage");
+    sendHomeChatMessage();
+  });
   document.getElementById("homeChatInput")?.addEventListener("keydown",e=>{
     if(e.key==="Enter"){e.preventDefault();sendHomeChatMessage();}
   });
@@ -841,6 +889,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     mediaRow?.classList.toggle('is-hidden',isChat);
     const chatTab=document.getElementById('tabGuest');
     if(chatTab)chatTab.classList.toggle('active',isChat);
+    if(isChat) hideActionHint(true);
     animateIn(isChat?guest:null,isChat?'forward':'back');
     if(!isChat){
       showCategoryList(false);
