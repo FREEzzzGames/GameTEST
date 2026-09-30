@@ -6969,3 +6969,60 @@ html,body{
     padding-bottom:max(8px,calc(var(--tg-safe-area-inset-bottom,0px) + 8px))!important;
   }
 }
+
+
+/* ============================================================
+   COSMIC MOTION FINAL PASS — 5 ACTIVE LAYERS
+   Layers 1–5 carry slow parallax motion; 6–10 remain crisp detail.
+   ============================================================ */
+#mainPortal .space-depth .space-layer-1{
+  animation:fzgSpaceNebulaA 26s ease-in-out infinite alternate!important;
+  will-change:transform,opacity;
+}
+#mainPortal .space-depth .space-layer-2{
+  animation:fzgSpaceNebulaB 34s ease-in-out infinite alternate!important;
+  will-change:transform,opacity;
+}
+#mainPortal .space-depth .space-layer-3{
+  animation:fzgSpaceCloud 42s ease-in-out infinite alternate!important;
+  will-change:transform,opacity;
+}
+#mainPortal .space-depth .space-layer-4{
+  animation:fzgSpaceDust 18s linear infinite!important;
+  will-change:transform;
+}
+#mainPortal .space-depth .space-layer-5{
+  animation:fzgSpaceLight 12s ease-in-out infinite alternate!important;
+  will-change:transform,opacity;
+}
+@keyframes fzgSpaceNebulaA{
+  0%{transform:translate3d(-1.5%,-.8%,0) scale(1.04)}
+  50%{opacity:.34}
+  100%{transform:translate3d(2%,1.2%,0) scale(1.075)}
+}
+@keyframes fzgSpaceNebulaB{
+  0%{transform:translate3d(1.2%,1%,0) scale(1.035)}
+  100%{transform:translate3d(-2%,-1.4%,0) scale(1.07)}
+}
+@keyframes fzgSpaceCloud{
+  0%{transform:translate3d(-.8%,1.2%,0) scale(1.03);opacity:.30}
+  100%{transform:translate3d(1.8%,-1%,0) scale(1.065);opacity:.40}
+}
+@keyframes fzgSpaceDust{
+  0%{transform:translate3d(-2%,0,0) scale(1.025)}
+  50%{transform:translate3d(1%,.7%,0) scale(1.035)}
+  100%{transform:translate3d(2%,0,0) scale(1.025)}
+}
+@keyframes fzgSpaceLight{
+  0%{transform:translate3d(0,-1%,0) scale(1.02);opacity:.22}
+  100%{transform:translate3d(0,1.5%,0) scale(1.035);opacity:.34}
+}
+@media (prefers-reduced-motion:reduce){
+  #mainPortal .space-depth .space-layer-1,
+  #mainPortal .space-depth .space-layer-2,
+  #mainPortal .space-depth .space-layer-3,
+  #mainPortal .space-depth .space-layer-4,
+  #mainPortal .space-depth .space-layer-5{
+    animation:none!important;
+  }
+}
