@@ -16,7 +16,7 @@ async function bootPortalModule(){
   // LIVE must boot independently. A failure inside the large legacy portal
   // module must never prevent the LIVE module from loading and polling.
   const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult] = await Promise.allSettled([
-    import("./portal.js?v=20260930e4"),
+    import("./portal.js?v=20260930e9"),
     import("./live.js?v=20260930-live3"),
     import("./parallax.js?v=20260930a"),
     import("./streamer-menu-parallax.js?v=20260930c"),

@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="freezzz-build" content="2026-09-30-chat-path-fix1">
+<meta name="freezzz-build" content="2026-09-30-game-window-catalog2">
 <title>FREEzzzGames</title>
 <link rel="preconnect" href="https://telegram.org">
 <link rel="preconnect" href="https://freezzgames-live-monitor.onrender.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="./css/app.css?v=20260930ab">
+<link rel="stylesheet" href="./css/app.css?v=20260930aa">
 <link rel="stylesheet" href="./css/live.css?v=20260930-live3">
-  <link rel="modulepreload" href="./js/portal.js?v=20260930e9">
+  <link rel="modulepreload" href="./js/portal.js?v=20260930e8">
   <link rel="modulepreload" href="./js/portal-data/i18n.js?v=20260930e4">
   <link rel="modulepreload" href="./js/portal-data/hints.js?v=20260930e4">
   <link rel="modulepreload" href="./js/portal-data/games.js?v=20260930e4">
@@ -51,11 +51,12 @@
     <div class="space-asteroids"></div>
   </div>
 
+  <div class="portal-logo" id="portalLogo">
+    <h1>FREEzzzGames</h1>
+    <div class="subtitle" data-i18n="subtitle">ARCADE PORTAL 🕹️</div>
+  </div>
+
   <div class="header-top">
-    <div class="portal-logo" id="portalLogo">
-      <h1>FREEzzzGames</h1>
-      <div class="subtitle" data-i18n="subtitle">ARCADE PORTAL 🕹️</div>
-    </div>
     <div class="profile-box" id="userProfileBox" data-action-hint-target="profile">
       <div class="user-avatar" id="currentAvatarEmoji">👾</div>
       <div id="userNameTxt">Игрок</div>
@@ -154,10 +155,10 @@
     <div class="chat-auth-state" id="chatAuthState"></div>
     <div class="chat-layout" id="chatLayout">
       <div class="chat-room-tabs">
-        <button class="chat-room-tab active" data-room="main" type="button" data-action-hint-target="chatRooms">🏠 <span data-chat-room-label="main">ОСНОВНАЯ</span></button>
-        <button class="chat-room-tab" data-room="games" type="button">🎮 <span data-chat-room-label="games">ИГРЫ</span></button>
-        <button class="chat-room-tab" data-room="relax" type="button">🌙 <span data-chat-room-label="relax">ОТДЫХ</span></button>
-        <button class="chat-room-tab" data-room="dm" type="button">✉️ <span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
+        <button class="chat-room-tab active" data-room="main" data-action-hint-target="chatRooms">🏠 <span data-chat-room-label="main">ОСНОВНАЯ</span></button>
+        <button class="chat-room-tab" data-room="games">🎮 <span data-chat-room-label="games">ИГРЫ</span></button>
+        <button class="chat-room-tab" data-room="relax">🌙 <span data-chat-room-label="relax">ОТДЫХ</span></button>
+        <button class="chat-room-tab" data-room="dm">✉️ <span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
       </div>
       <div class="chat-toolbar">
         <button id="chatBackBtn" class="chat-mini-btn" type="button" aria-label="Назад">‹</button>
@@ -168,14 +169,14 @@
       <div class="guest-list chat-list" id="guestList"></div>
       <div class="dm-thread hidden" id="dmThread">
         <div class="dm-thread-head">
-          <button id="dmBackBtn" class="chat-mini-btn" type="button">‹</button>
+          <button id="dmBackBtn" class="chat-mini-btn">‹</button>
           <span id="dmThreadTitle">Личные сообщения</span>
         </div>
         <div class="guest-list" id="dmMessageList"></div>
       </div>
       <div class="guest-form chat-compose" id="chatCompose">
         <input type="text" id="guestInput" class="guest-input" data-i18n-placeholder="chatPlaceholder" placeholder="Напиши сообщение..." maxlength="500" autocomplete="off">
-        <button class="guest-send" id="sendMsgBtn" data-action-hint-target="chatMessage" data-i18n="send" type="button">ОТПРАВИТЬ</button>
+        <button class="guest-send" id="sendMsgBtn" data-action-hint-target="chatMessage" data-i18n="send">ОТПРАВИТЬ</button>
       </div>
     </div>
   </div>
@@ -243,7 +244,7 @@
   </div>
 </div>
 
-<script type="module" src="./js/app.js?v=20260930s"></script>
+<script type="module" src="./js/app.js?v=20260930r"></script>
 <!-- КОНТЕКСТНЫЕ ПОДСКАЗКИ ДЕЙСТВИЙ -->
 <div class="action-hint-layer hidden" id="actionHintLayer" aria-live="polite">
   <div class="action-hint-target" id="actionHintTarget" aria-hidden="true"></div>
