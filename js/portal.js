@@ -831,19 +831,17 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     haptic();
     const isChat=tab==='guest';
     window.FZG?.state?.set?.({screen:isChat?'chat':'home',categoryId:null,gameId:null});
-    const games=document.getElementById('gamesBrowser');
     const achievements=document.getElementById('achievementsView');
     const guest=document.getElementById('guestView');
     const homeChat=document.getElementById('homeChatWidget');
     const mediaRow=document.getElementById('homeMediaRow');
-    games?.classList.toggle('hidden',isChat);
     achievements?.classList.add('hidden');
     guest?.classList.toggle('hidden',!isChat);
     homeChat?.classList.toggle('is-hidden',isChat);
     mediaRow?.classList.toggle('is-hidden',isChat);
     const chatTab=document.getElementById('tabGuest');
     if(chatTab)chatTab.classList.toggle('active',isChat);
-    animateIn(isChat?guest:games,isChat?'forward':'back');
+    animateIn(isChat?guest:null,isChat?'forward':'back');
     if(!isChat){
       showCategoryList(false);
       setTimeout(showNextActionHint,180);
@@ -867,245 +865,32 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     chatTabButton.addEventListener('click',()=>switchTab('guest'));
   }
 
-  const GAME_BY_ID = Object.fromEntries(GAME_CARDS.map(g => [g.id,g]));
-  let currentCategory = null;
-  let categoryGameIndex = 0;
-  const CATEGORY_PAGE_SIZE = 4;
-  let swipeStartX = 0;
-  let swipeStartY = 0;
-  let swipeStartTime = 0;
-  let carouselSwipeLocked = false;
-
-  function animateIn(el,direction="forward"){
-    if(!el)return;
-    el.classList.remove("screen-enter-forward","screen-enter-back");
-    void el.offsetWidth;
-    el.classList.add(direction==="back"?"screen-enter-back":"screen-enter-forward");
-    el.addEventListener("animationend",()=>el.classList.remove("screen-enter-forward","screen-enter-back"),{once:true});
+  // GAME WINDOW owns the entire game catalog. Portal keeps only compatibility bridges.
+  function showCategoryList(){
+    window.FZG?.gameWindow?.showCatalog?.();
+    window.dispatchEvent(new CustomEvent("freezzz:game-catalog-show"));
   }
-
-  function showCategoryList(animate=true){
-    currentCategory=null;
-    const list=document.getElementById('categoryList');
-    const view=document.getElementById('categoryView');
-    const homeChat=document.getElementById('homeChatWidget');
-    const mediaRow=document.getElementById('homeMediaRow');
-    view?.classList.add('hidden');
-    list?.classList.remove('hidden');
-    homeChat?.classList.remove('is-hidden');
-    mediaRow?.classList.remove('is-hidden');
-    if(animate)animateIn(list,"back");
-  }
-
   function openCategory(categoryId){
-    completeActionHint("category");
-    const category=CATEGORIES.find(c=>c.id===categoryId);
-    if(!category)return;
-    window.FZG?.state?.set?.({screen:'category',categoryId});
-    currentCategory=category;
-    categoryGameIndex=0;
-    document.getElementById('categoryList').classList.remove('hidden');
-    const view=document.getElementById('categoryView');
-    const homeChat=document.getElementById('homeChatWidget');
-    const mediaRow=document.getElementById('homeMediaRow');
-    view?.classList.remove('hidden');
-    homeChat?.classList.add('is-hidden');
-    mediaRow?.classList.add('is-hidden');
-    document.getElementById('categoryHeadTitle').textContent=categoryText(category.id);
-    renderCategoryCarousel();
-    animateIn(view,"forward");
-    haptic();
+    return !!window.FZG?.gameWindow?.openCategory?.(categoryId);
   }
-
-  function renderCategories(){
-    const list=document.getElementById('categoryList');
-    list.innerHTML=CATEGORIES.map(c=>{
-      const count=c.ids.length;
-      return '<button class="category-item" data-category="'+c.id+'" data-action-hint-target="category">'+
-        '<span class="category-icon">'+c.icon+'</span>'+
-        '<span class="category-copy"><span class="category-name">'+categoryText(c.id)+'</span><span class="category-count">'+count+' '+(count===1?tr('oneGame'):tr('gamesCount'))+'</span></span>'+
-        '<span class="category-arrow">›</span>'+
-      '</button>';
-    }).join('');
-    list.querySelectorAll('.category-item').forEach(btn=>{
-      btn.addEventListener('click',()=>openCategory(btn.dataset.category));
-    });
-  }
-
-  /* Official/creator-sourced artwork where a direct public image URL is available.
-     Other cards use the official game's domain icon as a safe visual fallback. */
-  // Polished vector poster for every game: no generic favicon/red placeholder.
-  function renderCategoryCarousel(){
-    if(!currentCategory)return;
-    const ids=currentCategory.ids;
-    const track=document.getElementById('gamesTrack');
-    const dots=document.getElementById('carouselDots');
-    if(!track||!dots)return;
-
-    const pageStart=Math.floor(categoryGameIndex/CATEGORY_PAGE_SIZE)*CATEGORY_PAGE_SIZE;
-    const visibleIds=ids.slice(pageStart,pageStart+CATEGORY_PAGE_SIZE);
-
-    track.innerHTML=visibleIds.map((id,i)=>{
-      const g=GAME_BY_ID[id];
-      const absoluteIndex=pageStart+i;
-      return '<div class="game-card is-grid-card" data-carousel-game="'+g.id+'" '+(absoluteIndex===pageStart?'data-action-hint-target="game"':'')+'>'+
-        '<div class="game-card-art">'+
-          '<img class="game-card-logo" src="'+gameLogoUrl(g.id, GAME_BY_ID)+'" alt="'+g.title.replace(/"/g,'&quot;')+'" loading="eager" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">'+
-          '<span class="game-card-logo-fallback" style="display:none">'+g.emoji+'</span>'+
-        '</div>'+
-        '<div class="game-card-body">'+
-          '<div class="game-card-title">'+g.title+'</div>'+
-          '<div class="game-card-desc">'+gameText(g.id,'desc')+'</div>'+
-          '<div class="game-card-meta"><span>'+gameText(g.id,'genre')+'</span><span class="game-card-play">'+tr('play')+'</span></div>'+
-        '</div></div>';
-    }).join('');
-
-    const pageCount=Math.ceil(ids.length/CATEGORY_PAGE_SIZE);
-    const activePage=Math.floor(pageStart/CATEGORY_PAGE_SIZE);
-    dots.innerHTML=Array.from({length:pageCount},(_,i)=>'<span class="carousel-dot '+(i===activePage?'active':'')+'"></span>').join('');
-
-    track.querySelectorAll('.game-card').forEach(card=>{
-      card.addEventListener('click',e=>{
-        if(carouselSwipeLocked){
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-        openExternal(GAME_LINKS[card.dataset.carouselGame]);
-      });
-    });
-  }
-
-  function moveCategoryGame(delta){
-    if(!currentCategory)return;
-    const len=currentCategory.ids.length;
-    if(len<2)return;
-    const pageCount=Math.ceil(len/CATEGORY_PAGE_SIZE);
-    const currentPage=Math.floor(categoryGameIndex/CATEGORY_PAGE_SIZE);
-    const nextPage=Math.max(0,Math.min(pageCount-1,currentPage+delta));
-    if(nextPage===currentPage)return;
-    categoryGameIndex=nextPage*CATEGORY_PAGE_SIZE;
-    haptic();
-    renderCategoryCarousel();
-  }
-
-  const carousel=document.getElementById('gamesCarousel');
-  const swipePointer={id:null,x:0,y:0,time:0,moved:false};
-
-  carousel.addEventListener('pointerdown',e=>{
-    if(e.pointerType==="mouse"&&e.button!==0)return;
-    swipePointer.id=e.pointerId;
-    swipePointer.x=e.clientX;
-    swipePointer.y=e.clientY;
-    swipePointer.time=Date.now();
-    swipePointer.moved=false;
-    carouselSwipeLocked=false;
-    try{carousel.setPointerCapture(e.pointerId)}catch(_){}
-  },{passive:true});
-
-  carousel.addEventListener('pointermove',e=>{
-    if(swipePointer.id!==e.pointerId)return;
-    const dx=e.clientX-swipePointer.x;
-    const dy=e.clientY-swipePointer.y;
-    if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)*1.05)swipePointer.moved=true;
-  },{passive:true});
-
-  carousel.addEventListener('pointerup',e=>{
-    if(swipePointer.id!==e.pointerId)return;
-    const dx=e.clientX-swipePointer.x;
-    const dy=e.clientY-swipePointer.y;
-    const dt=Math.max(1,Date.now()-swipePointer.time);
-    const velocity=Math.abs(dx)/dt;
-    const isSwipe=Math.abs(dx)>38&&Math.abs(dx)>Math.abs(dy)*1.15&&(Math.abs(dx)>55||velocity>.35);
-    carouselSwipeLocked=swipePointer.moved&&isSwipe;
-    if(isSwipe)moveCategoryGame(dx<0?1:-1);
-    const id=swipePointer.id;
-    swipePointer.id=null;
-    try{carousel.releasePointerCapture(id)}catch(_){}
-    if(carouselSwipeLocked)setTimeout(()=>{carouselSwipeLocked=false},120);
-  },{passive:true});
-
-  carousel.addEventListener('pointercancel',()=>{
-    swipePointer.id=null;
-    carouselSwipeLocked=false;
-  },{passive:true});
-
-  carousel.addEventListener('touchstart',e=>{
-    const t=e.touches[0]; if(!t)return;
-    swipeStartX=t.clientX; swipeStartY=t.clientY; swipeStartTime=Date.now();
-  },{passive:true});
-  carousel.addEventListener('touchend',e=>{
-    const t=e.changedTouches[0]; if(!t)return;
-    const dx=t.clientX-swipeStartX;
-    const dy=t.clientY-swipeStartY;
-    const dt=Math.max(1,Date.now()-swipeStartTime);
-    const velocity=Math.abs(dx)/dt;
-    if(Math.abs(dx)>38&&Math.abs(dx)>Math.abs(dy)*1.15&&(Math.abs(dx)>55||velocity>.35)){
-      carouselSwipeLocked=true;
-      moveCategoryGame(dx<0?1:-1);
-      setTimeout(()=>carouselSwipeLocked=false,120);
-    }
-  },{passive:true});
-
-  // Language initialization is performed after GAME_CARDS/CATEGORIES/GAME_LINKS are initialized.
-
   function returnToMainMenu(){
-    window.FZG?.state?.set?.({screen:'home',categoryId:null,gameId:null,modal:null});
-    const cv=document.getElementById('categoryView');
-    const cl=document.getElementById('categoryList');
-    if(cv)cv.classList.add('hidden');
-    if(cl){
-      cl.classList.remove('hidden');
-      animateIn(cl,"back");
-    }
-    document.getElementById('homeChatWidget')?.classList.remove('is-hidden');
-    document.getElementById('homeMediaRow')?.classList.remove('is-hidden');
-    currentCategory=null;
-    categoryGameIndex=0;
-    renderCategories();
+    window.FZG?.gameWindow?.showCatalog?.();
+    window.FZG?.state?.set?.({screen:"home",categoryId:null,gameId:null,modal:null});
     haptic();
   }
-
-  
-
-/* CHAT BACK — explicit in-app control; no edge-swipe so Telegram/Android system navigation stays untouched */
-  document.getElementById('categoryBack').addEventListener('click',()=>{completeActionHint("back");returnToMainMenu();});
-
-  function openExternal(url) {
-    completeActionHint("game");
-    if (!url) return;
-    haptic();
-
+  function renderCategories(){}
+  function renderCategoryCarousel(){}
+  function animateIn(){}
+  function openExternal(url){
     const gameId=Object.keys(GAME_LINKS).find(k=>GAME_LINKS[k]===url);
     if(gameId)trackGameLaunch(gameId);
-
-    // Games launch into the persistent GAME WINDOW on the home screen.
-    // The existing external opener remains the safe fallback.
-    if(gameId && window.FZG?.gameWindow?.openGame?.(gameId)){
-      return;
-    }
-
-    try {
-      if (tg && typeof tg.openLink === 'function') tg.openLink(url);
-      else window.open(url, '_blank', 'noopener,noreferrer');
-    } catch(e) {
-      window.location.href = url;
-    }
+    return !!window.FZG?.gameWindow?.openGame?.(gameId);
   }
 
   // Final portal boot. Keep rendering isolated so one optional module cannot blank the whole portal.
   function bootPortal(){
-    try{
-      applyLanguage();
-      showCategoryList(false);
-    }catch(err){
-      console.error("FREEzzzGames boot error:",err);
-      const list=document.getElementById("categoryList");
-      if(list){
-        list.classList.remove("hidden");
-        list.innerHTML='<div style="padding:16px;border:1px solid #e52225;border-radius:10px;background:#fff;color:#17212b;font:12px monospace;text-align:left"><b>FREEzzzGames</b><br>Portal boot error.<br><small>'+String(err&&err.message||err).replace(/</g,"&lt;")+'</small></div>';
-      }
-    }
+    try{ applyLanguage(); showCategoryList(false); }
+    catch(err){ console.error("FREEzzzGames portal boot error:",err); }
   }
   bootPortal();
   updateActionHintsControls();
