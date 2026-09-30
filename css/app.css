@@ -6320,3 +6320,30 @@ html,body{
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
 }
+
+/* FIX: distribute the four top elements evenly across the full header width. */
+#mainPortal .header-top{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:0!important;
+}
+#mainPortal .header-top .portal-logo,
+#mainPortal .header-top .profile-box,
+#mainPortal .header-top .always-btn{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+#mainPortal .header-top .portal-logo{
+  justify-self:stretch!important;
+  padding-left:8px!important;
+  padding-right:8px!important;
+}
+#mainPortal .header-top .profile-box{
+  justify-self:stretch!important;
+  padding-left:10px!important;
+  padding-right:10px!important;
+}
+#mainPortal .header-top .always-btn{
+  border-radius:0!important;
+}
