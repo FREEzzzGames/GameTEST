@@ -166,22 +166,16 @@ function openCard(channel) {
 
   main.innerHTML =
     '<div class="live-streamer-card">' +
-      '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>' +
+      '<button class="live-streamer-card-close" data-live-action="card-close" type="button" aria-label="Закрыть">×</button>' +
       '<div class="live-streamer-card-avatar">' + esc(channel.avatar) + '</div>' +
       '<strong class="live-streamer-card-name">' + esc(channel.name) + '</strong>' +
       '<span class="live-streamer-card-game">' + esc(channel.category || "YouTube") + '</span>' +
       '<p class="live-streamer-card-text">' + esc(channel.description || channel.shortDescription || "Канал автора на YouTube.") + '</p>' +
       '<div class="live-streamer-card-actions">' +
-        (url ? '<button class="live-streamer-card-channel" id="liveCardChannel" type="button">КАНАЛ ↗</button>' : '') +
+        (url ? '<button class="live-streamer-card-channel" data-live-action="channel-open" type="button">КАНАЛ ↗</button>' : '') +
       '</div>' +
     '</div>';
 
-  $("liveCardClose")?.addEventListener("click", renderBot);
-
-  $("liveCardChannel")?.addEventListener("click", () => {
-    openYouTubePanel(channel);
-    haptic();
-  });
 }
 
 function openYouTubePanel(channel) {
@@ -193,26 +187,61 @@ function openYouTubePanel(channel) {
   main.innerHTML =
     '<div class="live-youtube-panel">' +
       '<div class="live-youtube-head">' +
-        '<button class="live-youtube-back" id="liveYoutubeBack" type="button">‹</button>' +
+        '<button class="live-youtube-back" data-live-action="youtube-back" type="button">‹</button>' +
         '<div><strong>' + esc(channel.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
-        '<button class="live-youtube-close" id="liveYoutubeClose" type="button">×</button>' +
+        '<button class="live-youtube-close" data-live-action="youtube-close" type="button">×</button>' +
       '</div>' +
       '<div class="live-youtube-body">' +
         '<div class="live-youtube-logo">▶</div>' +
         '<strong>Канал находится на YouTube</strong>' +
         '<p>' + esc(channel.shortDescription || "Открой канал и выбери нужное видео или стрим.") + '</p>' +
-        '<button class="live-youtube-open" id="liveYoutubeOpen" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
+        '<button class="live-youtube-open" data-live-action="youtube-open" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
         '<small class="live-youtube-note">FREEzzzGames не копирует и не хранит контент YouTube.</small>' +
       '</div>' +
     '</div>';
 
-  $("liveYoutubeBack")?.addEventListener("click", () => openCard(channel));
-  $("liveYoutubeClose")?.addEventListener("click", renderBot);
+}
 
-  $("liveYoutubeOpen")?.addEventListener("click", () => {
-    if (url) window.open(url, "_blank", "noopener,noreferrer");
+function handleMainAction(event) {
+  const target = event.target.closest("[data-live-action]");
+  if (!target) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  const action = target.dataset.liveAction;
+  const channel = S.all.find(item => item.id === S.selectedId);
+  if (!channel) return;
+
+  if (action === "card-close") {
+    renderBot();
     haptic();
-  });
+    return;
+  }
+
+  if (action === "channel-open") {
+    openYouTubePanel(channel);
+    haptic();
+    return;
+  }
+
+  if (action === "youtube-back") {
+    openCard(channel);
+    haptic();
+    return;
+  }
+
+  if (action === "youtube-close") {
+    renderBot();
+    haptic();
+    return;
+  }
+
+  if (action === "youtube-open") {
+    const url = channelUrl(channel);
+    if (url) window.FZG?.platform?.openLink?.(url);
+    haptic();
+  }
 }
 
 function positionListPanel() {
@@ -299,6 +328,7 @@ function init() {
 
   $("liveListBtn")?.addEventListener("click", openList);
   $("liveListClose")?.addEventListener("click", closeList);
+  $("liveMain")?.addEventListener("click", handleMainAction);
   $("liveListPanel")?.addEventListener("click", event => {
     if (event.target.id === "liveListPanel") closeList();
   });
