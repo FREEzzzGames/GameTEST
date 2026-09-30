@@ -2768,3 +2768,182 @@ input,textarea{
 #mainPortal .home-chat-widget.is-hidden + .games-browser .category-view{
   display:flex!important;
 }
+
+
+/* =========================================================
+   HOME MEDIA ROW — LIVE + CHAT are equal landscape panels.
+   ========================================================= */
+
+#mainPortal .home-media-row{
+  width:100%!important;
+  flex:0 0 clamp(168px,25dvh,198px)!important;
+  height:clamp(168px,25dvh,198px)!important;
+  min-height:168px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:7px!important;
+  min-width:0!important;
+  align-items:stretch!important;
+}
+
+#mainPortal .home-media-row .live-view,
+#mainPortal .home-media-row .home-chat-widget{
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-height:none!important;
+  flex:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+
+/* LIVE panel */
+#mainPortal .home-media-row .live-view{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:5px!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-media-row .live-head{
+  flex:0 0 38px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 7px 0 9px!important;
+}
+#mainPortal .home-media-row .live-head-title{
+  font-size:10px!important;
+  gap:4px!important;
+}
+#mainPortal .home-media-row .live-list-btn{
+  min-width:0!important;
+  width:auto!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 8px!important;
+  font-size:8px!important;
+}
+#mainPortal .home-media-row .live-main{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+}
+#mainPortal .home-media-row .live-empty{
+  padding:7px!important;
+}
+#mainPortal .home-media-row .live-empty-icon{
+  font-size:20px!important;
+}
+#mainPortal .home-media-row .live-empty-title{
+  font-size:9px!important;
+}
+#mainPortal .home-media-row .live-empty-text{
+  max-width:94%!important;
+  font-size:7px!important;
+}
+
+/* CHAT panel — same outer dimensions as LIVE */
+#mainPortal .home-media-row .home-chat-widget{
+  display:flex!important;
+  padding:6px!important;
+  gap:4px!important;
+  border-radius:11px!important;
+}
+#mainPortal .home-media-row .home-chat-head{
+  flex:0 0 32px!important;
+  min-height:32px!important;
+}
+#mainPortal .home-media-row .home-chat-title strong{
+  font-size:10px!important;
+}
+#mainPortal .home-media-row .home-chat-status{
+  font-size:6px!important;
+}
+#mainPortal .home-media-row .home-chat-open{
+  width:32px!important;
+  height:32px!important;
+  min-width:32px!important;
+  min-height:32px!important;
+  font-size:14px!important;
+}
+#mainPortal .home-media-row .home-chat-message{
+  min-height:35px!important;
+  grid-template-columns:25px minmax(0,1fr) auto!important;
+  gap:5px!important;
+  padding:4px 5px!important;
+}
+#mainPortal .home-media-row .home-chat-avatar{
+  width:25px!important;
+  height:25px!important;
+  font-size:13px!important;
+}
+#mainPortal .home-media-row .home-chat-message-body strong{
+  font-size:8px!important;
+}
+#mainPortal .home-media-row .home-chat-message-body span{
+  font-size:8px!important;
+}
+#mainPortal .home-media-row .home-chat-message time{
+  font-size:6px!important;
+}
+#mainPortal .home-media-row .home-chat-compose{
+  flex:0 0 36px!important;
+  min-height:36px!important;
+}
+#mainPortal .home-media-row #homeChatInput,
+#mainPortal .home-media-row #homeChatSend{
+  height:36px!important;
+  min-height:36px!important;
+}
+#mainPortal .home-media-row #homeChatSend{
+  flex:0 0 36px!important;
+  width:36px!important;
+  min-width:36px!important;
+  padding:0!important;
+}
+
+/* The row owns the vertical space; categories remain the bottom navigation. */
+#mainPortal .home-media-row + .games-browser{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  overflow:visible!important;
+}
+#mainPortal .home-media-row + .games-browser .category-list{
+  pointer-events:auto!important;
+}
+
+/* If the home chat is temporarily hidden, keep the LIVE panel centered in its column. */
+#mainPortal .home-chat-widget.is-hidden{
+  display:none!important;
+}
+#mainPortal .home-media-row:has(.home-chat-widget.is-hidden){
+  grid-template-columns:1fr!important;
+}
+#mainPortal .home-media-row:has(.home-chat-widget.is-hidden) .live-view{
+  width:100%!important;
+}
+
+/* Short phones: still landscape, never collapse into a vertical stack. */
+@media(max-height:700px){
+  #mainPortal .home-media-row{
+    flex-basis:148px!important;
+    height:148px!important;
+    min-height:148px!important;
+  }
+}
+@media(max-width:380px){
+  #mainPortal .home-media-row{
+    gap:5px!important;
+    flex-basis:154px!important;
+    height:154px!important;
+    min-height:154px!important;
+  }
+  #mainPortal .home-media-row .live-head-title{
+    font-size:8px!important;
+  }
+  #mainPortal .home-media-row .live-list-btn{
+    padding:0 6px!important;
+    font-size:7px!important;
+  }
+}
