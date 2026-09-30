@@ -8,6 +8,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
   const S = { mode:"catalog", gameId:null, open:false, expanded:false, categoryId:null, page:0 };
   const PAGE_SIZE=4;
+  let frameLoadTimer=0;
   const $=id=>document.getElementById(id);
   const byId=Object.fromEntries(GAME_CARDS.map(game=>[game.id,game]));
   const categoryById=Object.fromEntries(CATEGORIES.map(category=>[category.id,category]));
@@ -41,7 +42,12 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
     return true;
   }
 
+  function clearFrameTimer(){
+    if(frameLoadTimer){window.clearTimeout(frameLoadTimer);frameLoadTimer=0;}
+  }
+
   function clearFrame(){
+    clearFrameTimer();
     const f=frame();
     if(f){f.src="about:blank";f.removeAttribute("title");}
   }
@@ -170,7 +176,14 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
     const preserveFrame=options.preserveFrame===true && f.getAttribute("src")===url;
     if(!preserveFrame){
       clearFrame();
-      requestAnimationFrame(()=>{f.src=url;});
+      requestAnimationFrame(()=>{
+        f.src=url;
+        frameLoadTimer=window.setTimeout(()=>{
+          const root=host();
+          root?.querySelector(".game-window-loading")?.classList.add("hidden");
+          root?.querySelector(".game-window-fallback")?.classList.remove("hidden");
+        },15000);
+      });
     }
     window.FZG?.state?.set?.({screen:"home",categoryId:null,gameId});
     haptic();
@@ -201,11 +214,13 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
   }
 
   function handleFrameLoad(){
+    clearFrameTimer();
     host()?.querySelector(".game-window-loading")?.classList.add("hidden");
     window.FZG?.tvRemote?.focusGameFrame?.();
   }
 
   function handleFrameError(){
+    clearFrameTimer();
     const root=host();
     root?.querySelector(".game-window-loading")?.classList.add("hidden");
     root?.querySelector(".game-window-fallback")?.classList.remove("hidden");
