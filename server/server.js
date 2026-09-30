@@ -22,8 +22,8 @@ const DEFAULT_STREAMER_REGISTRY=[
   {"id":"smetanaml","platform":"youtube","handle":"@smetanaml","name":"СМЕТАНА","avatar":"🎮","category":"MLBB"},
   {"id":"titamin1","platform":"youtube","handle":"@Titamin","name":"ТИТАМИН","avatar":"🎮","category":"MLBB"},
   {"id":"dreadztv","platform":"youtube","handle":"@DreadzTV","name":"Dread","avatar":"🎮","category":"Dota 2"},
-  {"id":"stray228","platform":"youtube","handle":"@stray228","name":"Stray228","avatar":"🎮","category":"Dota 2"},
-  {"id":"rostikfacekid","platform":"youtube","handle":"@rostikfacekid","name":"rostikfacekid","avatar":"🎮","category":"Dota 2"},
+  {"id":"stray228","platform":"youtube","handle":"@stray228","customUrl":"/c/StrayBest","channelUrl":"https://www.youtube.com/c/StrayBest","name":"Stray228","avatar":"🎮","category":"Dota 2"},
+  {"id":"rostikfacekid","platform":"youtube","channelId":"UCFtJvIs4RNx097pdImXqNDQ","handle":"@rostikfacekid","name":"rostikfacekid","avatar":"🎮","category":"Dota 2"},
   {"id":"bratishkinoff","platform":"youtube","handle":"@bratishkinoff","name":"bratishkinoff","avatar":"🎮","category":"Minecraft"},
   {"id":"deepins02","platform":"youtube","handle":"@DEEPINSSTREAM","name":"deepins02","avatar":"🎮","category":"Minecraft"},
   {"id":"t2x2","platform":"youtube","handle":"@T2x2_stream","name":"T2x2","avatar":"🎮","category":"Minecraft"},
@@ -46,8 +46,10 @@ function registry(){
     if(Array.isArray(parsed))configured=parsed;
   }catch{}
   const map=new Map(DEFAULT_STREAMER_REGISTRY.map(x=>[x.id,x]));
+  // Source code is authoritative for known channels. Environment config may
+  // only add new entries and cannot overwrite verified registry records.
   for(const x of configured){
-    if(x?.id)map.set(x.id,{...map.get(x.id),...x});
+    if(x?.id && !map.has(x.id))map.set(x.id,x);
   }
   return [...map.values()];
 }
@@ -81,21 +83,57 @@ async function resolveChannel(x){
     return value;
   }
 
-  if(!x.handle)return null;
+  if(!x.handle && !x.customUrl)return null;
 
-  const data=await api('channels',{
-    part:'id,contentDetails',
-    forHandle:String(x.handle).replace(/^@/,'')
-  });
-  const c=data.items?.[0];
-  if(!c)return null;
+  try{
+    if(x.handle){
+      const data=await api('channels',{
+        part:'id,contentDetails',
+        forHandle:String(x.handle).replace(/^@/,'')
+      });
+      const c=data.items?.[0];
+      if(c){
+        const value={
+          channelId:c.id,
+          uploadsPlaylistId:c.contentDetails?.relatedPlaylists?.uploads||null
+        };
+        channelCache.set(x.id,value);
+        return value;
+      }
+    }
+  }catch{}
 
-  const value={
-    channelId:c.id,
-    uploadsPlaylistId:c.contentDetails?.relatedPlaylists?.uploads||null
-  };
-  channelCache.set(x.id,value);
-  return value;
+  // Some legacy /c/ channels do not resolve through forHandle.
+  // Resolve their immutable channel ID from the public channel page once,
+  // then cache it for all subsequent polling cycles.
+  if(x.customUrl){
+    try{
+      const base='https://www.youtube.com';
+      const url=String(x.customUrl).startsWith('http')
+        ? String(x.customUrl)
+        : base+String(x.customUrl);
+      const r=await fetch(url,{
+        headers:{'User-Agent':'Mozilla/5.0'}
+      });
+      if(r.ok){
+        const html=await r.text();
+        const patterns=[
+          /"channelId":"(UC[a-zA-Z0-9_-]{22})"/,
+          /"externalId":"(UC[a-zA-Z0-9_-]{22})"/,
+          /channel\/([a-zA-Z0-9_-]{24})/
+        ];
+        const match=patterns.map(re=>html.match(re)).find(Boolean);
+        const channelId=match?.[1]||null;
+        if(channelId){
+          const value={channelId,uploadsPlaylistId:null};
+          channelCache.set(x.id,value);
+          return value;
+        }
+      }
+    }catch{}
+  }
+
+  return null;
 }
 
 async function ensurePlaylist(x){
@@ -140,7 +178,8 @@ async function youtube(list){
         });
       }
     }catch(e){
-      console.error('YouTube playlist check failed for '+(x.handle||x.channelId),e);
+      const label=x.handle||x.channelId||x.customUrl||x.id;
+      console.error('YouTube playlist check failed for '+label,e);
     }
   }
 
