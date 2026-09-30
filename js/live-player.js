@@ -4,10 +4,22 @@ export function createLivePlayer({mount, onBack, haptic, openExternal}){
   let loadTimer = 0;
 
   const externalUrl = channel => channel?.url || "";
-  const liveEmbedUrl = channel =>
-    channel?.sources?.find(source=>source?.live&&source?.embedUrl)?.embedUrl ||
-    channel?.embedUrl ||
-    "";
+  const liveEmbedUrl = channel => {
+    const raw=
+      channel?.sources?.find(source=>source?.live&&source?.embedUrl)?.embedUrl ||
+      channel?.embedUrl ||
+      "";
+    if(!raw)return "";
+    try{
+      const url=new URL(raw);
+      if(url.hostname==="www.youtube.com"||url.hostname==="youtube.com"){
+        if(!url.searchParams.has("origin"))url.searchParams.set("origin",location.origin);
+      }
+      return url.toString();
+    }catch(_){
+      return raw;
+    }
+  };
 
   const setExpanded = value => {
     expanded = !!value;
