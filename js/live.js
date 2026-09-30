@@ -101,7 +101,7 @@ function renderBot(){
   m.innerHTML=
     '<div class="live-bot-stage" id="liveBotStage">'+
       '<div class="live-bot-bubble" id="liveBotBubble">Готов к запуску трансляции...</div>'+
-      '<button class="live-bot" id="liveBot" type="button" aria-label="LIVE Bot">🤖</button>'+
+      '<button class="live-bot" id="liveBot" type="button" aria-label="LIVE Bot">BOT</button>'+
       '<div class="live-bot-floor">FREEzzzGames LIVE BOT</div>'+
     '</div>';
 
@@ -210,9 +210,9 @@ function openStreamer(x){
         '<div><strong>'+esc(x.name)+'</strong><small>YOUTUBE • АВТОЗАПУСК</small></div>'+
         '<div class="live-youtube-actions">'+
           (external
-            ? '<button class="live-youtube-open" data-live-action="external" type="button" aria-label="Открыть канал">↗</button>'
+            ? '<button class="live-youtube-open" data-live-action="external" type="button" aria-label="Открыть канал">КАНАЛ</button>'
             : '')+
-          '<button class="live-youtube-close" data-live-action="youtube-close" type="button" aria-label="Закрыть">×</button>'+
+          '<button class="live-youtube-close" data-live-action="youtube-close" type="button" aria-label="Закрыть">ЗАКРЫТЬ</button>'+
         '</div>'+
       '</div>'+
       '<div class="live-youtube-frame">'+
