@@ -83,6 +83,7 @@ function syncTelegramBackButton(){
   });
 
   window.addEventListener("freezzz:live-overlay", sync);
+  window.addEventListener("freezzz:game-window", sync);
   sync();
   subscribe(sync);
 }
