@@ -18,6 +18,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   let raf=0;
   let tgConfigured=false;
   let tgThemeKey="";
+  let tgViewportKey="";
   function syncMiniAppViewport(){
     cancelAnimationFrame(raf);
     raf=requestAnimationFrame(()=>{
@@ -47,19 +48,23 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
         const viewportHeight=Number(tgApp?.viewportHeight)||Number(vv?.height)||window.innerHeight;
         const stableHeight=Number(tgApp?.viewportStableHeight)||viewportHeight;
         const viewportWidth=Number(vv?.width)||window.innerWidth;
-        root.style.setProperty("--tg-viewport-height",Math.max(1,viewportHeight)+"px");
-        root.style.setProperty("--tg-viewport-stable-height",Math.max(1,stableHeight)+"px");
-        root.style.setProperty("--tg-viewport-width",Math.max(1,viewportWidth)+"px");
         const top=Number(tgApp?.safeAreaInset?.top)||0;
         const right=Number(tgApp?.safeAreaInset?.right)||0;
         const bottom=Number(tgApp?.safeAreaInset?.bottom)||0;
         const left=Number(tgApp?.safeAreaInset?.left)||0;
-        root.style.setProperty("--tg-safe-area-inset-top",top+"px");
-        root.style.setProperty("--tg-safe-area-inset-right",right+"px");
-        root.style.setProperty("--tg-safe-area-inset-bottom",bottom+"px");
-        root.style.setProperty("--tg-safe-area-inset-left",left+"px");
-        root.classList.toggle("is-compact-height",viewportHeight<650);
-        root.classList.toggle("is-compact-width",viewportWidth<360);
+        const viewportKey=viewportHeight+"|"+stableHeight+"|"+viewportWidth+"|"+top+"|"+right+"|"+bottom+"|"+left;
+        if(viewportKey!==tgViewportKey){
+          tgViewportKey=viewportKey;
+          root.style.setProperty("--tg-viewport-height",Math.max(1,viewportHeight)+"px");
+          root.style.setProperty("--tg-viewport-stable-height",Math.max(1,stableHeight)+"px");
+          root.style.setProperty("--tg-viewport-width",Math.max(1,viewportWidth)+"px");
+          root.style.setProperty("--tg-safe-area-inset-top",top+"px");
+          root.style.setProperty("--tg-safe-area-inset-right",right+"px");
+          root.style.setProperty("--tg-safe-area-inset-bottom",bottom+"px");
+          root.style.setProperty("--tg-safe-area-inset-left",left+"px");
+          root.classList.toggle("is-compact-height",viewportHeight<650);
+          root.classList.toggle("is-compact-width",viewportWidth<360);
+        }
       }catch(e){}
     });
   }
