@@ -63,13 +63,30 @@ function normalize(payload){
 }
 
 function mergePayloads(registryPayload,livePayload){
-  const base=normalize(registryPayload);
-  const live=normalize(livePayload);
+  const registryAvailable=registryPayload!==null;
+  const liveAvailable=livePayload!==null;
+  const base=registryAvailable?normalize(registryPayload):normalize(S.all);
+  const live=liveAvailable?normalize(livePayload):normalize(S.all);
   const map=new Map(base.map(x=>[x.id,x]));
 
   for(const x of live){
     const prev=map.get(x.id)||{};
     map.set(x.id,{...prev,...x});
+  }
+
+  if(!liveAvailable){
+    for(const prev of normalize(S.all)){
+      const current=map.get(prev.id);
+      if(current){
+        map.set(prev.id,{
+          ...current,
+          live:prev.live,
+          liveStartedAt:prev.liveStartedAt,
+          sources:prev.sources,
+          lastStreamTitle:prev.lastStreamTitle
+        });
+      }
+    }
   }
 
   return [...map.values()].map(x=>{
