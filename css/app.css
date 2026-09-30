@@ -6353,3 +6353,12 @@ html,body{
   grid-template-columns:70% 20% 5% 5%!important;
   gap:0!important;
 }
+
+/* FIX: logo lettering 1.5x larger, still contained inside the 70% logo area. */
+#mainPortal .header-top .portal-logo h1{
+  font-size:clamp(30px,12vw,63px)!important;
+  line-height:.75!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+}
