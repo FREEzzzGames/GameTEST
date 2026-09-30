@@ -51,7 +51,6 @@ async function bootPortalModule(){
 
   if(parallaxResult.status==="rejected") console.warn("FREEzzzGames parallax layer unavailable",parallaxResult.reason);
   if(streamerParallaxResult.status==="rejected") console.warn("FREEzzzGames streamer menu parallax unavailable",streamerParallaxResult.reason);
-  else window.FZG.streamerMenuParallax?.mount?.();
   if(liveResult.status==="fulfilled"){
     window.FZG.liveModuleReady=true;
   }else{
