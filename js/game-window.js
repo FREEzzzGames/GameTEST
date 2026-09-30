@@ -91,7 +91,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
     if(!S.categoryId){
       panel.innerHTML=
-        '<div class="game-catalog-title">🎮 <strong>ИГРЫ</strong><small>'+esc(tr("gamesCount")||"КАТАЛОГ")+'</small></div>'+
+        '<div class="game-catalog-title"><strong>ИГРЫ</strong><small>'+esc(tr("gamesCount")||"КАТАЛОГ")+'</small></div>'+
         '<div class="game-category-list">'+
         CATEGORIES.map(c=>
           '<button class="game-category-item" type="button" data-action-hint-target="category" data-game-category="'+esc(c.id)+'">'+
@@ -354,7 +354,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
       if(game){
         title(game.title);
         genre(gameText(S.gameId,"genre"));
-        emoji(game.emoji||"🎮");
+        emoji();
       }
       return;
     }
