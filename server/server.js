@@ -125,7 +125,7 @@ async function resolveChannel(x){
           /"browseId":"(UC[a-zA-Z0-9_-]{22})"/,
           /"externalId":"(UC[a-zA-Z0-9_-]{22})"/,
           /"channelId":"(UC[a-zA-Z0-9_-]{22})"/,
-          /channel\\/(UC[a-zA-Z0-9_-]{22})/
+          /channel\/(UC[a-zA-Z0-9_-]{22})/
         ];
         const match=patterns.map(re=>html.match(re)).find(Boolean);
         const channelId=match?.[1]||null;
