@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="freezzz-build" content="2026-09-30-live-direct-sources">
+<meta name="freezzz-build" content="2026-09-30-game-window-catalog">
 <title>FREEzzzGames</title>
 <link rel="preconnect" href="https://telegram.org">
 <link rel="preconnect" href="https://freezzgames-live-monitor.onrender.com" crossorigin>
@@ -19,7 +19,7 @@
   <link rel="modulepreload" href="./js/portal-data/posters.js?v=20260930e4">
   <link rel="modulepreload" href="./js/live-data/channels.js?v=20260930-live">
   <link rel="modulepreload" href="./js/streamer-menu-parallax.js?v=20260930c">
-  <link rel="modulepreload" href="./js/game-window.js?v=20260930c">
+  <link rel="modulepreload" href="./js/game-window.js?v=20260930-gamecatalog1">
 <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 </head>
 <body id="bodyRoot" class="theme-dark">
@@ -142,31 +142,6 @@
   <!-- LIVE owns this overlay layer, but it lives outside the compact LIVE/CHAT row. -->
   <div class="live-overlay-layer hidden" id="liveOverlayLayer" aria-hidden="true">
     <div class="live-overlay-shell" id="liveOverlayShell"></div>
-  </div>
-
-  <div class="games-browser" id="gamesBrowser">
-    <div class="category-list" id="categoryList" aria-label="Категории игр">
-      <button class="category-item" data-category="worlds"><span class="category-icon">🌌</span><span class="category-copy"><span class="category-name">ИНТЕРАКТИВНЫЕ МИРЫ</span><span class="category-count">7 ИГР</span></span><span class="category-arrow">›</span></button>
-      <button class="category-item" data-category="creative"><span class="category-icon">🎨</span><span class="category-copy"><span class="category-name">ТВОРЧЕСТВО • МУЗЫКА • АРТ</span><span class="category-count">7 ИГР</span></span><span class="category-arrow">›</span></button>
-      <button class="category-item" data-category="puzzles"><span class="category-icon">🧩</span><span class="category-copy"><span class="category-name">ПАЗЛЫ • ЛОГИКА</span><span class="category-count">7 ИГР</span></span><span class="category-arrow">›</span></button>
-      <button class="category-item" data-category="arcade"><span class="category-icon">🕹️</span><span class="category-copy"><span class="category-name">АРКАДЫ • КЛАССИКА</span><span class="category-count">10 ИГР</span></span><span class="category-arrow">›</span></button>
-      <button class="category-item" data-category="sandbox"><span class="category-icon">🌍</span><span class="category-copy"><span class="category-name">СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ</span><span class="category-count">6 ИГР</span></span><span class="category-arrow">›</span></button>
-      <button class="category-item" data-category="experimental"><span class="category-icon">⚡</span><span class="category-copy"><span class="category-name">ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ</span><span class="category-count">5 ИГР</span></span><span class="category-arrow">›</span></button>
-    </div>
-    <div class="category-view hidden" id="categoryView">
-      <div class="category-head">
-        <button class="category-back" id="categoryBack" data-action-hint-target="back" aria-label="Назад">‹</button>
-        <div class="category-head-copy">
-          <div class="category-head-title" id="categoryHeadTitle"></div>
-          <div class="category-head-sub" data-i18n="swipeHint">СВАЙП ВЛЕВО / ВПРАВО • ИГРА ОТКРЫВАЕТСЯ КАСАНИЕМ</div>
-        </div>
-      </div>
-      <div class="games-carousel" id="gamesCarousel">
-        <div class="carousel-hint" data-i18n="swipeShort">← СВАЙП →</div>
-        <div class="games-track" id="gamesTrack"></div>
-        <div class="carousel-dots" id="carouselDots"></div>
-      </div>
-    </div>
   </div>
 
   <div class="panel-view hidden" id="achievementsView">
