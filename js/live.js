@@ -4,26 +4,29 @@ import { directSources } from "./live-data/channels.js?v=20260930g";
 "use strict";
 
 /*
-  FREEzzzGames LIVE
-  -----------------
-  The portal owns the streamer catalog and UI.
-  YouTube remains the external source of creator content.
-  There is NO automatic ONLINE/OFFLINE polling and no LIVE monitor dependency.
+  FREEzzzGames LIVE — clean base
+  Portal-owned streamer catalog.
+  YouTube is the external content source.
+  No automatic ONLINE/OFFLINE monitoring.
 */
 
 const S = {
   all: directSources(),
   selectedId: null,
-  selectedVideo: null,
   botTimer: null,
   botPhraseTimer: null
 };
 
 const $ = id => document.getElementById(id);
-const h = () => window.FZG?.platform?.haptic?.("light");
-const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
-}[c]));
+const haptic = () => window.FZG?.platform?.haptic?.("light");
+
+const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+}[char]));
 
 const BOT_PHRASES = [
   "Я проверил интернет. Он всё ещё интернет.",
@@ -36,7 +39,6 @@ const BOT_PHRASES = [
   "Я робот. У меня нет подписки на YouTube.",
   "Стрим ушёл. Я остался.",
   "Проверка трансляции завершена. Ничего не проверено.",
-  "Я бы рассказал мем, но он ушёл смотреть стрим.",
   "Минуточку. Я загружаю настроение.",
   "Сегодня я официальный эксперт по ничегонеделанию.",
   "Внимание. Робот находится в рабочем состоянии.",
@@ -54,190 +56,163 @@ const BOT_TAPS = [
   "🤖 *делает вид, что занят*"
 ];
 
-function channelUrl(x) {
-  if (x.channelUrl) return x.channelUrl;
-  if (x.channelId) return "https://www.youtube.com/channel/" + encodeURIComponent(x.channelId);
-  if (x.handle) return "https://www.youtube.com/" + String(x.handle).trim();
+function channelUrl(channel) {
+  if (channel.channelUrl) return channel.channelUrl;
+  if (channel.channelId) {
+    return "https://www.youtube.com/channel/" + encodeURIComponent(channel.channelId);
+  }
+  if (channel.handle) {
+    return "https://www.youtube.com/" + String(channel.handle).trim();
+  }
   return "";
 }
 
-function botPhrase(text = null) {
+function setBotPhrase(text = "") {
   const bubble = $("liveBotBubble");
   if (!bubble) return;
-  const value = text || BOT_PHRASES[Math.floor(Math.random() * BOT_PHRASES.length)];
-  bubble.textContent = value;
+
+  bubble.textContent = text || BOT_PHRASES[Math.floor(Math.random() * BOT_PHRASES.length)];
   bubble.classList.remove("is-new");
   requestAnimationFrame(() => bubble.classList.add("is-new"));
 }
 
-function botMove() {
+function moveBot() {
   const bot = $("liveBot");
   const area = $("liveMain");
   if (!bot || !area) return;
 
-  const w = Math.max(30, area.clientWidth - 44);
-  const h = Math.max(30, area.clientHeight - 58);
-  const x = Math.random() * w;
-  const y = Math.random() * h;
-  bot.style.setProperty("--bot-x", Math.round(x) + "px");
-  bot.style.setProperty("--bot-y", Math.round(y) + "px");
+  const maxX = Math.max(30, area.clientWidth - 44);
+  const maxY = Math.max(30, area.clientHeight - 58);
+
+  bot.style.setProperty("--bot-x", Math.round(Math.random() * maxX) + "px");
+  bot.style.setProperty("--bot-y", Math.round(Math.random() * maxY) + "px");
   bot.classList.toggle("face-left", Math.random() > .5);
 }
 
-function renderBot() {
-  const m = $("liveMain");
-  if (!m) return;
+function stopBotTimers() {
+  clearInterval(S.botTimer);
+  clearInterval(S.botPhraseTimer);
+  S.botTimer = null;
+  S.botPhraseTimer = null;
+}
 
-  m.innerHTML =
+function startBotTimers() {
+  stopBotTimers();
+  S.botTimer = setInterval(moveBot, 3500);
+  S.botPhraseTimer = setInterval(() => setBotPhrase(), 6500);
+}
+
+function renderBot() {
+  const main = $("liveMain");
+  if (!main) return;
+
+  S.selectedId = null;
+  stopBotTimers();
+
+  main.innerHTML =
     '<div class="live-bot-stage" id="liveBotStage">' +
-      '<div class="live-bot-bubble" id="liveBotBubble">Проверяю наличие трансляции...</div>' +
+      '<div class="live-bot-bubble" id="liveBotBubble"></div>' +
       '<button class="live-bot" id="liveBot" type="button" aria-label="LIVE Bot">🤖</button>' +
       '<div class="live-bot-floor">FREEzzzGames LIVE BOT</div>' +
     '</div>';
 
   $("liveBot")?.addEventListener("click", () => {
-    botPhrase(BOT_TAPS[Math.floor(Math.random() * BOT_TAPS.length)]);
-    botMove();
-    h();
+    setBotPhrase(BOT_TAPS[Math.floor(Math.random() * BOT_TAPS.length)]);
+    moveBot();
+    haptic();
   });
 
-  botPhrase();
-  botMove();
-
-  clearInterval(S.botTimer);
-  clearInterval(S.botPhraseTimer);
-  S.botTimer = setInterval(botMove, 3500);
-  S.botPhraseTimer = setInterval(() => botPhrase(), 6500);
+  setBotPhrase();
+  moveBot();
+  startBotTimers();
 }
 
 function renderList() {
   const host = $("liveStreamerList");
   if (!host) return;
 
-  host.innerHTML = S.all.map(x =>
-    '<button class="live-list-row" type="button" data-live-list-id="' + esc(x.id) + '">' +
-      '<span class="live-list-avatar">' + esc(x.avatar) + '</span>' +
+  host.innerHTML = S.all.map(channel =>
+    '<button class="live-list-row" type="button" data-live-list-id="' + esc(channel.id) + '">' +
+      '<span class="live-list-avatar">' + esc(channel.avatar) + '</span>' +
       '<span class="live-list-main">' +
-        '<strong>' + esc(x.name) + '</strong>' +
-        '<small>' + esc(x.category || "YouTube") + '</small>' +
-        '<em>' + esc(x.shortDescription || "YouTube-канал") + '</em>' +
+        '<strong>' + esc(channel.name) + '</strong>' +
+        '<small>' + esc(channel.category || "YouTube") + '</small>' +
+        '<em>' + esc(channel.shortDescription || "YouTube-канал") + '</em>' +
       '</span>' +
       '<span class="live-list-status catalog">YT</span>' +
     '</button>'
   ).join("");
 
-  host.querySelectorAll("[data-live-list-id]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const x = S.all.find(v => v.id === btn.dataset.liveListId);
-      if (!x) return;
+  host.querySelectorAll("[data-live-list-id]").forEach(button => {
+    button.addEventListener("click", () => {
+      const channel = S.all.find(item => item.id === button.dataset.liveListId);
+      if (!channel) return;
+
       closeList();
-      openCard(x);
-      h();
+      openCard(channel);
+      haptic();
     });
   });
 }
 
-function openCard(x) {
-  S.selectedId = x.id;
-  S.selectedVideo = null;
+function openCard(channel) {
+  S.selectedId = channel.id;
+  stopBotTimers();
 
-  const m = $("liveMain");
-  if (!m) return;
+  const main = $("liveMain");
+  if (!main) return;
 
-  const url = channelUrl(x);
+  const url = channelUrl(channel);
 
-  m.innerHTML =
+  main.innerHTML =
     '<div class="live-streamer-card">' +
       '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>' +
-      '<div class="live-streamer-card-avatar">' + esc(x.avatar) + '</div>' +
-      '<strong class="live-streamer-card-name">' + esc(x.name) + '</strong>' +
-      '<span class="live-streamer-card-game">' + esc(x.category || "YouTube") + '</span>' +
-      '<p class="live-streamer-card-text">' + esc(x.description || x.shortDescription || "Канал автора на YouTube.") + '</p>' +
+      '<div class="live-streamer-card-avatar">' + esc(channel.avatar) + '</div>' +
+      '<strong class="live-streamer-card-name">' + esc(channel.name) + '</strong>' +
+      '<span class="live-streamer-card-game">' + esc(channel.category || "YouTube") + '</span>' +
+      '<p class="live-streamer-card-text">' + esc(channel.description || channel.shortDescription || "Канал автора на YouTube.") + '</p>' +
       '<div class="live-streamer-card-actions">' +
         (url ? '<button class="live-streamer-card-channel" id="liveCardChannel" type="button">КАНАЛ ↗</button>' : '') +
       '</div>' +
     '</div>';
 
-  $("liveCardClose")?.addEventListener("click", () => {
-    S.selectedId = null;
-    renderBot();
-  });
+  $("liveCardClose")?.addEventListener("click", renderBot);
 
   $("liveCardChannel")?.addEventListener("click", () => {
-    openYouTubePanel(x);
-    h();
+    openYouTubePanel(channel);
+    haptic();
   });
 }
 
-function openYouTubePanel(x) {
-  const m = $("liveMain");
-  if (!m) return;
+function openYouTubePanel(channel) {
+  const main = $("liveMain");
+  if (!main) return;
 
-  const url = channelUrl(x);
+  const url = channelUrl(channel);
 
-  m.innerHTML =
+  main.innerHTML =
     '<div class="live-youtube-panel">' +
       '<div class="live-youtube-head">' +
         '<button class="live-youtube-back" id="liveYoutubeBack" type="button">‹</button>' +
-        '<div><strong>' + esc(x.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
+        '<div><strong>' + esc(channel.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
         '<button class="live-youtube-close" id="liveYoutubeClose" type="button">×</button>' +
       '</div>' +
       '<div class="live-youtube-body">' +
         '<div class="live-youtube-logo">▶</div>' +
         '<strong>Канал находится на YouTube</strong>' +
-        '<p>' + esc(x.shortDescription || "Открой канал, выбери нужное видео или стрим.") + '</p>' +
+        '<p>' + esc(channel.shortDescription || "Открой канал и выбери нужное видео или стрим.") + '</p>' +
         '<button class="live-youtube-open" id="liveYoutubeOpen" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
         '<small class="live-youtube-note">FREEzzzGames не копирует и не хранит контент YouTube.</small>' +
       '</div>' +
     '</div>';
 
-  $("liveYoutubeBack")?.addEventListener("click", () => openCard(x));
-  $("liveYoutubeClose")?.addEventListener("click", () => renderBot());
+  $("liveYoutubeBack")?.addEventListener("click", () => openCard(channel));
+  $("liveYoutubeClose")?.addEventListener("click", renderBot);
+
   $("liveYoutubeOpen")?.addEventListener("click", () => {
     if (url) window.open(url, "_blank", "noopener,noreferrer");
-    h();
+    haptic();
   });
-}
-
-function stopPlayback() {
-  S.selectedVideo = null;
-  S.selectedId = null;
-  renderBot();
-  h();
-}
-
-function renderPlayer(video) {
-  const m = $("liveMain");
-  if (!m || !video?.embedUrl) return;
-
-  m.innerHTML =
-    '<div class="live-video-frame">' +
-      '<iframe class="live-video" src="' + esc(video.embedUrl) + '" title="' + esc(video.title || "YouTube") + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="eager"></iframe>' +
-      '<div class="live-video-shade">' +
-        '<div class="live-streamer-badge">▶ YOUTUBE</div>' +
-        '<button class="live-sound-btn" id="liveStopBtn" type="button">■</button>' +
-      '</div>' +
-    '</div>';
-
-  $("liveStopBtn")?.addEventListener("click", stopPlayback);
-}
-
-function renderCurrentControl() {
-  const host = $("liveCarousel");
-  if (!host) return;
-
-  if (!S.selectedVideo) {
-    host.innerHTML = "";
-    return;
-  }
-
-  host.innerHTML =
-    '<div class="live-current-control">' +
-      '<span>▶ ' + esc(S.selectedVideo.title || "Текущий контент") + '</span>' +
-      '<button id="liveStopBottom" type="button">■ ОСТАНОВИТЬ</button>' +
-    '</div>';
-
-  $("liveStopBottom")?.addEventListener("click", stopPlayback);
 }
 
 function positionListPanel() {
@@ -245,15 +220,15 @@ function positionListPanel() {
   const host = $("liveView");
   if (!panel || !host || panel.parentElement !== document.body) return;
 
-  const r = host.getBoundingClientRect();
+  const rect = host.getBoundingClientRect();
   const gap = 5;
-  const maxH = Math.max(180, Math.min(430, window.innerHeight - r.bottom - gap - 8));
+  const maxHeight = Math.max(180, Math.min(430, window.innerHeight - rect.bottom - gap - 8));
 
   panel.style.position = "fixed";
-  panel.style.left = Math.round(r.left) + "px";
-  panel.style.top = Math.round(r.bottom + gap) + "px";
-  panel.style.width = Math.round(r.width) + "px";
-  panel.style.maxHeight = Math.round(maxH) + "px";
+  panel.style.left = Math.round(rect.left) + "px";
+  panel.style.top = Math.round(rect.bottom + gap) + "px";
+  panel.style.width = Math.round(rect.width) + "px";
+  panel.style.maxHeight = Math.round(maxHeight) + "px";
   panel.style.height = "auto";
   panel.style.zIndex = "2147483000";
 }
@@ -263,16 +238,20 @@ function openList() {
   const host = $("liveView");
   if (!panel || !host) return;
 
-  if (panel.parentElement !== document.body) document.body.appendChild(panel);
+  if (panel.parentElement !== document.body) {
+    document.body.appendChild(panel);
+  }
+
   panel.classList.remove("hidden");
   panel.style.display = "block";
   panel.style.pointerEvents = "auto";
   panel.style.touchAction = "pan-y";
+
   positionListPanel();
 
   window.addEventListener("resize", positionListPanel, {passive:true});
   window.addEventListener("orientationchange", positionListPanel, {passive:true});
-  h();
+  haptic();
 }
 
 function closeList() {
@@ -302,12 +281,14 @@ function closeList() {
   }
 }
 
-function visibility() {
+function syncVisibility() {
   const screen = window.FZG?.state?.get?.().screen || "home";
-  const home = screen === "home";
-  $("liveView")?.classList.toggle("hidden", !home);
-  $("mainPortal")?.classList.toggle("live-home-mode", home);
-  if (!home) closeList();
+  const isHome = screen === "home";
+
+  $("liveView")?.classList.toggle("hidden", !isHome);
+  $("mainPortal")?.classList.toggle("live-home-mode", isHome);
+
+  if (!isHome) closeList();
 }
 
 function init() {
@@ -318,23 +299,25 @@ function init() {
 
   $("liveListBtn")?.addEventListener("click", openList);
   $("liveListClose")?.addEventListener("click", closeList);
-  $("liveListPanel")?.addEventListener("click", e => {
-    if (e.target.id === "liveListPanel") closeList();
+  $("liveListPanel")?.addEventListener("click", event => {
+    if (event.target.id === "liveListPanel") closeList();
   });
 
-  window.FZG?.state?.subscribe?.(visibility);
-  visibility();
+  window.FZG?.state?.subscribe?.(syncVisibility);
+  syncVisibility();
 }
 
 window.FZG = window.FZG || {};
 window.FZG.live = {
   openStreamer: id => {
-    const x = S.all.find(v => v.id === id);
-    if (x) openCard(x);
+    const channel = S.all.find(item => item.id === id);
+    if (channel) openCard(channel);
   },
-  playVideo: renderPlayer,
-  stop: stopPlayback,
-  getState: () => ({...S, all:[...S.all]})
+  stop: renderBot,
+  getState: () => ({
+    selectedId: S.selectedId,
+    all: [...S.all]
+  })
 };
 
 init();
