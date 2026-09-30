@@ -89,50 +89,12 @@ function syncTelegramBackButton(){
 }
 
 function installEmergencyShell(){
-  const list=document.getElementById("categoryList");
-  const view=document.getElementById("categoryView");
-  const title=document.getElementById("categoryHeadTitle");
-  const backBtn=document.getElementById("categoryBack");
-  const categories=[
-    ["worlds","🌌","ИНТЕРАКТИВНЫЕ МИРЫ",7],
-    ["creative","🎨","ТВОРЧЕСТВО • МУЗЫКА • АРТ",7],
-    ["puzzles","🧩","ПАЗЛЫ • ЛОГИКА",7],
-    ["arcade","🕹️","АРКАДЫ • КЛАССИКА",10],
-    ["sandbox","🌍","СИМУЛЯТОРЫ • ПЕСКОЧНИЦЫ",6],
-    ["experimental","⚡","ЭКСПЕРИМЕНТАЛЬНЫЕ ПРОЕКТЫ",5]
-  ];
-  if(list){
-    list.querySelectorAll(".category-item").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        const c=categories.find(x=>x[0]===btn.dataset.category);
-        if(!c)return;
-        list.classList.add("hidden");
-        view?.classList.remove("hidden");
-        if(title)title.textContent=c[2];
-        setState({screen:"category",categoryId:c[0]});
-      });
-    });
+  const gw=window.FZG?.gameWindow;
+  if(gw?.showCatalog){
+    gw.showCatalog();
+    return;
   }
-  backBtn?.addEventListener("click",()=>{
-    view?.classList.add("hidden");
-    list?.classList.remove("hidden");
-    setState({screen:"home",categoryId:null});
-  });
-  document.getElementById("tabGuest")?.addEventListener("click",()=>{
-    document.getElementById("gamesBrowser")?.classList.add("hidden");
-    document.getElementById("guestView")?.classList.remove("hidden");
-    setState({screen:"chat"});
-  });
-  document.getElementById("langToggleBtn")?.addEventListener("click",()=>{
-    const b=document.getElementById("langToggleBtn");
-    b.textContent=b.textContent==="RU"?"DE":b.textContent==="DE"?"EN":"RU";
-  });
-  document.getElementById("radioPlayBtn")?.addEventListener("click",()=>{
-    document.getElementById("radioOverlay")?.classList.remove("hidden");
-  });
-  document.getElementById("radioCloseBtn")?.addEventListener("click",()=>{
-    document.getElementById("radioOverlay")?.classList.add("hidden");
-  });
+  console.error("FREEzzzGames: GAME WINDOW module unavailable");
 }
 
 window.FZG.navigation={navigate,back};
