@@ -613,6 +613,72 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     const ok=await authorizeChat();
     if(ok){selectChatRoom(chatRoom);}
   }
+  /* HOME CHAT WIDGET — compact main-screen chat using the same chat API/state. */
+  async function loadHomeChat(){
+    const box=document.getElementById("homeChatMessages");
+    if(!box)return;
+    try{
+      const data=await api("/chat/messages?room=main&limit=20");
+      const messages=(data.messages||[]).slice(-4);
+      if(!messages.length){
+        box.innerHTML='<div class="home-chat-empty">'+escapeHtml(tr("noMessages"))+'</div>';
+        return;
+      }
+      box.innerHTML=messages.map(m=>{
+        const own=String(m.playerId)===playerId;
+        return '<button type="button" class="home-chat-message '+(own?"own":"")+'" data-player-id="'+escapeHtml(m.playerId)+'">'+
+          '<span class="home-chat-avatar">'+escapeHtml(m.avatar||"👾")+'</span>'+
+          '<span class="home-chat-message-body"><strong>'+escapeHtml(m.username||m.name||"Игрок")+'</strong><span>'+escapeHtml(m.text)+'</span></span>'+
+          '<time>'+escapeHtml(formatMsgTime(m.createdAt))+'</time>'+
+        '</button>';
+      }).join("");
+      box.querySelectorAll(".home-chat-message").forEach(el=>{
+        el.addEventListener("click",()=>openPlayerProfile(el.dataset.playerId));
+      });
+      box.scrollTop=box.scrollHeight;
+    }catch(e){
+      const status=document.getElementById("homeChatStatus");
+      if(status)status.textContent="OFFLINE";
+      box.innerHTML='<div class="home-chat-empty">'+escapeHtml(tr("chatApiError")||"CHAT OFFLINE")+'</div>';
+    }
+  }
+
+  async function sendHomeChatMessage(){
+    const input=document.getElementById("homeChatInput");
+    if(!input)return;
+    const textValue=(input.value||"").trim();
+    if(!textValue)return;
+    await authorizeChat();
+    if(!chatAuthorized)return;
+    try{
+      await api("/chat/messages",{method:"POST",body:{room:"main",text:textValue}});
+      input.value="";
+      playerStats.messagesSent++;
+      savePlayerStats();
+      await loadHomeChat();
+      haptic();
+    }catch(e){
+      const status=document.getElementById("homeChatStatus");
+      if(status)status.textContent="OFFLINE";
+    }
+  }
+
+  document.getElementById("homeChatOpen")?.addEventListener("click",()=>{
+    markChatSeen();
+    openChatPanel();
+  });
+  document.getElementById("homeChatSend")?.addEventListener("click",sendHomeChatMessage);
+  document.getElementById("homeChatInput")?.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){e.preventDefault();sendHomeChatMessage();}
+  });
+
+  /* The main-screen widget is lightweight; it refreshes only while visible. */
+  setTimeout(loadHomeChat,250);
+  setInterval(()=>{
+    const widget=document.getElementById("homeChatWidget");
+    if(widget && !document.hidden && !widget.classList.contains("hidden"))loadHomeChat();
+  },10000);
+
   // Chat is authenticated only when the user opens it.
   // This keeps the portal/game catalog independent from the API wake-up path.
   setInterval(()=>{if(chatAuthorized && !document.hidden && !document.getElementById("guestView").classList.contains("hidden")){activeDmUserId?openDm(activeDmUserId):chatRoom&&loadMessages();}},10000);
