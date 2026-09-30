@@ -3068,3 +3068,111 @@ html, body,
 #mainPortal .category-head-sub{
   font-family:"Handjet",monospace!important;
 }
+
+
+/* =========================================================
+   UNIFIED BUTTON SYSTEM
+   One visual language for every interactive button.
+   Individual components may keep their own size/layout only.
+   ========================================================= */
+#mainPortal button,
+#ageGate button{
+  box-sizing:border-box!important;
+  font-family:"Handjet",monospace!important;
+  font-weight:600!important;
+  line-height:1!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:9px!important;
+  background:#202b36!important;
+  color:var(--tg-text,#f5f5f5)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 8px rgba(0,0,0,.16)!important;
+  transition:background .16s ease,border-color .16s ease,box-shadow .16s ease,transform .12s ease,opacity .16s ease!important;
+}
+
+#mainPortal button:hover,
+#ageGate button:hover{
+  background:#263543!important;
+  border-color:rgba(100,181,246,.42)!important;
+}
+
+#mainPortal button:active,
+#ageGate button:active{
+  transform:translateY(1px) scale(.985)!important;
+  background:#1b2631!important;
+}
+
+#mainPortal button:focus-visible,
+#ageGate button:focus-visible{
+  outline:1px solid rgba(100,181,246,.75)!important;
+  outline-offset:2px!important;
+}
+
+/* Keep compact/icon controls in the same skin without forcing equal dimensions. */
+#mainPortal .always-btn,
+#mainPortal .live-list-btn,
+#mainPortal .home-chat-open,
+#mainPortal #homeChatSend,
+#mainPortal .live-panel-close,
+#mainPortal .category-back,
+#mainPortal .chat-mini-btn,
+#mainPortal .radio-close,
+#mainPortal .action-hint-close{
+  background:#202b36!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 8px rgba(0,0,0,.16)!important;
+}
+
+/* The streamer control keeps its compact footprint, but no longer uses a different button skin. */
+#mainPortal .home-media-row .live-list-btn{
+  background:#202b36!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:8px!important;
+  box-shadow:none!important;
+}
+
+/* Category cards are still large navigation buttons, but use the same border/radius/interaction language. */
+#mainPortal .category-item{
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:10px!important;
+  background:#202b36!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 2px 8px rgba(0,0,0,.14)!important;
+}
+#mainPortal .category-item:hover{background:#263543!important;border-color:rgba(100,181,246,.42)!important}
+#mainPortal .category-item:active{background:#1b2631!important}
+
+/* Profile and hint controls follow exactly the same skin. */
+#mainPortal .player-achievements-trigger,
+#mainPortal .player-profile-close,
+#mainPortal .player-hints-toggle,
+#mainPortal .action-hint-disable,
+#mainPortal .radio-actions button,
+#mainPortal #radioPanelPlay,
+#mainPortal #radioPanelStop,
+#mainPortal .guest-send,
+#mainPortal .action-btn{
+  background:#202b36!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:9px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 8px rgba(0,0,0,.16)!important;
+}
+
+/* Chat room tabs are buttons too: same visual language, active state remains distinct. */
+#mainPortal .chat-room-tab{
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:9px!important;
+  background:#202b36!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#mainPortal .chat-room-tab.active{
+  border-color:rgba(100,181,246,.55)!important;
+  background:#263543!important;
+}
+
+/* Age gate gets the same button family while preserving its existing semantic primary/secondary distinction. */
+#ageGate #ageYes,
+#ageGate #ageNo{
+  font-family:"Handjet",monospace!important;
+  border-radius:9px!important;
+}
+#ageGate #ageYes{background:#3f78a8!important;border-color:#3f78a8!important;color:#fff!important}
+#ageGate #ageNo{background:#202b36!important;border-color:rgba(255,255,255,.12)!important;color:#f5f5f5!important}
