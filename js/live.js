@@ -402,6 +402,7 @@ function init() {
   renderBot();
 
   $("liveListBtn")?.addEventListener("click", openList);
+  $("liveListBack")?.addEventListener("click", closeList);
   $("liveListClose")?.addEventListener("click", closeList);
   $("liveMain")?.addEventListener("click", handleMainAction);
   overlayLayer()?.addEventListener("click", handleMainAction);
