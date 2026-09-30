@@ -375,7 +375,7 @@ function closeList() {
     else host.appendChild(panel);
   }
 
-  if (!S.overlayOpen) return;
+  hideOverlay();
 }
 
 function syncVisibility() {
