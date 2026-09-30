@@ -9,8 +9,6 @@ window.FZG.storage = Storage;
 window.FZG.state = { get:getState, set:setState, subscribe };
 
 Platform.configure();
-Platform.ready();
-Platform.expand();
 
 async function bootPortalModule(){
   // LIVE must boot independently. A failure inside the large legacy portal
