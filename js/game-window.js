@@ -54,7 +54,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
   function title(text){host()?.querySelector(".game-window-title")?.replaceChildren(document.createTextNode(text));}
   function genre(text){host()?.querySelector(".game-window-genre")?.replaceChildren(document.createTextNode(text));}
-  function emoji(text){host()?.querySelector(".game-window-emoji")?.replaceChildren(document.createTextNode(text));}
+  function emoji(){host()?.querySelector(".game-window-emoji")?.replaceChildren();}
 
   function renderCatalog(){
     const root=host();
@@ -95,7 +95,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
         '<div class="game-category-list">'+
         CATEGORIES.map(c=>
           '<button class="game-category-item" type="button" data-action-hint-target="category" data-game-category="'+esc(c.id)+'">'+
-            '<span class="game-category-icon">'+esc(c.icon)+'</span>'+
+            
             '<span class="game-category-copy"><strong>'+esc(categoryText(c.id))+'</strong><small>'+c.ids.length+' '+esc(c.ids.length===1?tr("oneGame"):tr("gamesCount"))+'</small></span>'+
             '<span class="game-category-arrow">›</span>'+
           '</button>'
@@ -103,7 +103,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
         '</div>';
       title(tr("games")||"ИГРЫ");
       genre(currentLang==="de"?"KATEGORIE WÄHLEN":currentLang==="en"?"CHOOSE A CATEGORY":"ВЫБЕРИ КАТЕГОРИЮ");
-      emoji("🎮");
+      emoji();
       return;
     }
 
@@ -117,27 +117,27 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
     panel.innerHTML=
       '<div class="game-catalog-category-head">'+
-        '<button class="game-catalog-back" data-game-catalog-action="back" type="button" aria-label="Назад">‹</button>'+
+        '<button class="game-catalog-back" data-game-catalog-action="back" type="button">НАЗАД</button>'+
         '<div><strong>'+esc(categoryText(category.id))+'</strong><small>'+esc(tr("swipeShort")||"СВАЙП ← →")+'</small></div>'+
       '</div>'+
       '<div class="game-catalog-grid">'+
         ids.map(id=>{
           const g=byId[id];
           return '<button class="game-catalog-card" type="button" data-action-hint-target="game" data-game-id="'+esc(id)+'">'+
-            '<div class="game-catalog-art"><img src="'+esc(gameLogoUrl(id,byId))+'" alt="" loading="eager"><span>'+esc(g.emoji||"🎮")+'</span></div>'+
+            '<div class="game-catalog-art"><img src="'+esc(gameLogoUrl(id,byId))+'" alt="" loading="eager"></div>'+
             '<div class="game-catalog-card-body"><strong>'+esc(g.title)+'</strong><small>'+esc(gameText(id,"desc"))+'</small><em>'+esc(gameText(id,"genre"))+'</em></div>'+
           '</button>';
         }).join("")+
       '</div>'+
       '<div class="game-catalog-pages">'+
-        '<button data-game-catalog-action="prev" type="button" aria-label="Назад">‹</button>'+
+        '<button data-game-catalog-action="prev" type="button">НАЗАД</button>'+
         '<span>'+Array.from({length:pageCount},(_,i)=>'<i class="'+(i===S.page?"active":"")+'"></i>').join("")+'</span>'+
-        '<button data-game-catalog-action="next" type="button" aria-label="Вперёд">›</button>'+
+        '<button data-game-catalog-action="next" type="button">ВПЕРЁД</button>'+
       '</div>';
 
     title(categoryText(category.id));
     genre((S.page+1)+" / "+pageCount);
-    emoji(category.icon||"🎮");
+    emoji();
   }
 
   function openCategory(id){
@@ -167,7 +167,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
     title(game.title);
     genre(game.genre||"GAME");
-    emoji(game.emoji||"🎮");
+    emoji();
 
     root.querySelector(".game-window-empty")?.classList.add("hidden");
     root.querySelector(".game-window-fallback")?.classList.add("hidden");
