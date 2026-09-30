@@ -2758,3 +2758,13 @@ input,textarea{
   #mainPortal .home-chat-status{display:none!important}
   #mainPortal .home-chat-message-body span{font-size:8px!important}
 }
+
+#mainPortal .home-chat-widget.is-hidden + .games-browser{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-chat-widget.is-hidden + .games-browser .category-view{
+  display:flex!important;
+}
