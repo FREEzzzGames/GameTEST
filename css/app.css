@@ -2270,3 +2270,258 @@ input,textarea{
     animation:none!important;
   }
 }
+
+
+/* =========================================================
+   FINAL HOME SCREEN COMPOSITION
+   Equal rails, compact chrome, stable vertical rhythm.
+   ========================================================= */
+
+#mainPortal{
+  --home-rail:8px;
+  gap:7px!important;
+  padding-left:var(--home-rail)!important;
+  padding-right:var(--home-rail)!important;
+  padding-top:max(6px,var(--tg-safe-area-inset-top,env(safe-area-inset-top,0px)))!important;
+  padding-bottom:max(6px,var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
+}
+
+/* Brand */
+#portalLogo{
+  width:100%!important;
+  padding:2px 4px 0!important;
+  margin:0!important;
+}
+#portalLogo h1{
+  font-size:clamp(31px,9vw,43px)!important;
+  line-height:1!important;
+}
+#portalLogo .subtitle{
+  margin-top:4px!important;
+  font-size:clamp(9px,2.8vw,12px)!important;
+}
+
+/* One horizontal control rail: profile on the left, utilities on the right. */
+#mainPortal .header-top{
+  width:100%!important;
+  min-height:46px!important;
+  height:46px!important;
+  padding:0!important;
+  margin:0!important;
+  gap:8px!important;
+}
+#mainPortal .profile-box{
+  height:46px!important;
+  min-height:46px!important;
+  max-width:calc(100% - 96px)!important;
+  padding:0 12px!important;
+  border-radius:11px!important;
+}
+#mainPortal .profile-box .user-avatar{
+  width:30px!important;
+  height:30px!important;
+}
+#mainPortal .always-controls{
+  margin-left:auto!important;
+  position:static!important;
+  gap:6px!important;
+}
+#mainPortal .always-btn{
+  width:46px!important;
+  min-width:46px!important;
+  height:46px!important;
+  min-height:46px!important;
+  border-radius:11px!important;
+}
+
+/* Chat has exactly the same horizontal rail as LIVE and categories. */
+#mainPortal .chat-launch-row{
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+}
+#mainPortal .chat-launch-row .header-chat-btn{
+  width:100%!important;
+  height:46px!important;
+  min-height:46px!important;
+  border-radius:11px!important;
+  padding:0 14px!important;
+}
+
+/* LIVE: header and content are one component, with no oversized empty state. */
+#mainPortal .live-view{
+  width:100%!important;
+  height:clamp(154px,21dvh,188px)!important;
+  max-height:188px!important;
+  flex:0 0 auto!important;
+  gap:5px!important;
+}
+#mainPortal .live-head{
+  width:100%!important;
+  height:40px!important;
+  min-height:40px!important;
+  flex-basis:40px!important;
+  padding:0 8px 0 12px!important;
+  border-radius:10px!important;
+}
+#mainPortal .live-head-title{
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+  gap:6px!important;
+  font-size:12px!important;
+}
+#mainPortal .live-list-btn{
+  height:40px!important;
+  min-height:40px!important;
+  min-width:118px!important;
+  padding:0 11px!important;
+  border-radius:9px!important;
+  font-size:9px!important;
+}
+#mainPortal .live-main{
+  border-radius:11px!important;
+}
+
+/* The empty LIVE state is information, not a giant content panel. */
+#mainPortal .live-empty{
+  gap:4px!important;
+  padding:10px 16px!important;
+}
+#mainPortal .live-empty-icon{
+  font-size:25px!important;
+}
+#mainPortal .live-empty-title{
+  font-size:11px!important;
+}
+#mainPortal .live-empty-text{
+  max-width:82%!important;
+  font-size:9px!important;
+}
+
+/* The category dock is a single navigation surface aligned to the same rails. */
+#mainPortal #categoryList{
+  left:var(--home-rail)!important;
+  right:var(--home-rail)!important;
+  bottom:max(7px,var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
+  width:auto!important;
+  height:104px!important;
+  min-height:104px!important;
+  max-height:104px!important;
+  padding:5px!important;
+  gap:4px!important;
+  border-radius:15px!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-template-rows:repeat(2,minmax(0,1fr))!important;
+  background:rgba(14,24,36,.94)!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 8px 26px rgba(0,0,0,.40),0 0 20px rgba(74,145,210,.08)!important;
+}
+#mainPortal #categoryList .category-item{
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:5px 6px!important;
+  border:1px solid rgba(255,255,255,.055)!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.025)!important;
+  gap:2px!important;
+}
+#mainPortal #categoryList .category-item:active{
+  transform:scale(.985)!important;
+  background:rgba(100,181,246,.14)!important;
+  border-color:rgba(100,181,246,.35)!important;
+}
+#mainPortal #categoryList .category-copy{
+  width:100%!important;
+  height:auto!important;
+  margin:0!important;
+  min-width:0!important;
+  flex:1 1 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+#mainPortal #categoryList .category-name{
+  width:100%!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+  color:#f5f5f5!important;
+  font:700 clamp(9px,2.45vw,11px)/1.12 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  letter-spacing:0!important;
+}
+#mainPortal #categoryList .category-count{
+  margin-top:3px!important;
+  color:rgba(255,255,255,.45)!important;
+  font:600 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+#mainPortal #categoryList .category-icon,
+#mainPortal #categoryList .category-arrow{
+  display:none!important;
+}
+
+/* Keep the world visible between LIVE and the dock without letting content collide. */
+#mainPortal .games-browser{
+  min-height:0!important;
+  padding:0!important;
+}
+#mainPortal .category-list{
+  pointer-events:none!important;
+}
+#mainPortal .category-list .category-item{
+  pointer-events:auto!important;
+}
+
+/* Footer sits above the dock and never collides with it. */
+#mainPortal .footer-info{
+  position:absolute!important;
+  left:50%!important;
+  bottom:calc(112px + var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
+  transform:translateX(-50%)!important;
+  margin:0!important;
+  padding:0!important;
+  z-index:4!important;
+  white-space:nowrap!important;
+  font-size:7px!important;
+  opacity:.55!important;
+}
+
+/* Short screens: preserve the hierarchy rather than squeezing every component. */
+@media(max-height:700px){
+  #portalLogo h1{font-size:clamp(29px,8vw,38px)!important}
+  #mainPortal{gap:5px!important}
+  #mainPortal .header-top,
+  #mainPortal .profile-box,
+  #mainPortal .always-btn,
+  #mainPortal .chat-launch-row .header-chat-btn{height:42px!important;min-height:42px!important}
+  #mainPortal .always-btn{min-width:42px!important;width:42px!important}
+  #mainPortal .live-view{height:150px!important;max-height:150px!important}
+  #mainPortal .live-head,
+  #mainPortal .live-list-btn{height:36px!important;min-height:36px!important}
+  #mainPortal #categoryList{height:96px!important;min-height:96px!important;max-height:96px!important}
+  #mainPortal .footer-info{bottom:calc(103px + var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important}
+}
+@media(max-width:380px){
+  #mainPortal{
+    --home-rail:6px;
+  }
+  #mainPortal .profile-box{
+    max-width:calc(100% - 88px)!important;
+    padding:0 9px!important;
+  }
+  #mainPortal .always-controls{gap:4px!important}
+  #mainPortal .always-btn{width:40px!important;min-width:40px!important}
+  #mainPortal .live-list-btn{min-width:104px!important;padding:0 8px!important}
+  #mainPortal #categoryList{
+    height:98px!important;
+    min-height:98px!important;
+    max-height:98px!important;
+    gap:3px!important;
+  }
+  #mainPortal #categoryList .category-name{font-size:9px!important}
+}
