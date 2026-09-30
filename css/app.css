@@ -5386,7 +5386,8 @@ body > #liveListPanel .live-panel-close{
   right:0!important;
   height:22px!important;
   z-index:3!important;
-  pointer-events:none!important;
+  pointer-events:auto!important;
+  background:transparent!important;
 }
 
 #mainPortal .game-window-empty,
