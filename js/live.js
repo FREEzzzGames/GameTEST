@@ -1,5 +1,5 @@
-import { directSources } from "./live-data/channels.js?v=20260930-live";
-import { createLivePlayer } from "./live-player.js?v=20260930-live";
+import { directSources } from "./live-data/channels.js?v=20260930-live2";
+import { createLivePlayer } from "./live-player.js?v=20260930-live2";
 
 (() => {
   "use strict";
@@ -13,25 +13,17 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live";
   const $ = id => document.getElementById(id);
   const haptic = () => window.FZG?.platform?.haptic?.("light");
 
-  const esc = value => String(value ?? "").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  const esc = value => String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
 
   function emitOverlay(){
     window.dispatchEvent(new CustomEvent("freezzz:live-overlay",{
       detail:{open:S.listOpen,selectedId:S.selectedId}
     }));
-  }
-
-  function openExternal(channel){
-    if(!channel?.url)return false;
-    try{
-      const tg=window.Telegram?.WebApp;
-      if(tg?.openLink) tg.openLink(channel.url);
-      else window.open(channel.url,"_blank","noopener,noreferrer");
-    }catch(_){
-      window.location.href=channel.url;
-    }
-    haptic();
-    return true;
   }
 
   function renderList(){
@@ -46,13 +38,13 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live";
       '</button>'
     ).join("");
 
-    host.querySelectorAll("[data-live-list-id]").forEach(button=>{
-      button.addEventListener("click",()=>{
-        const channel=S.all.find(item=>item.id===button.dataset.liveListId);
-        if(!channel)return;
-        closeList();
-        select(channel.id,true);
-      });
+    host.addEventListener("click",event=>{
+      const button=event.target.closest("[data-live-list-id]");
+      if(!button || !host.contains(button))return;
+      const channel=S.all.find(item=>item.id===button.dataset.liveListId);
+      if(!channel)return;
+      closeList();
+      select(channel.id,true);
     });
   }
 
@@ -130,7 +122,12 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live";
     openStreamer:id=>select(id,true),
     stop:renderIdle,
     select,
-    getState:()=>({selectedId:S.selectedId,all:[...S.all],overlayOpen:S.listOpen,listOpen:S.listOpen}),
+    getState:()=>({
+      selectedId:S.selectedId,
+      all:[...S.all],
+      overlayOpen:S.listOpen,
+      listOpen:S.listOpen
+    }),
     back:()=>{
       if(S.listOpen){closeList();haptic();return true;}
       if(S.selectedId){backFromPlayer();return true;}
