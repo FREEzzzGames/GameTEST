@@ -4568,3 +4568,30 @@ body > #liveListPanel .live-panel-close{
   #mainPortal .space-depth::before,
   #mainPortal .space-depth::after{animation:none!important;opacity:0!important}
 }
+
+
+/* =========================================================
+   GLITCH OFF — background discussion baseline
+   Keep the depth system; remove all chromatic glitch layers
+   and interaction glitch effects.
+   ========================================================= */
+
+#mainPortal .space-depth::before,
+#mainPortal .space-depth::after{
+  animation:none!important;
+  opacity:0!important;
+  filter:none!important;
+  transform:none!important;
+}
+
+#mainPortal .portal-logo h1{
+  animation:none!important;
+}
+
+#mainPortal button:active,
+#mainPortal .category-item:active,
+#mainPortal .game-card:active,
+#mainPortal a:active{
+  animation:none!important;
+  filter:none!important;
+}
