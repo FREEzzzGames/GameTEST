@@ -213,13 +213,61 @@ function list(){
   );
 }
 
+function positionListPanel(){
+  const panel=$("liveListPanel");
+  const btn=$("liveListBtn");
+  if(!panel||!btn||panel.parentElement!==document.body)return;
+  const r=btn.getBoundingClientRect();
+  const gap=4;
+  const maxH=Math.max(180,Math.min(430,window.innerHeight-r.bottom-8));
+  panel.style.position="fixed";
+  panel.style.left=Math.round(r.left)+"px";
+  panel.style.top=Math.round(r.bottom+gap)+"px";
+  panel.style.width=Math.round(r.width)+"px";
+  panel.style.maxHeight=Math.round(maxH)+"px";
+  panel.style.height="auto";
+  panel.style.zIndex="2147483000";
+}
+
 function openList(){
-  $("liveListPanel")?.classList.remove("hidden");
+  const panel=$("liveListPanel");
+  const host=$("liveView");
+  if(!panel||!host)return;
+  if(panel.parentElement!==document.body){
+    document.body.appendChild(panel);
+  }
+  panel.classList.remove("hidden");
+  panel.style.display="block";
+  panel.style.pointerEvents="auto";
+  panel.style.touchAction="pan-y";
+  positionListPanel();
+  window.addEventListener("resize",positionListPanel,{passive:true});
+  window.addEventListener("orientationchange",positionListPanel,{passive:true});
   h();
 }
 
 function closeList(){
-  $("liveListPanel")?.classList.add("hidden");
+  const panel=$("liveListPanel");
+  const host=$("liveView");
+  if(!panel)return;
+  panel.classList.add("hidden");
+  panel.style.display="";
+  panel.style.pointerEvents="";
+  panel.style.touchAction="";
+  panel.style.position="";
+  panel.style.left="";
+  panel.style.top="";
+  panel.style.width="";
+  panel.style.maxHeight="";
+  panel.style.height="";
+  panel.style.zIndex="";
+  window.removeEventListener("resize",positionListPanel);
+  window.removeEventListener("orientationchange",positionListPanel);
+  if(host&&panel.parentElement!==host){
+    const main=$("liveMain");
+    if(main)host.insertBefore(panel,main);
+    else host.appendChild(panel);
+  }
 }
 
 function offline(x){
