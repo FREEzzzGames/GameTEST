@@ -1,9 +1,8 @@
-/* FREEzzzGames STREAMER MENU PARALLAX — local LIVE overlay only */
+/* FREEzzzGames STREAMER MENU PARALLAX — robust local LIVE overlay */
 (() => {
   "use strict";
 
   const state = {
-    panel: null,
     drawer: null,
     list: null,
     layers: [],
@@ -12,21 +11,58 @@
     y: 0,
     targetX: 0,
     targetY: 0,
-    pointerId: null,
-    lastX: 0,
-    lastT: 0,
     resetTimer: 0,
     reduced: window.matchMedia?.("(prefers-reduced-motion: reduce)") || null,
-    resizeObserver: null
+    observer: null,
+    bound: false
   };
 
-  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
   const lerp = (a, b, t) => a + (b - a) * t;
 
-  function ensureLayers() {
-    if (!state.drawer) return false;
+  function schedule() {
+    if (state.reduced?.matches || state.raf) return;
+    state.raf = requestAnimationFrame(render);
+  }
 
-    let host = state.drawer.querySelector(".streamer-parallax-layers");
+  function render() {
+    state.x = lerp(state.x, state.targetX, .14);
+    state.y = lerp(state.y, state.targetY, .14);
+
+    if (state.drawer) {
+      state.drawer.style.setProperty("--menu-parallax-x", state.x.toFixed(2) + "px");
+      state.drawer.style.setProperty("--menu-parallax-y", state.y.toFixed(2) + "px");
+    }
+
+    const depth = [
+      [.18, .10],
+      [.40, .24],
+      [.72, .42]
+    ];
+
+    state.layers.forEach((layer, i) => {
+      const d = depth[i] || [.5, .3];
+      layer.style.transform =
+        "translate3d(" +
+        (state.x * d[0]).toFixed(2) + "px," +
+        (state.y * d[1]).toFixed(2) + "px,0)";
+    });
+
+    if (
+      Math.abs(state.x - state.targetX) < .06 &&
+      Math.abs(state.y - state.targetY) < .06
+    ) {
+      state.x = state.targetX;
+      state.y = state.targetY;
+      state.raf = 0;
+      return;
+    }
+
+    state.raf = requestAnimationFrame(render);
+  }
+
+  function makeLayers(drawer) {
+    let host = drawer.querySelector(".streamer-parallax-layers");
     if (!host) {
       host = document.createElement("div");
       host.className = "streamer-parallax-layers";
@@ -35,167 +71,116 @@
         '<div class="streamer-parallax-layer streamer-parallax-layer-far"></div>' +
         '<div class="streamer-parallax-layer streamer-parallax-layer-mid"></div>' +
         '<div class="streamer-parallax-layer streamer-parallax-layer-near"></div>';
-      state.drawer.prepend(host);
+      drawer.prepend(host);
     }
-
     state.layers = [...host.querySelectorAll(".streamer-parallax-layer")];
-    return state.layers.length === 3;
-  }
-
-  function findNodes() {
-    const panel = document.getElementById("liveListPanel");
-    const drawer = panel?.querySelector(".live-list-drawer");
-    const list = drawer?.querySelector(".live-streamer-list");
-
-    if (state.list && state.list !== list) {
-      state.list.removeEventListener("scroll", onScroll);
-      state.list.removeEventListener("pointermove", onPointerMove);
-      state.list.removeEventListener("pointerdown", onPointerDown);
-      state.list.removeEventListener("pointerup", onPointerUp);
-      state.list.removeEventListener("pointercancel", onPointerCancel);
-    }
-
-    if (state.list === list && state.drawer === drawer && state.list && state.drawer) {
-      ensureLayers();
-      return true;
-    }
-
-    state.panel = panel || null;
-    state.drawer = drawer || null;
-    state.list = list || null;
-
-    if (!state.drawer || !state.list) return false;
-    ensureLayers();
-
-    state.list.addEventListener("scroll", onScroll, { passive: true });
-    state.list.addEventListener("pointermove", onPointerMove, { passive: true });
-    state.list.addEventListener("pointerdown", onPointerDown, { passive: true });
-    state.list.addEventListener("pointerup", onPointerUp, { passive: true });
-    state.list.addEventListener("pointercancel", onPointerCancel, { passive: true });
-    return true;
-  }
-
-  function scheduleRender() {
-    if (state.reduced?.matches || state.raf) return;
-    state.raf = requestAnimationFrame(render);
-  }
-
-  function render() {
-    state.x = lerp(state.x, state.targetX, .12);
-    state.y = lerp(state.y, state.targetY, .12);
-
-    const values = [
-      [state.x * .16, state.y * .10],
-      [state.x * .34, state.y * .22],
-      [state.x * .62, state.y * .38]
-    ];
-
-    state.drawer?.style.setProperty("--menu-parallax-x", state.x.toFixed(2) + "px");
-    state.drawer?.style.setProperty("--menu-parallax-y", state.y.toFixed(2) + "px");
-
-    state.layers.forEach((layer, index) => {
-      const [x, y] = values[index] || [0, 0];
-      layer.style.setProperty("--menu-parallax-x", x.toFixed(2) + "px");
-      layer.style.setProperty("--menu-parallax-y", y.toFixed(2) + "px");
-    });
-
-    if (Math.abs(state.x - state.targetX) < .08 && Math.abs(state.y - state.targetY) < .08) {
-      state.x = state.targetX;
-      state.y = state.targetY;
-      state.raf = 0;
-      return;
-    }
-    state.raf = requestAnimationFrame(render);
   }
 
   function onScroll() {
     if (!state.list || state.reduced?.matches) return;
+
     const max = Math.max(1, state.list.scrollHeight - state.list.clientHeight);
     const progress = clamp(state.list.scrollTop / max, 0, 1);
-    const centered = progress - .5;
-    state.targetY = clamp(-centered * 28, -18, 18);
-    scheduleRender();
-  }
 
-  function interactive(target) {
-    return target instanceof Element && !!target.closest("button,a,input,textarea,select,iframe,[contenteditable='true']");
-  }
-
-  function onPointerDown(event) {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-    if (interactive(event.target)) return;
-    state.pointerId = event.pointerId;
-    state.lastX = event.clientX;
-    state.lastT = performance.now();
-    clearTimeout(state.resetTimer);
+    /* Strong enough to be visible, still subtle enough not to distort cards. */
+    state.targetY = (0.5 - progress) * 34;
+    schedule();
   }
 
   function onPointerMove(event) {
-    if (state.pointerId !== event.pointerId || state.reduced?.matches) return;
-    if (interactive(event.target)) return;
+    if (!state.drawer || state.reduced?.matches) return;
 
-    const now = performance.now();
-    const dx = event.clientX - state.lastX;
-    const dt = Math.max(8, now - state.lastT);
-    state.lastX = event.clientX;
-    state.lastT = now;
+    const rect = state.drawer.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
 
-    const velocity = clamp((dx / dt) * 16, -10, 10);
-    state.targetX = clamp(state.targetX + velocity * .72, -14, 14);
-    scheduleRender();
+    const nx = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+    const ny = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+
+    /*
+      Pointer position drives only the visual depth.
+      We never preventDefault and never capture the pointer,
+      so native Telegram/mobile scrolling and clicks stay intact.
+    */
+    state.targetX = (nx - .5) * 28;
+    state.targetY = clamp(state.targetY * .72 + (ny - .5) * 10, -24, 24);
+    schedule();
   }
 
-  function onPointerUp(event) {
-    if (state.pointerId !== event.pointerId) return;
-    state.pointerId = null;
-    state.resetTimer = window.setTimeout(reset, 180);
+  function onPointerLeave() {
+    state.targetX = 0;
+    state.targetY = 0;
+    schedule();
   }
 
-  function onPointerCancel(event) {
-    if (state.pointerId !== event.pointerId) return;
-    state.pointerId = null;
-    reset();
+  function onTouchStart() {
+    clearTimeout(state.resetTimer);
+  }
+
+  function onTouchEnd() {
+    clearTimeout(state.resetTimer);
+    state.resetTimer = setTimeout(() => {
+      state.targetX = 0;
+      onScroll();
+      schedule();
+    }, 160);
+  }
+
+  function unbind() {
+    if (!state.bound) return;
+    state.list?.removeEventListener("scroll", onScroll);
+    state.drawer?.removeEventListener("pointermove", onPointerMove);
+    state.drawer?.removeEventListener("pointerleave", onPointerLeave);
+    state.drawer?.removeEventListener("touchstart", onTouchStart);
+    state.drawer?.removeEventListener("touchend", onTouchEnd);
+    state.bound = false;
+  }
+
+  function mount() {
+    const panel = document.getElementById("liveListPanel");
+    const drawer = panel?.querySelector(".live-list-drawer");
+    const list = drawer?.querySelector(".live-streamer-list");
+
+    if (!drawer || !list) return false;
+
+    if (state.drawer !== drawer || state.list !== list) {
+      unbind();
+      state.drawer = drawer;
+      state.list = list;
+      makeLayers(drawer);
+
+      list.addEventListener("scroll", onScroll, { passive: true });
+      drawer.addEventListener("pointermove", onPointerMove, { passive: true });
+      drawer.addEventListener("pointerleave", onPointerLeave, { passive: true });
+      drawer.addEventListener("touchstart", onTouchStart, { passive: true });
+      drawer.addEventListener("touchend", onTouchEnd, { passive: true });
+      state.bound = true;
+    } else {
+      makeLayers(drawer);
+    }
+
+    onScroll();
+    schedule();
+    return true;
   }
 
   function reset() {
     clearTimeout(state.resetTimer);
     state.targetX = 0;
     state.targetY = 0;
-    scheduleRender();
-  }
-
-  function mount() {
-    if (!findNodes()) return false;
-    onScroll();
-
-    if (!state.resizeObserver && window.ResizeObserver) {
-      state.resizeObserver = new ResizeObserver(() => {
-        ensureLayers();
-        onScroll();
-      });
-      state.resizeObserver.observe(state.drawer);
-      state.resizeObserver.observe(state.list);
-    }
-    scheduleRender();
-    return true;
-  }
-
-  function unmount() {
-    reset();
+    schedule();
   }
 
   window.FZG = window.FZG || {};
-  window.FZG.streamerMenuParallax = { mount, reset, unmount };
+  window.FZG.streamerMenuParallax = { mount, reset, unmount: unbind };
 
-  mount();
-
-  const observer = new MutationObserver(() => {
+  /* LIVE creates/moves the drawer dynamically. Watch only for that DOM change. */
+  state.observer = new MutationObserver(() => {
     if (document.getElementById("liveListPanel")) mount();
   });
-  observer.observe(document.getElementById("mainPortal") || document.body, {
-    subtree: true,
+  state.observer.observe(document.getElementById("mainPortal") || document.body, {
     childList: true,
-    attributes: true,
-    attributeFilter: ["class"]
+    subtree: true
   });
+
+  mount();
 })();
