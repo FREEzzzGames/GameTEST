@@ -15,7 +15,7 @@ async function bootPortalModule(){
   // module must never prevent the LIVE module from loading and polling.
   const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult, tvRemoteResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e15"),
-    import("./live.js?v=20260930-live-clean4"),
+    import("./live.js?v=20260930-live-streamer-slot1"),
     import("./parallax.js?v=20260930a"),
     import("./streamer-menu-parallax.js?v=20260930e"),
     import("./game-window.js?v=20260930-gamecatalog15"),
