@@ -9,7 +9,7 @@ const cfg=Object.assign({
 },window.FZG_LIVE_CONFIG||{});
 
 const STATIC_SOURCES=directSources();
-const S={all:STATIC_SOURCES,online:STATIC_SOURCES.filter(x=>x.live&&x.selectedSource),selectedId:STATIC_SOURCES.find(x=>x.live&&x.selectedSource)?.id||null,muted:true,loading:false,connectionState:"idle",lastError:""};
+const S={all:STATIC_SOURCES,online:[],selectedId:null,muted:true,loading:false,connectionState:"idle",lastError:""};
 let retryTimer=null;
 
 const $=id=>document.getElementById(id);
@@ -252,11 +252,17 @@ function random(){
 }
 
 function refresh(registryPayload,livePayload){
-  // Direct sources are always present. The server may enrich them, but it
-  // is never allowed to remove the static direct-source fallback.
-  const incoming=livePayload===null?S.all:normalize(livePayload);
-  const map=new Map(directSources().map(x=>[x.id,x]));
-  for(const x of incoming) map.set(x.id,{...map.get(x),...x});
+  // The server is authoritative for LIVE state. The local registry is only
+  // metadata/fallback; it must never manufacture an active broadcast.
+  const incoming=livePayload===null?[]:normalize(livePayload);
+  const registry=new Map(directSources().map(x=>[x.id,x]));
+  const map=new Map();
+  for(const x of incoming){
+    map.set(x.id,{...(registry.get(x.id)||{}),...x});
+  }
+  for(const [id,x] of registry){
+    if(!map.has(id)) map.set(id,x);
+  }
   S.all=[...map.values()].map(x=>{
     x.selectedSource=source(x);
     return x;
