@@ -135,18 +135,18 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 
 .category-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex:0 0 42px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(0,0,0,.12);font-size:22px}
 .category-copy{min-width:0;flex:1;height:42px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.category-name{display:block;font-size:13px;font-weight:900;color:var(--tg-text);letter-spacing:.7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.category-count{display:block;font-size:9px;color:var(--tg-text-secondary);margin-top:4px;line-height:1.1;white-space:nowrap}
+
+
 .category-arrow{color:var(--tg-blue);font-size:20px}
 
-.game-card{position:relative;width:100%;height:auto;min-height:0;border:1px solid var(--tg-blue);border-radius:14px;background:linear-gradient(145deg,rgba(16,24,58,.98),rgba(4,7,20,.98));box-shadow:var(--tg-shadow);display:flex;flex-direction:column;overflow:hidden;transition:transform .22s ease,opacity .22s ease,filter .22s ease;cursor:pointer}
-.game-card.is-grid-card{transform:none;opacity:1;z-index:3;filter:none}
-.game-card-art{flex:0 0 48%;min-height:0;display:flex;align-items:center;justify-content:center;font-size:64px;background:var(--tg-surface-soft);text-shadow:0 0 25px var(--tg-blue);overflow:hidden}
-.game-card-body{min-height:0;flex:1;padding:8px 9px 7px;text-align:left;background:var(--tg-surface-soft);border-top:1px solid var(--tg-border);overflow:hidden}
-.game-card-title{font-size:13px;font-weight:900;color:var(--tg-text);letter-spacing:.3px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.game-card-desc{font-size:8px;line-height:1.3;color:var(--tg-text);height:31px;overflow:hidden}
-.game-card-meta{display:flex;justify-content:space-between;align-items:center;margin-top:5px;color:var(--tg-blue);font-size:7px;text-transform:uppercase;letter-spacing:.5px;gap:4px}
-.game-card-play{display:inline-flex;padding:3px 5px;border:1px solid var(--tg-blue);border-radius:5px;color:var(--tg-text);background:var(--tg-btn);font-weight:bold;white-space:nowrap}
+
+
+
+
+
+
+
+
 
 .carousel-dot{width:6px;height:6px;border-radius:50%;background:#52617b;transition:.2s}
 .carousel-dot.active{width:18px;border-radius:4px;background:var(--tg-blue);box-shadow:0 0 7px var(--tg-blue)}
@@ -201,25 +201,18 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 
 /* КОНТЕЙНЕР АКТИВНОЙ ИГРЫ */
 .portal.game-active { padding: 4px; gap: 4px; }
-.game-ui-header { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; background:var(--tg-btn); border:1px solid var(--tg-border); border-radius: 8px; width: 100%; flex-shrink: 0; }
-.back-btn { background: #8c0505; border: 1px solid #ff6b55; color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; box-shadow: 0 0 8px rgba(255,0,0,0.4); }
-.back-btn:active { background: #b30707; transform: scale(0.95); }
 
-#gameContainer { flex-grow: 1; width: 100%; position: relative; background: #010206; border: 2px solid var(--tg-blue); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; }
-canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 
-.game-controls { display: flex; gap: 6px; justify-content: center; align-items: center; width: 100%; padding: 2px; flex-shrink: 0; flex-wrap: wrap; }
-.ctrl-pad-btn { background:var(--tg-btn); border: 2px solid var(--tg-blue); color: var(--tg-text); font-size: 20px; width: 60px; height: 50px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; user-select: none; box-shadow: 0 3px 8px rgba(0,0,0,0.5); }
-.ctrl-pad-btn:active { background: var(--tg-blue-dark); transform: scale(0.92); }
+
+
+
+
+
+
+
+
 
 .footer-info { color: #83a4c9; font-size: 8px; letter-spacing: 1px; margin-top: auto; padding: 2px; flex-shrink: 0; }
-
-/* ORIGINAL GAME ART / LOGO CARDS */
-.game-card-art{position:relative;min-height:0;height:48%;padding:0;background:var(--tg-surface-soft);text-shadow:none;overflow:hidden}
-.game-card-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.10));pointer-events:none}
-.game-card-logo{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;display:block;position:relative;z-index:1;border-radius:0;filter:none}
-.game-card-logo-fallback{font-size:74px;line-height:1}
-@media(max-width:420px){.game-card-art{min-height:0;height:48%;padding:0}.game-card-logo-fallback{font-size:48px}}
 
 /* COMPACT ALWAYS-ON SCREEN CONTROLS */
 .always-controls{position:absolute;top:8px;right:8px;z-index:80;display:flex;align-items:center;gap:5px;pointer-events:auto}
@@ -365,16 +358,8 @@ body{
   height:44px!important;
 }
 
-.game-card{
-  width:100%!important;
-  max-width:none!important;
-  height:auto!important;
-  max-height:none!important;
-  min-height:0!important;
-}
-.game-card-art{
-  min-height:0!important;
-}
+
+
 #guestView{
   position:fixed!important;
   inset:0!important;
@@ -430,12 +415,7 @@ body{
   }
   .header-top{min-height:46px!important}
   .chat-launch-row .header-chat-btn{height:44px!important}
-  .game-card{
-    width:min(46%,320px)!important;
-    max-width:320px!important;
-    height:min(34dvh,420px)!important;
-    min-height:190px!important;
-  }
+
 }
 @media(max-width:360px){
   #mainPortal,.portal{
@@ -445,7 +425,7 @@ body{
       max(3px, env(safe-area-inset-bottom))
       max(3px, env(safe-area-inset-left))!important;
   }
-  .game-card{width:min(46%,300px)!important;max-width:300px!important;min-height:190px!important;height:min(34dvh,400px)!important}
+
 }
 @media(orientation:landscape){
   #mainPortal,.portal{
@@ -580,69 +560,22 @@ html,body{
   flex:1!important;
   margin-left:10px!important;
 }
-.category-name{
-  display:block!important;
-  font:600 12px "Handjet",monospace!important;
-  letter-spacing:.1px!important;
-  color:var(--tg-text)!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.category-count{
-  display:block!important;
-  margin-top:3px!important;
-  color:var(--tg-text-secondary)!important;
-  font:400 10px "Handjet",monospace!important;
-}
+
+
 .category-arrow{
   color:#71808e!important;
   font-size:25px!important;
   font-weight:300!important;
 }
 
-.game-card{
-  border:1px solid rgba(100,181,246,.42)!important;
-  border-radius:12px!important;
-  background:#17212b!important;
-  box-shadow:0 5px 18px rgba(0,0,0,.30)!important;
-  overflow:hidden!important;
-}
-.game-card-art{
-  padding:0!important;
-  background:#101923!important;
-  border:0!important;
-}
-.game-card-logo{
-  border-radius:0!important;
-}
-.game-card-body{
-  padding:11px 12px 12px!important;
-  background:#17212b!important;
-}
-.game-card-title{
-  color:var(--tg-text)!important;
-  font:700 16px "Handjet",monospace!important;
-  letter-spacing:0!important;
-}
-.game-card-desc{
-  color:var(--tg-text-secondary)!important;
-  font:400 11px/1.35 "Handjet",monospace!important;
-  margin-top:4px!important;
-}
-.game-card-meta{
-  margin-top:10px!important;
-  color:var(--tg-blue)!important;
-  font:600 9px "Handjet",monospace!important;
-}
-.game-card-play{
-  border:1px solid rgba(100,181,246,.65)!important;
-  border-radius:8px!important;
-  background:transparent!important;
-  padding:6px 10px!important;
-  color:var(--tg-blue)!important;
-  font-size:10px!important;
-}
+
+
+
+
+
+
+
+
 .carousel-hint{
   color:rgba(141,154,167,.9)!important;
   font:400 9px "Handjet",monospace!important;
@@ -669,13 +602,7 @@ html,body{
 .radio-close,
 .chat-mini-btn,
 .guest-send,
-.ctrl-pad-btn{
-  font-family:"Handjet",monospace!important;
-  border:1px solid rgba(255,255,255,.08)!important;
-  background:#202b36!important;
-  color:var(--tg-text)!important;
-  box-shadow:none!important;
-}
+
 .player-achievements-trigger{
   min-width:118px!important;
   width:max-content!important;
@@ -1559,15 +1486,8 @@ input,textarea{
   height:44px!important;
 }
 
-.game-card{
-  min-width:0!important;
-  min-height:0!important;
-  touch-action:manipulation!important;
-  transition:transform var(--ui-motion) var(--ui-ease),opacity var(--ui-motion) var(--ui-ease),filter var(--ui-motion) var(--ui-ease),box-shadow var(--ui-motion) var(--ui-ease)!important;
-}
-.game-card:active{
-  transform:scale(.985)!important;
-}
+
+
 
 /* Main screen and category screen enter as complete surfaces, not as abrupt display swaps. */
 .screen-enter-forward{
