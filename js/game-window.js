@@ -365,6 +365,10 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
   function init(){
     const root=host();
     if(!root)return;
+
+    // The GAME WINDOW is a persistent HOME surface; never inherit a stale hidden state.
+    root.classList.remove("hidden","is-hidden");
+    root.setAttribute("aria-hidden","false");
     root.addEventListener("click",event=>{
       const action=event.target.closest("[data-game-window-action]")?.dataset.gameWindowAction;
       if(action==="close"){event.preventDefault();closeGame();return;}
