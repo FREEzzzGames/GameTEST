@@ -1,4 +1,4 @@
-/* LIVE FINAL OVERRIDE — isolated list scrolling + direct-link stage */
+/* LIVE — streamer list + embedded YouTube window */
 #mainPortal .home-media-row .live-view{
   position:relative!important;
   z-index:2000!important;
@@ -25,9 +25,7 @@
   background:transparent!important;
 }
 
-#mainPortal .home-media-row #liveListPanel.hidden{
-  display:none!important;
-}
+#mainPortal .home-media-row #liveListPanel.hidden{display:none!important;}
 
 #mainPortal .home-media-row #liveListPanel .live-list-drawer{
   width:100%!important;
@@ -58,7 +56,7 @@
   flex:0 0 auto!important;
   min-height:64px!important;
   display:grid!important;
-  grid-template-columns:42px minmax(0,1fr) auto!important;
+  grid-template-columns:42px minmax(0,1fr)!important;
   align-items:center!important;
   gap:8px!important;
   padding:7px 9px!important;
@@ -74,69 +72,165 @@
   pointer-events:none!important;
 }
 
+/* Player occupies the entire empty LIVE area. */
 #mainPortal .home-media-row .live-main{
   position:relative!important;
   z-index:1!important;
-  pointer-events:auto!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
   overflow:hidden!important;
+  pointer-events:auto!important;
 }
 
-#mainPortal .home-media-row .live-link-stage{
+#mainPortal .home-media-row .live-video-window{
   position:relative!important;
   width:100%!important;
   height:100%!important;
-  min-height:190px!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  background:#000!important;
+  border-radius:inherit!important;
+}
+
+#mainPortal .home-media-row .live-video-window.is-expanded{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-height:none!important;
+  z-index:2147483000!important;
+  border-radius:0!important;
+}
+
+body.live-video-expanded{overflow:hidden!important;}
+
+#mainPortal .home-media-row .live-video-head{
+  flex:0 0 34px!important;
+  min-height:34px!important;
+  height:34px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:6px!important;
+  padding:0 6px!important;
+  box-sizing:border-box!important;
+  background:rgba(8,12,18,.92)!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  z-index:5!important;
+}
+
+#mainPortal .home-media-row .live-video-head strong{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font:700 9px/1 "Handjet",monospace!important;
+  color:#fff!important;
+}
+
+#mainPortal .home-media-row .live-video-actions{
+  display:flex!important;
+  gap:4px!important;
+  flex:0 0 auto!important;
+}
+
+#mainPortal .home-media-row .live-video-action,
+#mainPortal .home-media-row .live-video-foot-expand{
+  width:30px!important;
+  height:28px!important;
+  min-width:30px!important;
+  min-height:28px!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:7px!important;
+  background:rgba(255,255,255,.08)!important;
+  color:#fff!important;
+  font:700 14px/1 "Handjet",monospace!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+}
+
+#mainPortal .home-media-row .live-video-frame-wrap{
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  background:#000!important;
+}
+
+#mainPortal .home-media-row .live-video-frame{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  border:0!important;
+  background:#000!important;
+}
+
+#mainPortal .home-media-row .live-video-fallback{
+  position:absolute!important;
+  inset:0!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
   gap:7px!important;
-  padding:18px!important;
-  box-sizing:border-box!important;
+  padding:20px!important;
   text-align:center!important;
-  background:radial-gradient(circle at 50% 35%,rgba(55,115,170,.18),transparent 55%),#02050b!important;
-  color:var(--tg-text)!important;
-}
-
-#mainPortal .home-media-row .live-link-stage .live-link-icon{
-  font-size:34px!important;
-  line-height:1!important;
-}
-
-#mainPortal .home-media-row .live-link-stage strong{
-  font:700 13px/1 "Handjet",monospace!important;
+  background:#05080d!important;
   color:#fff!important;
+  z-index:4!important;
 }
 
-#mainPortal .home-media-row .live-link-stage span{
-  font:400 8px/1 "Handjet",monospace!important;
-  color:rgba(255,255,255,.58)!important;
-}
+#mainPortal .home-media-row .live-video-fallback.hidden{display:none!important;}
 
-#mainPortal .home-media-row .live-link-stage .live-player-open{
-  min-height:34px!important;
-  padding:0 14px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  margin-top:4px!important;
-  text-decoration:none!important;
-  color:#fff!important;
-  background:rgba(20,70,110,.75)!important;
-  border:1px solid rgba(100,181,246,.6)!important;
-  border-radius:8px!important;
+#mainPortal .home-media-row .live-video-fallback span{
   font:700 9px/1 "Handjet",monospace!important;
-  cursor:pointer!important;
-  touch-action:manipulation!important;
+  opacity:.65;
 }
 
-#mainPortal .home-media-row .live-link-stage .live-player-back{
-  position:absolute!important;
-  top:7px!important;
-  right:7px!important;
-  width:30px!important;
-  height:30px!important;
+#mainPortal .home-media-row .live-video-fallback strong{
+  font:700 12px/1.2 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-video-fallback small{
+  font:400 8px/1.2 "Handjet",monospace!important;
+  opacity:.6;
+}
+
+#mainPortal .home-media-row .live-video-foot{
+  flex:0 0 28px!important;
+  min-height:28px!important;
+  height:28px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  padding:0 6px!important;
+  box-sizing:border-box!important;
+  background:rgba(8,12,18,.92)!important;
+  border-top:1px solid rgba(255,255,255,.08)!important;
   z-index:5!important;
+}
+
+#mainPortal .home-media-row .live-video-foot span{
+  font:400 6px/1 "Handjet",monospace!important;
+  color:rgba(255,255,255,.5)!important;
+}
+
+#mainPortal .home-media-row .live-video-window.is-expanded .live-video-head{
+  flex-basis:44px!important;
+  min-height:44px!important;
+  height:44px!important;
+}
+
+#mainPortal .home-media-row .live-video-window.is-expanded .live-video-foot{
+  flex-basis:38px!important;
+  min-height:38px!important;
+  height:38px!important;
 }
 
 @media(max-width:420px){
