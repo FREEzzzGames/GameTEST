@@ -20,7 +20,7 @@ async function bootPortalModule(){
     import("./live.js?v=20260930-live4"),
     import("./parallax.js?v=20260930a"),
     import("./streamer-menu-parallax.js?v=20260930e"),
-    import("./game-window.js?v=20260930-gamecatalog8"),
+    import("./game-window.js?v=20260930-gamecatalog10"),
     import("./tv-remote.js?v=20260930-tv1")
   ]);
 
