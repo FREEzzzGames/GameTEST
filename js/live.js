@@ -1,6 +1,6 @@
-import { directSources } from "./live-data/channels.js?v=20260930f";
-import { CATEGORIES } from "./portal-data/games.js?v=20260930e4";
-import { LANG, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
+import { directSources } from "./live-data/channels.js?v=20260930f1";
+import { CATEGORIES } from "./portal-data/games.js?v=20260930e5";
+import { LANG, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e6";
 
 (() => {
 "use strict";
