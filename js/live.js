@@ -302,24 +302,10 @@ function closeList() {
   }
 }
 
-function bindCatalog() {
-  const dock = $("liveCatalogDock");
-  if (!dock) return;
-  dock.querySelectorAll("[data-live-category]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.liveCategory;
-      if (!id) return;
-      window.FZG?.gameWindow?.openCategory?.(id);
-      h();
-    });
-  });
-}
-
 function visibility() {
   const screen = window.FZG?.state?.get?.().screen || "home";
   const home = screen === "home";
   $("liveView")?.classList.toggle("hidden", !home);
-  $("liveCatalogDock")?.classList.toggle("hidden", !home);
   $("mainPortal")?.classList.toggle("live-home-mode", home);
   if (!home) closeList();
 }
@@ -327,7 +313,6 @@ function visibility() {
 function init() {
   if (!$("liveView")) return;
 
-  bindCatalog();
   renderList();
   renderBot();
 
