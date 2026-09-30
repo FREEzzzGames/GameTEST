@@ -49,7 +49,36 @@ function registry(){
   return [...map.values()];
 }
 
-let cache={streamers:registry().map(x=>({...x,live:false,sources:[]})),updatedAt:null,lastError:null};
+function testLiveRecord(x){
+  if(!x?.testLive)return null;
+  return {
+    ...x,
+    live:true,
+    liveStartedAt:new Date().toISOString(),
+    lastStreamTitle:x.lastStreamTitle||"NASA Live test stream",
+    sources:[{
+      platform:"youtube",
+      embedUrl:x.testEmbedUrl||(
+        x.channelId
+          ? "https://www.youtube.com/embed/live_stream?channel="+encodeURIComponent(x.channelId)+"&autoplay=1&mute=1"
+          : "https://www.youtube.com/@NASA/live"
+      ),
+      live:true,
+      test:true,
+      qualityScore:100,
+      trafficScore:100,
+      stabilityScore:100,
+      latencyScore:90
+    }]
+  };
+}
+
+const initialRegistry=registry();
+let cache={
+  streamers:initialRegistry.map(x=>testLiveRecord(x)||({...x,live:false,sources:[]})),
+  updatedAt:null,
+  lastError:null
+};
 let busy=false;
 const channelCache=new Map();
 
@@ -102,26 +131,8 @@ async function youtube(list){
   // when one of the normal streamer profiles is broken or slow.
   const found=new Map();
   for(const x of users.filter(x=>x.testLive)){
-    found.set(x.id,{
-      ...x,
-      live:true,
-      liveStartedAt:new Date().toISOString(),
-      lastStreamTitle:x.lastStreamTitle||'NASA Live test stream',
-      sources:[{
-        platform:'youtube',
-        embedUrl:x.testEmbedUrl||(
-          x.channelId
-            ? 'https://www.youtube.com/embed/live_stream?channel='+encodeURIComponent(x.channelId)+'&autoplay=1&mute=1'
-            : 'https://www.youtube.com/@NASA/live'
-        ),
-        live:true,
-        test:true,
-        qualityScore:100,
-        trafficScore:100,
-        stabilityScore:100,
-        latencyScore:90
-      }]
-    });
+    const test=testLiveRecord(x);
+    if(test)found.set(x.id,test);
   }
 
   // Normal profiles still use YouTube Data API, but they can no longer
@@ -217,9 +228,17 @@ async function update(){
   }
 }
 
-app.get('/health',(req,res)=>res.json({ok:true,updatedAt:cache.updatedAt,lastError:cache.lastError}));
+app.get('/health',(req,res)=>res.set('Cache-Control','no-store').json({
+  ok:true,
+  service:'freezzz-live-monitor',
+  version:'2026-09-30-live-e2e',
+  updatedAt:cache.updatedAt,
+  lastError:cache.lastError,
+  streamers:cache.streamers.length,
+  online:cache.streamers.filter(x=>x.live&&x.sources?.some(s=>s.live&&s.embedUrl)).length
+}));
 app.get('/api/live',(req,res)=>res.set('Cache-Control','no-store').json(cache));
-app.get('/api/streamers',(req,res)=>res.json({streamers:registry()}));
+app.get('/api/streamers',(req,res)=>res.set('Cache-Control','no-store').json({streamers:registry()}));
 
 update();
 setInterval(update,POLL_MS);
