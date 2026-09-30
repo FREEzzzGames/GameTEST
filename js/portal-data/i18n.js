@@ -68,7 +68,6 @@ const LANGS = ["ru","de","en"];
     lost:{ru:'ПОТЕРЯЙСЯ И НАЙДИСЬ',de:'VERIRREN & FINDEN',en:'LOST & FOUND'},
     timetrip:{ru:'МАШИНА ВРЕМЕНИ',de:'ZEITMASCHINE',en:'TIME MACHINE'},
     zen:{ru:'НЕ СПЕШИ ЕХАТЬ',de:'ZEN-FAHRT',en:'ZEN DRIVE'},
-    worlds:{ru:'ЖИВЫЕ МИРЫ',de:'LEBENDIGE WELTEN',en:'LIVING WORLDS'},
     duel:{ru:'ДВА БОКА ЭКРАНА',de:'ZWEI SEITEN',en:'TWO SIDES'},
     lab:{ru:'FREEzzz LAB',de:'FREEzzz LAB',en:'FREEzzz LAB'}
   };
