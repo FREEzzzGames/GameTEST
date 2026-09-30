@@ -5280,7 +5280,7 @@ body.game-window-expanded{
    CHAT FUNCTIONALITY FIX — full-height overlay without
    double-height overflow, with every control kept tappable.
    ========================================================= */
-#guestView{
+#guestView:not(.hidden){
   display:flex!important;
   flex-direction:column!important;
   align-items:stretch!important;
