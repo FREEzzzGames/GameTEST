@@ -4595,3 +4595,24 @@ body > #liveListPanel .live-panel-close{
   animation:none!important;
   filter:none!important;
 }
+
+
+/* =========================================================
+   WORLD PARALLAX MOTION
+   Motion is clipped to the Mini App world and composes with
+   each layer's existing depth transform.
+   ========================================================= */
+#mainPortal .space-depth{
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+}
+#mainPortal .space-depth .space-layer{
+  translate:var(--parallax-x,0px) var(--parallax-y,0px);
+  will-change:translate;
+}
+@media(prefers-reduced-motion:reduce){
+  #mainPortal .space-depth .space-layer{
+    translate:0 0!important;
+    will-change:auto;
+  }
+}
