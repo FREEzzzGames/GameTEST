@@ -4394,3 +4394,16 @@ body > #liveListPanel .live-panel-close{
   #mainPortal .space-depth::before,
   #mainPortal .space-depth::after{animation:none!important;opacity:0!important}
 }
+
+
+/* Boundary correction: clip only the visual effect layer, never the portal's
+   own scroll container. This keeps Telegram Mini App scrolling intact. */
+#mainPortal{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  clip-path:none!important;
+}
+#mainPortal .space-depth{
+  overflow:hidden!important;
+  clip-path:inset(0)!important;
+}
