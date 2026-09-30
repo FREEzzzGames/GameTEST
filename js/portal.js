@@ -822,8 +822,13 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     }
   }
 
+  // COLD START LOCK: during portal boot no code path may open the full CHAT surface.
+  // CHAT becomes available only after the initial HOME surface is committed.
+  let portalBootComplete=false;
+
   // Нижняя навигация: только ЧАТ. Игры — основной экран, достижения находятся в визитке игрока.
   function switchTab(tab) {
+    if(tab==='guest' && !portalBootComplete) return false;
     haptic();
     const isChat=tab==='guest';
     window.FZG?.state?.set?.({screen:isChat?'chat':'home',categoryId:null,gameId:null});
@@ -898,6 +903,13 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
       showCategoryList(false);
       // The portal always opens on the main screen. Chat is an explicit user action.
       switchTab("games");
+      portalBootComplete=true;
+      const guest=document.getElementById("guestView");
+      const media=document.getElementById("homeMediaRow");
+      const achievements=document.getElementById("achievementsView");
+      guest?.classList.add("hidden");
+      media?.classList.remove("hidden","is-hidden");
+      achievements?.classList.add("hidden");
     }catch(err){ console.error("FREEzzzGames portal boot error:",err); }
   }
   bootPortal();
