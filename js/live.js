@@ -323,22 +323,27 @@ function positionListPanel() {
 
 function openList() {
   const panel = $("liveListPanel");
-  const host = $("liveView");
-  if (!panel || !host) return;
+  const shell = overlayShell();
+  if (!panel || !shell) return;
 
-  if (panel.parentElement !== document.body) {
-    document.body.appendChild(panel);
+  showOverlay();
+
+  if (panel.parentElement !== shell) {
+    shell.innerHTML = "";
+    shell.appendChild(panel);
   }
 
   panel.classList.remove("hidden");
   panel.style.display = "block";
   panel.style.pointerEvents = "auto";
   panel.style.touchAction = "pan-y";
+  panel.style.position = "static";
+  panel.style.left = "";
+  panel.style.top = "";
+  panel.style.width = "100%";
+  panel.style.maxHeight = "100%";
+  panel.style.height = "100%";
 
-  positionListPanel();
-
-  window.addEventListener("resize", positionListPanel, {passive:true});
-  window.addEventListener("orientationchange", positionListPanel, {passive:true});
   haptic();
 }
 
@@ -359,14 +364,13 @@ function closeList() {
   panel.style.height = "";
   panel.style.zIndex = "";
 
-  window.removeEventListener("resize", positionListPanel);
-  window.removeEventListener("orientationchange", positionListPanel);
-
   if (host && panel.parentElement !== host) {
     const main = $("liveMain");
     if (main) host.insertBefore(panel, main);
     else host.appendChild(panel);
   }
+
+  if (!S.overlayOpen) return;
 }
 
 function syncVisibility() {
@@ -391,6 +395,7 @@ function init() {
   $("liveListBtn")?.addEventListener("click", openList);
   $("liveListClose")?.addEventListener("click", closeList);
   $("liveMain")?.addEventListener("click", handleMainAction);
+  overlayLayer()?.addEventListener("click", handleMainAction);
   $("liveListPanel")?.addEventListener("click", event => {
     if (event.target.id === "liveListPanel") closeList();
   });
