@@ -1,14 +1,5 @@
 export function createLivePlayer({mount, onBack, onExternal, haptic}){
   let current = null;
-  let muted = true;
-
-  const send = command => {
-    const frame = mount.querySelector("#liveVideoFrame");
-    if(!frame?.contentWindow)return;
-    try{
-      frame.contentWindow.postMessage(JSON.stringify({event:"command",func:command,args:[]}),"https://www.youtube.com");
-    }catch(_){}
-  };
 
   const external = channel => {
     if(!channel?.url)return false;
@@ -26,38 +17,34 @@ export function createLivePlayer({mount, onBack, onExternal, haptic}){
 
   const render = channel => {
     current = channel || null;
-    muted = true;
     if(!mount)return;
 
     if(!channel){
-      mount.innerHTML = '<div class="live-player-empty"><div class="live-player-icon">📺</div><strong>ВЫБЕРИ СТРИМЕРА</strong></div>';
+      mount.innerHTML =
+        '<div class="live-player-empty">'+
+          '<div class="live-player-icon">📺</div>'+
+          '<strong>ВЫБЕРИ СТРИМЕРА</strong>'+
+        '</div>';
       return;
     }
 
-    const source = channel.embedUrl || "";
     mount.innerHTML =
-      '<div class="live-player-shell">'+
-        (source
-          ? '<iframe class="live-video" id="liveVideoFrame" src="'+source+'" title="'+escapeHtml(channel.name)+' — LIVE" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="eager"></iframe>'
-          : '<div class="live-player-link"><div class="live-player-icon">'+escapeHtml(channel.avatar||"📺")+'</div><strong>'+escapeHtml(channel.name)+'</strong><span>ПРЯМАЯ ССЫЛКА НА КАНАЛ</span><button class="live-player-open" id="livePlayerOpen" type="button">ОТКРЫТЬ YOUTUBE</button></div>')+
-        '<div class="live-player-top"><span class="live-player-live"><i></i> LIVE</span><button class="live-player-back" id="livePlayerBack" type="button">‹</button></div>'+
-        (source ? '<button class="live-sound-btn" id="liveSoundBtn" type="button">🔇</button>' : '')+
-        '<div class="live-player-info"><span class="live-player-avatar">'+escapeHtml(channel.avatar||"🎮")+'</span><span><strong>'+escapeHtml(channel.name)+'</strong><small>'+escapeHtml(channel.category||"YouTube")+'</small></span></div>'+
+      '<div class="live-link-stage">'+
+        '<div class="live-link-icon">'+escapeHtml(channel.avatar||"📺")+'</div>'+
+        '<strong>'+escapeHtml(channel.name)+'</strong>'+
+        '<span>ПРЯМАЯ ССЫЛКА НА КАНАЛ</span>'+
+        '<a class="live-player-open" id="livePlayerOpen" href="'+escapeAttr(channel.url)+'" target="_blank" rel="noopener noreferrer">ОТКРЫТЬ КАНАЛ</a>'+
+        '<button class="live-player-back" id="livePlayerBack" type="button" aria-label="Назад">‹</button>'+
       '</div>';
 
-    if(!source) external(channel);
-
     mount.querySelector("#livePlayerBack")?.addEventListener("click",()=>onBack?.());
-    mount.querySelector("#livePlayerOpen")?.addEventListener("click",()=>external(channel));
-    const frame = mount.querySelector("#liveVideoFrame");
-    frame?.addEventListener("load",()=>send(muted?"mute":"unMute"),{once:true});
-    mount.querySelector("#liveSoundBtn")?.addEventListener("click",()=>{
-      muted=!muted;
-      send(muted?"mute":"unMute");
-      const button=mount.querySelector("#liveSoundBtn");
-      if(button)button.textContent=muted?"🔇":"🔊";
-      haptic?.();
+
+    mount.querySelector("#livePlayerOpen")?.addEventListener("click",event=>{
+      event.preventDefault();
+      external(channel);
     });
+
+    external(channel);
   };
 
   return {
@@ -65,10 +52,19 @@ export function createLivePlayer({mount, onBack, onExternal, haptic}){
     close:()=>render(null),
     back:()=>{if(current){onBack?.();return true;}return false;},
     external,
-    getState:()=>({selectedId:current?.id||null,muted})
+    getState:()=>({selectedId:current?.id||null})
   };
 }
 
 function escapeHtml(value){
-  return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function escapeAttr(value){
+  return escapeHtml(value);
 }
