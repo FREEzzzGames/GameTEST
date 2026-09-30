@@ -14,6 +14,7 @@
 
   let active=false;
   let lastDirection=0;
+  let pointerTarget=null;
 
   const isVisible=el=>{
     if(!el || el.hidden)return false;
@@ -171,11 +172,12 @@
 
     if(key==="Enter"||key==="Return"||key==="Select"||code===13){
       activate();
-      const current=document.activeElement;
-      if(current && current!==document.body && isVisible(current)){
-        if(current.tagName?.toLowerCase()==="iframe")return;
+      const target=enterTarget();
+      if(target){
         event.preventDefault();
-        current.click();
+        event.stopPropagation();
+        target.focus?.({preventScroll:true});
+        target.click();
       }
       return;
     }
@@ -187,6 +189,22 @@
         event.stopPropagation();
       }
     }
+  }
+
+  function rememberPointerTarget(event){
+    const target=event.target;
+    if(!(target instanceof Element))return;
+    const candidate=target.closest("button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])");
+    if(candidate && isVisible(candidate))pointerTarget=candidate;
+  }
+
+  function enterTarget(){
+    const current=document.activeElement;
+    if(current && current!==document.body && isVisible(current)){
+      if(current.tagName?.toLowerCase()!=="iframe")return current;
+    }
+    if(pointerTarget && isVisible(pointerTarget))return pointerTarget;
+    return null;
   }
 
   function focusGameFrame(){
@@ -204,5 +222,7 @@
     focusGameFrame
   };
 
+  document.addEventListener("mouseover",rememberPointerTarget,true);
+  document.addEventListener("pointerover",rememberPointerTarget,true);
   document.addEventListener("keydown",handleKeyDown,true);
 })();
