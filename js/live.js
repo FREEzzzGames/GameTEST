@@ -377,6 +377,7 @@ function init() {
   renderBot();
 
   $("liveListBtn")?.addEventListener("click", openList);
+  $("langToggleBtn")?.addEventListener("click", () => setTimeout(renderHomeCategoryQuick, 0));
   $("liveListClose")?.addEventListener("click", closeList);
   $("liveListPanel")?.addEventListener("click", e => {
     if (e.target.id === "liveListPanel") closeList();
