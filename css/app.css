@@ -3436,174 +3436,20 @@ html, body,
   background:#0b1420!important;
 }
 
-/* Kill every old fixed/right-drawer rule: the list belongs to the LIVE window. */
-#mainPortal .home-media-row #liveListPanel,
-#mainPortal .home-media-row #liveListPanel:not(.hidden){
-  position:absolute!important;
-  top:40px!important;
-  left:0!important;
-  right:0!important;
-  bottom:0!important;
-  width:100%!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  z-index:200!important;
-  display:block!important;
-  overflow:hidden!important;
-  background:transparent!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-  pointer-events:none!important;
-  animation:none!important;
-}
 
-#mainPortal .home-media-row #liveListPanel.hidden{
-  display:none!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-drawer{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:6px!important;
-  overflow:auto!important;
-  box-sizing:border-box!important;
-  border:0!important;
-  border-radius:0!important;
-  background:rgba(11,20,32,.98)!important;
-  box-shadow:none!important;
-  backdrop-filter:blur(14px) saturate(120%)!important;
-  -webkit-backdrop-filter:blur(14px) saturate(120%)!important;
-  pointer-events:auto!important;
-  transform:none!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-head{
-  position:sticky!important;
-  top:0!important;
-  z-index:3!important;
-  min-height:32px!important;
-  height:32px!important;
-  margin:0!important;
-  padding:0 2px 4px 5px!important;
-  border:0!important;
-  border-bottom:1px solid rgba(255,255,255,.08)!important;
-  background:rgba(11,20,32,.98)!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-row{
-  min-height:42px!important;
-}
-
-/* Small phones: retain equal left/right header halves. */
-@media(max-width:380px){
-  #mainPortal .home-media-row .live-head{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-    height:38px!important;
-    min-height:38px!important;
-    flex-basis:38px!important;
-  }
-  #mainPortal .home-media-row .live-list-btn{
-    height:30px!important;
-    min-height:30px!important;
-    font-size:8px!important;
-  }
-  #mainPortal .home-media-row #liveListPanel,
-  #mainPortal .home-media-row #liveListPanel:not(.hidden){
-    top:38px!important;
-  }
-}
-
-
-/* LIVE DROPDOWN — escape the LIVE card downward, without covering the rest of the portal */
+/* =========================================================
+   LIVE STREAMER MENU — single clean implementation
+   The menu is detached to <body> by live.js while open.
+   ========================================================= */
 #mainPortal .home-media-row .live-view{
   overflow:visible!important;
+  position:relative!important;
   z-index:80!important;
 }
 
 #mainPortal .home-media-row .live-head{
   position:relative!important;
   z-index:120!important;
-}
-
-#mainPortal .home-media-row #liveListPanel,
-#mainPortal .home-media-row #liveListPanel:not(.hidden){
-  position:absolute!important;
-  top:38px!important;
-  left:0!important;
-  right:auto!important;
-  bottom:auto!important;
-  width:100%!important;
-  height:auto!important;
-  max-height:min(430px,calc(100dvh - 430px))!important;
-  min-height:0!important;
-  padding:5px!important;
-  overflow:visible!important;
-  display:block!important;
-  pointer-events:none!important;
-  background:transparent!important;
-  backdrop-filter:none!important;
-  -webkit-backdrop-filter:none!important;
-  animation:none!important;
-}
-
-#mainPortal .home-media-row #liveListPanel.hidden{
-  display:none!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-drawer{
-  position:relative!important;
-  inset:auto!important;
-  width:100%!important;
-  height:auto!important;
-  max-height:min(430px,calc(100dvh - 430px))!important;
-  margin:0!important;
-  padding:6px!important;
-  overflow:auto!important;
-  box-sizing:border-box!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:10px!important;
-  background:rgba(11,20,32,.76)!important;
-  box-shadow:0 10px 28px rgba(0,0,0,.28)!important;
-  backdrop-filter:blur(8px) saturate(115%)!important;
-  -webkit-backdrop-filter:blur(8px) saturate(115%)!important;
-  pointer-events:auto!important;
-  transform:none!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-head{
-  background:rgba(11,20,32,.58)!important;
-  border-bottom:1px solid rgba(255,255,255,.08)!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-list-row{
-  background:rgba(31,43,55,.72)!important;
-  border-color:rgba(255,255,255,.08)!important;
-}
-
-/* Do not turn the whole page into a modal backdrop. */
-#mainPortal .home-media-row #liveListPanel::before{
-  display:none!important;
-}
-
-@media(max-width:380px){
-  #mainPortal .home-media-row #liveListPanel,
-  #mainPortal .home-media-row #liveListPanel:not(.hidden){
-    top:38px!important;
-    max-height:min(390px,calc(100dvh - 410px))!important;
-  }
-  #mainPortal .home-media-row #liveListPanel .live-list-drawer{
-    max-height:min(390px,calc(100dvh - 410px))!important;
-  }
-}
-
-
-/* LIVE BUTTON BALANCE — compact controls with equal visual weight */
-#mainPortal .home-media-row .live-head{
   grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
   gap:6px!important;
   padding:4px 6px!important;
@@ -3639,8 +3485,61 @@ html, body,
   font:700 9px/1 "Handjet",monospace!important;
 }
 
-/* Close control must stay visually balanced with the header, never become a giant button. */
-#mainPortal .home-media-row #liveListPanel .live-panel-close{
+/* Detached menu: never clipped by the LIVE card or its parent. */
+body > #liveListPanel{
+  position:fixed!important;
+  z-index:2147483000!important;
+  display:block!important;
+  margin:0!important;
+  padding:5px!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+  overflow:visible!important;
+  pointer-events:auto!important;
+  touch-action:pan-y!important;
+}
+
+body > #liveListPanel.hidden{
+  display:none!important;
+}
+
+body > #liveListPanel .live-list-drawer{
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:6px!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  pointer-events:auto!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:10px!important;
+  background:rgba(11,20,32,.76)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.28)!important;
+  backdrop-filter:blur(8px) saturate(115%)!important;
+  -webkit-backdrop-filter:blur(8px) saturate(115%)!important;
+}
+
+body > #liveListPanel .live-list-head{
+  position:sticky!important;
+  top:0!important;
+  z-index:3!important;
+  min-height:34px!important;
+  height:34px!important;
+  display:flex!important;
+  align-items:center!important;
+  padding:0 3px 4px 6px!important;
+  box-sizing:border-box!important;
+  background:rgba(11,20,32,.52)!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+
+body > #liveListPanel .live-panel-close{
   width:34px!important;
   min-width:34px!important;
   max-width:34px!important;
@@ -3652,157 +3551,45 @@ html, body,
   flex:0 0 34px!important;
   border-radius:8px!important;
   font:500 18px/1 "Handjet",monospace!important;
-}
-
-/* Streamer rows are compact, readable and remain full-width clickable buttons. */
-#mainPortal .home-media-row #liveListPanel .live-list-row{
-  width:100%!important;
-  min-height:50px!important;
-  height:auto!important;
-  padding:6px 8px!important;
-  border-radius:9px!important;
-  box-sizing:border-box!important;
-}
-
-/* Keep the dropdown readable without turning it into an opaque second screen. */
-#mainPortal .home-media-row #liveListPanel .live-list-drawer{
-  background:rgba(11,20,32,.70)!important;
-  border-color:rgba(255,255,255,.10)!important;
-}
-#mainPortal .home-media-row #liveListPanel .live-list-head{
-  min-height:34px!important;
-  height:34px!important;
-  padding:0 3px 4px 6px!important;
-  background:rgba(11,20,32,.52)!important;
-}
-
-/* LIVE SCROLL FIX — native touch scrolling inside streamer dropdown */
-#mainPortal .home-media-row #liveListPanel{
-  touch-action:pan-y!important;
-  overscroll-behavior:contain!important;
-}
-#mainPortal .home-media-row #liveListPanel .live-list-drawer{
-  height:min(430px,calc(100dvh - 430px))!important;
-  max-height:min(430px,calc(100dvh - 430px))!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  touch-action:pan-y!important;
-  overscroll-behavior-y:contain!important;
-  scrollbar-width:auto!important;
-}
-#mainPortal .home-media-row #liveListPanel .live-streamer-list{
-  min-height:max-content!important;
-  height:auto!important;
-}
-@media(max-width:380px){
-  #mainPortal .home-media-row #liveListPanel .live-list-drawer{
-    height:min(390px,calc(100dvh - 410px))!important;
-    max-height:min(390px,calc(100dvh - 410px))!important;
-  }
-}
-
-/* LIVE INTERACTION FIX — restore pointer events and touch scrolling after category touch layer */
-#mainPortal.live-home-mode .live-view{
-  pointer-events:auto!important;
-  touch-action:pan-y!important;
-}
-#mainPortal.live-home-mode .live-list-btn,
-#mainPortal.live-home-mode #liveListPanel,
-#mainPortal.live-home-mode #liveListPanel .live-list-drawer,
-#mainPortal.live-home-mode #liveListPanel .live-list-head,
-#mainPortal.live-home-mode #liveListPanel .live-streamer-list,
-#mainPortal.live-home-mode #liveListPanel .live-list-row,
-#mainPortal.live-home-mode #liveListPanel .live-panel-close{
-  pointer-events:auto!important;
-}
-#mainPortal.live-home-mode #liveListPanel{
-  touch-action:pan-y!important;
-}
-#mainPortal.live-home-mode #liveListPanel .live-list-drawer{
-  touch-action:pan-y!important;
-  -webkit-overflow-scrolling:touch!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-}
-#mainPortal.live-home-mode #liveListPanel .live-list-row{
-  touch-action:manipulation!important;
-  cursor:pointer!important;
-}
-
-/* LIVE FINAL POINTER LAYER — highest specificity for menu interaction */
-#mainPortal.live-home-mode .home-media-row .live-view{
-  pointer-events:auto!important;
-  touch-action:auto!important;
-}
-#mainPortal.live-home-mode .home-media-row #liveListPanel,
-#mainPortal.live-home-mode .home-media-row #liveListPanel:not(.hidden){
-  pointer-events:auto!important;
-  touch-action:pan-y!important;
-  z-index:999999!important;
-}
-#mainPortal.live-home-mode .home-media-row #liveListPanel .live-list-drawer{
-  pointer-events:auto!important;
-  touch-action:pan-y!important;
-  overflow-y:scroll!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior-y:contain!important;
-}
-#mainPortal.live-home-mode .home-media-row #liveListPanel .live-list-row{
   pointer-events:auto!important;
   touch-action:manipulation!important;
-  position:relative!important;
-  z-index:2!important;
-}
-#mainPortal.live-home-mode .home-media-row #liveListPanel .live-panel-close{
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-  position:relative!important;
-  z-index:3!important;
 }
 
-/* LIVE BODY DROPDOWN — detached from portal stacking/touch layers */
-body > #liveListPanel{
-  position:fixed!important;
-  z-index:2147483000!important;
-  margin:0!important;
-  padding:0!important;
-  display:block!important;
-  pointer-events:auto!important;
-  touch-action:pan-y!important;
-  background:transparent!important;
-  overflow:visible!important;
-}
-body > #liveListPanel.hidden{display:none!important}
-body > #liveListPanel .live-list-drawer{
-  width:100%!important;
-  height:auto!important;
-  max-height:inherit!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:6px!important;
-  box-sizing:border-box!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch!important;
-  touch-action:pan-y!important;
-  pointer-events:auto!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:10px!important;
-  background:rgba(11,20,32,.78)!important;
-  backdrop-filter:blur(8px) saturate(115%)!important;
-  -webkit-backdrop-filter:blur(8px) saturate(115%)!important;
-}
-body > #liveListPanel .live-list-row,
-body > #liveListPanel .live-panel-close{
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-  cursor:pointer!important;
-}
 body > #liveListPanel .live-streamer-list{
   display:flex!important;
   flex-direction:column!important;
   gap:4px!important;
   min-height:max-content!important;
+  height:auto!important;
+}
+
+body > #liveListPanel .live-list-row{
+  width:100%!important;
+  min-height:50px!important;
+  height:auto!important;
+  padding:6px 8px!important;
+  box-sizing:border-box!important;
+  border-radius:9px!important;
+  background:rgba(31,43,55,.72)!important;
+  border-color:rgba(255,255,255,.08)!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+
+@media(max-width:380px){
+  #mainPortal .home-media-row .live-head{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:5px!important;
+    padding:4px 5px!important;
+  }
+  #mainPortal .home-media-row .live-list-btn{
+    height:30px!important;
+    min-height:30px!important;
+    font-size:8px!important;
+  }
+  #mainPortal .home-media-row .live-head-title{
+    height:30px!important;
+    font-size:8px!important;
+  }
 }
