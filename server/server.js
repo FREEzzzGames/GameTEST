@@ -150,7 +150,7 @@ async function ensurePlaylist(x){
 }
 
 async function youtube(list){
-  const users=list.filter(x=>x.platform==='youtube'&&(x.channelId||x.handle));
+  const users=list.filter(x=>x.platform==='youtube'&&(x.channelId||x.handle||x.customUrl));
   if(!users.length)return list;
 
   const candidates=[];
