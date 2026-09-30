@@ -55,10 +55,6 @@
       <button class="always-btn lang" id="langToggleBtn" data-action-hint-target="language" title="Язык" aria-label="Язык">RU</button>
     </div>
   </div>
-  <div class="chat-launch-row">
-    <button class="header-chat-btn" id="tabGuest" data-action-hint-target="chat" type="button" data-tab="guest" title="FREEzzzyChat" aria-label="FREEzzzyChat">FREEzzzyChat<span class="chat-unread-dot hidden" id="chatUnreadDot" aria-hidden="true"></span></button>
-  </div>
-
   <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
     <div class="live-head">
       <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
@@ -74,6 +70,21 @@
     </div>
   </div>
   <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
+
+  <section class="home-chat-widget" id="homeChatWidget" aria-label="FREEzzzyChat">
+    <div class="home-chat-head">
+      <div class="home-chat-title"><span class="home-chat-dot"></span><strong>FREEzzzyChat</strong><span class="home-chat-status" id="homeChatStatus">ОНЛАЙН</span></div>
+      <button class="home-chat-open" id="homeChatOpen" type="button" aria-label="Открыть чат">↗</button>
+    </div>
+    <div class="home-chat-messages" id="homeChatMessages">
+      <div class="home-chat-empty">Открываем чат…</div>
+    </div>
+    <div class="home-chat-compose">
+      <input id="homeChatInput" type="text" maxlength="500" autocomplete="off" placeholder="Напиши сообщение…" aria-label="Сообщение">
+      <button id="homeChatSend" type="button" aria-label="Отправить">➤</button>
+    </div>
+  </section>
+
   <div class="games-browser" id="gamesBrowser">
     <div class="category-list" id="categoryList" aria-label="Категории игр">
       <button class="category-item" data-category="worlds"><span class="category-icon">🌌</span><span class="category-copy"><span class="category-name">ИНТЕРАКТИВНЫЕ МИРЫ</span><span class="category-count">7 ИГР</span></span><span class="category-arrow">›</span></button>
