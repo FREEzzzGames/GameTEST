@@ -1,3 +1,7 @@
+import { LANGS, LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
+import { ACTION_HINTS } from "./portal-data/hints.js?v=20260930e4";
+import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
+import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
 (function(){
   const key="freezzz_age_confirmed";
@@ -62,10 +66,10 @@
   const nameTxt = document.getElementById('userNameTxt');
   if (nameTxt) nameTxt.textContent = userName;
 
-  import { LANGS, LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
-import { ACTION_HINTS } from "./portal-data/hints.js?v=20260930e4";
-import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
-import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
+  
+
+
+
 
   let currentLang = localStorage.getItem("freezzzLang") || "ru";
   if(!LANGS.includes(currentLang)) currentLang="ru";
