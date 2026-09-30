@@ -4616,3 +4616,111 @@ body > #liveListPanel .live-panel-close{
     will-change:auto;
   }
 }
+
+/* =========================================================
+   STREAMER MENU LOCAL PARALLAX
+   Visual-only depth inside LIVE streamer drawer.
+   Does not move the world, router or native list scrolling.
+   ========================================================= */
+#mainPortal .live-overlay-layer .live-list-drawer{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(40,108,168,.16),transparent 42%),
+    linear-gradient(180deg,rgba(10,22,36,.99),rgba(5,12,22,.99))!important;
+}
+
+#mainPortal .live-overlay-layer .streamer-parallax-layers{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  contain:paint!important;
+}
+
+#mainPortal .live-overlay-layer .streamer-parallax-layer{
+  position:absolute!important;
+  inset:-24px!important;
+  pointer-events:none!important;
+  transform:translate3d(var(--menu-parallax-x,0px),var(--menu-parallax-y,0px),0);
+  will-change:transform;
+  transition:none!important;
+}
+
+#mainPortal .live-overlay-layer .streamer-parallax-layer-far{
+  opacity:.78;
+  background:
+    radial-gradient(ellipse at 18% 22%,rgba(53,137,210,.22) 0%,transparent 34%),
+    radial-gradient(ellipse at 82% 74%,rgba(67,74,190,.15) 0%,transparent 38%),
+    radial-gradient(circle at 55% 42%,rgba(88,175,235,.08) 0%,transparent 24%);
+  filter:blur(2px);
+}
+
+#mainPortal .live-overlay-layer .streamer-parallax-layer-mid{
+  opacity:.50;
+  background:
+    linear-gradient(rgba(78,155,214,.075) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(78,155,214,.075) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.72) 18%,rgba(0,0,0,.92) 72%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.72) 18%,rgba(0,0,0,.92) 72%,transparent 100%);
+}
+
+#mainPortal .live-overlay-layer .streamer-parallax-layer-near{
+  opacity:.62;
+  background:
+    radial-gradient(circle at 28% 36%,rgba(107,194,255,.15) 0 1px,transparent 2px),
+    radial-gradient(circle at 73% 64%,rgba(107,194,255,.13) 0 1px,transparent 2px),
+    radial-gradient(circle at 62% 19%,rgba(255,255,255,.10) 0 1px,transparent 2px),
+    radial-gradient(ellipse at 50% 100%,rgba(36,128,202,.15),transparent 48%);
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%;
+  filter:blur(.15px);
+}
+
+#mainPortal .live-overlay-layer .live-list-head{
+  position:relative!important;
+  z-index:3!important;
+  background:linear-gradient(180deg,rgba(12,24,38,.96),rgba(12,24,38,.72))!important;
+}
+
+#mainPortal .live-overlay-layer .live-streamer-list{
+  position:relative!important;
+  z-index:2!important;
+  background:transparent!important;
+}
+
+#mainPortal .live-overlay-layer .live-list-row{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:linear-gradient(110deg,rgba(24,38,55,.90),rgba(13,25,40,.86))!important;
+}
+
+#mainPortal .live-overlay-layer .live-list-row::after{
+  content:""!important;
+  position:absolute!important;
+  inset:-25%!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at 16% 50%,rgba(78,170,235,.12),transparent 25%),
+    radial-gradient(circle at 84% 50%,rgba(104,89,220,.08),transparent 27%);
+  transform:translate3d(calc(var(--menu-parallax-x,0px) * .24),calc(var(--menu-parallax-y,0px) * .16),0);
+  will-change:transform;
+}
+
+#mainPortal .live-overlay-layer .live-list-row > *{
+  position:relative;
+  z-index:1;
+}
+
+@media (prefers-reduced-motion:reduce){
+  #mainPortal .live-overlay-layer .streamer-parallax-layer,
+  #mainPortal .live-overlay-layer .live-list-row::after{
+    transform:none!important;
+    will-change:auto!important;
+  }
+}
