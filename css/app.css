@@ -5568,3 +5568,567 @@ html,body{
     max-height:30px!important;
   }
 }
+
+
+/* =========================================================
+   FREEzzzGames VISUAL SYSTEM v3
+   Graphic redesign only: mechanics, routes and module ownership
+   remain unchanged. The portal is treated as one arcade console:
+   one rail, one scale, one surface language.
+   ========================================================= */
+
+:root{
+  --fz-rail:10px;
+  --fz-gap:8px;
+  --fz-radius:14px;
+  --fz-header:58px;
+  --fz-panel:#0a1521;
+  --fz-panel-2:#0e1b29;
+  --fz-panel-3:#142435;
+  --fz-line:rgba(111,190,255,.24);
+  --fz-line-strong:rgba(111,190,255,.48);
+  --fz-glow:rgba(61,170,255,.16);
+  --fz-text:#eef7ff;
+  --fz-muted:rgba(225,239,250,.52);
+}
+
+/* One predictable viewport box. No negative margins, no cumulative flex width. */
+html,body{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+#mainPortal{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  padding:var(--fz-rail)!important;
+  padding-top:max(var(--fz-rail),env(safe-area-inset-top))!important;
+  padding-bottom:max(var(--fz-rail),env(safe-area-inset-bottom))!important;
+  gap:var(--fz-gap)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+}
+
+/* ---------- HEADER: fixed controls + two fluid zones ---------- */
+#mainPortal .header-top{
+  flex:0 0 var(--fz-header)!important;
+  height:var(--fz-header)!important;
+  min-height:var(--fz-header)!important;
+  width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(112px,.58fr) 38px 38px!important;
+  gap:var(--fz-gap)!important;
+  align-items:stretch!important;
+  overflow:visible!important;
+}
+#mainPortal .header-top .portal-logo,
+#mainPortal .header-top .profile-box,
+#mainPortal .header-top .always-btn{
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+#mainPortal .header-top .portal-logo{
+  height:var(--fz-header)!important;
+  min-height:var(--fz-header)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:4px 8px!important;
+  border:1px solid var(--fz-line)!important;
+  border-radius:var(--fz-radius)!important;
+  background:
+    linear-gradient(135deg,rgba(31,65,91,.72),rgba(9,21,34,.86))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.18)!important;
+}
+#mainPortal .header-top .portal-logo h1{
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:clamp(24px,5.2vw,42px)!important;
+  line-height:.88!important;
+  letter-spacing:-.025em!important;
+}
+#mainPortal .header-top .portal-logo .subtitle{
+  margin-top:4px!important;
+  font-size:clamp(6px,1.2vw,9px)!important;
+  line-height:1!important;
+  opacity:.62!important;
+}
+#mainPortal .header-top .profile-box{
+  height:var(--fz-header)!important;
+  min-height:var(--fz-header)!important;
+  display:grid!important;
+  grid-template-columns:38px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:8px!important;
+  padding:0 10px!important;
+  border:1px solid var(--fz-line)!important;
+  border-radius:var(--fz-radius)!important;
+  background:linear-gradient(135deg,rgba(27,47,64,.9),rgba(12,25,39,.92))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 24px rgba(0,0,0,.16)!important;
+}
+#mainPortal .header-top .user-avatar{
+  width:38px!important;
+  height:38px!important;
+  min-width:38px!important;
+  border-radius:11px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:linear-gradient(145deg,#24394a,#162432)!important;
+  border:1px solid rgba(145,207,255,.18)!important;
+  font-size:19px!important;
+}
+#mainPortal .header-top .profile-box #userNameTxt{
+  width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  text-align:left!important;
+  font-size:clamp(10px,1.9vw,13px)!important;
+}
+#mainPortal .header-top .always-controls{
+  display:contents!important;
+}
+#mainPortal .header-top .always-btn{
+  width:38px!important;
+  min-width:38px!important;
+  max-width:38px!important;
+  height:var(--fz-header)!important;
+  min-height:var(--fz-header)!important;
+  max-height:var(--fz-header)!important;
+  margin:0!important;
+  padding:0!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid var(--fz-line)!important;
+  border-radius:var(--fz-radius)!important;
+  background:linear-gradient(145deg,#1b3042,#0d1b2a)!important;
+  color:var(--fz-text)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 20px rgba(0,0,0,.16)!important;
+}
+#mainPortal .header-top .always-btn:hover{
+  border-color:var(--fz-line-strong)!important;
+}
+#mainPortal .header-top .always-btn.lang{
+  font-size:9px!important;
+}
+#mainPortal .header-top .always-btn.radio{
+  font-size:16px!important;
+}
+
+/* ---------- HOME STAGE: one composition, not three unrelated cards ---------- */
+#mainPortal .home-media-row{
+  width:100%!important;
+  min-width:0!important;
+  flex:0 0 clamp(520px,58dvh,780px)!important;
+  height:clamp(520px,58dvh,780px)!important;
+  min-height:520px!important;
+  max-height:780px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"chat game" "live game"!important;
+  gap:var(--fz-gap)!important;
+  align-items:stretch!important;
+}
+#mainPortal .home-media-row .home-chat-widget,
+#mainPortal .home-media-row .live-view,
+#mainPortal .home-media-row .game-window{
+  min-width:0!important;
+  min-height:0!important;
+  width:100%!important;
+  height:100%!important;
+  border-radius:var(--fz-radius)!important;
+  border:1px solid var(--fz-line)!important;
+  background:
+    linear-gradient(145deg,rgba(13,31,47,.96),rgba(6,16,27,.98))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 12px 30px rgba(0,0,0,.22)!important;
+}
+#mainPortal .home-media-row .home-chat-widget{grid-area:chat!important}
+#mainPortal .home-media-row .live-view{grid-area:live!important}
+#mainPortal .home-media-row .game-window{grid-area:game!important}
+
+/* Shared panel headers */
+#mainPortal .home-chat-head,
+#mainPortal .live-head,
+#mainPortal .game-window-head{
+  min-width:0!important;
+  border-bottom:1px solid rgba(112,190,255,.14)!important;
+  background:linear-gradient(180deg,rgba(28,53,72,.74),rgba(12,28,43,.46))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#mainPortal .home-chat-head{
+  flex:0 0 44px!important;
+  min-height:44px!important;
+  height:44px!important;
+  padding:0 8px!important;
+}
+#mainPortal .home-chat-title{
+  min-width:0!important;
+  gap:6px!important;
+}
+#mainPortal .home-chat-title strong{
+  font-size:11px!important;
+  letter-spacing:.02em!important;
+}
+#mainPortal .home-chat-status{
+  font-size:7px!important;
+  opacity:.48!important;
+}
+#mainPortal .home-chat-open{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  border-radius:10px!important;
+}
+#mainPortal .home-chat-messages{
+  padding:7px!important;
+  gap:5px!important;
+}
+#mainPortal .home-chat-empty{
+  padding:20px 10px!important;
+  color:rgba(225,239,250,.34)!important;
+}
+#mainPortal .home-chat-compose{
+  flex:0 0 44px!important;
+  min-height:44px!important;
+  padding-top:5px!important;
+}
+#mainPortal #homeChatInput,
+#mainPortal #homeChatSend{
+  height:39px!important;
+  min-height:39px!important;
+  border-radius:11px!important;
+}
+#mainPortal #homeChatInput{
+  background:rgba(23,39,53,.92)!important;
+  border-color:rgba(112,190,255,.12)!important;
+}
+#mainPortal #homeChatSend{
+  flex:0 0 39px!important;
+  width:39px!important;
+  min-width:39px!important;
+  background:linear-gradient(145deg,#1c3c57,#142b3f)!important;
+}
+
+/* LIVE gets a stronger header hierarchy without touching its JS. */
+#mainPortal .home-media-row .live-head{
+  height:44px!important;
+  min-height:44px!important;
+  padding:0 7px!important;
+}
+#mainPortal .home-media-row .live-list-btn{
+  width:82px!important;
+  min-width:82px!important;
+  max-width:82px!important;
+  height:32px!important;
+  border-radius:9px!important;
+  background:rgba(27,48,65,.7)!important;
+  border:1px solid rgba(112,190,255,.15)!important;
+  color:#eaf5ff!important;
+  font-size:8px!important;
+}
+#mainPortal .home-media-row .live-head-title{
+  font-size:9px!important;
+}
+#mainPortal .home-media-row .live-carousel-wrap{
+  border-top:1px solid rgba(112,190,255,.10)!important;
+  background:rgba(4,13,22,.38)!important;
+}
+
+/* GAME WINDOW is visually the primary surface, but its existing controls/iframe remain intact. */
+#mainPortal .home-media-row .game-window-head{
+  flex:0 0 46px!important;
+  height:46px!important;
+  min-height:46px!important;
+}
+#mainPortal .home-media-row .game-window-action{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  border-radius:10px!important;
+}
+#mainPortal .home-media-row .game-window-foot{
+  background:rgba(5,14,24,.82)!important;
+  border-top:1px solid rgba(112,190,255,.12)!important;
+}
+
+/* ---------- FULL CHAT: real modal layer, never behind the portal header ---------- */
+#guestView:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147481000!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:
+    max(8px,env(safe-area-inset-top))
+    max(8px,env(safe-area-inset-right))
+    max(8px,env(safe-area-inset-bottom))
+    max(8px,env(safe-area-inset-left))!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:8px!important;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(45,115,170,.16),transparent 38%),
+    rgba(2,8,15,.97)!important;
+  backdrop-filter:blur(10px)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  overflow:hidden!important;
+}
+#guestView .chat-auth-state:empty{
+  display:none!important;
+}
+#guestView .chat-auth-state{
+  flex:0 0 40px!important;
+  min-height:40px!important;
+  height:40px!important;
+  border:1px solid rgba(112,190,255,.18)!important;
+  border-radius:11px!important;
+  background:rgba(13,28,43,.94)!important;
+}
+#guestView .chat-layout{
+  width:100%!important;
+  height:auto!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:7px!important;
+  gap:7px!important;
+  border-radius:16px!important;
+  border:1px solid rgba(112,190,255,.28)!important;
+  background:linear-gradient(145deg,rgba(9,22,35,.99),rgba(5,14,24,.99))!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#guestView .chat-room-tabs{
+  flex:0 0 48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:6px!important;
+  margin:0!important;
+}
+#guestView .chat-room-tab{
+  width:100%!important;
+  min-width:0!important;
+  height:48px!important;
+  min-height:48px!important;
+  padding:0 6px!important;
+  border-radius:12px!important;
+  border:1px solid rgba(112,190,255,.12)!important;
+  background:#152535!important;
+  color:rgba(238,247,255,.72)!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  font-size:10px!important;
+}
+#guestView .chat-room-tab.active{
+  border-color:rgba(112,190,255,.58)!important;
+  background:linear-gradient(145deg,#1d3a52,#152b3e)!important;
+  color:#fff!important;
+  box-shadow:0 0 18px rgba(61,170,255,.10),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+#guestView .chat-toolbar{
+  flex:0 0 46px!important;
+  height:46px!important;
+  min-height:46px!important;
+  padding:0 7px!important;
+  border-radius:11px!important;
+  background:#121f2c!important;
+  border:1px solid rgba(112,190,255,.12)!important;
+}
+#guestView .chat-toolbar #chatRoomTitle{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:11px!important;
+}
+#guestView .chat-mini-btn{
+  flex:0 0 34px!important;
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  border-radius:10px!important;
+}
+#guestView .guest-list,
+#guestView .dm-list,
+#guestView .dm-thread{
+  min-height:0!important;
+  background:rgba(4,12,21,.34)!important;
+  border-radius:12px!important;
+}
+#guestView .chat-compose{
+  flex:0 0 48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  gap:7px!important;
+  padding:0!important;
+}
+#guestView .guest-input,
+#guestView .guest-send{
+  height:48px!important;
+  min-height:48px!important;
+  border-radius:12px!important;
+}
+#guestView .guest-input{
+  padding:0 14px!important;
+  background:#182735!important;
+  border:1px solid rgba(112,190,255,.14)!important;
+}
+#guestView .guest-send{
+  flex:0 0 116px!important;
+  width:116px!important;
+  min-width:116px!important;
+  padding:0 14px!important;
+  background:linear-gradient(145deg,#203b53,#182e41)!important;
+  border-color:rgba(112,190,255,.28)!important;
+  font-size:10px!important;
+}
+
+/* Keep the design vertical and dense on phone widths without creating horizontal overflow. */
+@media(max-width:760px){
+  :root{
+    --fz-rail:7px;
+    --fz-gap:6px;
+    --fz-header:54px;
+  }
+  #mainPortal{
+    padding:var(--fz-rail)!important;
+    padding-top:max(var(--fz-rail),env(safe-area-inset-top))!important;
+    padding-bottom:max(var(--fz-rail),env(safe-area-inset-bottom))!important;
+  }
+  #mainPortal .header-top{
+    grid-template-columns:minmax(0,1fr) minmax(104px,.56fr) 36px 36px!important;
+  }
+  #mainPortal .header-top .always-btn{
+    width:36px!important;
+    min-width:36px!important;
+    max-width:36px!important;
+  }
+  #mainPortal .header-top .portal-logo h1{
+    font-size:clamp(22px,6vw,34px)!important;
+  }
+  #mainPortal .header-top .profile-box{
+    grid-template-columns:32px minmax(0,1fr)!important;
+    gap:6px!important;
+    padding:0 7px!important;
+  }
+  #mainPortal .header-top .user-avatar{
+    width:32px!important;
+    height:32px!important;
+    min-width:32px!important;
+    font-size:16px!important;
+  }
+  #mainPortal .home-media-row{
+    flex-basis:clamp(430px,56dvh,700px)!important;
+    height:clamp(430px,56dvh,700px)!important;
+    min-height:430px!important;
+    max-height:700px!important;
+  }
+  #mainPortal .home-chat-head,
+  #mainPortal .home-media-row .live-head{
+    height:40px!important;
+    min-height:40px!important;
+  }
+  #mainPortal .home-chat-title strong{font-size:10px!important}
+  #mainPortal .home-chat-status{display:none!important}
+  #mainPortal .home-media-row .live-list-btn{
+    width:76px!important;
+    min-width:76px!important;
+    max-width:76px!important;
+    font-size:7px!important;
+  }
+  #mainPortal .home-media-row .game-window-head{
+    flex-basis:42px!important;
+    height:42px!important;
+    min-height:42px!important;
+  }
+  #guestView .chat-room-tabs{
+    gap:4px!important;
+  }
+  #guestView .chat-room-tab{
+    padding:0 3px!important;
+    font-size:8px!important;
+  }
+  #guestView .guest-send{
+    flex-basis:94px!important;
+    width:94px!important;
+    min-width:94px!important;
+  }
+}
+@media(max-width:430px){
+  :root{
+    --fz-rail:6px;
+    --fz-gap:5px;
+    --fz-header:50px;
+  }
+  #mainPortal .header-top{
+    grid-template-columns:minmax(0,1fr) minmax(92px,.52fr) 34px 34px!important;
+    gap:5px!important;
+  }
+  #mainPortal .header-top .always-btn{
+    width:34px!important;
+    min-width:34px!important;
+    max-width:34px!important;
+  }
+  #mainPortal .header-top .portal-logo{
+    padding:3px 5px!important;
+  }
+  #mainPortal .header-top .portal-logo h1{
+    font-size:clamp(19px,6.4vw,28px)!important;
+  }
+  #mainPortal .header-top .portal-logo .subtitle{
+    display:none!important;
+  }
+  #mainPortal .home-media-row{
+    flex-basis:clamp(390px,54dvh,620px)!important;
+    height:clamp(390px,54dvh,620px)!important;
+    min-height:390px!important;
+  }
+  #guestView .chat-room-tabs{
+    flex:0 0 44px!important;
+    height:44px!important;
+    min-height:44px!important;
+  }
+  #guestView .chat-room-tab{
+    height:44px!important;
+    min-height:44px!important;
+    border-radius:10px!important;
+    font-size:7px!important;
+  }
+  #guestView .chat-toolbar{
+    flex-basis:42px!important;
+    height:42px!important;
+    min-height:42px!important;
+  }
+  #guestView .chat-compose,
+  #guestView .guest-input,
+  #guestView .guest-send{
+    height:44px!important;
+    min-height:44px!important;
+  }
+  #guestView .guest-send{
+    flex-basis:82px!important;
+    width:82px!important;
+    min-width:82px!important;
+    font-size:8px!important;
+  }
+}
