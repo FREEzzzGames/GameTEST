@@ -1731,3 +1731,73 @@ html,body{
   }
   #categoryList .category-name{font-size:9px!important}
 }
+
+
+/* =========================================================
+   LIVE DIRECT SOURCE PREVIEW
+   ========================================================= */
+.live-preview-frame{
+  position:relative!important;
+  overflow:hidden!important;
+  background:#0b1420!important;
+}
+.live-preview-link{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  color:inherit!important;
+  text-decoration:none!important;
+}
+.live-preview-image{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  opacity:.72!important;
+  filter:saturate(.9) brightness(.72)!important;
+}
+.live-preview-shade{
+  position:absolute!important;
+  inset:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  padding:18px!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+  background:linear-gradient(180deg,rgba(4,9,15,.18),rgba(4,9,15,.82))!important;
+}
+.live-preview-badge{
+  padding:5px 8px!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.07)!important;
+  color:rgba(255,255,255,.75)!important;
+  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  letter-spacing:.5px!important;
+}
+.live-preview-shade strong{
+  color:#fff!important;
+  font:800 18px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  text-shadow:0 2px 12px rgba(0,0,0,.45)!important;
+}
+.live-preview-shade small{
+  color:rgba(255,255,255,.62)!important;
+  font:500 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-preview-open{
+  margin-top:5px!important;
+  padding:9px 12px!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.12)!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  color:#fff!important;
+  font:800 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-preview-link:active .live-preview-open{
+  transform:scale(.97)!important;
+  background:rgba(255,255,255,.18)!important;
+}
