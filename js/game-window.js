@@ -7,6 +7,12 @@ import { GAME_CARDS, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
   const $ = id => document.getElementById(id);
   const haptic = () => window.FZG?.platform?.haptic?.("light");
   const byId = Object.fromEntries(GAME_CARDS.map(game => [game.id, game]));
+  // External pages can use a fixed desktop canvas. These profiles fit only
+  // the known fixed-layout pages; responsive games keep their native scale.
+  const FRAME_SCALE = {
+    dino: 0.60
+  };
+  const DEFAULT_FRAME_SCALE = 1;
 
   function host(){ return $("gameWindow"); }
   function frame(){ return $("gameWindowFrame"); }
@@ -23,9 +29,29 @@ import { GAME_CARDS, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
     return true;
   }
 
+  function applyFrameScale(){
+    const wrap=$("gameWindowFrameWrap") || frame()?.parentElement;
+    const f=frame();
+    if(!wrap || !f)return;
+    const scale=FRAME_SCALE[S.gameId] ?? DEFAULT_FRAME_SCALE;
+    f.style.transformOrigin="top left";
+    f.style.transform=scale===1 ? "none" : `scale(${scale})`;
+    f.style.width=scale===1 ? "100%" : `${100/scale}%`;
+    f.style.height=scale===1 ? "100%" : `${100/scale}%`;
+  }
+
+  function resetFrameScale(){
+    const f=frame();
+    if(!f)return;
+    f.style.transform="none";
+    f.style.transformOrigin="top left";
+    f.style.width="100%";
+    f.style.height="100%";
+  }
+
   function clearFrame(){
     const f=frame();
-    if(f){ f.src="about:blank"; f.removeAttribute("title"); }
+    if(f){ f.src="about:blank"; f.removeAttribute("title"); resetFrameScale(); }
   }
 
   function showEmpty(){
@@ -64,6 +90,7 @@ import { GAME_CARDS, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
     if(external) external.dataset.url=url;
 
     showLoading(game);
+    applyFrameScale();
     f.src="about:blank";
     requestAnimationFrame(()=>{ f.src=url; });
 
@@ -149,6 +176,7 @@ import { GAME_CARDS, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
     root.querySelector(".game-window-hitbar")?.addEventListener("dblclick",handleTapSurface,{passive:true});
     frame()?.addEventListener("load",handleFrameLoad,{passive:true});
     frame()?.addEventListener("error",handleFrameError,{passive:true});
+    window.addEventListener("resize",applyFrameScale,{passive:true});
 
     window.FZG?.state?.subscribe?.(state=>{
       if(state.screen!=="home" && S.open) closeGame();
