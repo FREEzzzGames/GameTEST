@@ -22,7 +22,6 @@ const DEFAULT_STREAMER_REGISTRY=[
   {"id":"smetanaml","platform":"youtube","handle":"@smetanaml","name":"СМЕТАНА","avatar":"🎮","category":"MLBB"},
   {"id":"titamin1","platform":"youtube","handle":"@Titamin","name":"ТИТАМИН","avatar":"🎮","category":"MLBB"},
   {"id":"dreadztv","platform":"youtube","handle":"@DreadzTV","name":"Dread","avatar":"🎮","category":"Dota 2"},
-  {"id":"stray228","platform":"youtube","handle":"@stray228","customUrl":"/c/StrayBest","channelUrl":"https://www.youtube.com/c/StrayBest","name":"Stray228","avatar":"🎮","category":"Dota 2"},
   {"id":"rostikfacekid","platform":"youtube","channelId":"UCFtJvIs4RNx097pdImXqNDQ","handle":"@rostikfacekid","name":"rostikfacekid","avatar":"🎮","category":"Dota 2"},
   {"id":"bratishkinoff","platform":"youtube","handle":"@bratishkinoff","name":"bratishkinoff","avatar":"🎮","category":"Minecraft"},
   {"id":"deepins02","platform":"youtube","handle":"@DEEPINSSTREAM","name":"deepins02","avatar":"🎮","category":"Minecraft"},
