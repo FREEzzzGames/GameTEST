@@ -233,8 +233,13 @@ function openCard(channel) {
 function youtubeEmbedUrl(channel) {
   if (!channel?.channelId) return "";
 
-  return "https://www.youtube.com/embed?listType=user_uploads&list=" +
-    encodeURIComponent(channel.channelId) +
+  const uploadsPlaylistId =
+    channel.channelId.startsWith("UC")
+      ? "UU" + channel.channelId.slice(2)
+      : channel.channelId;
+
+  return "https://www.youtube.com/embed/videoseries?list=" +
+    encodeURIComponent(uploadsPlaylistId) +
     "&playsinline=1&rel=0";
 }
 
