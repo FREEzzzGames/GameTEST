@@ -5504,3 +5504,67 @@ html,body{
   #mainPortal .profile-box{padding:0 9px!important}
   #guestView .chat-room-tab{font-size:8px!important}
 }
+
+
+/* FINAL HEADER SCALE — four fixed zones with no cumulative flex overflow. */
+#mainPortal .header-top{
+  display:grid!important;
+  grid-template-columns:minmax(0,6fr) minmax(0,3fr) 32px 32px!important;
+  align-items:center!important;
+  justify-content:stretch!important;
+  gap:6px!important;
+  width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+#mainPortal .header-top .portal-logo{
+  min-width:0!important;
+  width:100%!important;
+  overflow:hidden!important;
+  text-align:center!important;
+}
+#mainPortal .header-top .portal-logo h1{
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+  white-space:nowrap!important;
+}
+#mainPortal .header-top .profile-box{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  overflow:hidden!important;
+}
+#mainPortal .header-top .profile-box #userNameTxt{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+#mainPortal .header-top .always-controls{
+  display:contents!important;
+}
+#mainPortal .header-top .always-btn{
+  width:32px!important;
+  min-width:32px!important;
+  max-width:32px!important;
+  height:32px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  margin:0!important;
+  padding:0!important;
+}
+@media(max-width:380px){
+  #mainPortal .header-top{
+    grid-template-columns:minmax(0,6fr) minmax(0,3fr) 30px 30px!important;
+    gap:5px!important;
+  }
+  #mainPortal .header-top .always-btn{
+    width:30px!important;
+    min-width:30px!important;
+    max-width:30px!important;
+    height:30px!important;
+    min-height:30px!important;
+    max-height:30px!important;
+  }
+}
