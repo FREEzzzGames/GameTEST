@@ -133,25 +133,12 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 .action-btn.active { background: var(--tg-blue-dark); border-color:var(--tg-blue); color: var(--tg-text); }
 .action-btn.special { border-color: #ffd42aaa; color: #ffd42a; }
 
-/* КАТЕГОРИИ И КАРУСЕЛЬ ИГР */
-.games-browser{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:4px 0;touch-action:manipulation;user-select:none}
-.category-list{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,76px);align-content:start;gap:8px;overflow:hidden;padding:4px 2px 8px;scrollbar-width:none}
-.category-list::-webkit-scrollbar{display:none}
-.category-item{width:100%;height:76px;min-height:76px;display:flex;align-items:center;gap:12px;text-align:left;padding:10px 13px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(255,255,255,.15);color:#fff;box-shadow:inset 0 0 18px rgba(255,255,255,.025);transition:transform .18s ease,border-color .18s ease,background .18s ease;overflow:hidden}
-.category-item:active{transform:scale(.985);border-color:var(--tg-blue);background:rgba(255,255,255,.22)}
 .category-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex:0 0 42px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(0,0,0,.12);font-size:22px}
 .category-copy{min-width:0;flex:1;height:42px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .category-name{display:block;font-size:13px;font-weight:900;color:var(--tg-text);letter-spacing:.7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .category-count{display:block;font-size:9px;color:var(--tg-text-secondary);margin-top:4px;line-height:1.1;white-space:nowrap}
 .category-arrow{color:var(--tg-blue);font-size:20px}
-.category-view{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-.category-head{display:flex;align-items:center;gap:8px;padding:4px 2px 8px;flex-shrink:0}
-.category-back{width:38px;height:34px;border:1px solid var(--tg-border);border-radius:9px;background:var(--tg-btn);color:var(--tg-blue);font-size:18px}
-.category-head-copy{text-align:left;min-width:0}
-.category-head-title{font-size:14px;font-weight:900;color:var(--tg-text)}
-.category-head-sub{font-size:8px;color:var(--tg-text-secondary);margin-top:2px}
-.games-carousel{position:relative;flex:1;min-height:0;display:flex;align-items:stretch;justify-content:center;overflow:hidden;padding:4px 0 12px;touch-action:none;user-select:none;overscroll-behavior:contain}
-.games-track{width:100%;height:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:8px;position:relative;align-content:stretch}
+
 .game-card{position:relative;width:100%;height:auto;min-height:0;border:1px solid var(--tg-blue);border-radius:14px;background:linear-gradient(145deg,rgba(16,24,58,.98),rgba(4,7,20,.98));box-shadow:var(--tg-shadow);display:flex;flex-direction:column;overflow:hidden;transition:transform .22s ease,opacity .22s ease,filter .22s ease;cursor:pointer}
 .game-card.is-grid-card{transform:none;opacity:1;z-index:3;filter:none}
 .game-card-art{flex:0 0 48%;min-height:0;display:flex;align-items:center;justify-content:center;font-size:64px;background:var(--tg-surface-soft);text-shadow:0 0 25px var(--tg-blue);overflow:hidden}
@@ -160,11 +147,10 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 .game-card-desc{font-size:8px;line-height:1.3;color:var(--tg-text);height:31px;overflow:hidden}
 .game-card-meta{display:flex;justify-content:space-between;align-items:center;margin-top:5px;color:var(--tg-blue);font-size:7px;text-transform:uppercase;letter-spacing:.5px;gap:4px}
 .game-card-play{display:inline-flex;padding:3px 5px;border:1px solid var(--tg-blue);border-radius:5px;color:var(--tg-text);background:var(--tg-btn);font-weight:bold;white-space:nowrap}
-.carousel-dots{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10}
+
 .carousel-dot{width:6px;height:6px;border-radius:50%;background:#52617b;transition:.2s}
 .carousel-dot.active{width:18px;border-radius:4px;background:var(--tg-blue);box-shadow:0 0 7px var(--tg-blue)}
 .carousel-hint{position:absolute;top:5px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--tg-text-secondary);letter-spacing:1px;z-index:10;opacity:.8}
-
 
 /* ПАНЕЛИ ТОПА, АЧИВОК, ЧАТА */
 .row-card { display: flex; justify-content: space-between; align-items: center; background:var(--tg-btn); border:1px solid var(--tg-border); border-radius: 8px; padding: 8px 12px; font-size: 11px; text-align: left; }
@@ -309,8 +295,6 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 .guest-author{cursor:pointer}
 .guest-author:active{opacity:.65}
 
-
-
 /* TELEGRAM MINI APP GEOMETRY — FULL VIEWPORT */
 /* The Mini App viewport is the source of truth: use dynamic viewport units and
    Telegram safe-area insets instead of desktop/Chrome-sized fixed geometry. */
@@ -380,37 +364,7 @@ body{
   min-height:44px!important;
   height:44px!important;
 }
-.games-browser{
-  width:100%!important;
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  overflow:hidden!important;
-}
-.category-list{
-  width:100%!important;
-  min-height:0!important;
-  flex:1 1 auto!important;
-  grid-template-rows:repeat(3,76px)!important;
-  align-content:start!important;
-  padding:4px 0 8px!important;
-}
-.category-item{
-  width:100%!important;
-  height:76px!important;
-  min-height:76px!important;
-}
-.category-view{
-  width:100%!important;
-  min-height:0!important;
-  flex:1 1 auto!important;
-}
-.games-carousel{
-  width:100%!important;
-  min-height:0!important;
-  flex:1 1 auto!important;
-  padding:4px 0 16px!important;
-}
+
 .game-card{
   width:100%!important;
   max-width:none!important;
@@ -497,19 +451,8 @@ body{
   #mainPortal,.portal{
     gap:4px!important;
   }
-  .category-list{
-    display:grid!important;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    grid-template-rows:repeat(3,minmax(0,1fr));
-    align-content:stretch;
-    align-items:stretch;
-    gap:8px!important;
-  }
-  .category-item{height:auto!important;min-height:54px!important;align-self:stretch}
+
 }
-
-
-
 
 /* =========================================================
    FREEzzzGames — TELEGRAM NATIVE UI SYSTEM
@@ -621,34 +564,6 @@ html,body{
   background:#263746!important;
 }
 
-/* Category browser = Telegram list. */
-.category-list{
-  gap:1px!important;
-  padding:3px 0 8px!important;
-}
-.category-item{
-  display:flex!important;
-  align-items:center!important;
-  min-height:58px!important;
-  height:58px!important;
-  padding:7px 12px!important;
-  border:0!important;
-  border-bottom:1px solid rgba(255,255,255,.055)!important;
-  border-radius:0!important;
-  background:rgba(23,33,43,.88)!important;
-  color:var(--tg-text)!important;
-  box-shadow:none!important;
-  text-align:left!important;
-}
-.category-item:first-child{border-radius:10px 10px 0 0!important}
-.category-item:last-child{
-  border-bottom:0!important;
-  border-radius:0 0 10px 10px!important;
-}
-.category-item:active{
-  background:#253442!important;
-  transform:none!important;
-}
 .category-icon{
   width:38px!important;
   height:38px!important;
@@ -686,41 +601,6 @@ html,body{
   font-weight:300!important;
 }
 
-/* Category header. */
-.category-head{
-  display:flex!important;
-  align-items:center!important;
-  gap:8px!important;
-  padding:3px 0 8px!important;
-}
-.category-back{
-  width:40px!important;
-  height:40px!important;
-  flex:0 0 40px!important;
-  border:0!important;
-  border-radius:10px!important;
-  background:#202b36!important;
-  color:var(--tg-blue)!important;
-  font-size:25px!important;
-}
-.category-head-copy{text-align:left!important;min-width:0!important}
-.category-head-title{
-  color:var(--tg-text)!important;
-  font:700 15px "Handjet",monospace!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.category-head-sub{
-  margin-top:2px!important;
-  color:var(--tg-text-secondary)!important;
-  font:400 9px "Handjet",monospace!important;
-}
-
-/* Game carousel = Telegram media card, while artwork remains FREEzzzGames artwork. */
-.games-carousel{
-  padding:0 0 10px!important;
-}
 .game-card{
   border:1px solid rgba(100,181,246,.42)!important;
   border-radius:12px!important;
@@ -1005,8 +885,6 @@ html,body{
   letter-spacing:1px!important;
 }
 
-
-
 /* =========================================================
    FREEzzzGames SPACE FLIGHT — 50-DEPTH COMPOSITE
    Five depth planes × ten star fields. Sparse, smooth and
@@ -1227,7 +1105,6 @@ html,body{
   .space-comets::before,.space-comets::after,.space-asteroids::before,.space-asteroids::after{animation:none!important;opacity:0!important}
 }
 
-
 /* Final flight tuning: the original star pseudo-layer becomes atmosphere;
    the 50-depth field above is the actual moving star volume. */
 .portal::before{
@@ -1369,155 +1246,6 @@ html,body{
   .action-hint-disable{margin-top:6px}
 }
 
-/* FINAL CATEGORY GAME GRID — two rows in Telegram Mini App */
-.games-carousel{
-  display:flex!important;
-  align-items:stretch!important;
-  justify-content:center!important;
-  overflow:hidden!important;
-  padding:4px 0 18px!important;
-}
-.games-track{
-  width:100%!important;
-  height:100%!important;
-  display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  grid-template-rows:repeat(2,minmax(0,1fr))!important;
-  gap:8px!important;
-  align-content:stretch!important;
-}
-.games-track .game-card,
-.games-track .game-card.is-grid-card{
-  position:relative!important;
-  inset:auto!important;
-  width:100%!important;
-  max-width:none!important;
-  height:auto!important;
-  min-height:0!important;
-  max-height:none!important;
-  transform:none!important;
-  opacity:1!important;
-  filter:none!important;
-  z-index:3!important;
-  pointer-events:auto!important;
-}
-.games-track .game-card-art{
-  height:48%!important;
-  min-height:0!important;
-  flex:0 0 48%!important;
-  padding:0!important;
-}
-.games-track .game-card-body{
-  min-height:0!important;
-  overflow:hidden!important;
-  padding:7px 9px 6px!important;
-}
-.games-track .game-card-title{
-  font-size:13px!important;
-  margin-bottom:3px!important;
-}
-.games-track .game-card-desc{
-  height:28px!important;
-  min-height:0!important;
-  font-size:8px!important;
-  line-height:1.3!important;
-  overflow:hidden!important;
-}
-.games-track .game-card-meta{
-  margin-top:4px!important;
-  font-size:7px!important;
-}
-@media(max-width:420px){
-  .games-track .game-card{width:100%!important;min-width:0!important;min-height:0!important;height:auto!important}
-  .games-track .game-card-art{height:46%!important;flex-basis:46%!important}
-}
-
-
-/* =========================================================
-   CATEGORY DOCK — persistent bottom navigation
-   ========================================================= */
-#gamesBrowser{
-  padding-bottom:0!important;
-}
-#categoryList{
-  position:fixed!important;
-  left:8px!important;
-  right:8px!important;
-  bottom:max(8px,env(safe-area-inset-bottom))!important;
-  width:auto!important;
-  height:64px!important;
-  min-height:64px!important;
-  max-height:64px!important;
-  z-index:120!important;
-  display:grid!important;
-  grid-template-columns:repeat(6,minmax(0,1fr))!important;
-  grid-template-rows:1fr!important;
-  gap:2px!important;
-  padding:4px!important;
-  overflow:hidden!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:15px!important;
-  background:rgba(17,27,38,.84)!important;
-  box-shadow:0 8px 28px rgba(0,0,0,.42),0 0 22px rgba(74,145,210,.08)!important;
-  backdrop-filter:blur(16px) saturate(125%)!important;
-  -webkit-backdrop-filter:blur(16px) saturate(125%)!important;
-}
-#categoryList.hidden{
-  display:grid!important;
-  visibility:hidden!important;
-  opacity:0!important;
-  pointer-events:none!important;
-}
-#categoryList .category-item{
-  width:100%!important;
-  height:54px!important;
-  min-height:54px!important;
-  padding:3px 2px!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:center!important;
-  align-items:center!important;
-  gap:1px!important;
-  border:0!important;
-  border-radius:10px!important;
-  background:transparent!important;
-  text-align:center!important;
-}
-#categoryList .category-item:active{
-  background:rgba(100,181,246,.16)!important;
-}
-#categoryList .category-icon{
-  width:29px!important;
-  height:29px!important;
-  flex:0 0 29px!important;
-  border-radius:8px!important;
-  background:rgba(255,255,255,.065)!important;
-  font-size:15px!important;
-  border:1px solid rgba(255,255,255,.07)!important;
-}
-#categoryList .category-copy{
-  min-width:0!important;
-  width:100%!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:2px!important;
-}
-
-/* FINAL TOUCH FIX — bottom category dock must remain directly tappable over LIVE */
-#mainPortal.live-home-mode #categoryList{
-  position:fixed!important;
-  z-index:99999!important;
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-}
-#mainPortal.live-home-mode #categoryList .category-item{
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-  position:relative!important;
-  z-index:100000!important;
-}
 #mainPortal.live-home-mode .live-view{
   pointer-events:none!important;
 }
@@ -1534,7 +1262,6 @@ html,body{
   pointer-events:auto!important;
   touch-action:manipulation!important;
 }
-
 
 /* =========================================================
    LIVE STREAMER DRAWER — compact Telegram-native sheet
@@ -1681,79 +1408,6 @@ html,body{
   #liveListPanel .live-list-drawer{width:91vw!important}
 }
 
-
-/* =========================================================
-   TELEGRAM MINI APP — LARGE TEXT CATEGORY DOCK
-   ========================================================= */
-#categoryList{
-  height:108px!important;
-  min-height:108px!important;
-  max-height:108px!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
-  grid-template-rows:repeat(2,minmax(0,1fr))!important;
-  gap:4px!important;
-  padding:6px!important;
-  border-radius:18px!important;
-  background:rgba(12,22,34,.94)!important;
-  box-shadow:0 10px 32px rgba(0,0,0,.48),0 0 24px rgba(74,145,210,.10)!important;
-}
-#categoryList .category-item{
-  height:auto!important;
-  min-height:46px!important;
-  padding:5px 4px!important;
-  gap:2px!important;
-  justify-content:center!important;
-  border:1px solid rgba(255,255,255,.06)!important;
-  border-radius:11px!important;
-  background:rgba(255,255,255,.025)!important;
-  cursor:pointer!important;
-  touch-action:manipulation!important;
-}
-#categoryList .category-item:active{
-  transform:scale(.97)!important;
-  background:rgba(100,181,246,.18)!important;
-}
-#categoryList .category-icon,
-#categoryList .category-arrow{
-  display:none!important;
-}
-#categoryList .category-copy{
-  display:flex!important;
-  width:100%!important;
-  min-width:0!important;
-  flex:1 1 auto!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-#categoryList .category-name{
-  display:block!important;
-  width:100%!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-  white-space:nowrap!important;
-  color:#fff!important;
-  font:800 10px/1.15 "Handjet",monospace!important;
-  letter-spacing:.1px!important;
-}
-#categoryList .category-count{
-  display:block!important;
-  color:rgba(255,255,255,.46)!important;
-  font:600 8px/1.1 "Handjet",monospace!important;
-}
-@media(max-width:380px){
-  #categoryList{
-    left:6px!important;
-    right:6px!important;
-    height:112px!important;
-    min-height:112px!important;
-    max-height:112px!important;
-    padding:5px!important;
-    gap:3px!important;
-  }
-  #categoryList .category-name{font-size:9px!important}
-}
-
-
 /* =========================================================
    LIVE DIRECT SOURCE PREVIEW
    ========================================================= */
@@ -1823,7 +1477,6 @@ html,body{
   background:rgba(255,255,255,.18)!important;
 }
 
-
 /* =========================================================
    FREEzzzGames UI CONSISTENCY / TOUCH / RESPONSIVE PASS
    One geometry system for web + Telegram Mini App.
@@ -1880,38 +1533,6 @@ input,textarea{
   -webkit-user-select:text;
   user-select:text;
 }
-.profile-box,
-.always-btn,
-.header-chat-btn,
-.category-item,
-.category-back,
-.chat-room-tab,
-.chat-mini-btn,
-.guest-send,
-.player-achievements-trigger,
-.player-profile-close,
-.radio-actions button,
-.radio-close,
-.live-list-btn,
-.live-panel-close,
-.live-list-row,
-.live-carousel-card,
-.live-sound-btn,
-.avatar-item,
-.action-hint-close,
-.action-hint-disable{
-  min-height:var(--ui-control);
-}
-.profile-box,
-.always-btn,
-.category-back,
-.chat-mini-btn,
-.radio-close,
-.live-panel-close,
-.live-sound-btn,
-.action-hint-close{
-  min-width:var(--ui-control);
-}
 
 .header-top{
   flex-shrink:0!important;
@@ -1938,23 +1559,6 @@ input,textarea{
   height:44px!important;
 }
 
-.games-browser{
-  min-height:0!important;
-  flex:1 1 auto!important;
-  overflow:hidden!important;
-}
-.category-view{
-  min-height:0!important;
-  padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
-  overflow:hidden!important;
-}
-.games-carousel{
-  min-height:0!important;
-  overscroll-behavior:contain!important;
-}
-.games-track{
-  min-height:0!important;
-}
 .game-card{
   min-width:0!important;
   min-height:0!important;
@@ -1963,13 +1567,6 @@ input,textarea{
 }
 .game-card:active{
   transform:scale(.985)!important;
-}
-.games-carousel{
-  touch-action:pan-y!important;
-  cursor:grab;
-}
-.games-carousel:active{
-  cursor:grabbing;
 }
 
 /* Main screen and category screen enter as complete surfaces, not as abrupt display swaps. */
@@ -2249,20 +1846,7 @@ input,textarea{
   .live-view{height:clamp(108px,22dvh,150px)!important}
   .live-head{min-height:36px!important;height:36px!important;flex-basis:36px!important}
   .live-list-btn{height:36px!important}
-  #categoryList{
-    height:82px!important;
-    min-height:82px!important;
-    max-height:82px!important;
-    padding:4px!important;
-  }
-  #categoryList .category-item{min-height:34px!important}
-  #categoryList .category-name{font-size:8px!important}
-  #categoryList .category-count{font-size:7px!important}
-  .category-view{padding-bottom:88px!important}
-  .games-track{gap:5px!important}
-  .games-track .game-card-body{padding:5px 7px!important}
-  .games-track .game-card-title{font-size:11px!important}
-  .games-track .game-card-desc{height:22px!important;font-size:7px!important}
+
 }
 @media(max-width:359px){
   .header-top{gap:3px!important}
@@ -2271,12 +1855,12 @@ input,textarea{
   .always-btn{width:38px!important;min-width:38px!important}
   .live-head-title{font-size:10px!important}
   .live-list-btn{padding:0 8px!important;font-size:8px!important}
-  #categoryList .category-name{font-size:8px!important}
+
 }
 @media(orientation:landscape){
   .portal-logo h1{font-size:clamp(24px,6vw,34px)!important}
   .live-view{height:clamp(110px,30dvh,190px)!important}
-  .category-view{padding-bottom:112px!important}
+
 }
 @media(prefers-reduced-motion:reduce){
   .screen-enter-forward,.screen-enter-back,
@@ -2291,7 +1875,6 @@ input,textarea{
     animation:none!important;
   }
 }
-
 
 /* =========================================================
    FINAL HOME SCREEN COMPOSITION
@@ -2420,84 +2003,6 @@ input,textarea{
   font-size:9px!important;
 }
 
-/* The category dock is a single navigation surface aligned to the same rails. */
-#mainPortal #categoryList{
-  left:var(--home-rail)!important;
-  right:var(--home-rail)!important;
-  bottom:max(7px,var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
-  width:auto!important;
-  height:104px!important;
-  min-height:104px!important;
-  max-height:104px!important;
-  padding:5px!important;
-  gap:4px!important;
-  border-radius:15px!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
-  grid-template-rows:repeat(2,minmax(0,1fr))!important;
-  background:rgba(14,24,36,.94)!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  box-shadow:0 8px 26px rgba(0,0,0,.40),0 0 20px rgba(74,145,210,.08)!important;
-}
-#mainPortal #categoryList .category-item{
-  width:100%!important;
-  height:auto!important;
-  min-height:0!important;
-  padding:5px 6px!important;
-  border:1px solid rgba(255,255,255,.055)!important;
-  border-radius:10px!important;
-  background:rgba(255,255,255,.025)!important;
-  gap:2px!important;
-}
-#mainPortal #categoryList .category-item:active{
-  transform:scale(.985)!important;
-  background:rgba(100,181,246,.14)!important;
-  border-color:rgba(100,181,246,.35)!important;
-}
-#mainPortal #categoryList .category-copy{
-  width:100%!important;
-  height:auto!important;
-  margin:0!important;
-  min-width:0!important;
-  flex:1 1 auto!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  text-align:center!important;
-}
-#mainPortal #categoryList .category-name{
-  width:100%!important;
-  display:-webkit-box!important;
-  -webkit-box-orient:vertical!important;
-  -webkit-line-clamp:2!important;
-  white-space:normal!important;
-  overflow:hidden!important;
-  text-overflow:clip!important;
-  color:#f5f5f5!important;
-  font:700 clamp(9px,2.45vw,11px)/1.12 "Handjet",monospace!important;
-  letter-spacing:0!important;
-}
-#mainPortal #categoryList .category-count{
-  margin-top:3px!important;
-  color:rgba(255,255,255,.45)!important;
-  font:600 8px/1 "Handjet",monospace!important;
-}
-#mainPortal #categoryList .category-icon,
-#mainPortal #categoryList .category-arrow{
-  display:none!important;
-}
-
-/* Keep the world visible between LIVE and the dock without letting content collide. */
-#mainPortal .games-browser{
-  min-height:0!important;
-  padding:0!important;
-}
-#mainPortal .category-list{
-  pointer-events:none!important;
-}
-#mainPortal .category-list .category-item{
-  pointer-events:auto!important;
-}
-
 /* Footer sits above the dock and never collides with it. */
 #mainPortal .footer-info{
   position:absolute!important;
@@ -2524,7 +2029,7 @@ input,textarea{
   #mainPortal .live-view{height:150px!important;max-height:150px!important}
   #mainPortal .live-head,
   #mainPortal .live-list-btn{height:36px!important;min-height:36px!important}
-  #mainPortal #categoryList{height:96px!important;min-height:96px!important;max-height:96px!important}
+
   #mainPortal .footer-info{bottom:calc(103px + var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important}
 }
 @media(max-width:380px){
@@ -2538,15 +2043,8 @@ input,textarea{
   #mainPortal .always-controls{gap:4px!important}
   #mainPortal .always-btn{width:40px!important;min-width:40px!important}
   #mainPortal .live-list-btn{min-width:104px!important;padding:0 8px!important}
-  #mainPortal #categoryList{
-    height:98px!important;
-    min-height:98px!important;
-    max-height:98px!important;
-    gap:3px!important;
-  }
-  #mainPortal #categoryList .category-name{font-size:9px!important}
-}
 
+}
 
 /* =========================================================
    HOME CHAT WIDGET — LIVE first, CHAT fills the world area,
@@ -2733,20 +2231,6 @@ input,textarea{
   font-size:16px!important;
 }
 
-#mainPortal .home-chat-widget + .games-browser{
-  flex:0 0 0!important;
-  min-height:0!important;
-  height:0!important;
-  padding:0!important;
-  overflow:visible!important;
-}
-#mainPortal .home-chat-widget + .games-browser .category-list{
-  pointer-events:none!important;
-}
-#mainPortal .home-chat-widget + .games-browser .category-view{
-  display:none!important;
-}
-
 @media(max-height:700px){
   #mainPortal .home-chat-widget{
     min-height:122px!important;
@@ -2779,17 +2263,6 @@ input,textarea{
   #mainPortal .home-chat-status{display:none!important}
   #mainPortal .home-chat-message-body span{font-size:8px!important}
 }
-
-#mainPortal .home-chat-widget.is-hidden + .games-browser{
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  overflow:hidden!important;
-}
-#mainPortal .home-chat-widget.is-hidden + .games-browser .category-view{
-  display:flex!important;
-}
-
 
 /* =========================================================
    HOME MEDIA ROW — LIVE + CHAT are equal landscape panels.
@@ -2923,17 +2396,6 @@ input,textarea{
   padding:0!important;
 }
 
-/* The row owns the vertical space; categories remain the bottom navigation. */
-#mainPortal .home-media-row + .games-browser{
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  overflow:visible!important;
-}
-#mainPortal .home-media-row + .games-browser .category-list{
-  pointer-events:auto!important;
-}
-
 /* If the home chat is temporarily hidden, keep the LIVE panel centered in its column. */
 #mainPortal .home-chat-widget.is-hidden{
   display:none!important;
@@ -2972,7 +2434,6 @@ input,textarea{
 #mainPortal .home-media-row.is-hidden{
   display:none!important;
 }
-
 
 /* FINAL FIX — LIVE header must fit inside its half-width panel without overlap. */
 #mainPortal .home-media-row .live-head{
@@ -3021,7 +2482,6 @@ input,textarea{
   }
 }
 
-
 /* =========================================================
    GLOBAL DOT-MATRIX TYPOGRAPHY
    Handjet gives the whole portal a Nothing-like dotted display
@@ -3059,7 +2519,6 @@ button,input,textarea,select{
   letter-spacing:.12em!important;
 }
 
-
 /* FINAL TYPOGRAPHY LOCK — every portal menu, label, control and hint uses Handjet. */
 html, body,
 #ageGate, #ageGate *,
@@ -3076,20 +2535,6 @@ html, body,
 #ageGate *::after{
   font-family:inherit!important;
 }
-
-#mainPortal .action-hint-card,
-#mainPortal .action-hint-title,
-#mainPortal .action-hint-text,
-#mainPortal .action-hint-close,
-#mainPortal .action-hint-disable,
-#mainPortal .player-hints-toggle,
-#mainPortal .carousel-hint,
-#mainPortal .achievements-modal-hint,
-#mainPortal .footer-info,
-#mainPortal .category-head-sub{
-  font-family:"Handjet",monospace!important;
-}
-
 
 /* =========================================================
    UNIFIED BUTTON SYSTEM
@@ -3128,21 +2573,6 @@ html, body,
   outline-offset:2px!important;
 }
 
-/* Keep compact/icon controls in the same skin without forcing equal dimensions. */
-#mainPortal .always-btn,
-#mainPortal .live-list-btn,
-#mainPortal .home-chat-open,
-#mainPortal #homeChatSend,
-#mainPortal .live-panel-close,
-#mainPortal .category-back,
-#mainPortal .chat-mini-btn,
-#mainPortal .radio-close,
-#mainPortal .action-hint-close{
-  background:#202b36!important;
-  border:1px solid rgba(255,255,255,.12)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 8px rgba(0,0,0,.16)!important;
-}
-
 /* The streamer control keeps its compact footprint, but no longer uses a different button skin. */
 #mainPortal .home-media-row .live-list-btn{
   background:#202b36!important;
@@ -3150,16 +2580,6 @@ html, body,
   border-radius:8px!important;
   box-shadow:none!important;
 }
-
-/* Category cards are still large navigation buttons, but use the same border/radius/interaction language. */
-#mainPortal .category-item{
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:10px!important;
-  background:#202b36!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 2px 8px rgba(0,0,0,.14)!important;
-}
-#mainPortal .category-item:hover{background:#263543!important;border-color:rgba(100,181,246,.42)!important}
-#mainPortal .category-item:active{background:#1b2631!important}
 
 /* Profile and hint controls follow exactly the same skin. */
 #mainPortal .player-achievements-trigger,
@@ -3197,7 +2617,6 @@ html, body,
 }
 #ageGate #ageYes{background:#3f78a8!important;border-color:#3f78a8!important;color:#fff!important}
 #ageGate #ageNo{background:#202b36!important;border-color:rgba(255,255,255,.12)!important;color:#f5f5f5!important}
-
 
 /* =========================================================
    LIVE — unified window + downward streamer dropdown
@@ -3382,7 +2801,6 @@ html, body,
   }
 }
 
-
 /* =========================================================
    LIVE GEOMETRY FIX — one compact window + true in-panel dropdown
    ========================================================= */
@@ -3456,7 +2874,6 @@ html, body,
   box-shadow:none!important;
   background:#0b1420!important;
 }
-
 
 /* =========================================================
    LIVE STREAMER MENU — single clean implementation
@@ -3844,7 +3261,6 @@ body > #liveListPanel .live-panel-close{
   border-radius:6px!important;background:#202b36!important;color:#fff!important;font:600 8px/1 "Handjet",monospace!important;
 }
 
-
 /* LIVE CARD ACTIONS — explicit touch/click hit area */
 #mainPortal .live-streamer-card,
 #mainPortal .live-streamer-card-actions,
@@ -3868,7 +3284,6 @@ body > #liveListPanel .live-panel-close{
   position:relative!important;
   z-index:21!important;
 }
-
 
 /* =========================================================
    LIVE OVERLAY LAYER
@@ -3997,7 +3412,6 @@ body > #liveListPanel .live-panel-close{
   z-index:10!important;
 }
 
-
 /* =========================================================
    FINAL HOME MEDIA GEOMETRY — use the available vertical world
    instead of leaving a large dead area above the category dock.
@@ -4036,7 +3450,6 @@ body > #liveListPanel .live-panel-close{
     max-height:200px!important;
   }
 }
-
 
 /* =========================================================
    FREEzzzGames VISUAL SYSTEM — DEPTH + CONTROLLED GLITCH
@@ -4168,14 +3581,6 @@ body > #liveListPanel .live-panel-close{
   }
 }
 
-/* Interaction glitch: every tappable control gets a tiny digital response. */
-#mainPortal button:active,
-#mainPortal .category-item:active,
-#mainPortal .game-card:active,
-#mainPortal a:active{
-  animation:freezzzInteractionGlitch .16s steps(2,end)!important;
-}
-
 @keyframes freezzzInteractionGlitch{
   0%{filter:none;transform:translateY(1px) scale(.985)}
   35%{filter:contrast(1.14) brightness(1.06);transform:translate(1px,1px) scale(.985)}
@@ -4184,17 +3589,6 @@ body > #liveListPanel .live-panel-close{
 }
 
 /* Keep the new visual language calm for users who request less motion. */
-@media(prefers-reduced-motion:reduce){
-  #mainPortal .space-depth::after,
-  #mainPortal .portal-logo h1,
-  #mainPortal button:active,
-  #mainPortal .category-item:active,
-  #mainPortal .game-card:active,
-  #mainPortal a:active{
-    animation:none!important;
-  }
-}
-
 
 /* =========================================================
    FREEzzzGames EFFECT PASS — 10 DEPTH LAYERS / 3s GLITCH
@@ -4397,14 +3791,6 @@ body > #liveListPanel .live-panel-close{
   92.9%{opacity:0}
 }
 
-/* Keep interaction glitch on the same soft chromatic language. */
-#mainPortal button:active,
-#mainPortal .category-item:active,
-#mainPortal .game-card:active,
-#mainPortal a:active{
-  filter:blur(1.5px) saturate(1.8) contrast(1.15)!important;
-}
-
 /* Mini App boundary safety: no effect layer may paint outside its box. */
 #mainPortal .space-depth,
 #mainPortal .space-depth::before,
@@ -4415,7 +3801,6 @@ body > #liveListPanel .live-panel-close{
   #mainPortal .space-depth::before,
   #mainPortal .space-depth::after{animation:none!important;opacity:0!important}
 }
-
 
 /* Boundary correction: clip only the visual effect layer, never the portal's
    own scroll container. This keeps Telegram Mini App scrolling intact. */
@@ -4428,7 +3813,6 @@ body > #liveListPanel .live-panel-close{
   overflow:hidden!important;
   clip-path:inset(0)!important;
 }
-
 
 /* =========================================================
    VISIBILITY FIX — depth must be perceptible on real Mini App
@@ -4590,7 +3974,6 @@ body > #liveListPanel .live-panel-close{
   #mainPortal .space-depth::after{animation:none!important;opacity:0!important}
 }
 
-
 /* =========================================================
    GLITCH OFF — background discussion baseline
    Keep the depth system; remove all chromatic glitch layers
@@ -4608,15 +3991,6 @@ body > #liveListPanel .live-panel-close{
 #mainPortal .portal-logo h1{
   animation:none!important;
 }
-
-#mainPortal button:active,
-#mainPortal .category-item:active,
-#mainPortal .game-card:active,
-#mainPortal a:active{
-  animation:none!important;
-  filter:none!important;
-}
-
 
 /* =========================================================
    WORLD PARALLAX MOTION
@@ -5678,83 +5052,6 @@ body.game-window-expanded{
   font:700 7px/1 "Handjet",monospace!important;
 }
 
-#mainPortal .games-browser{
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-  display:flex!important;
-  flex-direction:column!important;
-  overflow:hidden!important;
-}
-
-#mainPortal .games-browser .category-list{
-  flex:0 0 64px!important;
-  height:64px!important;
-  min-height:64px!important;
-  width:100%!important;
-  min-width:0!important;
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:stretch!important;
-  gap:6px!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  padding:5px 2px!important;
-  scrollbar-width:none!important;
-}
-
-#mainPortal .games-browser .category-list::-webkit-scrollbar{
-  display:none!important;
-}
-
-#mainPortal .games-browser .category-item{
-  flex:0 0 132px!important;
-  width:132px!important;
-  height:54px!important;
-  min-height:54px!important;
-  display:flex!important;
-  gap:6px!important;
-  padding:6px 7px!important;
-  border-radius:9px!important;
-}
-
-#mainPortal .games-browser .category-icon{
-  width:30px!important;
-  height:30px!important;
-  min-width:30px!important;
-  flex-basis:30px!important;
-  border-radius:7px!important;
-  font-size:17px!important;
-}
-
-#mainPortal .games-browser .category-copy{
-  height:30px!important;
-}
-
-#mainPortal .games-browser .category-name{
-  font-size:9px!important;
-  letter-spacing:.3px!important;
-}
-
-#mainPortal .games-browser .category-count{
-  font-size:7px!important;
-  margin-top:2px!important;
-}
-
-#mainPortal .games-browser .category-arrow{
-  font-size:16px!important;
-}
-
-#mainPortal .games-browser:has(.category-view:not(.hidden)) .category-list{
-  display:none!important;
-}
-
-#mainPortal .games-browser .category-view{
-  flex:1 1 auto!important;
-  min-height:0!important;
-  height:auto!important;
-}
-
 @media(max-width:380px){
   #mainPortal .home-channels{
     flex-basis:64px!important;
@@ -5765,17 +5062,8 @@ body.game-window-expanded{
     flex-basis:138px!important;
     width:138px!important;
   }
-  #mainPortal .games-browser .category-list{
-    flex-basis:60px!important;
-    height:60px!important;
-    min-height:60px!important;
-  }
-  #mainPortal .games-browser .category-item{
-    flex-basis:124px!important;
-    width:124px!important;
-  }
-}
 
+}
 
 /* =========================================================
    LIVE FIX — dropdown must open below LIVE without clipping
