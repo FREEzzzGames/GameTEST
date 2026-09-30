@@ -17,6 +17,7 @@ const S = {
   all: directSources(),
   selectedId: null,
   selectedVideo: null,
+  overlayOpen: false,
   botTimer: null,
   botPhraseTimer: null
 };
@@ -195,177 +196,211 @@ function renderList() {
   });
 }
 
-function openCard(x) {
-  S.selectedId = x.id;
-  S.selectedVideo = null;
+function overlayLayer(){
+  return $("liveOverlayLayer");
+}
 
-  const m = $("liveMain");
-  if (!m) return;
+function overlayShell(){
+  return $("liveOverlayShell");
+}
 
-  const url = channelUrl(x);
+function positionOverlay(){
+  const layer=overlayLayer();
+  const portal=$("mainPortal");
+  const media=$("homeMediaRow");
+  const lower=$("homeCategoryQuick");
+  if(!layer||!portal||!media)return;
 
-  m.innerHTML =
-    '<div class="live-streamer-card">' +
-      '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>' +
-      '<div class="live-streamer-card-avatar">' + esc(x.avatar) + '</div>' +
-      '<strong class="live-streamer-card-name">' + esc(x.name) + '</strong>' +
-      '<span class="live-streamer-card-game">' + esc(x.category || "YouTube") + '</span>' +
-      '<p class="live-streamer-card-text">' + esc(x.description || x.shortDescription || "Канал автора на YouTube.") + '</p>' +
-      '<div class="live-streamer-card-actions">' +
-        (url ? '<button class="live-streamer-card-channel" id="liveCardChannel" type="button">КАНАЛ ↗</button>' : '') +
-      '</div>' +
+  const portalRect=portal.getBoundingClientRect();
+  const mediaRect=media.getBoundingClientRect();
+  const lowerRect=lower?.getBoundingClientRect();
+  const top=Math.max(0,Math.round(mediaRect.bottom-portalRect.top));
+  const bottom=lowerRect
+    ? Math.max(0,Math.round(portalRect.bottom-lowerRect.top))
+    : Math.max(0,Math.round(portalRect.bottom-mediaRect.bottom));
+
+  layer.style.top=top+"px";
+  layer.style.bottom=bottom+"px";
+}
+
+function showOverlay(){
+  const layer=overlayLayer();
+  if(!layer)return;
+  positionOverlay();
+  layer.classList.remove("hidden");
+  layer.setAttribute("aria-hidden","false");
+  S.overlayOpen=true;
+  window.dispatchEvent(new CustomEvent("freezzz:live-overlay",{detail:{open:true}}));
+  window.addEventListener("resize",positionOverlay,{passive:true});
+  window.addEventListener("orientationchange",positionOverlay,{passive:true});
+}
+
+function hideOverlay(){
+  const layer=overlayLayer();
+  if(!layer)return;
+  layer.classList.add("hidden");
+  layer.setAttribute("aria-hidden","true");
+  S.overlayOpen=false;
+  window.dispatchEvent(new CustomEvent("freezzz:live-overlay",{detail:{open:false}}));
+  window.removeEventListener("resize",positionOverlay);
+  window.removeEventListener("orientationchange",positionOverlay);
+}
+
+function openCard(x){
+  S.selectedId=x.id;
+  S.selectedVideo=null;
+  clearInterval(S.botTimer);
+  clearInterval(S.botPhraseTimer);
+  showOverlay();
+
+  const shell=overlayShell();
+  if(!shell)return;
+
+  const url=channelUrl(x);
+  shell.innerHTML=
+    '<div class="live-streamer-card">'+
+      '<button class="live-streamer-card-close" data-live-action="card-close" type="button" aria-label="Закрыть">×</button>'+
+      '<div class="live-streamer-card-avatar">'+esc(x.avatar)+'</div>'+
+      '<strong class="live-streamer-card-name">'+esc(x.name)+'</strong>'+
+      '<span class="live-streamer-card-game">'+esc(x.category||"YouTube")+'</span>'+
+      '<p class="live-streamer-card-text">'+esc(x.description||x.shortDescription||"Канал автора на YouTube.")+'</p>'+
+      '<div class="live-streamer-card-actions">'+
+        (url?'<button class="live-streamer-card-channel" data-live-action="channel-open" type="button">КАНАЛ ↗</button>':'')+
+      '</div>'+
     '</div>';
+}
 
-  $("liveCardClose")?.addEventListener("click", () => {
-    S.selectedId = null;
+function youtubeEmbedUrl(x){
+  if(!x?.channelId)return "";
+  const uploadsPlaylistId=x.channelId.startsWith("UC")?"UU"+x.channelId.slice(2):x.channelId;
+  return "https://www.youtube.com/embed/videoseries?list="+encodeURIComponent(uploadsPlaylistId)+"&playsinline=1&rel=0";
+}
+
+function openYouTubePanel(x){
+  const shell=overlayShell();
+  if(!shell)return;
+  showOverlay();
+
+  const embedUrl=youtubeEmbedUrl(x);
+  shell.innerHTML=
+    '<div class="live-youtube-panel">'+
+      '<div class="live-youtube-head">'+
+        '<button class="live-youtube-back" data-live-action="youtube-back" type="button">‹</button>'+
+        '<div><strong>'+esc(x.name)+'</strong><small>YOUTUBE • ВНУТРИ LIVE</small></div>'+
+        '<button class="live-youtube-close" data-live-action="youtube-close" type="button">×</button>'+
+      '</div>'+
+      '<div class="live-youtube-frame">'+
+        (embedUrl
+          ? '<iframe class="live-youtube-iframe" src="'+esc(embedUrl)+'" title="'+esc(x.name)+' — YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="eager"></iframe>'
+          : '<div class="live-youtube-unavailable"><strong>YouTube-плеер недоступен для этого канала</strong><p>Для встроенного режима нужен ID канала.</p></div>')+
+      '</div>'+
+    '</div>';
+}
+
+function handleMainAction(event){
+  const target=event.target.closest("[data-live-action]");
+  if(!target)return;
+  event.preventDefault();
+  event.stopPropagation();
+
+  const action=target.dataset.liveAction;
+  const x=S.all.find(item=>item.id===S.selectedId);
+  if(!x)return;
+
+  if(action==="card-close"){
+    hideOverlay();
+    S.selectedId=null;
     renderBot();
-  });
-
-  $("liveCardChannel")?.addEventListener("click", () => {
-    openYouTubePanel(x);
     h();
-  });
-}
-
-function openYouTubePanel(x) {
-  const m = $("liveMain");
-  if (!m) return;
-
-  const url = channelUrl(x);
-
-  m.innerHTML =
-    '<div class="live-youtube-panel">' +
-      '<div class="live-youtube-head">' +
-        '<button class="live-youtube-back" id="liveYoutubeBack" type="button">‹</button>' +
-        '<div><strong>' + esc(x.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
-        '<button class="live-youtube-close" id="liveYoutubeClose" type="button">×</button>' +
-      '</div>' +
-      '<div class="live-youtube-body">' +
-        '<div class="live-youtube-logo">▶</div>' +
-        '<strong>Канал находится на YouTube</strong>' +
-        '<p>' + esc(x.shortDescription || "Открой канал, выбери нужное видео или стрим.") + '</p>' +
-        '<button class="live-youtube-open" id="liveYoutubeOpen" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
-        '<small class="live-youtube-note">FREEzzzGames не копирует и не хранит контент YouTube.</small>' +
-      '</div>' +
-    '</div>';
-
-  $("liveYoutubeBack")?.addEventListener("click", () => openCard(x));
-  $("liveYoutubeClose")?.addEventListener("click", () => renderBot());
-  $("liveYoutubeOpen")?.addEventListener("click", () => {
-    if (url) window.open(url, "_blank", "noopener,noreferrer");
-    h();
-  });
-}
-
-function stopPlayback() {
-  S.selectedVideo = null;
-  S.selectedId = null;
-  renderBot();
-  h();
-}
-
-function renderPlayer(video) {
-  const m = $("liveMain");
-  if (!m || !video?.embedUrl) return;
-
-  m.innerHTML =
-    '<div class="live-video-frame">' +
-      '<iframe class="live-video" src="' + esc(video.embedUrl) + '" title="' + esc(video.title || "YouTube") + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="eager"></iframe>' +
-      '<div class="live-video-shade">' +
-        '<div class="live-streamer-badge">▶ YOUTUBE</div>' +
-        '<button class="live-sound-btn" id="liveStopBtn" type="button">■</button>' +
-      '</div>' +
-    '</div>';
-
-  $("liveStopBtn")?.addEventListener("click", stopPlayback);
-}
-
-function renderCurrentControl() {
-  const host = $("liveCarousel");
-  if (!host) return;
-
-  if (!S.selectedVideo) {
-    host.innerHTML = "";
     return;
   }
-
-  host.innerHTML =
-    '<div class="live-current-control">' +
-      '<span>▶ ' + esc(S.selectedVideo.title || "Текущий контент") + '</span>' +
-      '<button id="liveStopBottom" type="button">■ ОСТАНОВИТЬ</button>' +
-    '</div>';
-
-  $("liveStopBottom")?.addEventListener("click", stopPlayback);
+  if(action==="channel-open"){
+    openYouTubePanel(x);
+    h();
+    return;
+  }
+  if(action==="youtube-back"){
+    openCard(x);
+    h();
+    return;
+  }
+  if(action==="youtube-close"){
+    hideOverlay();
+    S.selectedId=null;
+    renderBot();
+    h();
+  }
 }
 
-function positionListPanel() {
-  const panel = $("liveListPanel");
-  const host = $("liveView");
-  if (!panel || !host || panel.parentElement !== document.body) return;
-
-  const r = host.getBoundingClientRect();
-  const gap = 5;
-  const maxH = Math.max(180, Math.min(430, window.innerHeight - r.bottom - gap - 8));
-
-  panel.style.position = "fixed";
-  panel.style.left = Math.round(r.left) + "px";
-  panel.style.top = Math.round(r.bottom + gap) + "px";
-  panel.style.width = Math.round(r.width) + "px";
-  panel.style.maxHeight = Math.round(maxH) + "px";
-  panel.style.height = "auto";
-  panel.style.zIndex = "2147483000";
+function positionListPanel(){
+  positionOverlay();
 }
 
-function openList() {
-  const panel = $("liveListPanel");
-  const host = $("liveView");
-  if (!panel || !host) return;
+function openList(){
+  const panel=$("liveListPanel");
+  const shell=overlayShell();
+  if(!panel||!shell)return;
 
-  if (panel.parentElement !== document.body) document.body.appendChild(panel);
+  showOverlay();
+  if(panel.parentElement!==shell){
+    shell.innerHTML="";
+    shell.appendChild(panel);
+  }
+
   panel.classList.remove("hidden");
-  panel.style.display = "block";
-  panel.style.pointerEvents = "auto";
-  panel.style.touchAction = "pan-y";
-  positionListPanel();
+  panel.style.display="block";
+  panel.style.pointerEvents="auto";
+  panel.style.touchAction="pan-y";
+  panel.style.position="static";
+  panel.style.left="";
+  panel.style.top="";
+  panel.style.width="100%";
+  panel.style.maxHeight="100%";
+  panel.style.height="100%";
 
-  window.addEventListener("resize", positionListPanel, {passive:true});
-  window.addEventListener("orientationchange", positionListPanel, {passive:true});
+  const list=$("liveStreamerList");
+  if(list)list.scrollTop=0;
+
+  window.FZG?.streamerMenuParallax?.mount?.();
   h();
 }
 
-function closeList() {
-  const panel = $("liveListPanel");
-  const host = $("liveView");
-  if (!panel) return;
+function closeList(){
+  const panel=$("liveListPanel");
+  const host=$("liveView");
+  if(!panel)return;
 
   panel.classList.add("hidden");
-  panel.style.display = "";
-  panel.style.pointerEvents = "";
-  panel.style.touchAction = "";
-  panel.style.position = "";
-  panel.style.left = "";
-  panel.style.top = "";
-  panel.style.width = "";
-  panel.style.maxHeight = "";
-  panel.style.height = "";
-  panel.style.zIndex = "";
+  panel.style.display="";
+  panel.style.pointerEvents="";
+  panel.style.touchAction="";
+  panel.style.position="";
+  panel.style.left="";
+  panel.style.top="";
+  panel.style.width="";
+  panel.style.maxHeight="";
+  panel.style.height="";
+  panel.style.zIndex="";
 
-  window.removeEventListener("resize", positionListPanel);
-  window.removeEventListener("orientationchange", positionListPanel);
-
-  if (host && panel.parentElement !== host) {
-    const main = $("liveMain");
-    if (main) host.insertBefore(panel, main);
+  if(host&&panel.parentElement!==host){
+    const main=$("liveMain");
+    if(main)host.insertBefore(panel,main);
     else host.appendChild(panel);
   }
+
+  window.FZG?.streamerMenuParallax?.reset?.();
+  hideOverlay();
 }
 
 function visibility() {
-  const screen = window.FZG?.state?.get?.().screen || "home";
-  const home = screen === "home";
-  $("liveView")?.classList.toggle("hidden", !home);
-  $("mainPortal")?.classList.toggle("live-home-mode", home);
-  if (!home) closeList();
+  const screen=window.FZG?.state?.get?.().screen||"home";
+  const home=screen==="home";
+  $("liveView")?.classList.toggle("hidden",!home);
+  $("mainPortal")?.classList.toggle("live-home-mode",home);
+  if(!home){
+    closeList();
+    hideOverlay();
+  }
 }
 
 function init() {
@@ -378,9 +413,19 @@ function init() {
 
   $("liveListBtn")?.addEventListener("click", openList);
   $("langToggleBtn")?.addEventListener("click", () => setTimeout(renderHomeCategoryQuick, 0));
+  $("liveListBack")?.addEventListener("click", closeList);
   $("liveListClose")?.addEventListener("click", closeList);
-  $("liveListPanel")?.addEventListener("click", e => {
-    if (e.target.id === "liveListPanel") closeList();
+  $("liveMain")?.addEventListener("click", handleMainAction);
+  overlayLayer()?.addEventListener("click", handleMainAction);
+  $("liveListPanel")?.addEventListener("click", event => {
+    if(event.target.id==="liveListPanel")closeList();
+  });
+  overlayLayer()?.addEventListener("click", event => {
+    if(event.target===overlayLayer()){
+      hideOverlay();
+      S.selectedId=null;
+      renderBot();
+    }
   });
 
   window.FZG?.state?.subscribe?.(visibility);
@@ -395,7 +440,11 @@ window.FZG.live = {
   },
   playVideo: renderPlayer,
   stop: stopPlayback,
-  getState: () => ({...S, all:[...S.all]})
+  getState: () => ({...S, all:[...S.all], overlayOpen:S.overlayOpen}),
+  back: () => {
+    if(S.overlayOpen){ closeList(); hideOverlay(); S.selectedId=null; renderBot(); return true; }
+    return false;
+  }
 };
 
 init();
