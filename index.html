@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="./css/app.css?v=20260930ei">
+<link rel="stylesheet" href="./css/app.css?v=20260930ej">
   <link rel="modulepreload" href="./js/portal.js?v=20260930e7">
   <link rel="modulepreload" href="./js/portal-data/i18n.js?v=20260930e4">
   <link rel="modulepreload" href="./js/portal-data/hints.js?v=20260930e4">
@@ -61,8 +61,14 @@
   <div class="home-media-row" id="homeMediaRow">
     <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
       <div class="live-head">
-        <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
         <button class="live-list-btn" id="liveListBtn" type="button">☰ СТРИМЕРЫ</button>
+        <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
+      </div>
+      <div class="live-list-panel hidden" id="liveListPanel">
+        <div class="live-list-drawer">
+          <div class="live-list-head"><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button">×</button></div>
+          <div class="live-streamer-list" id="liveStreamerList"></div>
+        </div>
       </div>
       <div class="live-main" id="liveMain"></div>
       <div class="live-carousel-wrap"><div class="live-carousel" id="liveCarousel"></div></div>
@@ -83,12 +89,6 @@
     </section>
   </div>
 
-  <div class="live-list-panel hidden" id="liveListPanel">
-    <div class="live-list-drawer">
-      <div class="live-list-head"><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button">×</button></div>
-      <div class="live-streamer-list" id="liveStreamerList"></div>
-    </div>
-  </div>
   <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
 
   <div class="games-browser" id="gamesBrowser">
