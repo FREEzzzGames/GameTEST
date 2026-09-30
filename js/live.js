@@ -18,9 +18,22 @@ const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
 
 function channelEmbedUrl(channel){
   if(!channel?.channelId) return "";
+  const origin=encodeURIComponent(window.location.origin);
   return "https://www.youtube.com/embed/live_stream?channel=" +
     encodeURIComponent(channel.channelId) +
-    "&autoplay=1&playsinline=1";
+    "&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin=" + origin;
+}
+
+function sendPlayerCommand(command){
+  const frame=$("liveVideoFrame");
+  if(!frame?.contentWindow)return;
+  try{
+    frame.contentWindow.postMessage(JSON.stringify({
+      event:"command",
+      func:command,
+      args:[]
+    }),"https://www.youtube.com");
+  }catch(e){}
 }
 
 function renderList(){
@@ -85,7 +98,7 @@ function select(id,user=false){
 
   main.innerHTML=
     '<div class="live-video-frame">'+
-      '<iframe class="live-video" src="'+esc(embed)+'" title="'+esc(channel.name)+' — LIVE" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="eager"></iframe>'+
+      '<iframe class="live-video" id="liveVideoFrame" src="'+esc(embed)+'" title="'+esc(channel.name)+' — LIVE" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="eager"></iframe>'+
       '<div class="live-video-shade">'+
         '<div class="live-streamer-badge"><span class="live-dot"></span> LIVE</div>'+
         '<button class="live-sound-btn" id="liveSoundBtn" type="button">'+(S.muted?"🔇":"🔊")+'</button>'+
@@ -96,8 +109,14 @@ function select(id,user=false){
       '</div>'+
     '</div>';
 
+  const frame=$("liveVideoFrame");
+  frame?.addEventListener("load",()=>{
+    sendPlayerCommand(S.muted?"mute":"unMute");
+  },{once:true});
+
   $("liveSoundBtn")?.addEventListener("click",()=>{
     S.muted=!S.muted;
+    sendPlayerCommand(S.muted?"mute":"unMute");
     $("liveSoundBtn").textContent=S.muted?"🔇":"🔊";
     haptic();
   });
