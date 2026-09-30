@@ -88,10 +88,12 @@ function select(id,user=false){
   if(!embed){
     main.innerHTML=
       '<div class="live-empty">'+
-        '<div class="live-empty-icon">📡</div>'+
-        '<div class="live-empty-title">ПРОСМОТР НЕДОСТУПЕН</div>'+
-        '<div class="live-empty-text">Для встроенного воспроизведения нужен ID YouTube-канала.</div>'+
+        '<div class="live-empty-icon">📺</div>'+
+        '<div class="live-empty-title">ОТКРЫТЬ КАНАЛ</div>'+
+        '<div class="live-empty-text">Для встроенного плеера пока нет подтверждённого ID этого канала.</div>'+
+        '<button class="live-empty-action" id="liveOpenChannel" type="button">ОТКРЫТЬ YOUTUBE</button>'+
       '</div>';
+    $("liveOpenChannel")?.addEventListener("click",()=>openChannelExternal(channel));
     if(user)haptic();
     return;
   }
@@ -124,11 +126,16 @@ function select(id,user=false){
   if(user)haptic();
 }
 
+function notifyOverlay(open){
+  window.dispatchEvent(new CustomEvent("freezzz:live-overlay",{detail:{open:!!open,selectedId:S.selectedId}}));
+}
+
 function openList(){
   const panel=$("liveListPanel");
   if(!panel)return;
   S.listOpen=true;
   panel.classList.remove("hidden");
+  notifyOverlay(true);
   haptic();
 }
 
@@ -136,6 +143,19 @@ function closeList(){
   const panel=$("liveListPanel");
   S.listOpen=false;
   panel?.classList.add("hidden");
+  notifyOverlay(false);
+}
+
+function openChannelExternal(channel){
+  const url=channel?.handle ? "https://www.youtube.com/"+String(channel.handle) : "";
+  if(!url)return false;
+  try{
+    const tg=window.Telegram?.WebApp;
+    if(tg?.openLink) tg.openLink(url);
+    else window.open(url,"_blank","noopener,noreferrer");
+  }catch(_){ window.location.href=url; }
+  haptic();
+  return true;
 }
 
 function syncVisibility(){
@@ -180,7 +200,7 @@ window.FZG.live={
   }),
   back:()=>{
     if(S.listOpen){ closeList(); haptic(); return true; }
-    if(S.selectedId){ S.selectedId=null; renderIdle(); haptic(); return true; }
+    if(S.selectedId){ S.selectedId=null; renderIdle(); notifyOverlay(false); haptic(); return true; }
     return false;
   }
 };
