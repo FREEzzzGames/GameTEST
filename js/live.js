@@ -1,6 +1,4 @@
 import { directSources } from "./live-data/channels.js?v=20260930f1";
-import { CATEGORIES } from "./portal-data/games.js?v=20260930e5";
-import { LANG, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e6";
 
 (() => {
 "use strict";
@@ -111,16 +109,6 @@ function renderBot() {
   clearInterval(S.botPhraseTimer);
   S.botTimer = setInterval(botMove, 3500);
   S.botPhraseTimer = setInterval(() => botPhrase(), 6500);
-}
-
-function currentLang(){
-  const lang=localStorage.getItem("freezzzLang")||"ru";
-  return LANG[lang]?lang:"ru";
-}
-
-function categoryLabel(id){
-  const lang=currentLang();
-  return CATEGORY_TEXT[id]?.[lang] || CATEGORIES.find(x=>x.id===id)?.name || id;
 }
 
 function renderList() {
