@@ -4724,3 +4724,32 @@ body > #liveListPanel .live-panel-close{
     will-change:auto!important;
   }
 }
+
+/* STREAMER PARALLAX FINAL TUNING */
+#mainPortal .live-overlay-layer .streamer-parallax-layers{
+  z-index:0!important;
+  opacity:1!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer-far{
+  opacity:.92!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer-mid{
+  opacity:.62!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer-near{
+  opacity:.78!important;
+}
+#mainPortal .live-overlay-layer .live-list-row{
+  transform:translate3d(
+    calc(var(--menu-parallax-x,0px) * .035),
+    calc(var(--menu-parallax-y,0px) * .020),
+    0
+  )!important;
+  will-change:transform;
+}
+@media (prefers-reduced-motion:reduce){
+  #mainPortal .live-overlay-layer .live-list-row{
+    transform:none!important;
+    will-change:auto!important;
+  }
+}
