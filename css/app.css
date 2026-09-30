@@ -6362,3 +6362,144 @@ html,body{
   overflow:hidden!important;
   white-space:nowrap!important;
 }
+
+
+/* =========================================================
+   CROSS-VIEW COLLISION GUARD
+   Final geometry safety layer. Keeps controls inside their own
+   view/panel and prevents sibling buttons from occupying the
+   same horizontal slot on narrow Web / Telegram / TV layouts.
+   ========================================================= */
+#mainPortal,
+#mainPortal *,
+#guestView,
+#guestView *{
+  box-sizing:border-box;
+}
+
+#mainPortal .header-top{
+  grid-template-columns:minmax(0,7fr) minmax(0,2fr) minmax(32px,.5fr) minmax(32px,.5fr)!important;
+  gap:0!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+#mainPortal .header-top .portal-logo,
+#mainPortal .header-top .profile-box,
+#mainPortal .header-top .always-btn{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+#mainPortal .header-top .portal-logo,
+#mainPortal .header-top .profile-box{
+  overflow:hidden!important;
+}
+#mainPortal .header-top .always-controls{
+  display:contents!important;
+}
+#mainPortal .header-top .always-btn{
+  position:relative!important;
+  inset:auto!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+}
+
+#mainPortal .home-media-row,
+#mainPortal .home-chat-widget,
+#mainPortal .live-view,
+#mainPortal .game-window{
+  min-width:0!important;
+  overflow:hidden;
+}
+#mainPortal .live-view{
+  overflow:visible!important;
+}
+#mainPortal .home-chat-head,
+#mainPortal .live-head,
+#mainPortal .game-window-head,
+#mainPortal .game-window-actions{
+  min-width:0!important;
+}
+#mainPortal .game-window-actions{
+  display:flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  gap:4px!important;
+}
+#mainPortal .game-window-action{
+  position:relative!important;
+  inset:auto!important;
+  flex:0 0 auto!important;
+}
+
+#guestView .chat-layout{
+  width:min(100%,520px)!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+#guestView .chat-room-tabs{
+  width:100%!important;
+  min-width:0!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+#guestView .chat-room-tab{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+#guestView .chat-toolbar{
+  width:100%!important;
+  min-width:0!important;
+  grid-template-columns:minmax(32px,auto) minmax(0,1fr) minmax(32px,auto)!important;
+}
+#guestView .chat-mini-btn{
+  position:relative!important;
+  inset:auto!important;
+  flex:0 0 auto!important;
+}
+#guestView .chat-compose{
+  width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:stretch!important;
+  gap:6px!important;
+}
+#guestView .guest-input{
+  flex:1 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+}
+#guestView .guest-send{
+  flex:0 0 auto!important;
+  max-width:40%!important;
+}
+
+.radio-card,
+.player-profile-card,
+.modal-card{
+  max-width:calc(100% - 12px)!important;
+  min-width:0!important;
+}
+.radio-actions{
+  min-width:0!important;
+}
+.radio-actions button{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+@media(max-width:430px){
+  #mainPortal .header-top{
+    grid-template-columns:minmax(0,7fr) minmax(0,2fr) minmax(30px,.5fr) minmax(30px,.5fr)!important;
+  }
+  #guestView .chat-room-tabs{
+    gap:4px!important;
+  }
+}
