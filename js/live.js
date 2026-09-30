@@ -123,52 +123,6 @@ function categoryLabel(id){
   return CATEGORY_TEXT[id]?.[lang] || CATEGORIES.find(x=>x.id===id)?.name || id;
 }
 
-function renderHomeChannels(){
-  const host=$("homeChannelsTrack");
-  if(!host) return;
-  host.innerHTML=S.all.map(channel =>
-    '<button class="home-channel" type="button" data-home-channel-id="'+esc(channel.id)+'">'+
-      '<span class="home-channel-avatar">'+esc(channel.avatar)+'</span>'+
-      '<span class="home-channel-copy">'+
-        '<strong>'+esc(channel.name)+'</strong>'+
-        '<small>'+esc(channel.category||"YouTube")+'</small>'+
-      '</span>'+
-      '<span class="home-channel-mark">YT</span>'+
-    '</button>'
-  ).join("");
-
-  host.querySelectorAll("[data-home-channel-id]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const channel=S.all.find(item=>item.id===button.dataset.homeChannelId);
-      if(channel){ openCard(channel); h(); }
-    });
-  });
-}
-
-function renderHomeCategoryQuick(){
-  const host=$("homeCategoryQuickTrack");
-  if(!host) return;
-  host.innerHTML=CATEGORIES.map(category =>
-    '<button class="home-category-quick-item" type="button" data-home-category="'+esc(category.id)+'">'+
-      '<span class="home-category-quick-copy">'+
-        '<strong>'+esc(categoryLabel(category.id))+'</strong>'+
-        '<small>'+category.ids.length+' '+esc(category.ids.length===1?(LANG[currentLang()]?.oneGame||"ИГРА"):(LANG[currentLang()]?.gamesCount||"ИГРЫ"))+'</small>'+
-      '</span>'+
-    '</button>'
-  ).join("");
-
-  host.querySelectorAll("[data-home-category]").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const id=button.dataset.homeCategory;
-      if(window.FZG?.gameWindow?.openCategory?.(id)) h();
-    });
-  });
-}
-
-function refreshHomeCategoryQuick(){
-  renderHomeCategoryQuick();
-}
-
 function renderList() {
   const host = $("liveStreamerList");
   if (!host) return;
@@ -421,12 +375,10 @@ function init() {
   if (!$("liveView")) return;
 
   renderList();
-  renderHomeChannels();
-  renderHomeCategoryQuick();
+
   renderBot();
 
   $("liveListBtn")?.addEventListener("click", openList);
-  $("langToggleBtn")?.addEventListener("click", () => setTimeout(renderHomeCategoryQuick, 0));
   $("liveListBack")?.addEventListener("click", closeList);
   $("liveListClose")?.addEventListener("click", closeList);
   $("liveMain")?.addEventListener("click", handleMainAction);
