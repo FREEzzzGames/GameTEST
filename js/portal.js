@@ -13,29 +13,52 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   no.addEventListener("click",()=>{localStorage.removeItem(key);window.location.replace("about:blank");});
 })();
 
-/* TELEGRAM MINI APP VIEWPORT SYNC */
+/* TELEGRAM MINI APP VIEWPORT SYNC — one geometry source for every screen */
 (function(){
+  let raf=0;
   function syncMiniAppViewport(){
-    try{
-      const tgApp = window.Telegram && window.Telegram.WebApp;
-      if(tgApp){
-        if(typeof tgApp.ready === "function") tgApp.ready();
-        if(typeof tgApp.expand === "function") tgApp.expand();
-        const theme=tgApp.themeParams||{};
-        const header=theme.header_bg_color||theme.bg_color||getComputedStyle(document.documentElement).getPropertyValue("--tg-surface").trim();
-        const background=theme.bg_color||getComputedStyle(document.documentElement).getPropertyValue("--tg-bg").trim();
-        if(typeof tgApp.setHeaderColor === "function") tgApp.setHeaderColor(header);
-        if(typeof tgApp.setBackgroundColor === "function") tgApp.setBackgroundColor(background);
-        document.documentElement.style.setProperty("--telegram-header-color",header);
-        document.documentElement.style.setProperty("--telegram-bg-color",background);
-        const h = tgApp.viewportHeight || tgApp.viewportStableHeight;
-        if(h) document.documentElement.style.setProperty("--tg-viewport-height", h + "px");
-      }
-    }catch(e){}
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      try{
+        const root=document.documentElement;
+        const tgApp=window.Telegram?.WebApp||null;
+        if(tgApp){
+          tgApp.ready?.();
+          tgApp.expand?.();
+          const theme=tgApp.themeParams||{};
+          const cs=getComputedStyle(root);
+          const header=theme.header_bg_color||theme.bg_color||cs.getPropertyValue("--tg-surface").trim();
+          const background=theme.bg_color||cs.getPropertyValue("--tg-bg").trim();
+          tgApp.setHeaderColor?.(header);
+          tgApp.setBackgroundColor?.(background);
+          root.style.setProperty("--telegram-header-color",header);
+          root.style.setProperty("--telegram-bg-color",background);
+        }
+        const vv=window.visualViewport;
+        const viewportHeight=Number(tgApp?.viewportHeight)||Number(vv?.height)||window.innerHeight;
+        const stableHeight=Number(tgApp?.viewportStableHeight)||viewportHeight;
+        const viewportWidth=Number(vv?.width)||window.innerWidth;
+        root.style.setProperty("--tg-viewport-height",Math.max(1,viewportHeight)+"px");
+        root.style.setProperty("--tg-viewport-stable-height",Math.max(1,stableHeight)+"px");
+        root.style.setProperty("--tg-viewport-width",Math.max(1,viewportWidth)+"px");
+        const top=Number(tgApp?.safeAreaInset?.top)||0;
+        const right=Number(tgApp?.safeAreaInset?.right)||0;
+        const bottom=Number(tgApp?.safeAreaInset?.bottom)||0;
+        const left=Number(tgApp?.safeAreaInset?.left)||0;
+        root.style.setProperty("--tg-safe-area-inset-top",top+"px");
+        root.style.setProperty("--tg-safe-area-inset-right",right+"px");
+        root.style.setProperty("--tg-safe-area-inset-bottom",bottom+"px");
+        root.style.setProperty("--tg-safe-area-inset-left",left+"px");
+        root.classList.toggle("is-compact-height",viewportHeight<650);
+        root.classList.toggle("is-compact-width",viewportWidth<360);
+      }catch(e){}
+    });
   }
-  window.addEventListener("resize", syncMiniAppViewport, {passive:true});
-  window.addEventListener("orientationchange", ()=>setTimeout(syncMiniAppViewport,80), {passive:true});
-  document.addEventListener("DOMContentLoaded", syncMiniAppViewport, {once:true});
+  window.addEventListener("resize",syncMiniAppViewport,{passive:true});
+  window.addEventListener("orientationchange",()=>setTimeout(syncMiniAppViewport,80),{passive:true});
+  window.visualViewport?.addEventListener("resize",syncMiniAppViewport,{passive:true});
+  window.visualViewport?.addEventListener("scroll",syncMiniAppViewport,{passive:true});
+  document.addEventListener("DOMContentLoaded",syncMiniAppViewport,{once:true});
   syncMiniAppViewport();
 })();
 
@@ -738,16 +761,21 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   // Нижняя навигация: только ЧАТ. Игры — основной экран, достижения находятся в визитке игрока.
   function switchTab(tab) {
     haptic();
-    window.FZG?.state?.set?.({screen: tab === 'guest' ? 'chat' : 'home', categoryId: null, gameId: null});
-    document.getElementById('gamesBrowser').classList.toggle('hidden', tab !== 'games');
-    document.getElementById('achievementsView').classList.add('hidden');
-    document.getElementById('guestView').classList.toggle('hidden', tab !== 'guest');
+    const isChat=tab==='guest';
+    window.FZG?.state?.set?.({screen:isChat?'chat':'home',categoryId:null,gameId:null});
+    const games=document.getElementById('gamesBrowser');
+    const achievements=document.getElementById('achievementsView');
+    const guest=document.getElementById('guestView');
+    games?.classList.toggle('hidden',isChat);
+    achievements?.classList.add('hidden');
+    guest?.classList.toggle('hidden',!isChat);
     const chatTab=document.getElementById('tabGuest');
-    if(chatTab) chatTab.classList.toggle('active', tab==='guest');
-    if(tab==='games'){
+    if(chatTab)chatTab.classList.toggle('active',isChat);
+    animateIn(isChat?guest:games,isChat?'forward':'back');
+    if(!isChat){
       showCategoryList(false);
-      setTimeout(showNextActionHint,120);
-    }else if(tab==='guest'){
+      setTimeout(showNextActionHint,180);
+    }else{
       markChatSeen();
       openChatPanel();
     }
@@ -774,28 +802,38 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   let swipeStartX = 0;
   let swipeStartY = 0;
   let swipeStartTime = 0;
+  let carouselSwipeLocked = false;
+
+  function animateIn(el,direction="forward"){
+    if(!el)return;
+    el.classList.remove("screen-enter-forward","screen-enter-back");
+    void el.offsetWidth;
+    el.classList.add(direction==="back"?"screen-enter-back":"screen-enter-forward");
+    el.addEventListener("animationend",()=>el.classList.remove("screen-enter-forward","screen-enter-back"),{once:true});
+  }
 
   function showCategoryList(animate=true){
     currentCategory=null;
-    document.getElementById('categoryList').classList.remove('hidden');
-    document.getElementById('categoryView').classList.add('hidden');
-    if(animate){
-      const list=document.getElementById('categoryList');
-      list.animate([{opacity:.35,transform:'translateX(-14px)'},{opacity:1,transform:'translateX(0)'}],{duration:220,easing:'cubic-bezier(.22,.8,.22,1)'});
-    }
+    const list=document.getElementById('categoryList');
+    const view=document.getElementById('categoryView');
+    view?.classList.add('hidden');
+    list?.classList.remove('hidden');
+    if(animate)animateIn(list,"back");
   }
 
   function openCategory(categoryId){
     completeActionHint("category");
     const category=CATEGORIES.find(c=>c.id===categoryId);
-    window.FZG?.state?.set?.({screen:'category', categoryId});
     if(!category)return;
+    window.FZG?.state?.set?.({screen:'category',categoryId});
     currentCategory=category;
     categoryGameIndex=0;
     document.getElementById('categoryList').classList.remove('hidden');
-    document.getElementById('categoryView').classList.remove('hidden');
+    const view=document.getElementById('categoryView');
+    view?.classList.remove('hidden');
     document.getElementById('categoryHeadTitle').textContent=categoryText(category.id);
     renderCategoryCarousel();
+    animateIn(view,"forward");
     haptic();
   }
 
@@ -847,7 +885,14 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     dots.innerHTML=Array.from({length:pageCount},(_,i)=>'<span class="carousel-dot '+(i===activePage?'active':'')+'"></span>').join('');
 
     track.querySelectorAll('.game-card').forEach(card=>{
-      card.addEventListener('click',()=>openExternal(GAME_LINKS[card.dataset.carouselGame]));
+      card.addEventListener('click',e=>{
+        if(carouselSwipeLocked){
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        openExternal(GAME_LINKS[card.dataset.carouselGame]);
+      });
     });
   }
 
@@ -865,6 +910,46 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
 
   const carousel=document.getElementById('gamesCarousel');
+  const swipePointer={id:null,x:0,y:0,time:0,moved:false};
+
+  carousel.addEventListener('pointerdown',e=>{
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    swipePointer.id=e.pointerId;
+    swipePointer.x=e.clientX;
+    swipePointer.y=e.clientY;
+    swipePointer.time=Date.now();
+    swipePointer.moved=false;
+    carouselSwipeLocked=false;
+    try{carousel.setPointerCapture(e.pointerId)}catch(_){}
+  },{passive:true});
+
+  carousel.addEventListener('pointermove',e=>{
+    if(swipePointer.id!==e.pointerId)return;
+    const dx=e.clientX-swipePointer.x;
+    const dy=e.clientY-swipePointer.y;
+    if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)*1.05)swipePointer.moved=true;
+  },{passive:true});
+
+  carousel.addEventListener('pointerup',e=>{
+    if(swipePointer.id!==e.pointerId)return;
+    const dx=e.clientX-swipePointer.x;
+    const dy=e.clientY-swipePointer.y;
+    const dt=Math.max(1,Date.now()-swipePointer.time);
+    const velocity=Math.abs(dx)/dt;
+    const isSwipe=Math.abs(dx)>38&&Math.abs(dx)>Math.abs(dy)*1.15&&(Math.abs(dx)>55||velocity>.35);
+    carouselSwipeLocked=swipePointer.moved&&isSwipe;
+    if(isSwipe)moveCategoryGame(dx<0?1:-1);
+    const id=swipePointer.id;
+    swipePointer.id=null;
+    try{carousel.releasePointerCapture(id)}catch(_){}
+    if(carouselSwipeLocked)setTimeout(()=>{carouselSwipeLocked=false},120);
+  },{passive:true});
+
+  carousel.addEventListener('pointercancel',()=>{
+    swipePointer.id=null;
+    carouselSwipeLocked=false;
+  },{passive:true});
+
   carousel.addEventListener('touchstart',e=>{
     const t=e.touches[0]; if(!t)return;
     swipeStartX=t.clientX; swipeStartY=t.clientY; swipeStartTime=Date.now();
@@ -875,19 +960,24 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     const dy=t.clientY-swipeStartY;
     const dt=Math.max(1,Date.now()-swipeStartTime);
     const velocity=Math.abs(dx)/dt;
-    if(Math.abs(dx)>38 && Math.abs(dx)>Math.abs(dy)*1.15 && (Math.abs(dx)>55 || velocity>.35)){
+    if(Math.abs(dx)>38&&Math.abs(dx)>Math.abs(dy)*1.15&&(Math.abs(dx)>55||velocity>.35)){
+      carouselSwipeLocked=true;
       moveCategoryGame(dx<0?1:-1);
+      setTimeout(()=>carouselSwipeLocked=false,120);
     }
   },{passive:true});
 
   // Language initialization is performed after GAME_CARDS/CATEGORIES/GAME_LINKS are initialized.
 
   function returnToMainMenu(){
-    window.FZG?.state?.set?.({screen:'home', categoryId:null, gameId:null, modal:null});
+    window.FZG?.state?.set?.({screen:'home',categoryId:null,gameId:null,modal:null});
     const cv=document.getElementById('categoryView');
     const cl=document.getElementById('categoryList');
     if(cv)cv.classList.add('hidden');
-    if(cl)cl.classList.remove('hidden');
+    if(cl){
+      cl.classList.remove('hidden');
+      animateIn(cl,"back");
+    }
     currentCategory=null;
     categoryGameIndex=0;
     renderCategories();
