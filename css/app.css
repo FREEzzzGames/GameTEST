@@ -5274,3 +5274,55 @@ body.game-window-expanded{
     font-size:8px!important;
   }
 }
+
+
+/* =========================================================
+   CHAT FUNCTIONALITY FIX — full-height overlay without
+   double-height overflow, with every control kept tappable.
+   ========================================================= */
+#guestView{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  gap:6px!important;
+}
+#guestView .chat-auth-state{
+  flex:0 0 auto!important;
+  width:100%!important;
+  min-height:28px!important;
+  margin:0!important;
+  padding:6px 9px!important;
+  border-radius:8px!important;
+}
+#guestView .chat-layout{
+  flex:1 1 auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+}
+#guestView .chat-room-tabs,
+#guestView .chat-toolbar,
+#guestView .chat-room-tab,
+#guestView .chat-mini-btn,
+#guestView .guest-send,
+#guestView .dm-item,
+#guestView .dm-thread-head button{
+  touch-action:manipulation!important;
+}
+#guestView .chat-room-tab,
+#guestView .chat-mini-btn,
+#guestView .guest-send,
+#guestView .dm-item{
+  cursor:pointer!important;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+}
+#guestView .guest-msg .guest-author{
+  cursor:pointer!important;
+  pointer-events:auto!important;
+}
+#guestView .dm-thread .guest-author{
+  cursor:default!important;
+}
