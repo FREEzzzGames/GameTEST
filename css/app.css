@@ -4015,3 +4015,161 @@ body > #liveListPanel .live-panel-close{
     max-height:200px!important;
   }
 }
+
+
+/* =========================================================
+   FREEzzzGames VISUAL SYSTEM — DEPTH + CONTROLLED GLITCH
+   Replace the animated space flight with a quiet, layered
+   digital environment. No moving stars/comets/grid flight.
+   ========================================================= */
+
+/* The old cosmic particles remain in markup for compatibility,
+   but are visually disabled. */
+#mainPortal .space-depth > .space-layer,
+#mainPortal .space-depth > .space-clusters,
+#mainPortal .space-depth > .space-comets,
+#mainPortal .space-depth > .space-asteroids{
+  display:none!important;
+}
+
+#mainPortal .space-depth{
+  inset:0!important;
+  z-index:0!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(ellipse at 50% 20%,rgba(53,118,185,.16) 0%,rgba(18,42,72,.08) 28%,transparent 58%),
+    radial-gradient(ellipse at 12% 68%,rgba(0,120,190,.09) 0%,transparent 34%),
+    radial-gradient(ellipse at 88% 62%,rgba(92,48,180,.08) 0%,transparent 36%),
+    linear-gradient(180deg,#050b16 0%,#030711 48%,#01040a 100%)!important;
+  opacity:1!important;
+}
+
+/* Static depth planes: distant atmosphere + subtle perspective grid. */
+#mainPortal .space-depth::before{
+  content:"";
+  position:absolute;
+  inset:-8%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 42%,transparent 0 30%,rgba(92,170,230,.035) 46%,transparent 68%),
+    linear-gradient(rgba(82,160,220,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(82,160,220,.035) 1px,transparent 1px);
+  background-size:auto,42px 42px,42px 42px;
+  mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.85) 48%,#000 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.85) 48%,#000 100%);
+  opacity:.75;
+}
+
+/* Very restrained digital scan/glitch layer.
+   It stays invisible most of the time and flashes for milliseconds. */
+#mainPortal .space-depth::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 8px,
+      rgba(100,181,246,.025) 8px,
+      rgba(100,181,246,.025) 9px
+    );
+  opacity:0;
+  mix-blend-mode:screen;
+  animation:freezzzAmbientGlitch 9s steps(1,end) infinite;
+}
+
+@keyframes freezzzAmbientGlitch{
+  0%,82%,84%,100%{opacity:0;transform:translateX(0);filter:none}
+  82.2%{opacity:.18;transform:translateX(-1px);filter:contrast(1.08)}
+  82.5%{opacity:.05;transform:translateX(2px)}
+  82.8%{opacity:.22;transform:translateX(-2px)}
+  83.1%{opacity:0;transform:translateX(0)}
+}
+
+/* The portal itself stays deep and static; no flying background. */
+#mainPortal.portal{
+  background:
+    radial-gradient(ellipse at 50% 18%,rgba(37,94,150,.16) 0%,rgba(13,30,58,.08) 24%,transparent 54%),
+    radial-gradient(ellipse at 15% 72%,rgba(0,120,180,.08) 0%,transparent 38%),
+    radial-gradient(ellipse at 88% 62%,rgba(88,42,180,.07) 0%,transparent 40%),
+    linear-gradient(180deg,#050b16 0%,#02050b 48%,#010204 100%)!important;
+}
+
+#mainPortal.portal::before{
+  background:
+    radial-gradient(ellipse at 50% 28%,rgba(110,190,255,.07),transparent 35%),
+    radial-gradient(ellipse at 18% 78%,rgba(45,135,210,.045),transparent 32%),
+    radial-gradient(ellipse at 84% 68%,rgba(110,70,220,.04),transparent 34%)!important;
+  animation:none!important;
+  will-change:auto!important;
+  opacity:1!important;
+}
+
+#mainPortal.portal::after{
+  background:
+    linear-gradient(rgba(65,150,220,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(65,150,220,.045) 1px,transparent 1px)!important;
+  background-size:44px 44px!important;
+  transform:perspective(560px) rotateX(64deg) translateY(25%)!important;
+  animation:none!important;
+  will-change:auto!important;
+  opacity:.28!important;
+}
+
+/* Logo: occasional micro digital fault, not a constant shake. */
+#mainPortal .portal-logo h1{
+  animation:freezzzLogoGlitch 10s steps(1,end) infinite;
+  will-change:transform,filter,text-shadow;
+}
+
+@keyframes freezzzLogoGlitch{
+  0%,91%,93%,100%{
+    transform:none;
+    filter:none;
+    text-shadow:2px 2px #e52225;
+  }
+  91.2%{
+    transform:translateX(-1px);
+    filter:contrast(1.12);
+    text-shadow:-2px 0 rgba(255,40,55,.75),2px 0 rgba(70,190,255,.65),2px 2px #e52225;
+  }
+  91.45%{
+    transform:translateX(1px) skewX(-1deg);
+    filter:brightness(1.08);
+    text-shadow:3px 0 rgba(255,40,55,.55),-3px 0 rgba(70,190,255,.55),2px 2px #e52225;
+  }
+  91.7%{
+    transform:none;
+    filter:none;
+    text-shadow:2px 2px #e52225;
+  }
+}
+
+/* Interaction glitch: every tappable control gets a tiny digital response. */
+#mainPortal button:active,
+#mainPortal .category-item:active,
+#mainPortal .game-card:active,
+#mainPortal a:active{
+  animation:freezzzInteractionGlitch .16s steps(2,end)!important;
+}
+
+@keyframes freezzzInteractionGlitch{
+  0%{filter:none;transform:translateY(1px) scale(.985)}
+  35%{filter:contrast(1.14) brightness(1.06);transform:translate(1px,1px) scale(.985)}
+  65%{filter:saturate(1.16);transform:translate(-1px,0) scale(.99)}
+  100%{filter:none}
+}
+
+/* Keep the new visual language calm for users who request less motion. */
+@media(prefers-reduced-motion:reduce){
+  #mainPortal .space-depth::after,
+  #mainPortal .portal-logo h1,
+  #mainPortal button:active,
+  #mainPortal .category-item:active,
+  #mainPortal .game-card:active,
+  #mainPortal a:active{
+    animation:none!important;
+  }
+}
