@@ -3,7 +3,6 @@
 
 const cfg=Object.assign({
   endpoint:"https://freezzgames-live-monitor.onrender.com/api/live",
-  registryEndpoint:"https://freezzgames-live-monitor.onrender.com/api/streamers",
   pollMs:300000
 },window.FZG_LIVE_CONFIG||{});
 
@@ -267,26 +266,11 @@ async function poll(){
   S.loading=true;
 
   try{
-    const [liveResult,registryResult]=await Promise.allSettled([
-      fetchJson(cfg.endpoint),
-      fetchJson(cfg.registryEndpoint)
-    ]);
-
-    const liveOk=liveResult.status==="fulfilled";
-    const registryOk=registryResult.status==="fulfilled";
-    const livePayload=liveOk?liveResult.value:null;
-    const registryPayload=registryOk?registryResult.value:null;
-
-    if(!liveOk&&!registryOk){
-      const reason=[
-        liveResult.status==="rejected"?liveResult.reason?.message:null,
-        registryResult.status==="rejected"?registryResult.reason?.message:null
-      ].filter(Boolean).join("; ");
-      throw Error(reason||"LIVE and registry endpoints unavailable");
-    }
-
-    refresh(registryPayload,livePayload);
-    setConnectionState(liveOk?"online":"partial",liveOk?"": "LIVE endpoint unavailable");
+    // /api/live already contains the complete streamer cache. One request is
+    // enough, avoids a second round-trip, and reduces cold-start latency.
+    const livePayload=await fetchJson(cfg.endpoint);
+    refresh(null,livePayload);
+    setConnectionState("online","");
     clearTimeout(retryTimer);
   }catch(e){
     console.warn("FREEzzzGames LIVE monitor unavailable:",e);
