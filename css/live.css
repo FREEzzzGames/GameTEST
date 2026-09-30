@@ -1,0 +1,44 @@
+/* FREEzzzGames LIVE — isolated cluster */
+.live-view{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:visible}
+.live-head{position:relative;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:6px;height:34px;min-height:34px;padding:3px 4px}
+.live-list-btn,.live-list-back,.live-panel-close,.live-player-back,.live-sound-btn,.live-player-open{border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:700 9px/1 "Handjet",monospace;cursor:pointer;touch-action:manipulation}
+.live-list-btn{height:28px;padding:0 9px}
+.live-head-title{font:700 10px/1 "Handjet",monospace;white-space:nowrap}
+.live-dot,.live-player-live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e5484d;box-shadow:0 0 7px rgba(229,72,77,.65)}
+.live-list-panel{position:absolute;z-index:30;left:0;right:0;top:34px;height:min(430px,calc(var(--tg-viewport-stable-height,100dvh) - 180px));min-height:180px;background:var(--tg-overlay);border:1px solid var(--tg-border);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.28);overflow:hidden}
+.live-list-drawer{height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.live-list-head{height:38px;display:grid;grid-template-columns:70px 1fr 38px;align-items:center;padding:4px 6px;border-bottom:1px solid var(--tg-border);position:sticky;top:0;background:var(--tg-overlay);z-index:2}
+.live-list-head strong{text-align:center;font:700 11px/1 "Handjet",monospace}
+.live-list-back,.live-panel-close{height:28px;padding:0 7px}
+.live-panel-close{font-size:17px}
+.live-streamer-list{display:flex;flex-direction:column;padding:4px;gap:4px}
+.live-list-row{width:100%;min-height:58px;display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:7px;align-items:center;padding:6px 7px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);text-align:left;cursor:pointer;touch-action:manipulation}
+.live-list-row:active{transform:scale(.99);border-color:var(--tg-blue)}
+.live-list-avatar,.live-player-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,.08);font-size:18px}
+.live-list-main{min-width:0;display:flex;flex-direction:column;gap:2px}
+.live-list-main strong{font:700 10px/1 "Handjet",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-list-main small{font:500 8px/1 "Handjet",monospace;color:var(--tg-blue)}
+.live-list-main em{font:400 7px/1.1 "Handjet",monospace;color:var(--tg-text-secondary);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-list-status{padding:4px 5px;border:1px solid rgba(229,72,77,.45);border-radius:5px;color:#e5484d;font:700 7px/1 "Handjet",monospace}
+.live-main{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;border-radius:9px}
+.live-player-shell{position:relative;width:100%;height:100%;min-height:190px;overflow:hidden;background:#02050b;border:1px solid rgba(255,255,255,.12);border-radius:9px}
+.live-video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#02050b}
+.live-player-top{position:absolute;top:6px;left:6px;right:6px;z-index:4;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.live-player-live{display:flex;align-items:center;gap:5px;padding:5px 7px;border-radius:6px;background:rgba(0,0,0,.62);color:#fff;font:700 8px/1 "Handjet",monospace}
+.live-player-back{pointer-events:auto;width:30px;height:30px;font-size:18px;background:rgba(0,0,0,.62);color:#fff;border-color:rgba(255,255,255,.25)}
+.live-sound-btn{position:absolute;right:7px;bottom:42px;z-index:5;width:32px;height:32px;background:rgba(0,0,0,.62);color:#fff;border-color:rgba(255,255,255,.25)}
+.live-player-info{position:absolute;left:6px;right:6px;bottom:6px;z-index:4;display:flex;align-items:center;gap:6px;padding:5px 6px;border-radius:7px;background:rgba(0,0,0,.68);color:#fff}
+.live-player-info .live-player-avatar{width:27px;height:27px;font-size:14px}
+.live-player-info span:last-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.live-player-info strong{font:700 9px/1 "Handjet",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-player-info small{font:400 7px/1 "Handjet",monospace;color:rgba(255,255,255,.68)}
+.live-player-empty,.live-player-link{width:100%;height:100%;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:18px;text-align:center;color:var(--tg-text);background:radial-gradient(circle at 50% 35%,rgba(55,115,170,.18),transparent 55%),#02050b}
+.live-player-icon{font-size:34px;line-height:1}
+.live-player-link strong{font:700 13px/1 "Handjet",monospace;color:#fff}
+.live-player-link span{font:400 8px/1 "Handjet",monospace;color:rgba(255,255,255,.58)}
+.live-player-open{min-height:34px;padding:0 12px;margin-top:4px;color:#fff;background:rgba(20,70,110,.75);border-color:rgba(100,181,246,.6)}
+.live-carousel-wrap{min-height:0}
+.live-carousel{min-height:0}
+@media(max-width:420px){
+  .live-list-panel{height:min(390px,calc(var(--tg-viewport-stable-height,100dvh) - 165px))}
+}
