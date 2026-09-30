@@ -3822,3 +3822,28 @@ body > #liveListPanel .live-panel-close{
   flex:0 0 auto!important;height:24px!important;padding:0 7px!important;border:1px solid rgba(255,255,255,.1)!important;
   border-radius:6px!important;background:#202b36!important;color:#fff!important;font:600 8px/1 "Handjet",monospace!important;
 }
+
+
+/* LIVE CARD ACTIONS — explicit touch/click hit area */
+#mainPortal .live-streamer-card,
+#mainPortal .live-streamer-card-actions,
+#mainPortal .live-streamer-card-actions button,
+#mainPortal .live-streamer-card-close,
+#mainPortal .live-youtube-panel,
+#mainPortal .live-youtube-head button,
+#mainPortal .live-youtube-open{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
+}
+#mainPortal .live-streamer-card-actions{
+  position:relative!important;
+  z-index:20!important;
+}
+#mainPortal .live-streamer-card-actions button,
+#mainPortal .live-streamer-card-close,
+#mainPortal .live-youtube-head button,
+#mainPortal .live-youtube-open{
+  position:relative!important;
+  z-index:21!important;
+}
