@@ -6312,3 +6312,11 @@ html,body{
   box-shadow:none!important;
   transform:none!important;
 }
+
+#mainPortal .header-top .portal-logo{
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
