@@ -9,3 +9,52 @@ body.tv-remote-active .live-video-frame:focus{
   outline:3px solid rgba(142,207,255,.95)!important;
   outline-offset:-3px!important;
 }
+
+/* ============================================================
+   10-FOOT TV / SAMSUNG REMOTE
+   No new controls: only makes existing focus/navigation legible.
+   ============================================================ */
+@media (min-width:960px) and (min-height:540px){
+  body.tv-remote-active{
+    cursor:none;
+  }
+  body.tv-remote-active :where(button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus{
+    outline:4px solid rgba(0,229,255,.98)!important;
+    outline-offset:5px!important;
+    box-shadow:0 0 0 2px rgba(255,47,188,.42),0 0 22px rgba(0,229,255,.22)!important;
+    transform:translateZ(0);
+  }
+  body.tv-remote-active .game-category-item:focus,
+  body.tv-remote-active .game-catalog-card:focus{
+    border-color:#00e5ff!important;
+    background:linear-gradient(145deg,rgba(18,49,68,.98),rgba(12,8,28,.98))!important;
+  }
+  body.tv-remote-active .live-list-row:focus{
+    border-color:rgba(255,255,255,.45)!important;
+    background:#292c31!important;
+  }
+  body.tv-remote-active .home-chat-open:focus,
+  body.tv-remote-active .live-list-btn:focus,
+  body.tv-remote-active .game-window-action:focus{
+    transform:scale(1.03)!important;
+  }
+}
+@media (max-width:759px){
+  #mainPortal{
+    width:100%;
+    min-width:0;
+    min-height:var(--tg-viewport-stable-height,100dvh);
+    overflow-x:hidden;
+  }
+  body{
+    width:100%;
+    min-width:0;
+    overflow:hidden;
+    -webkit-text-size-adjust:100%;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  body.tv-remote-active :where(button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus{
+    transition:none!important;
+  }
+}
