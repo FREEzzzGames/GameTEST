@@ -835,6 +835,16 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     guest?.classList.toggle('hidden',!isChat);
     homeChat?.classList.toggle('is-hidden',isChat);
     mediaRow?.classList.toggle('is-hidden',isChat);
+
+    // HOME invariant: returning from full CHAT must restore every persistent media surface.
+    if(!isChat){
+      mediaRow?.classList.remove('hidden');
+      document.getElementById('liveView')?.classList.remove('hidden','is-hidden');
+      document.getElementById('gameWindow')?.classList.remove('hidden','is-hidden');
+      document.getElementById('alwaysControls')?.classList.remove('hidden');
+      document.getElementById('userProfileBox')?.classList.remove('hidden');
+    }
+
     const chatTab=document.getElementById('tabGuest');
     if(chatTab)chatTab.classList.toggle('active',isChat);
     if(isChat) hideActionHint(true);
