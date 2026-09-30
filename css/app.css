@@ -4407,3 +4407,164 @@ body > #liveListPanel .live-panel-close{
   overflow:hidden!important;
   clip-path:inset(0)!important;
 }
+
+
+/* =========================================================
+   VISIBILITY FIX — depth must be perceptible on real Mini App
+   screens, while remaining inside the portal viewport.
+   Glitch fires once every 3 seconds with a visible ~0.3s burst.
+   ========================================================= */
+
+#mainPortal .space-depth{
+  z-index:0!important;
+  opacity:1!important;
+  isolation:isolate!important;
+  background:
+    radial-gradient(ellipse at 50% 12%,rgba(45,135,225,.24) 0%,transparent 38%),
+    radial-gradient(ellipse at 8% 55%,rgba(0,170,225,.14) 0%,transparent 32%),
+    radial-gradient(ellipse at 92% 62%,rgba(120,55,225,.14) 0%,transparent 34%),
+    linear-gradient(180deg,#071222 0%,#030914 48%,#01040a 100%)!important;
+}
+
+#mainPortal .space-depth .space-layer{
+  opacity:1!important;
+  mix-blend-mode:screen!important;
+}
+
+/* Ten visible depth planes: each is deliberately stronger than the
+   previous pass so the depth reads on a phone display. */
+#mainPortal .space-depth .space-layer-1{
+  background:radial-gradient(ellipse at 50% 15%,rgba(50,155,255,.20),transparent 46%)!important;
+  opacity:.90!important;filter:blur(22px)!important;transform:scale(1.08)!important;
+}
+#mainPortal .space-depth .space-layer-2{
+  background:radial-gradient(ellipse at 18% 30%,rgba(0,190,255,.16),transparent 36%)!important;
+  opacity:.82!important;filter:blur(18px)!important;transform:scale(1.07)!important;
+}
+#mainPortal .space-depth .space-layer-3{
+  background:radial-gradient(ellipse at 82% 28%,rgba(95,80,255,.15),transparent 35%)!important;
+  opacity:.78!important;filter:blur(15px)!important;transform:scale(1.06)!important;
+}
+#mainPortal .space-depth .space-layer-4{
+  background:radial-gradient(ellipse at 35% 58%,rgba(0,150,220,.12),transparent 32%)!important;
+  opacity:.72!important;filter:blur(12px)!important;transform:scale(1.05)!important;
+}
+#mainPortal .space-depth .space-layer-5{
+  background:radial-gradient(ellipse at 70% 55%,rgba(120,60,235,.12),transparent 30%)!important;
+  opacity:.68!important;filter:blur(10px)!important;transform:scale(1.04)!important;
+}
+#mainPortal .space-depth .space-layer-6{
+  background:linear-gradient(115deg,transparent 22%,rgba(0,200,245,.085) 48%,transparent 74%)!important;
+  opacity:.65!important;filter:blur(8px)!important;transform:scale(1.03)!important;
+}
+#mainPortal .space-depth .space-layer-7{
+  background:radial-gradient(circle at 52% 52%,rgba(75,165,255,.095),transparent 24%)!important;
+  opacity:.62!important;filter:blur(6px)!important;transform:scale(1.025)!important;
+}
+#mainPortal .space-depth .space-layer-8{
+  background:linear-gradient(165deg,transparent 28%,rgba(185,55,255,.07) 50%,transparent 72%)!important;
+  opacity:.58!important;filter:blur(4px)!important;transform:scale(1.018)!important;
+}
+#mainPortal .space-depth .space-layer-9{
+  background:
+    radial-gradient(circle at 14% 24%,rgba(0,225,255,.16) 0 1px,transparent 2px),
+    radial-gradient(circle at 86% 72%,rgba(255,45,160,.14) 0 1px,transparent 2px),
+    radial-gradient(circle at 68% 18%,rgba(125,90,255,.14) 0 1px,transparent 2px)!important;
+  opacity:.72!important;filter:blur(1px)!important;transform:none!important;
+}
+#mainPortal .space-depth .space-layer-10{
+  background:
+    linear-gradient(rgba(65,175,245,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(65,175,245,.045) 1px,transparent 1px)!important;
+  background-size:32px 32px!important;
+  opacity:.62!important;filter:none!important;
+  transform:perspective(560px) rotateX(64deg) translateY(23%) scale(1.08)!important;
+  transform-origin:center bottom!important;
+  mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent 82%)!important;
+  -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.9),transparent 82%)!important;
+}
+
+/* A second, clearly visible chromatic glitch pass. */
+#mainPortal .space-depth::after{
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 5px,
+      rgba(0,245,255,.28) 5px 6px,
+      transparent 6px 11px
+    ),
+    linear-gradient(90deg,
+      transparent 0 10%,
+      rgba(255,0,105,.52) 10% 12%,
+      transparent 12% 31%,
+      rgba(0,235,255,.52) 31% 34%,
+      transparent 34% 58%,
+      rgba(175,50,255,.50) 58% 61%,
+      transparent 61% 82%,
+      rgba(255,220,40,.42) 82% 84%,
+      transparent 84%
+    )!important;
+  opacity:0!important;
+  filter:blur(6px) saturate(2.4) contrast(1.25)!important;
+  animation:freezzzGlitch3sVisible 3s steps(1,end) infinite!important;
+}
+
+@keyframes freezzzGlitch3sVisible{
+  0%,87%,100%{
+    opacity:0;
+    transform:translateX(0);
+  }
+  88%{
+    opacity:.22;
+    transform:translateX(-2px);
+  }
+  89%{
+    opacity:.78;
+    transform:translateX(3px);
+  }
+  90%{
+    opacity:.48;
+    transform:translateX(-4px) skewX(-1deg);
+  }
+  91%{
+    opacity:.92;
+    transform:translateX(2px);
+  }
+  92%{
+    opacity:.35;
+    transform:translateX(-1px);
+  }
+  93%{
+    opacity:.75;
+    transform:translateX(1px);
+  }
+  94%{
+    opacity:0;
+    transform:none;
+  }
+}
+
+/* Strong RGB split for the same 3-second pulse. */
+#mainPortal .space-depth::before{
+  background:
+    linear-gradient(90deg,transparent 0 47%,rgba(255,0,90,.28) 47% 48%,transparent 49%),
+    linear-gradient(90deg,transparent 0 51%,rgba(0,240,255,.28) 51% 52%,transparent 53%),
+    linear-gradient(180deg,transparent 0 43%,rgba(160,60,255,.22) 43% 45%,transparent 47%)!important;
+  opacity:0!important;
+  filter:blur(6px) saturate(2.5)!important;
+  animation:freezzzGlitchRgb3sVisible 3s steps(1,end) infinite!important;
+}
+
+@keyframes freezzzGlitchRgb3sVisible{
+  0%,87%,100%{opacity:0;transform:none}
+  89%{opacity:.5;transform:translateX(-3px)}
+  90%{opacity:.8;transform:translateX(3px)}
+  91%{opacity:.35;transform:translateX(-2px)}
+  92%{opacity:.65;transform:translateX(1px)}
+  94%{opacity:0;transform:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #mainPortal .space-depth::before,
+  #mainPortal .space-depth::after{animation:none!important;opacity:0!important}
+}
