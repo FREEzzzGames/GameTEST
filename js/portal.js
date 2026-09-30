@@ -193,6 +193,11 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
   function showNextActionHint(){
     if(!actionHintsEnabled)return;
+    const guestView=document.getElementById("guestView");
+    if(guestView && !guestView.classList.contains("hidden")){
+      hideActionHint(false);
+      return;
+    }
     hideActionHint(false);
     for(const id of ACTION_HINT_ORDER){if(showActionHint(id))return}
   }
@@ -884,6 +889,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     mediaRow?.classList.toggle('is-hidden',isChat);
     const chatTab=document.getElementById('tabGuest');
     if(chatTab)chatTab.classList.toggle('active',isChat);
+    if(isChat) hideActionHint(true);
     animateIn(isChat?guest:null,isChat?'forward':'back');
     if(!isChat){
       showCategoryList(false);
