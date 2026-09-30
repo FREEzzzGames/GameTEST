@@ -190,6 +190,7 @@ function showOverlay() {
   layer.classList.remove("hidden");
   layer.setAttribute("aria-hidden", "false");
   S.overlayOpen = true;
+  window.dispatchEvent(new CustomEvent("freezzz:live-overlay", {detail:{open:true}}));
 
   window.addEventListener("resize", positionOverlay, {passive:true});
   window.addEventListener("orientationchange", positionOverlay, {passive:true});
@@ -202,6 +203,7 @@ function hideOverlay() {
   layer.classList.add("hidden");
   layer.setAttribute("aria-hidden", "true");
   S.overlayOpen = false;
+  window.dispatchEvent(new CustomEvent("freezzz:live-overlay", {detail:{open:false}}));
 
   window.removeEventListener("resize", positionOverlay);
   window.removeEventListener("orientationchange", positionOverlay);
@@ -427,8 +429,33 @@ window.FZG.live = {
   stop: renderBot,
   getState: () => ({
     selectedId: S.selectedId,
-    all: [...S.all]
-  })
+    all: [...S.all],
+    overlayOpen: S.overlayOpen
+  }),
+  back: () => {
+    if (!S.overlayOpen) return false;
+
+    const channel = S.all.find(item => item.id === S.selectedId);
+    const shell = overlayShell();
+    const panel = $("liveListPanel");
+
+    if (shell?.querySelector(".live-youtube-panel") && channel) {
+      openCard(channel);
+      haptic();
+      return true;
+    }
+
+    if (panel && !panel.classList.contains("hidden")) {
+      closeList();
+      haptic();
+      return true;
+    }
+
+    hideOverlay();
+    renderBot();
+    haptic();
+    return true;
+  }
 };
 
 init();
