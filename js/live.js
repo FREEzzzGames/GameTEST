@@ -1,5 +1,5 @@
-import { directSources } from "./live-data/channels.js?v=20260930-live2";
-import { createLivePlayer } from "./live-player.js?v=20260930-live2";
+import { directSources } from "./live-data/channels.js?v=20260930-live3";
+import { createLivePlayer } from "./live-player.js?v=20260930-live3";
 
 (() => {
   "use strict";
@@ -34,18 +34,17 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live2";
       '<button class="live-list-row" type="button" data-live-list-id="'+esc(channel.id)+'">'+
         '<span class="live-list-avatar">'+esc(channel.avatar)+'</span>'+
         '<span class="live-list-main"><strong>'+esc(channel.name)+'</strong><small>'+esc(channel.category||"YouTube")+'</small><em>'+esc(channel.description||"")+'</em></span>'+
-        '<span class="live-list-status">LIVE</span>'+
       '</button>'
     ).join("");
 
-    host.addEventListener("click",event=>{
+    host.onclick=event=>{
       const button=event.target.closest("[data-live-list-id]");
       if(!button || !host.contains(button))return;
       const channel=S.all.find(item=>item.id===button.dataset.liveListId);
       if(!channel)return;
       closeList();
       select(channel.id,true);
-    });
+    };
   }
 
   function renderIdle(){
@@ -88,8 +87,7 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live2";
   const player=createLivePlayer({
     mount:$("liveMain"),
     haptic,
-    onBack:backFromPlayer,
-    onExternal:()=>{}
+    onBack:backFromPlayer
   });
 
   function syncVisibility(){
@@ -126,7 +124,8 @@ import { createLivePlayer } from "./live-player.js?v=20260930-live2";
       selectedId:S.selectedId,
       all:[...S.all],
       overlayOpen:S.listOpen,
-      listOpen:S.listOpen
+      listOpen:S.listOpen,
+      player:player.getState()
     }),
     back:()=>{
       if(S.listOpen){closeList();haptic();return true;}
