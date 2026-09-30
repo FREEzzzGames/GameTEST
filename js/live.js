@@ -217,9 +217,9 @@ function positionListPanel(){
   const panel=$("liveListPanel");
   const btn=$("liveListBtn");
   if(!panel||!btn||panel.parentElement!==document.body)return;
-  const r=btn.getBoundingClientRect();
-  const gap=4;
-  const maxH=Math.max(180,Math.min(430,window.innerHeight-r.bottom-8));
+  const r=host.getBoundingClientRect();
+  const gap=5;
+  const maxH=Math.max(180,Math.min(430,window.innerHeight-r.bottom-gap-8));
   panel.style.position="fixed";
   panel.style.left=Math.round(r.left)+"px";
   panel.style.top=Math.round(r.bottom+gap)+"px";
