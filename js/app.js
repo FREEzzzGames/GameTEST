@@ -15,7 +15,7 @@ Platform.expand();
 async function bootPortalModule(){
   // LIVE must boot independently. A failure inside the large legacy portal
   // module must never prevent the LIVE module from loading and polling.
-  const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult] = await Promise.allSettled([
+  const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult, tvRemoteResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e12"),
     import("./live.js?v=20260930-live3"),
     import("./parallax.js?v=20260930a"),
@@ -49,6 +49,9 @@ async function bootPortalModule(){
     console.error("FREEzzzGames GAME WINDOW module failed",err);
     window.FZG.gameWindowModuleError=String(err?.stack||err);
   }
+
+  if(tvRemoteResult.status==="fulfilled") window.FZG.tvRemoteModuleReady=true;
+  else console.warn("FREEzzzGames TV remote module unavailable",tvRemoteResult.reason);
 
   if(parallaxResult.status==="rejected") console.warn("FREEzzzGames parallax layer unavailable",parallaxResult.reason);
   if(streamerParallaxResult.status==="rejected") console.warn("FREEzzzGames streamer menu parallax unavailable",streamerParallaxResult.reason);
