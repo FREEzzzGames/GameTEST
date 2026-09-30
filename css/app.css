@@ -5326,3 +5326,181 @@ body.game-window-expanded{
 #guestView .dm-thread .guest-author{
   cursor:default!important;
 }
+
+
+/* =========================================================
+   UNIFIED UI SCALE — same viewport rails and control rhythm
+   across HOME, LIVE, GAME WINDOW and full CHAT.
+   Geometry only: no navigation or module logic changes.
+   ========================================================= */
+:root{
+  --ui-rail:8px;
+  --ui-gap:7px;
+  --ui-radius:12px;
+  --ui-control:40px;
+}
+
+/* Telegram Android can expose a horizontal safe-area inset that is not
+   part of the actual Mini App content width. Do not let it shrink one side
+   of the portal and make the whole UI look off-center. */
+html,body{
+  padding-left:0!important;
+  padding-right:0!important;
+}
+#mainPortal.portal{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding-left:var(--ui-rail)!important;
+  padding-right:var(--ui-rail)!important;
+  gap:var(--ui-gap)!important;
+}
+
+/* One horizontal scale for the persistent header. */
+#mainPortal .header-top{
+  width:100%!important;
+  min-height:var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  gap:var(--ui-gap)!important;
+}
+#mainPortal .profile-box{
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  border-radius:var(--ui-radius)!important;
+}
+#mainPortal .always-btn{
+  width:var(--ui-control)!important;
+  min-width:var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  border-radius:var(--ui-radius)!important;
+}
+
+/* HOME/LIVE/GAME use exactly the same outer rail and panel gap. */
+#mainPortal .home-media-row{
+  width:100%!important;
+  margin:0!important;
+  gap:var(--ui-gap)!important;
+}
+#mainPortal .home-media-row .live-view,
+#mainPortal .home-media-row .home-chat-widget,
+#mainPortal .home-media-row .game-window{
+  border-radius:var(--ui-radius)!important;
+}
+#mainPortal .live-head,
+#mainPortal .game-window-head{
+  border-radius:var(--ui-radius) var(--ui-radius) 0 0!important;
+}
+
+/* Full CHAT is the same portal surface, not a different-sized page. */
+#guestView:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  box-sizing:border-box!important;
+  padding:var(--ui-rail)!important;
+  padding-top:max(var(--ui-rail),env(safe-area-inset-top))!important;
+  padding-bottom:max(var(--ui-rail),env(safe-area-inset-bottom))!important;
+  background:rgba(2,7,14,.94)!important;
+  backdrop-filter:blur(7px)!important;
+  -webkit-backdrop-filter:blur(7px)!important;
+  overflow:hidden!important;
+}
+#guestView .chat-auth-state{
+  flex:0 0 var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  padding:0 10px!important;
+  display:flex!important;
+  align-items:center!important;
+  border-radius:var(--ui-radius)!important;
+}
+#guestView .chat-layout{
+  width:100%!important;
+  height:auto!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:6px!important;
+  gap:var(--ui-gap)!important;
+  border-radius:var(--ui-radius)!important;
+  background:rgba(10,19,30,.96)!important;
+  border:1px solid rgba(100,181,246,.24)!important;
+  box-shadow:0 10px 32px rgba(0,0,0,.28)!important;
+}
+#guestView .chat-room-tabs{
+  flex:0 0 var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  margin:0!important;
+  gap:5px!important;
+}
+#guestView .chat-room-tab{
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  padding:0 5px!important;
+  border-radius:10px!important;
+  font-size:9px!important;
+}
+#guestView .chat-toolbar{
+  flex:0 0 var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  margin:0!important;
+  padding:0 6px!important;
+  border-radius:10px!important;
+}
+#guestView .chat-mini-btn{
+  width:32px!important;
+  height:32px!important;
+  min-width:32px!important;
+  min-height:32px!important;
+  border-radius:8px!important;
+}
+#guestView .chat-list,
+#guestView .dm-list,
+#guestView .dm-thread{
+  min-height:0!important;
+}
+#guestView .guest-list{
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+#guestView .chat-compose{
+  flex:0 0 var(--ui-control)!important;
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  margin:0!important;
+  gap:5px!important;
+}
+#guestView .guest-input,
+#guestView .guest-send{
+  height:var(--ui-control)!important;
+  min-height:var(--ui-control)!important;
+  border-radius:10px!important;
+}
+#guestView .guest-input{padding:0 11px!important}
+#guestView .guest-send{padding:0 12px!important}
+
+/* Expanded GAME/LIVE use the same control scale as CHAT. */
+#mainPortal .game-window.is-expanded .game-window-head,
+#mainPortal .home-media-row .live-video-window.is-expanded .live-video-head{
+  min-height:48px!important;
+  height:48px!important;
+}
+#mainPortal .game-window.is-expanded .game-window-action,
+#mainPortal .home-media-row .live-video-window.is-expanded .live-video-action{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+  border-radius:10px!important;
+}
+
+/* Narrow screens keep the same geometry; only the scale steps down once. */
+@media(max-width:380px){
+  :root{--ui-rail:6px;--ui-gap:5px;--ui-control:38px}
+  #mainPortal .profile-box{padding:0 9px!important}
+  #guestView .chat-room-tab{font-size:8px!important}
+}
