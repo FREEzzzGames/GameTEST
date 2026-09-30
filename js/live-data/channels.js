@@ -1,6 +1,6 @@
 export const LIVE_CHANNELS=[
   {
-    id:"nasa",
+    id:"nasa-live",
     platform:"youtube",
     name:"NASA Live",
     avatar:"🚀",
