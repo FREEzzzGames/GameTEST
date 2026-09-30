@@ -1,6 +1,7 @@
 import { LANGS, LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
 import { ACTION_HINTS } from "./portal-data/hints.js?v=20260930e4";
 import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
+import { CHAT_BOTS, pickBot, pickReply } from "./chat-bots.js?v=20260930bots1";
 
 (function(){
   const key="freezzz_age_confirmed";
@@ -22,7 +23,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     HapticFeedback: telegram.HapticFeedback,
     async authenticate(){
       const user = telegram.initDataUnsafe?.user;
-      return user ? {user} : {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}};
+      return user ? {user} : {user:{id:"local_guest",username:"player",first_name:"Игрок",last_name:""}};
     }
   } : {
     initData: "browser-test",
@@ -30,7 +31,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     expand(){},
     openLink(url){ window.open(url, "_blank", "noopener,noreferrer"); },
     HapticFeedback: null,
-    async authenticate(){ return {user:{id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"}}; }
+    async authenticate(){ return {user:{id:"local_guest",username:"player",first_name:"Игрок",last_name:""}}; }
   };
 
   let userName = "Игрок";
@@ -181,10 +182,10 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
   function applyLanguage(){
     const L=LANG[currentLang];
     const staticText={
-      achSnake:{ru:"🐍 Мастер Змейки|Счёт от 100 в Snake",de:"🐍 Snake-Meister|Mindestens 100 Punkte in Snake",en:"🐍 Snake Master|Score 100+ in Snake"},
-      achTetris:{ru:"🧱 Архитектор Тетриса|Счёт от 500 в Tetris",de:"🧱 Tetris-Architekt|Mindestens 500 Punkte in Tetris",en:"🧱 Tetris Architect|Score 500+ in Tetris"},
-      achMario:{ru:"🍄 Герой Платформера|Пройди Platformer",de:"🍄 Plattform-Held|Schließe das Plattformspiel ab",en:"🍄 Platformer Hero|Complete the platformer"},
-      achRacer:{ru:"🏎️ Путешественник|Открой Slow Roads",de:"🏎️ Reisender|Öffne Slow Roads",en:"🏎️ Traveler|Open Slow Roads"}
+      achSnake:{ru:"Мастер Змейки|Счёт от 100 в Snake",de:"Snake-Meister|Mindestens 100 Punkte in Snake",en:"Snake Master|Score 100+ in Snake"},
+      achTetris:{ru:"Архитектор Тетриса|Счёт от 500 в Tetris",de:"Tetris-Architekt|Mindestens 500 Punkte in Tetris",en:"Tetris Architect|Score 500+ in Tetris"},
+      achMario:{ru:"Герой Платформера|Пройди Platformer",de:"Plattform-Held|Schließe das Plattformspiel ab",en:"Platformer Hero|Complete the platformer"},
+      achRacer:{ru:"Путешественник|Открой Slow Roads",de:"Reisender|Öffne Slow Roads",en:"Traveler|Open Slow Roads"}
     };
     Object.entries(staticText).forEach(([id,val])=>{
       const el=document.getElementById(id); if(!el)return;
@@ -237,7 +238,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
 
 
   // PLAYER IDENTITY / STATISTICS
-  let tgUser = {id:"local_guest",username:"browser_test",first_name:"Browser",last_name:"Player"};
+  let tgUser = {id:"local_guest",username:"player",first_name:"Игрок",last_name:""};
   let playerId = "local_guest";
   const playerKey = "freezzzPlayerStats:" + playerId;
 
@@ -403,9 +404,9 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     const list=document.getElementById("achievementsModalList");
     if(list){
       const ach=data.achievements||ACHIEVEMENT_DEFS.map(a=>({icon:a.icon,name:a.name[currentLang]||a.name.en,desc:a.desc[currentLang]||a.desc.en,unlocked:!!a.ok(playerStats)}));
-      list.innerHTML=ach.map(a=>'<div class="player-achievement '+(a.unlocked?"":"locked")+'"><div class="player-achievement-icon">'+(a.unlocked?a.icon:"🔒")+'</div><div><div class="player-achievement-name">'+a.name+'</div><div class="player-achievement-desc">'+a.desc+'</div></div></div>').join("");
+      list.innerHTML=ach.map(a=>'<div class="player-achievement '+(a.unlocked?"":"locked")+'"><div class="player-achievement-icon">'+(a.unlocked?a.icon:"ЗАКРЫТО")+'</div><div><div class="player-achievement-name">'+a.name+'</div><div class="player-achievement-desc">'+a.desc+'</div></div></div>').join("");
     }
-    const labels={ru:["ПОРТАЛ","ИГРЫ","ЗАПУСКОВ ИГР","СООБЩЕНИЙ","В ЧАТЕ","ДНЕЙ АКТИВНОСТИ","🏆 АЧИВКИ","ЗАКРЫТЬ"],de:["PORTAL","SPIELE","SPIELSTARTS","NACHRICHTEN","CHATZEIT","AKTIVE TAGE","🏆 ERFOLGE","SCHLIESSEN"],en:["PORTAL","GAMES","GAME LAUNCHES","MESSAGES","CHAT TIME","ACTIVE DAYS","🏆 ACHIEVEMENTS","CLOSE"]}[currentLang]||[];
+    const labels={ru:["ПОРТАЛ","ИГРЫ","ЗАПУСКОВ ИГР","СООБЩЕНИЙ","В ЧАТЕ","ДНЕЙ АКТИВНОСТИ","АЧИВКИ","ЗАКРЫТЬ"],de:["PORTAL","SPIELE","SPIELSTARTS","NACHRICHTEN","CHATZEIT","AKTIVE TAGE","ERFOLGE","SCHLIESSEN"],en:["PORTAL","GAMES","GAME LAUNCHES","MESSAGES","CHAT TIME","ACTIVE DAYS","ACHIEVEMENTS","CLOSE"]}[currentLang]||[];
     ["profilePortalLabel","profileGameLabel","profileLaunchesLabel","profileMessagesLabel","profileChatTimeLabel","profileDaysLabel","profileAchievementsTitle","playerProfileClose"].forEach((x,i)=>{const e=document.getElementById(x);if(e&&labels[i])e.textContent=labels[i]});
     const dmBtn=document.getElementById("playerProfileMessageBtn");
     if(dmBtn){const other=profileTargetId && profileTargetId!==playerId && chatAuthorized;dmBtn.classList.toggle("hidden",!other);}
@@ -428,7 +429,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
   let chatBusy=false;
 
   async function api(path, options={}){
-    const key="freezzzBrowserChatV1";
+    const key="freezzzBrowserChatV2";
     const read=()=>{try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return []}};
     const write=v=>localStorage.setItem(key,JSON.stringify(v));
     const body=options&&options.body&&typeof options.body==="object"?options.body:{};
@@ -438,7 +439,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     }
     if(path==="/chat/messages" && options.method==="POST"){
       const list=read();
-      list.push({playerId:playerId,username:"browser_test",name:"Browser Player",avatar:"🧑‍💻",text:String(body.text||""),room:body.room||"main",createdAt:new Date().toISOString()});
+      list.push({playerId:playerId,username:"player",name:"Игрок",avatar:currentAvatar||"👾",text:String(body.text||""),room:body.room||"main",createdAt:new Date().toISOString()});
       write(list);
       return {ok:true};
     }
@@ -459,7 +460,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
       const targetId=decodeURIComponent(dmMatch[1]);
       if(options.method==="POST"){
         const list=readDm();
-        list.push({senderId:playerId,targetId,text:String(body.text||""),username:"@browser_test",name:"Browser Player",avatar:"🧑‍💻",createdAt:new Date().toISOString()});
+        list.push({senderId:playerId,targetId,text:String(body.text||""),username:"@player",name:"Игрок",avatar:currentAvatar||"👾",createdAt:new Date().toISOString()});
         writeDm(list);
         return {ok:true};
       }
@@ -471,7 +472,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     }
     if(path.startsWith("/profile/")){
       const targetId=decodeURIComponent(path.slice("/profile/".length));
-      if(targetId===playerId) return {id:playerId,avatar:"🧑‍💻",name:"Browser Player",username:"@browser_test",stats:playerStats,achievements:null};
+      if(targetId===playerId) return {id:playerId,avatar:currentAvatar||"👾",name:"Игрок",username:"@player",stats:playerStats,achievements:null};
       const chatRows=read().filter(m=>String(m.playerId)===targetId);
       const dmRows=readDm().filter(m=>String(m.senderId)===targetId||String(m.targetId)===targetId);
       const sample=chatRows[chatRows.length-1]||dmRows.find(m=>String(m.senderId)===targetId);
@@ -480,6 +481,54 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     if(path==="/stats") return {ok:true};
     return {};
   }
+
+  const botUsedIds=new Map(CHAT_BOTS.map(bot=>[bot.id,new Set()]));
+  const BOT_ENABLED_KEY="freezzzChatBotsEnabledV1";
+  let botsEnabled=localStorage.getItem(BOT_ENABLED_KEY)!=="0";
+  let botReplyTimer=0;
+
+  function seedLocalBots(){
+    const key="freezzzBrowserChatV2";
+    let rows=[];
+    try{rows=JSON.parse(localStorage.getItem(key)||"[]");}catch(e){rows=[];}
+    if(rows.length)return;
+    const now=Date.now(), rooms=["main","games","relax"];
+    const seed=CHAT_BOTS.map((bot,i)=>{
+      const reply=bot.replies[i];
+      return {playerId:"bot:"+bot.id,username:"@"+bot.id,name:bot.name,avatar:bot.avatar,text:reply.text,room:rooms[i%rooms.length],createdAt:new Date(now-(5-i)*60000).toISOString(),bot:true};
+    });
+    localStorage.setItem(key,JSON.stringify(seed));
+  }
+
+  function botReplyFor(text,room){
+    if(!botsEnabled)return;
+    clearTimeout(botReplyTimer);
+    botReplyTimer=setTimeout(()=>{
+      const bot=pickBot(text,room),reply=pickReply(bot),key="freezzzBrowserChatV2";
+      let rows=[];
+      try{rows=JSON.parse(localStorage.getItem(key)||"[]");}catch(e){rows=[];}
+      rows.push({playerId:"bot:"+bot.id,username:"@"+bot.id,name:bot.name,avatar:bot.avatar,text:reply.text,room,createdAt:new Date().toISOString(),bot:true});
+      localStorage.setItem(key,JSON.stringify(rows.slice(-500)));
+      loadMessages(); loadHomeChat();
+    },900+Math.floor(Math.random()*1800));
+  }
+
+  function maybeBotAmbient(){
+    if(!botsEnabled||document.hidden||Math.random()>0.28)return;
+    const bot=pickBot("",chatRoom||"main"),reply=pickReply(bot),key="freezzzBrowserChatV2";
+    let rows=[];
+    try{rows=JSON.parse(localStorage.getItem(key)||"[]");}catch(e){rows=[];}
+    rows.push({playerId:"bot:"+bot.id,username:"@"+bot.id,name:bot.name,avatar:bot.avatar,text:reply.text,room:chatRoom||"main",createdAt:new Date().toISOString(),bot:true});
+    localStorage.setItem(key,JSON.stringify(rows.slice(-500)));
+    loadMessages(); loadHomeChat();
+  }
+
+  function setChatBotsEnabled(enabled){
+    botsEnabled=!!enabled;
+    localStorage.setItem(BOT_ENABLED_KEY,botsEnabled?"1":"0");
+  }
+
+  seedLocalBots();
 
   function chatSetStatus(text,ok=false){
     const el=document.getElementById("chatAuthState");
@@ -518,7 +567,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     if(!textValue || !chatAuthorized)return;
     chatBusy=true;
     try{
-      await api("/chat/messages",{method:"POST",body:{room:chatRoom,text:textValue}});
+      await api("/chat/messages",{method:"POST",body:{room:chatRoom,text:textValue}});\n      botReplyFor(textValue,chatRoom);
       input.value="";
       playerStats.messagesSent++; savePlayerStats();
       await loadMessages(); haptic();
@@ -581,7 +630,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     window.FZG?.state?.set?.({chat:{mode:"dm",room:chatRoom,userId:null}});
 
     document.querySelectorAll(".chat-room-tab").forEach(b=>b.classList.toggle("active",b.dataset.room==="dm"));
-    document.getElementById("chatRoomTitle").textContent="✉️ "+tr("dmTitle");
+    document.getElementById("chatRoomTitle").textContent=tr("dmTitle");
     document.getElementById("guestList").classList.add("hidden");
     document.getElementById("dmList").classList.remove("hidden");
     document.getElementById("dmThread").classList.add("hidden");
@@ -646,7 +695,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
     if(!chatAuthorized)return;
     chatBusy=true;
     try{
-      await api("/chat/messages",{method:"POST",body:{room:chatRoom,text:textValue}});
+      await api("/chat/messages",{method:"POST",body:{room:chatRoom,text:textValue}});\n      botReplyFor(textValue,chatRoom);
       input.value="";
       playerStats.messagesSent++;
       savePlayerStats();
@@ -679,7 +728,7 @@ import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=202
 
   // Chat is authenticated only when the user opens it.
   // This keeps the portal/game catalog independent from the API wake-up path.
-  setInterval(()=>{if(chatAuthorized && !document.hidden && !document.getElementById("guestView").classList.contains("hidden")){activeDmUserId?openDm(activeDmUserId):chatRoom&&loadMessages();}},10000);
+  setInterval(()=>{if(chatAuthorized && !document.hidden && !document.getElementById("guestView").classList.contains("hidden")){activeDmUserId?openDm(activeDmUserId):chatRoom&&loadMessages();maybeBotAmbient();}},10000);
   // After Chat has been opened once, check for newer messages while the popup is closed.
   setInterval(async()=>{
     if(!chatAuthorized || document.hidden || !chatLastSeenAt || !document.getElementById("guestView").classList.contains("hidden"))return;
