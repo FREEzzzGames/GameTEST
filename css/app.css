@@ -3360,3 +3360,160 @@ html, body,
     font-size:7px!important;
   }
 }
+
+
+/* =========================================================
+   LIVE GEOMETRY FIX — one compact window + true in-panel dropdown
+   ========================================================= */
+#mainPortal .home-media-row .live-view{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:0!important;
+  overflow:hidden!important;
+  border:1px solid rgba(100,181,246,.24)!important;
+  border-radius:12px!important;
+  background:#0b1420!important;
+}
+
+#mainPortal .home-media-row .live-head{
+  position:relative!important;
+  z-index:30!important;
+  flex:0 0 40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:4px 6px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  border-radius:0!important;
+  background:rgba(23,33,43,.92)!important;
+}
+
+#mainPortal .home-media-row .live-list-btn{
+  grid-column:1!important;
+  grid-row:1!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:32px!important;
+  min-height:32px!important;
+  padding:0 8px!important;
+  justify-self:stretch!important;
+  align-self:center!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:8px!important;
+  background:rgba(255,255,255,.10)!important;
+  color:#fff!important;
+  box-shadow:none!important;
+  font:600 9px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-head-title{
+  grid-column:2!important;
+  grid-row:1!important;
+  width:100%!important;
+  min-width:0!important;
+  justify-self:stretch!important;
+  align-self:center!important;
+  text-align:center!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font:700 10px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-main{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:#0b1420!important;
+}
+
+/* Kill every old fixed/right-drawer rule: the list belongs to the LIVE window. */
+#mainPortal .home-media-row #liveListPanel,
+#mainPortal .home-media-row #liveListPanel:not(.hidden){
+  position:absolute!important;
+  top:40px!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:100%!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  z-index:200!important;
+  display:block!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  pointer-events:none!important;
+  animation:none!important;
+}
+
+#mainPortal .home-media-row #liveListPanel.hidden{
+  display:none!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-drawer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:6px!important;
+  overflow:auto!important;
+  box-sizing:border-box!important;
+  border:0!important;
+  border-radius:0!important;
+  background:rgba(11,20,32,.98)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(14px) saturate(120%)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%)!important;
+  pointer-events:auto!important;
+  transform:none!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-head{
+  position:sticky!important;
+  top:0!important;
+  z-index:3!important;
+  min-height:32px!important;
+  height:32px!important;
+  margin:0!important;
+  padding:0 2px 4px 5px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+  background:rgba(11,20,32,.98)!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-row{
+  min-height:42px!important;
+}
+
+/* Small phones: retain equal left/right header halves. */
+@media(max-width:380px){
+  #mainPortal .home-media-row .live-head{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    height:38px!important;
+    min-height:38px!important;
+    flex-basis:38px!important;
+  }
+  #mainPortal .home-media-row .live-list-btn{
+    height:30px!important;
+    min-height:30px!important;
+    font-size:8px!important;
+  }
+  #mainPortal .home-media-row #liveListPanel,
+  #mainPortal .home-media-row #liveListPanel:not(.hidden){
+    top:38px!important;
+  }
+}
