@@ -79,7 +79,7 @@
   height:100%!important;
   box-sizing:border-box!important;
   display:grid!important;
-  grid-template-columns:clamp(28px,4.5vw,38px) minmax(0,1fr) 14px!important;
+  grid-template-columns:minmax(0,1fr) 14px!important;
   align-items:center!important;
   gap:6px!important;
   padding:8px!important;
@@ -346,7 +346,7 @@
   }
   #mainPortal .game-window.has-catalog .game-category-item{
     min-height:58px!important;
-    grid-template-columns:29px minmax(0,1fr) 10px!important;
+    grid-template-columns:minmax(0,1fr) 10px!important;
     padding:7px!important;
     gap:5px!important;
   }
@@ -461,3 +461,16 @@
   #mainPortal .game-window.has-catalog .game-category-item,
   #mainPortal .game-window.has-catalog .game-catalog-card{transition:none!important}
 }
+
+/* UI ICON LOCK — decorative icons removed; avatar/radio remain outside GAME. */
+#mainPortal .game-window.has-catalog .game-category-icon{display:none!important;}
+#mainPortal .game-window.has-catalog .game-catalog-back,
+#mainPortal .game-window.has-catalog .game-catalog-pages button{
+  width:auto!important;
+  min-width:54px!important;
+  padding:0 8px!important;
+  font-size:9px!important;
+  letter-spacing:.4px!important;
+  white-space:nowrap!important;
+}
+#mainPortal .game-window .game-window-emoji{display:none!important;}
