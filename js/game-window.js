@@ -84,7 +84,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
         '<div class="game-catalog-title">🎮 <strong>ИГРЫ</strong><small>'+esc(tr("gamesCount")||"КАТАЛОГ")+'</small></div>'+
         '<div class="game-category-list">'+
         CATEGORIES.map(c=>
-          '<button class="game-category-item" type="button" data-game-category="'+esc(c.id)+'">'+
+          '<button class="game-category-item" type="button" data-action-hint-target="category" data-game-category="'+esc(c.id)+'">'+
             '<span class="game-category-icon">'+esc(c.icon)+'</span>'+
             '<span class="game-category-copy"><strong>'+esc(categoryText(c.id))+'</strong><small>'+c.ids.length+' '+esc(c.ids.length===1?tr("oneGame"):tr("gamesCount"))+'</small></span>'+
             '<span class="game-category-arrow">›</span>'+
@@ -113,7 +113,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       '<div class="game-catalog-grid">'+
         ids.map(id=>{
           const g=byId[id];
-          return '<button class="game-catalog-card" type="button" data-game-id="'+esc(id)+'">'+
+          return '<button class="game-catalog-card" type="button" data-action-hint-target="game" data-game-id="'+esc(id)+'">'+
             '<div class="game-catalog-art"><img src="'+esc(gameLogoUrl(id,byId))+'" alt="" loading="eager"><span>'+esc(g.emoji||"🎮")+'</span></div>'+
             '<div class="game-catalog-card-body"><strong>'+esc(g.title)+'</strong><small>'+esc(gameText(id,"desc"))+'</small><em>'+esc(gameText(id,"genre"))+'</em></div>'+
           '</button>';
@@ -282,6 +282,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       closeGame,
       openCategory,
       showCatalog:()=>{S.categoryId=null;renderCatalog();},
+      setLanguage,
       back,
       setExpanded,
       openExternal,
