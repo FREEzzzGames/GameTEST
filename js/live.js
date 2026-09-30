@@ -351,6 +351,12 @@ function openList() {
   panel.style.maxHeight = "100%";
   panel.style.height = "100%";
 
+  const list = $("liveStreamerList");
+  if (list) {
+    list.scrollTop = 0;
+    list.style.scrollBehavior = "auto";
+  }
+
   window.FZG?.streamerMenuParallax?.mount?.();
   haptic();
 }
@@ -377,6 +383,9 @@ function closeList() {
     if (main) host.insertBefore(panel, main);
     else host.appendChild(panel);
   }
+
+  const list = $("liveStreamerList");
+  if (list) list.style.scrollBehavior = "";
 
   window.FZG?.streamerMenuParallax?.reset?.();
   hideOverlay();
