@@ -6489,3 +6489,317 @@ html,body{
   #mainPortal .home-category-quick-item{flex-basis:calc((100vw - 28px)/3)!important;width:calc((100vw - 28px)/3)!important;height:64px!important}
   #mainPortal .home-category-quick-copy strong{font-size:9px!important}
 }
+
+
+/* ============================================================
+   FREEzzzGames — VISUAL WORLDS / SHELL ONLY
+   No layout, handlers, routes, state or backend changes.
+   CHAT = Win98 nostalgia / GAME = cyberpunk / LIVE = video platform.
+   ============================================================ */
+
+/* ---------- CHAT / WINDOWS 98 NOSTALGIA ---------- */
+#mainPortal #guestView{
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),
+    rgba(0,18,38,.88)!important;
+  backdrop-filter:blur(4px)!important;
+  -webkit-backdrop-filter:blur(4px)!important;
+}
+#mainPortal #guestView .chat-layout{
+  background:#c0c0c0!important;
+  color:#000!important;
+  border:2px solid #fff!important;
+  border-right-color:#404040!important;
+  border-bottom-color:#404040!important;
+  border-radius:2px!important;
+  box-shadow:4px 4px 0 rgba(0,0,0,.45),inset 1px 1px 0 #dfdfdf!important;
+  padding:6px!important;
+}
+#mainPortal #guestView .chat-layout::before{
+  content:"FREEzzzyChat.exe";
+  display:flex;
+  align-items:center;
+  height:22px;
+  padding:0 7px;
+  margin:-2px -2px 6px;
+  box-sizing:border-box;
+  background:linear-gradient(90deg,#000080,#1084d0);
+  color:#fff;
+  font:bold 11px/1 "Handjet",monospace;
+  text-align:left;
+  letter-spacing:.2px;
+}
+#mainPortal #guestView .chat-room-tabs,
+#mainPortal #guestView .chat-toolbar,
+#mainPortal #guestView .chat-auth-state,
+#mainPortal #guestView .guest-msg,
+#mainPortal #guestView .dm-item,
+#mainPortal #guestView .dm-thread-head{
+  border-radius:1px!important;
+  border:2px solid #fff!important;
+  border-right-color:#808080!important;
+  border-bottom-color:#808080!important;
+  background:#c0c0c0!important;
+  color:#000!important;
+  box-shadow:inset 1px 1px 0 #dfdfdf!important;
+}
+#mainPortal #guestView .chat-room-tab,
+#mainPortal #guestView .chat-mini-btn,
+#mainPortal #guestView .guest-send{
+  border:2px solid #fff!important;
+  border-right-color:#404040!important;
+  border-bottom-color:#404040!important;
+  border-radius:1px!important;
+  background:#c0c0c0!important;
+  color:#000!important;
+  text-shadow:none!important;
+  box-shadow:inset 1px 1px 0 #dfdfdf!important;
+}
+#mainPortal #guestView .chat-room-tab.active{
+  background:#000080!important;
+  color:#fff!important;
+  border-color:#404040!important;
+  box-shadow:none!important;
+}
+#mainPortal #guestView .chat-room-tab:active,
+#mainPortal #guestView .chat-mini-btn:active,
+#mainPortal #guestView .guest-send:active{
+  border-top-color:#404040!important;
+  border-left-color:#404040!important;
+  border-right-color:#fff!important;
+  border-bottom-color:#fff!important;
+  transform:translate(1px,1px)!important;
+}
+#mainPortal #guestView .chat-toolbar{
+  font-family:"Handjet",monospace!important;
+}
+#mainPortal #guestView .guest-list{
+  background:#fff!important;
+  border:2px inset #c0c0c0!important;
+  padding:5px!important;
+}
+#mainPortal #guestView .guest-msg{
+  max-width:88%!important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.16)!important;
+}
+#mainPortal #guestView .guest-author,
+#mainPortal #guestView .row-name{
+  color:#000080!important;
+}
+#mainPortal #guestView .chat-compose{
+  padding:2px!important;
+  background:#c0c0c0!important;
+}
+#mainPortal #guestView .guest-input{
+  border:2px inset #c0c0c0!important;
+  border-radius:1px!important;
+  background:#fff!important;
+  color:#000!important;
+  box-shadow:none!important;
+}
+#mainPortal #guestView .chat-message-own{
+  background:#d9e8ff!important;
+  border-color:#000080!important;
+}
+#mainPortal #guestView .dm-item-preview,
+#mainPortal #guestView .chat-msg-time{
+  color:#404040!important;
+}
+
+/* ---------- GAME WINDOW / CYBERPUNK ARCADE ---------- */
+#mainPortal .game-window{
+  background:
+    linear-gradient(180deg,rgba(8,12,24,.96),rgba(2,5,12,.98))!important;
+  border:1px solid rgba(0,229,255,.45)!important;
+  border-radius:10px!important;
+  box-shadow:
+    0 0 0 1px rgba(255,0,170,.10),
+    0 0 22px rgba(0,210,255,.10),
+    inset 0 0 28px rgba(0,120,255,.06)!important;
+  overflow:hidden!important;
+}
+#mainPortal .game-window::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  background:
+    linear-gradient(90deg,rgba(0,229,255,.10) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(255,0,170,.07) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent 76%);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent 76%);
+  opacity:.24;
+}
+#mainPortal .game-window > *{
+  position:relative;
+  z-index:2;
+}
+#mainPortal .game-window .game-window-head{
+  background:linear-gradient(90deg,#071321,#10102a 52%,#17091b)!important;
+  border-bottom:1px solid rgba(0,229,255,.28)!important;
+  box-shadow:0 1px 0 rgba(255,0,170,.10)!important;
+}
+#mainPortal .game-window .game-window-title{
+  color:#eaffff!important;
+  text-shadow:0 0 8px rgba(0,229,255,.35)!important;
+  letter-spacing:1px!important;
+}
+#mainPortal .game-window .game-window-genre{
+  color:rgba(0,229,255,.58)!important;
+}
+#mainPortal .game-window .game-window-action,
+#mainPortal .game-window .game-window-foot-expand{
+  border:1px solid rgba(0,229,255,.34)!important;
+  border-radius:5px!important;
+  background:rgba(0,229,255,.06)!important;
+  color:#6ffaff!important;
+  box-shadow:inset 0 0 8px rgba(0,229,255,.05)!important;
+}
+#mainPortal .game-window .game-window-action:active,
+#mainPortal .game-window .game-window-foot-expand:active{
+  background:rgba(255,0,170,.16)!important;
+  border-color:rgba(255,0,170,.65)!important;
+}
+#mainPortal .game-window.has-catalog .game-window-frame-wrap{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(0,229,255,.12),transparent 40%),
+    radial-gradient(circle at 100% 100%,rgba(255,0,170,.08),transparent 38%),
+    linear-gradient(180deg,#050b16,#02040a)!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-title strong{
+  color:#eaffff!important;
+  text-shadow:0 0 7px rgba(0,229,255,.3)!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-title small{
+  color:#ff5fc8!important;
+}
+#mainPortal .game-window.has-catalog .game-category-item{
+  border-color:rgba(0,229,255,.25)!important;
+  border-radius:7px!important;
+  background:linear-gradient(145deg,rgba(8,25,40,.94),rgba(8,7,20,.96))!important;
+  box-shadow:inset 0 0 14px rgba(0,229,255,.035),0 0 0 1px rgba(255,0,170,.025)!important;
+}
+#mainPortal .game-window.has-catalog .game-category-item:active{
+  border-color:#00e5ff!important;
+  box-shadow:0 0 14px rgba(0,229,255,.18)!important;
+}
+#mainPortal .game-window.has-catalog .game-category-icon{
+  background:rgba(0,229,255,.055)!important;
+  border:1px solid rgba(0,229,255,.22)!important;
+}
+#mainPortal .game-window.has-catalog .game-category-arrow{
+  color:#ff4fc3!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-card{
+  border-color:rgba(0,229,255,.22)!important;
+  border-radius:7px!important;
+  background:linear-gradient(145deg,rgba(9,23,37,.97),rgba(10,5,22,.98))!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-card:active{
+  border-color:#ff3fbd!important;
+  box-shadow:0 0 14px rgba(255,0,170,.14)!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-card-body em{
+  color:#00e5ff!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-back,
+#mainPortal .game-window.has-catalog .game-catalog-pages button{
+  border-color:rgba(0,229,255,.30)!important;
+  background:#071624!important;
+  color:#72f7ff!important;
+  border-radius:5px!important;
+}
+
+/* ---------- LIVE / MODERN VIDEO PLATFORM ---------- */
+#mainPortal .home-media-row .live-view{
+  background:linear-gradient(180deg,#101114,#08090b)!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:10px!important;
+  box-shadow:0 7px 24px rgba(0,0,0,.22)!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-media-row .live-head{
+  background:#121316!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+#mainPortal .home-media-row .live-head-title{
+  color:#f4f4f4!important;
+  letter-spacing:.5px!important;
+}
+#mainPortal .home-media-row .live-dot,
+#mainPortal .home-media-row .home-chat-dot{
+  box-shadow:0 0 7px rgba(255,45,45,.55)!important;
+}
+#mainPortal .home-media-row .live-list-btn{
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:6px!important;
+  background:#1d1f23!important;
+  color:#f2f2f2!important;
+}
+#mainPortal .home-media-row .live-list-btn:active{
+  background:#292c31!important;
+}
+#mainPortal .home-media-row .live-carousel-wrap{
+  background:#101114!important;
+  border-top:1px solid rgba(255,255,255,.07)!important;
+}
+#mainPortal .home-media-row .live-carousel{
+  gap:7px!important;
+}
+#mainPortal .home-media-row .live-video-window{
+  background:#000!important;
+  border-radius:8px!important;
+}
+#mainPortal .home-media-row .live-video-head,
+#mainPortal .home-media-row .live-video-foot{
+  background:rgba(18,19,22,.96)!important;
+}
+#mainPortal .home-media-row .live-video-action,
+#mainPortal .home-media-row .live-video-foot-expand{
+  border-radius:6px!important;
+  background:#202226!important;
+}
+#mainPortal .home-media-row .live-video-action:active,
+#mainPortal .home-media-row .live-video-foot-expand:active{
+  background:#303238!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-drawer{
+  background:#111214!important;
+  padding:7px!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-row{
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:8px!important;
+  background:#1b1d20!important;
+  box-shadow:none!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-row:active{
+  background:#25282c!important;
+  border-color:rgba(255,255,255,.18)!important;
+}
+#mainPortal .home-media-row .live-overlay-layer{
+  background:rgba(0,0,0,.66)!important;
+  backdrop-filter:blur(3px)!important;
+  -webkit-backdrop-filter:blur(3px)!important;
+}
+#mainPortal .home-media-row .live-overlay-shell{
+  background:#111214!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:10px!important;
+  box-shadow:0 18px 50px rgba(0,0,0,.55)!important;
+}
+#mainPortal .home-channels{
+  background:#111214!important;
+  border-color:rgba(255,255,255,.08)!important;
+  border-radius:9px!important;
+}
+#mainPortal .home-channel{
+  background:#1b1d20!important;
+  border-color:rgba(255,255,255,.08)!important;
+  border-radius:8px!important;
+}
+#mainPortal .home-channel:active{
+  background:#272a2e!important;
+}
