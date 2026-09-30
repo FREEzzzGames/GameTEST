@@ -15,7 +15,7 @@ Platform.expand();
 async function bootPortalModule(){
   // LIVE must boot independently. A failure inside the large legacy portal
   // module must never prevent the LIVE module from loading and polling.
-  const [portalResult, liveResult, parallaxResult, streamerParallaxResult] = await Promise.allSettled([
+  const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e4"),
     import("./live.js?v=20260930-live3"),
     import("./parallax.js?v=20260930a"),
@@ -32,7 +32,6 @@ async function bootPortalModule(){
       else if(screen==="chat") legacy.switchTab?.("guest");
       else if(screen==="category") legacy.openCategory?.(params.categoryId);
     });
-    syncTelegramBackButton();
   }else{
     const err=portalResult.reason;
     console.error("FREEzzzGames portal module failed",err);
@@ -41,6 +40,14 @@ async function bootPortalModule(){
   }
 
 
+
+  if(gameWindowResult.status==="fulfilled"){
+    window.FZG.gameWindowModuleReady=true;
+  }else{
+    const err=gameWindowResult.reason;
+    console.error("FREEzzzGames GAME WINDOW module failed",err);
+    window.FZG.gameWindowModuleError=String(err?.stack||err);
+  }
 
   if(parallaxResult.status==="rejected") console.warn("FREEzzzGames parallax layer unavailable",parallaxResult.reason);
   if(streamerParallaxResult.status==="rejected") console.warn("FREEzzzGames streamer menu parallax unavailable",streamerParallaxResult.reason);
@@ -56,6 +63,11 @@ async function bootPortalModule(){
       main.innerHTML='<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-title">LIVE-МОДУЛЬ НЕ ЗАПУСТИЛСЯ</div><div class="live-empty-text">Попробуйте обновить приложение.</div></div>';
     }
   }
+
+  // Telegram BackButton is an application-level transport for LIVE/GAME/route state.
+  // Register it independently from the legacy portal module so optional portal failures
+  // cannot break the working LIVE/GAME navigation chain.
+  syncTelegramBackButton();
 }
 
 function syncTelegramBackButton(){
