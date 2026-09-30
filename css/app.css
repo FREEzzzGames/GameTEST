@@ -2947,3 +2947,7 @@ input,textarea{
     font-size:7px!important;
   }
 }
+
+#mainPortal .home-media-row.is-hidden{
+  display:none!important;
+}
