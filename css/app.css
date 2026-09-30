@@ -2956,7 +2956,7 @@ input,textarea{
 /* FINAL FIX — LIVE header must fit inside its half-width panel without overlap. */
 #mainPortal .home-media-row .live-head{
   display:grid!important;
-  grid-template-columns:minmax(0,1fr) 86px!important;
+  grid-template-columns:minmax(0,1fr) 76px!important;
   align-items:center!important;
   gap:5px!important;
   overflow:hidden!important;
@@ -2969,10 +2969,10 @@ input,textarea{
   white-space:nowrap!important;
 }
 #mainPortal .home-media-row .live-list-btn{
-  width:86px!important;
-  min-width:86px!important;
-  max-width:86px!important;
-  padding:0 5px!important;
+  width:76px!important;
+  min-width:76px!important;
+  max-width:76px!important;
+  padding:0 4px!important;
   overflow:hidden!important;
   white-space:nowrap!important;
   text-overflow:ellipsis!important;
@@ -2983,12 +2983,12 @@ input,textarea{
 }
 @media(max-width:380px){
   #mainPortal .home-media-row .live-head{
-    grid-template-columns:minmax(0,1fr) 78px!important;
+    grid-template-columns:minmax(0,1fr) 70px!important;
   }
   #mainPortal .home-media-row .live-list-btn{
-    width:78px!important;
-    min-width:78px!important;
-    max-width:78px!important;
-    font-size:7px!important;
+    width:70px!important;
+    min-width:70px!important;
+    max-width:70px!important;
+    font-size:8px!important;
   }
 }
