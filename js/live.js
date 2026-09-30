@@ -270,14 +270,52 @@ function closeList(){
   }
 }
 
+function channelUrl(x){
+  if(x.channelUrl)return x.channelUrl;
+  if(x.channelId)return "https://www.youtube.com/channel/"+encodeURIComponent(x.channelId);
+  if(x.handle)return "https://www.youtube.com/"+String(x.handle).replace(/^\\s+/,"");
+  return "";
+}
+
+function streamerCard(x){
+  const m=$("liveMain");
+  if(!m)return;
+
+  const url=channelUrl(x);
+  const isLive=!!(x.live&&x.selectedSource);
+  const status=isLive?"🔴 LIVE":"⚫ OFFLINE";
+  const title=x.lastStreamTitle||"Следующий эфир появится здесь автоматически.";
+
+  m.innerHTML=
+    '<div class="live-streamer-card">'+
+      '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>'+
+      '<div class="live-streamer-card-avatar">'+esc(x.avatar)+'</div>'+
+      '<strong class="live-streamer-card-name">'+esc(x.name)+'</strong>'+
+      '<span class="live-streamer-card-status">'+status+'</span>'+
+      '<span class="live-streamer-card-game">'+esc(x.game||x.category||"Стример")+'</span>'+
+      '<p class="live-streamer-card-text">'+esc(title)+'</p>'+
+      '<div class="live-streamer-card-actions">'+
+        (isLive?'<button class="live-streamer-card-watch" id="liveCardWatch" type="button">▶ СМОТРЕТЬ ЭФИР</button>':"")+
+        (url?'<a class="live-streamer-card-channel" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">КАНАЛ ↗</a>':"")+
+      '</div>'+
+    '</div>';
+
+  $("liveCardClose")?.addEventListener("click",()=>{
+    const current=S.all.find(v=>v.id===S.selectedId);
+    if(current&&current.live&&current.selectedSource)main(current);
+    else empty();
+  });
+
+  $("liveCardWatch")?.addEventListener("click",()=>{
+    select(x.id,true);
+  });
+}
+
 function offline(x){
-  const p=$("liveOfflineInfo");
-  if(!p)return;
-
-  p.innerHTML='<div class="live-offline-card"><button class="live-panel-close" type="button">×</button><div class="live-offline-avatar">'+esc(x.avatar)+'</div><strong>'+esc(x.name)+'</strong><span>⚫ OFFLINE</span><small>'+esc(x.game||x.category||"Стример")+'</small><p>'+(x.lastStreamAt?"Последний эфир: "+fmt(x.lastStreamAt):"Профиль зарегистрирован. Следующий эфир появится здесь автоматически.")+'</p>'+(x.lastStreamTitle?"<p>"+esc(x.lastStreamTitle)+"</p>":"")+'</div>';
-
-  p.classList.remove("hidden");
-  p.querySelector(".live-panel-close")?.addEventListener("click",()=>p.classList.add("hidden"));
+  S.selectedId=x.id;
+  S.muted=true;
+  streamerCard(x);
+  h();
 }
 
 function select(id,user){
