@@ -4891,3 +4891,101 @@ body > #liveListPanel .live-panel-close{
   #mainPortal .live-overlay-layer .live-list-main strong{font-size:13px!important}
   #mainPortal .live-overlay-layer .live-list-main small{font-size:9px!important}
 }
+
+/* STREAMER MENU — FINAL NAVIGATION/ERGONOMICS OVERRIDE */
+#mainPortal .live-overlay-layer .live-list-head{
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:54px!important;
+  height:54px!important;
+  padding:5px 7px 5px 8px!important;
+}
+#mainPortal .live-overlay-layer .live-list-head strong{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+  font-size:17px!important;
+}
+#mainPortal .live-overlay-layer .live-list-back,
+#mainPortal .live-overlay-layer .live-panel-close{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:12px!important;
+  font:700 12px/1 "Handjet",monospace!important;
+  touch-action:manipulation!important;
+}
+#mainPortal .live-overlay-layer .live-panel-close{
+  font-size:22px!important;
+}
+#mainPortal .live-overlay-layer .live-streamer-list{
+  padding:9px!important;
+  gap:0!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scrollbar-width:thin!important;
+}
+#mainPortal .live-overlay-layer .live-list-row{
+  min-height:68px!important;
+  margin:0 0 8px!important;
+  padding:10px!important;
+  grid-template-columns:42px minmax(0,1fr) auto!important;
+  gap:10px!important;
+  touch-action:pan-y!important;
+}
+#mainPortal .live-overlay-layer .live-list-row:last-child{margin-bottom:2px!important}
+#mainPortal .live-overlay-layer .live-list-row > *{min-width:0!important}
+#mainPortal .live-overlay-layer .live-list-main strong{
+  font-size:14px!important;
+  line-height:1.15!important;
+  color:#fff!important;
+}
+#mainPortal .live-overlay-layer .live-list-main small{
+  font-size:10px!important;
+  line-height:1.15!important;
+  color:rgba(255,255,255,.76)!important;
+}
+#mainPortal .live-overlay-layer .live-list-main em{
+  font-size:9px!important;
+  line-height:1.15!important;
+  color:rgba(255,255,255,.54)!important;
+}
+#mainPortal .live-overlay-layer .live-list-status{
+  min-width:38px!important;
+  padding:7px 5px!important;
+  font-size:9px!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layers{
+  pointer-events:none!important;
+  flex:none!important;
+  width:0!important;
+  height:0!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer{
+  width:calc(100% + 36px)!important;
+  height:calc(100% + 36px)!important;
+}
+#mainPortal .live-overlay-layer .live-list-back:focus-visible,
+#mainPortal .live-overlay-layer .live-panel-close:focus-visible,
+#mainPortal .live-overlay-layer .live-list-row:focus-visible{
+  outline:2px solid rgba(100,181,246,.95)!important;
+  outline-offset:2px!important;
+}
+@media(max-width:380px){
+  #mainPortal .live-overlay-layer .live-list-row{
+    min-height:64px!important;
+    grid-template-columns:38px minmax(0,1fr) auto!important;
+    gap:8px!important;
+    padding:8px!important;
+  }
+  #mainPortal .live-overlay-layer .live-list-main strong{font-size:13px!important}
+}
