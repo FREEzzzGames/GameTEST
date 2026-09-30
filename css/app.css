@@ -7146,3 +7146,319 @@ html,body{
     grid-template-areas:"chat game" "live game"!important;
   }
 }
+
+/* =========================================================
+   FINAL RESPONSIVE / STACKING CONTRACT
+   Single authoritative override for WEB + TELEGRAM + TV.
+   No route or visual redesign; only geometry, overflow and
+   stacking guarantees for existing surfaces.
+   ========================================================= */
+
+/* The cosmic scene is always a background plane. */
+#mainPortal > .space-depth{
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  overflow:hidden!important;
+}
+#mainPortal > .space-depth *{
+  pointer-events:none!important;
+}
+
+/* Header and persistent HOME surfaces stay above the background. */
+#mainPortal > .header-top,
+#mainPortal > .home-media-row,
+#mainPortal > .home-channels,
+#mainPortal > .home-category-quick,
+#mainPortal > .footer-info{
+  position:relative!important;
+  z-index:10!important;
+}
+
+/* HOME must never lose one of its three surfaces because of a stale
+   state class or an old layout rule. */
+#mainPortal .home-media-row:not(.is-hidden):not(.hidden){
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"chat game" "live game"!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-media-row:not(.is-hidden):not(.hidden) > .home-chat-widget{
+  grid-area:chat!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal .home-media-row:not(.is-hidden):not(.hidden) > .live-view{
+  grid-area:live!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal .home-media-row:not(.is-hidden):not(.hidden) > .game-window{
+  grid-area:game!important;
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+/* Header controls have one stable flex layout; they must not become
+   display:contents/grid fragments on narrow screens. */
+#mainPortal > .header-top{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+#mainPortal > .header-top .portal-logo{
+  min-width:0!important;
+  flex:1 1 auto!important;
+  overflow:hidden!important;
+}
+#mainPortal > .header-top .profile-box{
+  flex:0 1 auto!important;
+  min-width:0!important;
+  max-width:min(32vw,150px)!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal > .header-top .always-controls{
+  position:relative!important;
+  top:auto!important;
+  right:auto!important;
+  flex:0 0 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  margin-left:auto!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal > .header-top .always-btn{
+  flex:0 0 auto!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+/* GAME is an actual flex column; catalog/frame can never push the
+   shell outside its grid cell. */
+#mainPortal .game-window{
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+#mainPortal .game-window-head,
+#mainPortal .game-window-foot{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+#mainPortal .game-window-frame-wrap{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  position:relative!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog{
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  overflow:hidden!important;
+}
+#mainPortal .game-window.has-catalog .game-category-list,
+#mainPortal .game-window.has-catalog .game-catalog-grid{
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+}
+#mainPortal #gameWindowFrame{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  border:0!important;
+}
+
+/* Fullscreen GAME/LIVE overlays are viewport-bound, not portal-bound. */
+#mainPortal .game-window.is-expanded,
+#mainPortal .live-video-window.is-expanded{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  z-index:2147483000!important;
+}
+
+/* Full CHAT: one viewport, one scroll owner. Preserve Win98 styling
+   but remove legacy fixed dimensions that cause clipping. */
+#mainPortal #guestView{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  padding:max(8px,var(--fzg-safe-top)) max(8px,var(--fzg-safe-right)) max(8px,var(--fzg-safe-bottom)) max(8px,var(--fzg-safe-left))!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  overflow:hidden!important;
+  z-index:2147482500!important;
+}
+#mainPortal #guestView .chat-auth-state{
+  width:100%!important;
+  max-width:900px!important;
+  margin:0 auto 6px!important;
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+#mainPortal #guestView .chat-layout{
+  width:min(100%,900px)!important;
+  max-width:900px!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0 auto!important;
+  padding:8px!important;
+  flex:1 1 auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  min-width:0!important;
+}
+#mainPortal #guestView .chat-room-tabs{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+#mainPortal #guestView .chat-toolbar{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+#mainPortal #guestView .chat-list,
+#mainPortal #guestView .dm-list,
+#mainPortal #guestView .dm-thread{
+  min-height:0!important;
+  min-width:0!important;
+  overflow:auto!important;
+  overscroll-behavior:contain!important;
+}
+#mainPortal #guestView .chat-list{
+  flex:1 1 auto!important;
+  max-height:none!important;
+}
+#mainPortal #guestView .chat-compose{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+#mainPortal #guestView .guest-input{
+  min-width:0!important;
+  width:100%!important;
+}
+#mainPortal #guestView .guest-send{
+  flex:0 0 auto!important;
+}
+
+/* Portrait: keep all controls inside the viewport. */
+@media (orientation:portrait){
+  #mainPortal > .header-top .portal-logo h1{
+    max-width:100%!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+  #mainPortal .home-media-row:not(.is-hidden):not(.hidden){
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-areas:"chat game" "live game"!important;
+  }
+  #mainPortal #guestView .chat-room-tabs{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+
+/* Landscape phone/tablet. */
+@media (orientation:landscape) and (max-width:959px){
+  #mainPortal{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+  #mainPortal .home-media-row:not(.is-hidden):not(.hidden){
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-areas:"chat game" "live game"!important;
+  }
+  #mainPortal #guestView .chat-room-tab{
+    min-width:0!important;
+    font-size:clamp(8px,1.3vw,11px)!important;
+  }
+}
+
+/* TV / desktop: larger shells without changing the architecture. */
+@media (min-width:960px) and (min-height:540px){
+  #mainPortal #guestView .chat-layout{
+    width:min(94vw,1100px)!important;
+  }
+  #mainPortal #guestView .chat-room-tab{
+    min-height:38px!important;
+    font-size:11px!important;
+  }
+  #mainPortal #guestView .chat-mini-btn{
+    width:36px!important;
+    height:32px!important;
+  }
+  #mainPortal #guestView .guest-input,
+  #mainPortal #guestView .guest-send{
+    min-height:38px!important;
+  }
+}
+
+/* Very small phones: labels may shrink, but no surface disappears. */
+@media (max-width:380px){
+  #mainPortal > .header-top{
+    gap:3px!important;
+  }
+  #mainPortal > .header-top .profile-box{
+    max-width:90px!important;
+    padding-left:5px!important;
+    padding-right:5px!important;
+  }
+  #mainPortal > .header-top .always-btn{
+    width:29px!important;
+    height:29px!important;
+  }
+  #mainPortal #guestView .chat-layout{
+    padding:5px!important;
+  }
+  #mainPortal #guestView .chat-room-tabs{
+    gap:3px!important;
+  }
+  #mainPortal #guestView .chat-room-tab{
+    padding-left:2px!important;
+    padding-right:2px!important;
+    font-size:7px!important;
+  }
+}
+
+/* Accessibility / motion safety. */
+@media (prefers-reduced-motion:reduce){
+  #mainPortal #guestView *,
+  #mainPortal .game-window *{
+    scroll-behavior:auto!important;
+  }
+}
+
