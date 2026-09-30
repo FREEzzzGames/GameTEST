@@ -55,6 +55,11 @@
       state.list.removeEventListener("pointercancel", onPointerCancel);
     }
 
+    if (state.list === list && state.drawer === drawer && state.list && state.drawer) {
+      ensureLayers();
+      return true;
+    }
+
     state.panel = panel || null;
     state.drawer = drawer || null;
     state.list = list || null;
@@ -84,6 +89,9 @@
       [state.x * .34, state.y * .22],
       [state.x * .62, state.y * .38]
     ];
+
+    state.drawer?.style.setProperty("--menu-parallax-x", state.x.toFixed(2) + "px");
+    state.drawer?.style.setProperty("--menu-parallax-y", state.y.toFixed(2) + "px");
 
     state.layers.forEach((layer, index) => {
       const [x, y] = values[index] || [0, 0];
