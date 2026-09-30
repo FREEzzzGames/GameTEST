@@ -45,6 +45,8 @@ export function createLivePlayer({mount, onBack, onExternal, haptic}){
         '<div class="live-player-info"><span class="live-player-avatar">'+escapeHtml(channel.avatar||"🎮")+'</span><span><strong>'+escapeHtml(channel.name)+'</strong><small>'+escapeHtml(channel.category||"YouTube")+'</small></span></div>'+
       '</div>';
 
+    if(!source) external(channel);
+
     mount.querySelector("#livePlayerBack")?.addEventListener("click",()=>onBack?.());
     mount.querySelector("#livePlayerOpen")?.addEventListener("click",()=>external(channel));
     const frame = mount.querySelector("#liveVideoFrame");
