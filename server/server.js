@@ -6,6 +6,19 @@ const ALLOW_ORIGIN=process.env.ALLOW_ORIGIN||'*';
 const POLL_MS=Math.max(300000,Number(process.env.YOUTUBE_POLL_MS||300000));
 const API='https://www.googleapis.com/youtube/v3';
 
+// GitHub Pages is the public client origin. LIVE is a separate Render service,
+// so the browser must be explicitly allowed to read its JSON responses.
+app.use((req,res,next)=>{
+  const origin=req.headers.origin;
+  if(ALLOW_ORIGIN==='*') res.set('Access-Control-Allow-Origin','*');
+  else if(origin && origin===ALLOW_ORIGIN) res.set('Access-Control-Allow-Origin',origin);
+  res.set('Access-Control-Allow-Methods','GET,OPTIONS');
+  res.set('Access-Control-Allow-Headers','Content-Type');
+  res.set('Access-Control-Max-Age','600');
+  if(req.method==='OPTIONS') return res.status(204).end();
+  next();
+});
+
 const DEFAULT_STREAMER_REGISTRY=[
   {"id":"woodskiyded","platform":"youtube","handle":"@woodskiyded","name":"Вудский Дед","avatar":"🎮","category":"MLBB"},
   {"id":"smetanaml","platform":"youtube","handle":"@smetanaml","name":"СМЕТАНА","avatar":"🎮","category":"MLBB"},
