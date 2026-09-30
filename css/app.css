@@ -3037,3 +3037,34 @@ button,input,textarea,select{
   font-weight:500!important;
   letter-spacing:.12em!important;
 }
+
+
+/* FINAL TYPOGRAPHY LOCK — every portal menu, label, control and hint uses Handjet. */
+html, body,
+#ageGate, #ageGate *,
+#mainPortal, #mainPortal *{
+  font-family:"Handjet",monospace!important;
+}
+
+#mainPortal *::before,
+#mainPortal *::after{
+  font-family:inherit!important;
+}
+
+#ageGate *::before,
+#ageGate *::after{
+  font-family:inherit!important;
+}
+
+#mainPortal .action-hint-card,
+#mainPortal .action-hint-title,
+#mainPortal .action-hint-text,
+#mainPortal .action-hint-close,
+#mainPortal .action-hint-disable,
+#mainPortal .player-hints-toggle,
+#mainPortal .carousel-hint,
+#mainPortal .achievements-modal-hint,
+#mainPortal .footer-info,
+#mainPortal .category-head-sub{
+  font-family:"Handjet",monospace!important;
+}
