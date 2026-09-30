@@ -55,14 +55,31 @@
       <button class="always-btn lang" id="langToggleBtn" data-action-hint-target="language" title="Язык" aria-label="Язык">RU</button>
     </div>
   </div>
-  <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
-    <div class="live-head">
-      <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
-      <button class="live-list-btn" id="liveListBtn" type="button">☰ СТРИМЕРЫ</button>
-    </div>
-    <div class="live-main" id="liveMain"></div>
-    <div class="live-carousel-wrap"><div class="live-carousel" id="liveCarousel"></div></div>
-  </section>
+  <div class="home-media-row" id="homeMediaRow">
+    <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
+      <div class="live-head">
+        <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
+        <button class="live-list-btn" id="liveListBtn" type="button">☰ СТРИМЕРЫ</button>
+      </div>
+      <div class="live-main" id="liveMain"></div>
+      <div class="live-carousel-wrap"><div class="live-carousel" id="liveCarousel"></div></div>
+    </section>
+
+    <section class="home-chat-widget" id="homeChatWidget" aria-label="FREEzzzyChat">
+      <div class="home-chat-head">
+        <div class="home-chat-title"><span class="home-chat-dot"></span><strong>FREEzzzyChat</strong><span class="home-chat-status" id="homeChatStatus">ОНЛАЙН</span></div>
+        <button class="home-chat-open" id="homeChatOpen" type="button" aria-label="Открыть чат">↗</button>
+      </div>
+      <div class="home-chat-messages" id="homeChatMessages">
+        <div class="home-chat-empty">Открываем чат…</div>
+      </div>
+      <div class="home-chat-compose">
+        <input id="homeChatInput" type="text" maxlength="500" autocomplete="off" placeholder="Напиши сообщение…" aria-label="Сообщение">
+        <button id="homeChatSend" type="button" aria-label="Отправить">➤</button>
+      </div>
+    </section>
+  </div>
+
   <div class="live-list-panel hidden" id="liveListPanel">
     <div class="live-list-drawer">
       <div class="live-list-head"><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button">×</button></div>
@@ -70,20 +87,6 @@
     </div>
   </div>
   <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
-
-  <section class="home-chat-widget" id="homeChatWidget" aria-label="FREEzzzyChat">
-    <div class="home-chat-head">
-      <div class="home-chat-title"><span class="home-chat-dot"></span><strong>FREEzzzyChat</strong><span class="home-chat-status" id="homeChatStatus">ОНЛАЙН</span></div>
-      <button class="home-chat-open" id="homeChatOpen" type="button" aria-label="Открыть чат">↗</button>
-    </div>
-    <div class="home-chat-messages" id="homeChatMessages">
-      <div class="home-chat-empty">Открываем чат…</div>
-    </div>
-    <div class="home-chat-compose">
-      <input id="homeChatInput" type="text" maxlength="500" autocomplete="off" placeholder="Напиши сообщение…" aria-label="Сообщение">
-      <button id="homeChatSend" type="button" aria-label="Отправить">➤</button>
-    </div>
-  </section>
 
   <div class="games-browser" id="gamesBrowser">
     <div class="category-list" id="categoryList" aria-label="Категории игр">
