@@ -31,7 +31,7 @@ body.theme-dark {
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;width:100%;height:100%;background:var(--tg-bg);color:var(--tg-text);font-family:monospace;overflow:hidden;}
+html,body{margin:0;width:100%;height:100%;background:var(--tg-bg);color:var(--tg-text);font-family:"Handjet",monospace;overflow:hidden;}
 body{
   padding:0;display:block;
   background:var(--tg-bg);position:fixed;inset:0;
@@ -110,7 +110,7 @@ body{
 .header-top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px;gap:8px;flex-shrink:0;position:relative;min-width:0}
 .header-top .profile-box{align-self:center}
 .header-top .always-controls{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:6px}
-.header-chat-btn{position:static;justify-self:center;height:32px;padding:0 12px;border:1px solid color-mix(in srgb,var(--tg-border) 72%,var(--tg-blue));border-radius:9px;background:color-mix(in srgb,var(--tg-surface) 55%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--tg-text);font:bold 9px monospace;display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;opacity:.86;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:81;transition:.18s;white-space:nowrap}
+.header-chat-btn{position:static;justify-self:center;height:32px;padding:0 12px;border:1px solid color-mix(in srgb,var(--tg-border) 72%,var(--tg-blue));border-radius:9px;background:color-mix(in srgb,var(--tg-surface) 55%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--tg-text);font:bold 9px "Handjet",monospace;display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;opacity:.86;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:81;transition:.18s;white-space:nowrap}
 .header-chat-btn:active{transform:scale(.94);background:color-mix(in srgb,var(--tg-blue) 28%,transparent)}
 .header-chat-btn.active{border-color:var(--tg-blue);background:var(--tg-blue-dark);color:var(--tg-text)}
 .header-top .always-controls{position:relative;z-index:1000;align-self:center}
@@ -129,7 +129,7 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 
 /* КНОПКИ НАВИГАЦИИ */
 .actions-row { display: flex; gap: 4px; justify-content: center; margin-bottom: 2px; flex-wrap: wrap; flex-shrink: 0; }
-.action-btn { background:var(--tg-btn); border:1px solid var(--tg-border); color: #83a4c9; height:34px; min-height:34px; padding: 0 8px; border-radius: 8px; font: bold 9px monospace; cursor: pointer; transition: .2s; display: flex; align-items: center; justify-content:center; gap: 3px; }
+.action-btn { background:var(--tg-btn); border:1px solid var(--tg-border); color: #83a4c9; height:34px; min-height:34px; padding: 0 8px; border-radius: 8px; font: bold 9px "Handjet",monospace; cursor: pointer; transition: .2s; display: flex; align-items: center; justify-content:center; gap: 3px; }
 .action-btn.active { background: var(--tg-blue-dark); border-color:var(--tg-blue); color: var(--tg-text); }
 .action-btn.special { border-color: #ffd42aaa; color: #ffd42a; }
 
@@ -180,7 +180,7 @@ h1{color:var(--tg-text);font-size:45px;line-height:1.05;margin:0;text-shadow:2px
 .guest-list { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; max-height: 55vh; }
 .chat-auth-state{padding:9px 10px;border:1px solid var(--tg-border);border-radius:9px;background:var(--tg-btn);font-size:9px;color:var(--tg-text-secondary);text-align:left;margin-bottom:6px}
 .chat-room-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:5px}
-.chat-room-tab{min-width:0;padding:7px 3px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:bold 9px monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-room-tab{min-width:0;padding:7px 3px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:bold 9px "Handjet",monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chat-room-tab.active{background:var(--tg-blue-dark);border-color:var(--tg-blue);color:#fff}
 .chat-toolbar{display:grid;grid-template-columns:27px minmax(0,1fr) 27px;align-items:center;gap:6px;padding:5px 7px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-surface-soft);font-size:9px;font-weight:bold;color:var(--tg-text);margin-bottom:5px}
 .chat-toolbar #chatRoomTitle{text-align:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -239,17 +239,17 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
 .always-controls{position:absolute;top:8px;right:8px;z-index:80;display:flex;align-items:center;gap:5px;pointer-events:auto}
 .always-btn{width:32px;height:32px;padding:0;border:1px solid color-mix(in srgb,var(--tg-border) 72%,var(--tg-blue));border-radius:9px;background:color-mix(in srgb,var(--tg-surface) 55%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--tg-text);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.72;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:opacity .18s,transform .18s,background .18s}
 .always-btn:active{opacity:1;transform:scale(.92);background:color-mix(in srgb,var(--tg-blue) 28%,transparent)}
-.always-btn.lang{font:bold 9px monospace;letter-spacing:.2px}
-.always-btn.radio{font:bold 11px monospace;color:var(--tg-blue)}
+.always-btn.lang{font:bold 9px "Handjet",monospace;letter-spacing:.2px}
+.always-btn.radio{font:bold 11px "Handjet",monospace;color:var(--tg-blue)}
 .chat-unread-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#20b45a;box-shadow:0 0 5px rgba(32,180,90,.7);margin-left:2px;flex:0 0 7px}
 .radio-overlay{position:absolute;inset:0;z-index:130;display:flex;align-items:flex-start;justify-content:flex-end;padding:52px 8px 8px;background:rgba(0,0,0,.18);pointer-events:none}
 .radio-overlay:not(.hidden){pointer-events:auto}
 .radio-card{width:min(92%,300px);background:var(--tg-surface);border:1px solid var(--tg-blue);border-radius:14px;padding:10px;box-shadow:0 12px 35px rgba(0,0,0,.28)}
 .radio-head{display:flex;align-items:center;justify-content:space-between;color:var(--tg-text);font-size:12px}
 .radio-close{width:28px;height:28px;border:1px solid var(--tg-border);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font-size:18px}
-.radio-status{margin:8px 0;padding:7px 8px;border-radius:8px;background:var(--tg-surface-soft);color:var(--tg-text-secondary);font:9px monospace}
+.radio-status{margin:8px 0;padding:7px 8px;border-radius:8px;background:var(--tg-surface-soft);color:var(--tg-text-secondary);font:9px "Handjet",monospace}
 .radio-actions{display:flex;gap:6px}
-.radio-actions button{flex:1;padding:8px;border:1px solid var(--tg-blue);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:bold 9px monospace}
+.radio-actions button{flex:1;padding:8px;border:1px solid var(--tg-blue);border-radius:8px;background:var(--tg-btn);color:var(--tg-text);font:bold 9px "Handjet",monospace}
 .portal.game-active .always-controls{top:7px;right:7px}
 .portal.game-active .always-btn{width:30px;height:30px}
 
@@ -278,7 +278,7 @@ canvas { width: 100%; height: 100%; object-fit: contain; background: #010206; }
   border-radius:10px;
   background:var(--tg-btn);
   color:var(--tg-text);
-  font:900 11px monospace;
+  font:900 11px "Handjet",monospace;
   line-height:1;
   text-align:center;
   cursor:pointer;
@@ -535,7 +535,7 @@ body{
 
 /* Telegram's foreground language: system UI, not browser monospace. */
 html,body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+  font-family:"Handjet",monospace!important;
   color:var(--tg-text);
 }
 
@@ -544,12 +544,12 @@ html,body{
   padding:4px 4px 2px!important;
 }
 .portal-logo h1{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+  font-family:"Handjet",monospace!important;
   font-weight:800!important;
   letter-spacing:1px!important;
 }
 .portal-logo .subtitle{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+  font-family:"Handjet",monospace!important;
   font-weight:500!important;
   letter-spacing:2px!important;
 }
@@ -604,7 +604,7 @@ html,body{
   border-radius:10px!important;
   justify-content:flex-start!important;
   padding:0 14px!important;
-  font:600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 13px "Handjet",monospace!important;
   opacity:1!important;
 }
 .chat-launch-row .header-chat-btn::before{
@@ -667,7 +667,7 @@ html,body{
 }
 .category-name{
   display:block!important;
-  font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 12px "Handjet",monospace!important;
   letter-spacing:.1px!important;
   color:var(--tg-text)!important;
   white-space:nowrap!important;
@@ -678,7 +678,7 @@ html,body{
   display:block!important;
   margin-top:3px!important;
   color:var(--tg-text-secondary)!important;
-  font:400 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 10px "Handjet",monospace!important;
 }
 .category-arrow{
   color:#71808e!important;
@@ -706,7 +706,7 @@ html,body{
 .category-head-copy{text-align:left!important;min-width:0!important}
 .category-head-title{
   color:var(--tg-text)!important;
-  font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 15px "Handjet",monospace!important;
   white-space:nowrap!important;
   overflow:hidden!important;
   text-overflow:ellipsis!important;
@@ -714,7 +714,7 @@ html,body{
 .category-head-sub{
   margin-top:2px!important;
   color:var(--tg-text-secondary)!important;
-  font:400 9px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 9px "Handjet",monospace!important;
 }
 
 /* Game carousel = Telegram media card, while artwork remains FREEzzzGames artwork. */
@@ -742,18 +742,18 @@ html,body{
 }
 .game-card-title{
   color:var(--tg-text)!important;
-  font:700 16px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 16px "Handjet",monospace!important;
   letter-spacing:0!important;
 }
 .game-card-desc{
   color:var(--tg-text-secondary)!important;
-  font:400 11px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 11px/1.35 "Handjet",monospace!important;
   margin-top:4px!important;
 }
 .game-card-meta{
   margin-top:10px!important;
   color:var(--tg-blue)!important;
-  font:600 9px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 9px "Handjet",monospace!important;
 }
 .game-card-play{
   border:1px solid rgba(100,181,246,.65)!important;
@@ -765,7 +765,7 @@ html,body{
 }
 .carousel-hint{
   color:rgba(141,154,167,.9)!important;
-  font:400 9px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 9px "Handjet",monospace!important;
   letter-spacing:1px!important;
 }
 .carousel-dot{
@@ -790,7 +790,7 @@ html,body{
 .chat-mini-btn,
 .guest-send,
 .ctrl-pad-btn{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif!important;
+  font-family:"Handjet",monospace!important;
   border:1px solid rgba(255,255,255,.08)!important;
   background:#202b36!important;
   color:var(--tg-text)!important;
@@ -829,10 +829,10 @@ html,body{
   border:0!important;border-radius:12px!important;background:#253442!important;
 }
 .player-profile-name{
-  font:700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 18px "Handjet",monospace!important;
 }
 .player-profile-username{
-  font:400 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 12px "Handjet",monospace!important;
 }
 .player-profile-grid{gap:1px!important;margin-top:14px!important}
 .player-stat{
@@ -846,10 +846,10 @@ html,body{
 .player-stat:nth-child(5){border-radius:0 0 0 9px!important}
 .player-stat:nth-child(6){border-radius:0 0 9px 0!important}
 .player-stat-value{
-  font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 15px "Handjet",monospace!important;
 }
 .player-stat-label{
-  font:400 8px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 8px "Handjet",monospace!important;
 }
 .player-profile-close{
   margin-top:10px!important;
@@ -877,10 +877,10 @@ html,body{
   padding:14px!important;
 }
 .achievements-modal-title{
-  font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 15px "Handjet",monospace!important;
 }
 .achievements-modal-hint{
-  font:400 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 10px "Handjet",monospace!important;
 }
 .player-achievement{
   padding:9px!important;
@@ -889,10 +889,10 @@ html,body{
   background:#202b36!important;
 }
 .player-achievement-name{
-  font:600 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 10px "Handjet",monospace!important;
 }
 .player-achievement-desc{
-  font:400 8px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 8px "Handjet",monospace!important;
 }
 
 /* Chat follows Telegram message/list surfaces. */
@@ -913,7 +913,7 @@ html,body{
   border-radius:8px!important;
   background:#17212b!important;
   color:var(--tg-text-secondary)!important;
-  font:600 9px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 9px "Handjet",monospace!important;
 }
 .chat-room-tab.active{
   background:#2b5278!important;
@@ -923,14 +923,14 @@ html,body{
   border:0!important;
   border-radius:9px!important;
   background:#17212b!important;
-  font:600 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 10px "Handjet",monospace!important;
 }
 .guest-msg{
   background:#17212b!important;
   border:0!important;
   border-radius:10px!important;
   padding:8px 10px!important;
-  font:400 11px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 11px/1.35 "Handjet",monospace!important;
   box-shadow:none!important;
 }
 .chat-message-own{
@@ -946,7 +946,7 @@ html,body{
   border:0!important;
   border-radius:10px!important;
   color:var(--tg-text)!important;
-  font:400 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 12px "Handjet",monospace!important;
   min-height:38px!important;
 }
 .guest-send{
@@ -995,13 +995,13 @@ html,body{
 }
 #ageGate button{
   border-radius:9px!important;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font-family:"Handjet",monospace!important;
 }
 
 /* Footer follows Telegram secondary-text hierarchy. */
 .footer-info{
   color:#71808e!important;
-  font:400 8px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 8px "Handjet",monospace!important;
   letter-spacing:1px!important;
 }
 
@@ -1313,18 +1313,18 @@ html,body{
   border-radius:7px;
   background:rgba(255,255,255,.055);
   color:rgba(255,255,255,.78);
-  font:400 20px/24px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font:400 20px/24px "Handjet",monospace;
   cursor:pointer;
 }
 .action-hint-close:active{transform:scale(.92);background:rgba(255,255,255,.11)}
 .action-hint-title{
-  font:700 12px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font:700 12px/1.25 "Handjet",monospace;
   color:rgba(255,255,255,.94);
   margin-bottom:4px;
   letter-spacing:.2px;
 }
 .action-hint-text{
-  font:400 11px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font:400 11px/1.45 "Handjet",monospace;
   color:rgba(255,255,255,.68);
 }
 .action-hint-disable{
@@ -1334,7 +1334,7 @@ html,body{
   border:0;
   background:transparent;
   color:rgba(255,255,255,.48);
-  font:500 9px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font:500 9px/1.3 "Handjet",monospace;
   cursor:pointer;
   text-decoration:none;
 }
@@ -1348,7 +1348,7 @@ html,body{
   border-radius:8px;
   background:rgba(255,255,255,.035);
   color:var(--tg-text-secondary);
-  font:700 9px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font:700 9px/1.2 "Handjet",monospace;
   cursor:pointer;
 }
 .player-hints-toggle:active{background:rgba(255,255,255,.08);color:var(--tg-text)}
@@ -1567,7 +1567,7 @@ html,body{
   padding:0 2px 8px 8px!important;
   background:rgba(18,28,40,.96)!important;
   color:#fff!important;
-  font:700 15px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 15px/1.2 "Handjet",monospace!important;
 }
 #liveListPanel .live-panel-close{
   width:42px!important;
@@ -1577,7 +1577,7 @@ html,body{
   border-radius:12px!important;
   background:rgba(255,255,255,.06)!important;
   color:#fff!important;
-  font:400 25px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  font:400 25px/1 "Handjet",monospace!important;
 }
 #liveListPanel .live-streamer-list{
   display:flex!important;
@@ -1587,7 +1587,7 @@ html,body{
 #liveListPanel .live-list-section-title{
   padding:8px 8px 4px!important;
   color:rgba(255,255,255,.72)!important;
-  font:700 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 10px/1.2 "Handjet",monospace!important;
   letter-spacing:.3px!important;
 }
 #liveListPanel .live-list-section-title.offline-title{
@@ -1632,7 +1632,7 @@ html,body{
   overflow:hidden!important;
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
-  font:700 12px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 12px/1.2 "Handjet",monospace!important;
 }
 #liveListPanel .live-list-main small,
 #liveListPanel .live-list-main em{
@@ -1640,13 +1640,13 @@ html,body{
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   color:rgba(255,255,255,.50)!important;
-  font:400 9px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 9px/1.2 "Handjet",monospace!important;
   font-style:normal!important;
 }
 #liveListPanel .live-list-status{
   min-width:34px!important;
   text-align:center!important;
-  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 8px/1 "Handjet",monospace!important;
   letter-spacing:.3px!important;
 }
 #liveListPanel .live-list-status.online{color:#ff5b5b!important}
@@ -1654,7 +1654,7 @@ html,body{
 #liveListPanel .live-list-none{
   padding:10px 8px 12px!important;
   color:rgba(255,255,255,.42)!important;
-  font:400 10px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 10px/1.4 "Handjet",monospace!important;
 }
 @media(max-width:380px){
   #liveListPanel .live-list-drawer{width:91vw!important}
@@ -1711,13 +1711,13 @@ html,body{
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   color:#fff!important;
-  font:800 10px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 10px/1.15 "Handjet",monospace!important;
   letter-spacing:.1px!important;
 }
 #categoryList .category-count{
   display:block!important;
   color:rgba(255,255,255,.46)!important;
-  font:600 8px/1.1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 8px/1.1 "Handjet",monospace!important;
 }
 @media(max-width:380px){
   #categoryList{
@@ -1776,17 +1776,17 @@ html,body{
   border-radius:999px!important;
   background:rgba(255,255,255,.07)!important;
   color:rgba(255,255,255,.75)!important;
-  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 8px/1 "Handjet",monospace!important;
   letter-spacing:.5px!important;
 }
 .live-preview-shade strong{
   color:#fff!important;
-  font:800 18px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 18px/1.15 "Handjet",monospace!important;
   text-shadow:0 2px 12px rgba(0,0,0,.45)!important;
 }
 .live-preview-shade small{
   color:rgba(255,255,255,.62)!important;
-  font:500 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:500 10px/1.2 "Handjet",monospace!important;
 }
 .live-preview-open{
   margin-top:5px!important;
@@ -1795,7 +1795,7 @@ html,body{
   background:rgba(255,255,255,.12)!important;
   border:1px solid rgba(255,255,255,.14)!important;
   color:#fff!important;
-  font:800 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 9px/1 "Handjet",monospace!important;
 }
 .live-preview-link:active .live-preview-open{
   transform:scale(.97)!important;
@@ -2026,7 +2026,7 @@ input,textarea{
   overflow:hidden!important;
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
-  font:700 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 11px/1 "Handjet",monospace!important;
 }
 .live-list-btn{
   flex:0 0 auto!important;
@@ -2036,7 +2036,7 @@ input,textarea{
   border-radius:9px!important;
   background:#202b36!important;
   color:var(--tg-text)!important;
-  font:700 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 9px/1 "Handjet",monospace!important;
 }
 .live-main{
   position:relative!important;
@@ -2075,11 +2075,11 @@ input,textarea{
 }
 .live-empty-title{
   color:var(--tg-text)!important;
-  font:700 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 11px/1.2 "Handjet",monospace!important;
 }
 .live-empty-text{
   max-width:90%!important;
-  font:400 9px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 9px/1.3 "Handjet",monospace!important;
 }
 .live-video-shade{
   position:absolute!important;
@@ -2110,7 +2110,7 @@ input,textarea{
   border-radius:999px!important;
   background:rgba(14,22,33,.78)!important;
   color:#fff!important;
-  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:800 8px/1 "Handjet",monospace!important;
 }
 .live-streamer-info{
   position:absolute!important;
@@ -2140,12 +2140,12 @@ input,textarea{
 }
 .live-streamer-copy strong{
   overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
-  font:700 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 10px/1.2 "Handjet",monospace!important;
 }
 .live-streamer-copy span{
   overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
   color:rgba(255,255,255,.55)!important;
-  font:400 8px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 8px/1.2 "Handjet",monospace!important;
 }
 .live-carousel-wrap{
   display:none!important;
@@ -2452,13 +2452,13 @@ input,textarea{
   overflow:hidden!important;
   text-overflow:clip!important;
   color:#f5f5f5!important;
-  font:700 clamp(9px,2.45vw,11px)/1.12 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 clamp(9px,2.45vw,11px)/1.12 "Handjet",monospace!important;
   letter-spacing:0!important;
 }
 #mainPortal #categoryList .category-count{
   margin-top:3px!important;
   color:rgba(255,255,255,.45)!important;
-  font:600 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:600 8px/1 "Handjet",monospace!important;
 }
 #mainPortal #categoryList .category-icon,
 #mainPortal #categoryList .category-arrow{
@@ -2571,7 +2571,7 @@ input,textarea{
   color:#fff!important;
 }
 #mainPortal .home-chat-title strong{
-  font:700 12px/1.1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 12px/1.1 "Handjet",monospace!important;
 }
 #mainPortal .home-chat-dot{
   width:8px!important;
@@ -2583,7 +2583,7 @@ input,textarea{
 }
 #mainPortal .home-chat-status{
   color:rgba(255,255,255,.42)!important;
-  font:700 7px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 7px/1 "Handjet",monospace!important;
   letter-spacing:.4px!important;
 }
 #mainPortal .home-chat-open{
@@ -2656,26 +2656,26 @@ input,textarea{
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   color:#fff!important;
-  font:700 9px/1.1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:700 9px/1.1 "Handjet",monospace!important;
 }
 #mainPortal .home-chat-message-body span{
   overflow:hidden!important;
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
   color:rgba(255,255,255,.72)!important;
-  font:400 9px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:400 9px/1.2 "Handjet",monospace!important;
 }
 #mainPortal .home-chat-message time{
   align-self:end!important;
   color:rgba(255,255,255,.34)!important;
-  font:500 7px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:500 7px/1 "Handjet",monospace!important;
 }
 #mainPortal .home-chat-empty{
   width:100%!important;
   padding:12px!important;
   text-align:center!important;
   color:rgba(255,255,255,.38)!important;
-  font:500 9px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:500 9px/1.3 "Handjet",monospace!important;
 }
 #mainPortal .home-chat-compose{
   flex:0 0 42px!important;
@@ -2694,7 +2694,7 @@ input,textarea{
   background:rgba(32,43,54,.86)!important;
   color:#fff!important;
   outline:none!important;
-  font:500 10px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+  font:500 10px "Handjet",monospace!important;
 }
 #mainPortal #homeChatInput::placeholder{
   color:rgba(255,255,255,.38)!important;
