@@ -2999,3 +2999,41 @@ input,textarea{
     box-shadow:none!important;
   }
 }
+
+
+/* =========================================================
+   GLOBAL DOT-MATRIX TYPOGRAPHY
+   Handjet gives the whole portal a Nothing-like dotted display
+   while retaining Cyrillic support for RU and DE/EN UI.
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;500;600;700&display=swap');
+
+html,body,
+html body,
+button,input,textarea,select,
+a,[role="button"],
+h1,h2,h3,h4,h5,h6,
+p,span,strong,b,small,label,time{
+  font-family:"Handjet",monospace!important;
+}
+
+button,input,textarea,select{
+  font-synthesis:none;
+}
+
+#mainPortal,
+#mainPortal button,
+#mainPortal input,
+#mainPortal textarea,
+#mainPortal select{
+  font-family:"Handjet",monospace!important;
+}
+
+#mainPortal .portal-logo h1{
+  font-weight:700!important;
+  letter-spacing:.01em!important;
+}
+#mainPortal .portal-logo .subtitle{
+  font-weight:500!important;
+  letter-spacing:.12em!important;
+}
