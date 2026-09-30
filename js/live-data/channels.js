@@ -5,10 +5,9 @@ export const LIVE_CHANNELS=[
     name:"NASA Live",
     avatar:"🚀",
     category:"Космос • Наука",
+    channelId:"UCLA_DiR1FfKNvjuUpBHmylQ",
     channelUrl:"https://www.youtube.com/@NASA/live",
-    embedUrl:"https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ&autoplay=1&mute=1&playsinline=1",
-    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png",
-    direct:true
+    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png"
   },
   {
     id:"nasa-kennedy",
@@ -17,9 +16,7 @@ export const LIVE_CHANNELS=[
     avatar:"🛰️",
     category:"Запуски • Космос",
     channelUrl:"https://www.youtube.com/kscnewsroom",
-    embedUrl:"",
-    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png",
-    direct:true
+    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png"
   },
   {
     id:"nasa-live-page",
@@ -28,26 +25,17 @@ export const LIVE_CHANNELS=[
     avatar:"🌎",
     category:"Официальные эфиры",
     channelUrl:"https://www.nasa.gov/live/",
-    embedUrl:"",
-    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png",
-    direct:true
+    previewUrl:"https://www.nasa.gov/wp-content/uploads/2023/06/nasa-logo-web-rgb.png"
   }
 ];
 
 export function directSources(){
+  // This is only the client-side registry. A channel is NOT considered LIVE
+  // until the LIVE server confirms a real active broadcast.
   return LIVE_CHANNELS.map(x=>({
     ...x,
-    live:true,
-    sourceMode:"direct",
-    sources:x.embedUrl?[{
-      platform:x.platform,
-      embedUrl:x.embedUrl,
-      live:true,
-      direct:true,
-      qualityScore:100,
-      trafficScore:100,
-      stabilityScore:100,
-      latencyScore:90
-    }]:[]
+    live:false,
+    sourceMode:"registry",
+    sources:[]
   }));
 }
