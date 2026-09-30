@@ -618,20 +618,20 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     const box=document.getElementById("homeChatMessages");
     if(!box)return;
     try{
-      const data=await api("/chat/messages?room=main&limit=20");
+      await authorizeChat();
+      if(!chatAuthorized)return;
+      const data=await api("/chat/messages?room="+encodeURIComponent(chatRoom)+"&limit=100");
       const messages=(data.messages||[]).slice(-4);
-      if(!messages.length){
-        box.innerHTML='<div class="home-chat-empty">'+escapeHtml(tr("noMessages"))+'</div>';
-        return;
-      }
-      box.innerHTML=messages.map(m=>{
+      const status=document.getElementById("homeChatStatus");
+      if(status)status.textContent=(chatRoom==="main"?"ОНЛАЙН":"# "+String(chatRoom).toUpperCase());
+      box.innerHTML=messages.length?messages.map(m=>{
         const own=String(m.playerId)===playerId;
         return '<button type="button" class="home-chat-message '+(own?"own":"")+'" data-player-id="'+escapeHtml(m.playerId)+'">'+
           '<span class="home-chat-avatar">'+escapeHtml(m.avatar||"👾")+'</span>'+
           '<span class="home-chat-message-body"><strong>'+escapeHtml(m.username||m.name||"Игрок")+'</strong><span>'+escapeHtml(m.text)+'</span></span>'+
           '<time>'+escapeHtml(formatMsgTime(m.createdAt))+'</time>'+
         '</button>';
-      }).join("");
+      }).join(""):'<div class="home-chat-empty">'+escapeHtml(tr("noMessages"))+'</div>';
       box.querySelectorAll(".home-chat-message").forEach(el=>{
         el.addEventListener("click",()=>openPlayerProfile(el.dataset.playerId));
       });
@@ -644,14 +644,16 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
 
   async function sendHomeChatMessage(){
+    if(chatBusy)return;
     const input=document.getElementById("homeChatInput");
     if(!input)return;
     const textValue=(input.value||"").trim();
     if(!textValue)return;
     await authorizeChat();
     if(!chatAuthorized)return;
+    chatBusy=true;
     try{
-      await api("/chat/messages",{method:"POST",body:{room:"main",text:textValue}});
+      await api("/chat/messages",{method:"POST",body:{room:chatRoom,text:textValue}});
       input.value="";
       playerStats.messagesSent++;
       savePlayerStats();
@@ -660,12 +662,12 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     }catch(e){
       const status=document.getElementById("homeChatStatus");
       if(status)status.textContent="OFFLINE";
-    }
+    }finally{chatBusy=false;}
   }
 
-  document.getElementById("homeChatOpen")?.addEventListener("click",()=>{
+  document.getElementById("homeChatOpen")?.addEventListener("click",async()=>{
     markChatSeen();
-    openChatPanel();
+    await openChatPanel();
   });
   document.getElementById("homeChatSend")?.addEventListener("click",sendHomeChatMessage);
   document.getElementById("homeChatInput")?.addEventListener("keydown",e=>{
