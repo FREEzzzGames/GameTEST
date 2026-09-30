@@ -19,7 +19,7 @@ async function bootPortalModule(){
     import("./portal.js?v=20260930e4"),
     import("./live.js?v=20260930k"),
     import("./parallax.js?v=20260930a"),
-    import("./streamer-menu-parallax.js?v=20260930a")
+    import("./streamer-menu-parallax.js?v=20260930b")
   ]);
 
   if(portalResult.status==="fulfilled"){
