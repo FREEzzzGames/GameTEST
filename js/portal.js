@@ -1075,8 +1075,16 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
     completeActionHint("game");
     if (!url) return;
     haptic();
+
     const gameId=Object.keys(GAME_LINKS).find(k=>GAME_LINKS[k]===url);
     if(gameId)trackGameLaunch(gameId);
+
+    // Games launch into the persistent GAME WINDOW on the home screen.
+    // The existing external opener remains the safe fallback.
+    if(gameId && window.FZG?.gameWindow?.openGame?.(gameId)){
+      return;
+    }
+
     try {
       if (tg && typeof tg.openLink === 'function') tg.openLink(url);
       else window.open(url, '_blank', 'noopener,noreferrer');

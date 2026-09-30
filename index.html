@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Handjet:wght@300;400;500;600;700&display=swap">
-<link rel="stylesheet" href="./css/app.css?v=20260930w">
+<link rel="stylesheet" href="./css/app.css?v=20260930x">
   <link rel="modulepreload" href="./js/portal.js?v=20260930e7">
   <link rel="modulepreload" href="./js/portal-data/i18n.js?v=20260930e4">
   <link rel="modulepreload" href="./js/portal-data/hints.js?v=20260930e4">
@@ -18,6 +18,7 @@
   <link rel="modulepreload" href="./js/portal-data/posters.js?v=20260930e4">
   <link rel="modulepreload" href="./js/live-data/channels.js?v=20260930j">
   <link rel="modulepreload" href="./js/streamer-menu-parallax.js?v=20260930c">
+  <link rel="modulepreload" href="./js/game-window.js?v=20260930a">
 <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
 </head>
 <body id="bodyRoot" class="theme-dark">
@@ -93,7 +94,54 @@
         <button id="homeChatSend" type="button" aria-label="Отправить">➤</button>
       </div>
     </section>
+
+    <section class="game-window" id="gameWindow" aria-label="GAME WINDOW" aria-expanded="false">
+      <div class="game-window-head">
+        <div class="game-window-title-wrap">
+          <span class="game-window-emoji" aria-hidden="true">🎮</span>
+          <div>
+            <strong class="game-window-title">GAME WINDOW</strong>
+            <small class="game-window-genre">ВЫБЕРИ ИГРУ В КАТАЛОГЕ</small>
+          </div>
+        </div>
+        <div class="game-window-actions">
+          <button class="game-window-action" data-game-window-action="expand" type="button" aria-label="Развернуть игру">↗</button>
+          <button class="game-window-action" data-game-window-action="close" type="button" aria-label="Закрыть игру">×</button>
+        </div>
+      </div>
+      <div class="game-window-frame-wrap">
+        <iframe id="gameWindowFrame" title="FREEzzzGames Game Window" loading="lazy" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe>
+        <div class="game-window-hitbar" aria-hidden="true"></div>
+        <div class="game-window-loading hidden">
+          <div class="game-window-loading-title">Загрузка…</div>
+          <div class="game-window-loading-text">Подготавливаем игру</div>
+        </div>
+        <div class="game-window-empty">
+          <div class="game-window-empty-icon">🕹️</div>
+          <strong>ВЫБЕРИ ИГРУ</strong>
+          <span>Открой каталог ниже и запусти игру прямо здесь.</span>
+        </div>
+        <div class="game-window-fallback hidden">
+          <div class="game-window-empty-icon">↗</div>
+          <strong>ИГРА НЕ ВСТРОИЛАСЬ</strong>
+          <span>Этот сайт может запрещать запуск внутри окна.</span>
+          <button class="game-window-fallback-btn" data-game-window-action="external" type="button">ОТКРЫТЬ ОТДЕЛЬНО</button>
+        </div>
+      </div>
+      <div class="game-window-foot">
+        <span>DOUBLE TAP — FULLSCREEN</span>
+        <button class="game-window-foot-expand" data-game-window-action="expand" type="button" aria-label="Развернуть игру">↗</button>
+      </div>
+    </section>
   </div>
+
+  <section class="home-channels" id="homeChannels" aria-label="Каналы">
+    <div class="home-channels-head">
+      <strong>КАНАЛЫ</strong>
+      <span>LIVE • YOUTUBE</span>
+    </div>
+    <div class="home-channels-track" id="homeChannelsTrack"></div>
+  </section>
 
   <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
 

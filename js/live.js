@@ -156,6 +156,31 @@ function renderList() {
   });
 }
 
+function renderChannels() {
+  const host = $("homeChannelsTrack");
+  if (!host) return;
+
+  host.innerHTML = S.all.map(channel =>
+    '<button class="home-channel" type="button" data-home-channel-id="' + esc(channel.id) + '">' +
+      '<span class="home-channel-avatar">' + esc(channel.avatar) + '</span>' +
+      '<span class="home-channel-copy">' +
+        '<strong>' + esc(channel.name) + '</strong>' +
+        '<small>' + esc(channel.category || "YouTube") + '</small>' +
+      '</span>' +
+      '<span class="home-channel-mark">YT</span>' +
+    '</button>'
+  ).join("");
+
+  host.querySelectorAll("[data-home-channel-id]").forEach(button => {
+    button.addEventListener("click", () => {
+      const channel = S.all.find(item => item.id === button.dataset.homeChannelId);
+      if (!channel) return;
+      openCard(channel);
+      haptic();
+    });
+  });
+}
+
 function overlayLayer() {
   return $("liveOverlayLayer");
 }
@@ -175,8 +200,8 @@ function positionOverlay() {
   const mediaRect = media.getBoundingClientRect();
   const categoryRect = categories.getBoundingClientRect();
 
-  const top = Math.max(0, Math.round(mediaRect.bottom - portalRect.top + 6));
-  const bottom = Math.max(0, Math.round(portalRect.bottom - categoryRect.top + 6));
+  const top = Math.max(0, Math.round(mediaRect.top - portalRect.top));
+  const bottom = Math.max(0, Math.round(portalRect.bottom - categoryRect.top));
 
   layer.style.top = top + "px";
   layer.style.bottom = bottom + "px";
@@ -408,6 +433,7 @@ function init() {
   if (!$("liveView")) return;
 
   renderList();
+  renderChannels();
   renderBot();
 
   $("liveListBtn")?.addEventListener("click", openList);
