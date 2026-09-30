@@ -13,10 +13,15 @@ Platform.ready();
 Platform.expand();
 
 async function bootPortalModule(){
-  try{
-    await import("./portal.js");
-    await import("./live.js");
-    window.FZG.portalModuleReady = true;
+  // LIVE must boot independently. A failure inside the large legacy portal
+  // module must never prevent the LIVE module from loading and polling.
+  const [portalResult, liveResult] = await Promise.allSettled([
+    import("./portal.js?v=20260930e2"),
+    import("./live.js?v=20260930e2")
+  ]);
+
+  if(portalResult.status==="fulfilled"){
+    window.FZG.portalModuleReady=true;
     setNavigationBridge((screen, params)=>{
       const legacy=window.FZG.legacy;
       if(!legacy)return;
@@ -25,10 +30,23 @@ async function bootPortalModule(){
       else if(screen==="category") legacy.openCategory?.(params.categoryId);
     });
     syncTelegramBackButton();
-  }catch(err){
+  }else{
+    const err=portalResult.reason;
     console.error("FREEzzzGames portal module failed",err);
     window.FZG.portalModuleError=String(err?.stack||err);
     installEmergencyShell();
+  }
+
+  if(liveResult.status==="fulfilled"){
+    window.FZG.liveModuleReady=true;
+  }else{
+    const err=liveResult.reason;
+    console.error("FREEzzzGames LIVE module failed",err);
+    window.FZG.liveModuleError=String(err?.stack||err);
+    const main=document.getElementById("liveMain");
+    if(main){
+      main.innerHTML='<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-title">LIVE-МОДУЛЬ НЕ ЗАПУСТИЛСЯ</div><div class="live-empty-text">Попробуйте обновить приложение.</div></div>';
+    }
   }
 }
 
