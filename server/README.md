@@ -1,29 +1,31 @@
 # FREEzzzGames Live Monitor
 
-No video is stored or proxied. The service only checks approved YouTube channels and returns current LIVE status and metadata.
+The service does not store or proxy video. It checks registered YouTube channels and returns the current LIVE state plus the exact active video embed URL.
 
-Required for YouTube monitoring:
-- `YOUTUBE_API_KEY`
-- `STREAMER_REGISTRY`
-- `ALLOW_ORIGIN`
+## Required Render environment variable
 
-Optional:
-- `STREAMER_REGISTRY`: JSON array of approved channel records.
+- `YOUTUBE_API_KEY` — YouTube Data API v3 key.
 
-Example:
-```json
-[
-  {
-    "id": "yt-demo",
-    "platform": "youtube",
-    "channelId": "UCxxxxxxxxxxxxxxxxxxxxxx",
-    "name": "Streamer",
-    "avatar": "🎮",
-    "category": "Gaming"
-  }
-]
-```
+## Optional environment variables
 
-The service polls YouTube every 30 seconds.
+- `STREAMER_REGISTRY` — JSON array of additional/overridden channel records.
+- `ALLOW_ORIGIN` — allowed browser origin; defaults to `*`.
+- `YOUTUBE_POLL_MS` — server polling interval in milliseconds; minimum/default is 300000 (5 minutes).
 
-Frontend endpoint: GET /api/live
+## How detection works
+
+1. Resolve each registered YouTube channel to its uploads playlist.
+2. Read the newest videos from that playlist.
+3. Batch-check the video IDs with `videos.list`.
+4. A channel is marked LIVE only when YouTube reports `liveBroadcastContent=live`, an `actualStartTime` exists, and `actualEndTime` is absent.
+5. Only then is an iframe `embedUrl` returned to the frontend.
+
+Temporary API errors keep the previous cache instead of inventing an online stream.
+
+## Endpoints
+
+- `GET /health`
+- `GET /api/live`
+- `GET /api/streamers`
+
+The frontend reads `/api/live`.
