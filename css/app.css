@@ -3975,3 +3975,43 @@ body > #liveListPanel .live-panel-close{
   position:relative!important;
   z-index:10!important;
 }
+
+
+/* =========================================================
+   FINAL HOME MEDIA GEOMETRY — use the available vertical world
+   instead of leaving a large dead area above the category dock.
+   This is geometry-only: LIVE/CHAT logic and the dock stay intact.
+   ========================================================= */
+
+#mainPortal .home-media-row{
+  flex:0 0 clamp(220px,38dvh,340px)!important;
+  height:clamp(220px,38dvh,340px)!important;
+  min-height:220px!important;
+  max-height:340px!important;
+}
+
+#mainPortal .home-media-row .live-view,
+#mainPortal .home-media-row .home-chat-widget{
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+}
+
+/* Short screens: keep the same hierarchy without letting LIVE eat the dock. */
+@media(max-height:700px){
+  #mainPortal .home-media-row{
+    flex-basis:clamp(205px,36dvh,260px)!important;
+    height:clamp(205px,36dvh,260px)!important;
+    min-height:205px!important;
+    max-height:260px!important;
+  }
+}
+
+@media(max-height:560px){
+  #mainPortal .home-media-row{
+    flex-basis:200px!important;
+    height:200px!important;
+    min-height:200px!important;
+    max-height:200px!important;
+  }
+}
