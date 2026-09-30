@@ -154,7 +154,12 @@ function positionOverlay(){
 
   const portalRect=portal.getBoundingClientRect();
   const mediaRect=media.getBoundingClientRect();
-  const top=Math.max(0,Math.round(mediaRect.bottom-portalRect.top));
+
+  // The LIVE overlay belongs to the whole LIVE/CHAT/GAME media stage.
+  // The old geometry started it at mediaRect.bottom, placing the
+  // streamer drawer below the visible portal. Keep it viewport-safe,
+  // but anchor it to the top and bottom of the media stage itself.
+  const top=Math.max(0,Math.round(mediaRect.top-portalRect.top));
   const bottom=Math.max(0,Math.round(portalRect.bottom-mediaRect.bottom));
 
   layer.style.top=top+"px";
