@@ -1,7 +1,6 @@
 import { LANGS, LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
 import { ACTION_HINTS } from "./portal-data/hints.js?v=20260930e4";
 import { GAME_CARDS, CATEGORIES, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
-import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
 (function(){
   const key="freezzz_age_confirmed";
@@ -12,71 +11,6 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   yes.addEventListener("click",()=>{localStorage.setItem(key,"1");gate.remove();});
   no.addEventListener("click",()=>{localStorage.removeItem(key);window.location.replace("about:blank");});
 })();
-
-/* TELEGRAM MINI APP VIEWPORT SYNC — one geometry source for every screen */
-(function(){
-  let raf=0;
-  let tgConfigured=false;
-  let tgThemeKey="";
-  let tgViewportKey="";
-  function syncMiniAppViewport(){
-    cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(()=>{
-      try{
-        const root=document.documentElement;
-        const tgApp=window.Telegram?.WebApp||null;
-        if(tgApp){
-          if(!tgConfigured){
-            tgApp.ready?.();
-            tgApp.expand?.();
-            tgConfigured=true;
-          }
-          const theme=tgApp.themeParams||{};
-          const cs=getComputedStyle(root);
-          const header=theme.header_bg_color||theme.bg_color||cs.getPropertyValue("--tg-surface").trim();
-          const background=theme.bg_color||cs.getPropertyValue("--tg-bg").trim();
-          const themeKey=header+"|"+background;
-          if(themeKey!==tgThemeKey){
-            tgThemeKey=themeKey;
-            tgApp.setHeaderColor?.(header);
-            tgApp.setBackgroundColor?.(background);
-            root.style.setProperty("--telegram-header-color",header);
-            root.style.setProperty("--telegram-bg-color",background);
-          }
-        }
-        const vv=window.visualViewport;
-        const viewportHeight=Number(tgApp?.viewportHeight)||Number(vv?.height)||window.innerHeight;
-        const stableHeight=Number(tgApp?.viewportStableHeight)||viewportHeight;
-        const viewportWidth=Number(vv?.width)||window.innerWidth;
-        const top=Number(tgApp?.safeAreaInset?.top)||0;
-        const right=Number(tgApp?.safeAreaInset?.right)||0;
-        const bottom=Number(tgApp?.safeAreaInset?.bottom)||0;
-        const left=Number(tgApp?.safeAreaInset?.left)||0;
-        const viewportKey=viewportHeight+"|"+stableHeight+"|"+viewportWidth+"|"+top+"|"+right+"|"+bottom+"|"+left;
-        if(viewportKey!==tgViewportKey){
-          tgViewportKey=viewportKey;
-          root.style.setProperty("--tg-viewport-height",Math.max(1,viewportHeight)+"px");
-          root.style.setProperty("--tg-viewport-stable-height",Math.max(1,stableHeight)+"px");
-          root.style.setProperty("--tg-viewport-width",Math.max(1,viewportWidth)+"px");
-          root.style.setProperty("--tg-safe-area-inset-top",top+"px");
-          root.style.setProperty("--tg-safe-area-inset-right",right+"px");
-          root.style.setProperty("--tg-safe-area-inset-bottom",bottom+"px");
-          root.style.setProperty("--tg-safe-area-inset-left",left+"px");
-          root.classList.toggle("is-compact-height",viewportHeight<650);
-          root.classList.toggle("is-compact-width",viewportWidth<360);
-        }
-      }catch(e){}
-    });
-  }
-  window.addEventListener("resize",syncMiniAppViewport,{passive:true});
-  window.addEventListener("orientationchange",()=>setTimeout(syncMiniAppViewport,80),{passive:true});
-  window.visualViewport?.addEventListener("resize",syncMiniAppViewport,{passive:true});
-  window.visualViewport?.addEventListener("scroll",syncMiniAppViewport,{passive:true});
-  document.addEventListener("DOMContentLoaded",syncMiniAppViewport,{once:true});
-  syncMiniAppViewport();
-})();
-
-
 
 (() => {
   const telegram = window.Telegram?.WebApp || null;
