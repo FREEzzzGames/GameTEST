@@ -15,7 +15,7 @@ async function bootPortalModule(){
   // module must never prevent the LIVE module from loading and polling.
   const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult, tvRemoteResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e15"),
-    import("./live.js?v=20260930-live-clean3"),
+    import("./live.js?v=20260930-live-clean4"),
     import("./parallax.js?v=20260930a"),
     import("./streamer-menu-parallax.js?v=20260930e"),
     import("./game-window.js?v=20260930-gamecatalog15"),
@@ -24,6 +24,21 @@ async function bootPortalModule(){
 
   if(portalResult.status==="fulfilled"){
     window.FZG.portalModuleReady=true;
+    // HOME is the only cold-start screen. Do not restore CHAT or another
+    // transient surface after a reload; CHAT must always be user-opened.
+    requestAnimationFrame(()=>{
+      try{
+        window.FZG.legacy?.switchTab?.("games");
+        setState({screen:"home",categoryId:null,gameId:null,modal:null});
+      }catch(e){
+        const guest=document.getElementById("guestView");
+        const media=document.getElementById("homeMediaRow");
+        const achievements=document.getElementById("achievementsView");
+        guest?.classList.add("hidden");
+        media?.classList.remove("hidden","is-hidden");
+        achievements?.classList.add("hidden");
+      }
+    });
     setNavigationBridge((screen, params)=>{
       const legacy=window.FZG.legacy;
       if(!legacy)return;
