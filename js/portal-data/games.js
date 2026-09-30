@@ -79,7 +79,7 @@ const GAME_LINKS = {
   "puffpilot":"https://bte808.github.io/fun-20260601-a-puff-pilot/",
   "pokeclicker":"https://www.pokeclicker.com/",
   "candybox2":"https://candybox2.github.io/",
-  "dino":"https://chromedino.com/",
+  "dino":"https://chromedino.com/embed/",
   "pip":"https://bandinopla.github.io/pip-skull-demo/",
   "townscaper":"https://www.townscapergame.com/",
   "infinitecraft":"https://neal.fun/infinite-craft/",
