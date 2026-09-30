@@ -1,0 +1,63 @@
+/* GAME WINDOW CATALOG */
+#mainPortal .game-window.has-catalog .game-window-frame-wrap{
+  display:block!important;
+  overflow:hidden!important;
+  background:#05080d!important;
+}
+#mainPortal .game-window.has-catalog .game-window-frame{
+  display:none!important;
+}
+.game-catalog{
+  width:100%;height:100%;overflow:hidden;box-sizing:border-box;padding:8px;
+  color:var(--tg-text);font-family:"Handjet",monospace;
+}
+.game-catalog-title{
+  display:flex;align-items:baseline;gap:7px;padding:2px 4px 7px;
+  font-size:14px;text-transform:uppercase;
+}
+.game-catalog-title small{font-size:7px;opacity:.55;font-weight:400}
+.game-category-list{display:flex;flex-direction:column;gap:5px;height:calc(100% - 30px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding-right:2px}
+.game-category-item{
+  width:100%;min-height:44px;display:grid;grid-template-columns:32px minmax(0,1fr) 18px;
+  align-items:center;gap:7px;padding:5px 7px;border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;background:rgba(255,255,255,.035);color:inherit;text-align:left;
+  cursor:pointer;touch-action:manipulation;
+}
+.game-category-icon{font-size:18px;text-align:center}
+.game-category-copy{min-width:0;display:flex;flex-direction:column;gap:2px}
+.game-category-copy strong{font-size:9px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-category-copy small{font-size:7px;opacity:.5}
+.game-category-arrow{font-size:20px;opacity:.65;text-align:center}
+.game-catalog-category-head{display:flex;align-items:center;gap:7px;height:34px}
+.game-catalog-back{width:30px;height:28px;flex:none;border:1px solid rgba(255,255,255,.1);border-radius:7px;background:rgba(255,255,255,.06);color:#fff;font:18px/1 "Handjet",monospace}
+.game-catalog-category-head div{min-width:0;display:flex;flex-direction:column;gap:1px}
+.game-catalog-category-head strong{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-catalog-category-head small{font-size:6px;opacity:.5}
+.game-catalog-grid{
+  height:calc(100% - 62px);display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;gap:6px;touch-action:pan-x;
+}
+.game-catalog-card{
+  min-width:0;min-height:0;display:flex;flex-direction:column;padding:0;overflow:hidden;
+  border:1px solid rgba(255,255,255,.09);border-radius:8px;background:rgba(255,255,255,.035);
+  color:#fff;text-align:left;cursor:pointer;touch-action:manipulation;
+}
+.game-catalog-art{height:42%;min-height:42px;position:relative;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.2);overflow:hidden}
+.game-catalog-art img{width:100%;height:100%;object-fit:cover}
+.game-catalog-art span{position:absolute;font-size:22px;display:none}
+.game-catalog-card-body{min-height:0;display:flex;flex-direction:column;gap:3px;padding:5px;overflow:hidden}
+.game-catalog-card-body strong{font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-catalog-card-body small{font-size:6px;line-height:1.15;opacity:.58;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.game-catalog-card-body em{font-size:5px;line-height:1.1;opacity:.4;font-style:normal;margin-top:auto}
+.game-catalog-pages{height:28px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.game-catalog-pages button{width:28px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(255,255,255,.06);color:#fff;font:16px/1 "Handjet",monospace}
+.game-catalog-pages span{display:flex;gap:4px;align-items:center;justify-content:center}
+.game-catalog-pages i{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.25)}
+.game-catalog-pages i.active{background:#fff;transform:scale(1.35)}
+.game-window.has-catalog .game-window-foot{display:none!important}
+.game-window.has-catalog .game-window-empty,.game-window.has-catalog .game-window-loading,.game-window.has-catalog .game-window-fallback{display:none!important}
+@media(max-width:420px){
+  .game-catalog{padding:6px}
+  .game-category-item{min-height:42px}
+  .game-catalog-card-body small{-webkit-line-clamp:2}
+}
