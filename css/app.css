@@ -1801,3 +1801,472 @@ html,body{
   transform:scale(.97)!important;
   background:rgba(255,255,255,.18)!important;
 }
+
+
+/* =========================================================
+   FREEzzzGames UI CONSISTENCY / TOUCH / RESPONSIVE PASS
+   One geometry system for web + Telegram Mini App.
+   ========================================================= */
+
+:root{
+  --ui-radius:12px;
+  --ui-radius-sm:9px;
+  --ui-gap:8px;
+  --ui-control:44px;
+  --ui-content-max:720px;
+  --ui-motion:.22s;
+  --ui-ease:cubic-bezier(.22,.8,.22,1);
+}
+
+html{
+  width:100%;
+  height:100%;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+body{
+  width:100%;
+  height:var(--tg-viewport-height,100dvh);
+  min-height:0;
+  overflow:hidden;
+  overscroll-behavior:none;
+  touch-action:manipulation;
+}
+#mainPortal,.portal{
+  width:100%!important;
+  height:var(--tg-viewport-height,100dvh)!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  padding-top:max(4px,var(--tg-safe-area-inset-top,env(safe-area-inset-top,0px)))!important;
+  padding-right:max(4px,var(--tg-safe-area-inset-right,env(safe-area-inset-right,0px)))!important;
+  padding-bottom:max(4px,var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
+  padding-left:max(4px,var(--tg-safe-area-inset-left,env(safe-area-inset-left,0px)))!important;
+}
+
+button,a,[role="button"]{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+button{
+  -webkit-user-select:none;
+  user-select:none;
+}
+input,textarea{
+  touch-action:auto;
+  -webkit-user-select:text;
+  user-select:text;
+}
+.profile-box,
+.always-btn,
+.header-chat-btn,
+.category-item,
+.category-back,
+.chat-room-tab,
+.chat-mini-btn,
+.guest-send,
+.player-achievements-trigger,
+.player-profile-close,
+.radio-actions button,
+.radio-close,
+.live-list-btn,
+.live-panel-close,
+.live-list-row,
+.live-carousel-card,
+.live-sound-btn,
+.avatar-item,
+.action-hint-close,
+.action-hint-disable{
+  min-height:var(--ui-control);
+}
+.profile-box,
+.always-btn,
+.category-back,
+.chat-mini-btn,
+.radio-close,
+.live-panel-close,
+.live-sound-btn,
+.action-hint-close{
+  min-width:var(--ui-control);
+}
+
+.header-top{
+  flex-shrink:0!important;
+  min-height:46px!important;
+}
+.portal-logo{
+  flex-shrink:0!important;
+  max-width:100%;
+}
+.portal-logo h1{
+  font-size:clamp(28px,8vw,45px)!important;
+  line-height:1.02!important;
+  overflow-wrap:anywhere;
+}
+.portal-logo .subtitle{
+  font-size:clamp(9px,2.8vw,13.5px)!important;
+}
+.chat-launch-row{
+  flex-shrink:0!important;
+}
+.chat-launch-row .header-chat-btn{
+  width:100%!important;
+  min-height:44px!important;
+  height:44px!important;
+}
+
+.games-browser{
+  min-height:0!important;
+  flex:1 1 auto!important;
+  overflow:hidden!important;
+}
+.category-view{
+  min-height:0!important;
+  padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))!important;
+  overflow:hidden!important;
+}
+.games-carousel{
+  min-height:0!important;
+  overscroll-behavior:contain!important;
+}
+.games-track{
+  min-height:0!important;
+}
+.game-card{
+  min-width:0!important;
+  min-height:0!important;
+  touch-action:manipulation!important;
+  transition:transform var(--ui-motion) var(--ui-ease),opacity var(--ui-motion) var(--ui-ease),filter var(--ui-motion) var(--ui-ease),box-shadow var(--ui-motion) var(--ui-ease)!important;
+}
+.game-card:active{
+  transform:scale(.985)!important;
+}
+.games-carousel{
+  touch-action:pan-y!important;
+  cursor:grab;
+}
+.games-carousel:active{
+  cursor:grabbing;
+}
+
+/* Main screen and category screen enter as complete surfaces, not as abrupt display swaps. */
+.screen-enter-forward{
+  animation:screenEnterForward .24s var(--ui-ease) both;
+}
+.screen-enter-back{
+  animation:screenEnterBack .24s var(--ui-ease) both;
+}
+@keyframes screenEnterForward{
+  from{opacity:0;transform:translate3d(18px,0,0) scale(.992)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@keyframes screenEnterBack{
+  from{opacity:0;transform:translate3d(-18px,0,0) scale(.992)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+
+/* Shared modal motion: every overlay opens/closes with the same visual language. */
+.modal-overlay:not(.hidden),
+.radio-overlay:not(.hidden),
+.player-profile-overlay:not(.hidden),
+#liveListPanel:not(.hidden),
+.live-offline-info:not(.hidden){
+  animation:uiOverlayIn .2s var(--ui-ease) both;
+}
+.modal-card,
+.radio-card,
+.player-profile-card,
+#liveListPanel .live-list-drawer{
+  transform-origin:center;
+}
+.modal-overlay:not(.hidden) .modal-card,
+.radio-overlay:not(.hidden) .radio-card,
+.player-profile-overlay:not(.hidden) .player-profile-card{
+  animation:uiCardIn .24s var(--ui-ease) both;
+}
+@keyframes uiOverlayIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes uiCardIn{
+  from{opacity:0;transform:translate3d(0,8px,0) scale(.985)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+
+/* LIVE uses the same surface/radius/spacing system as the rest of the portal. */
+.live-view{
+  width:100%!important;
+  flex:0 0 auto!important;
+  min-height:0!important;
+  height:clamp(126px,24dvh,220px)!important;
+  max-height:220px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+}
+.live-head{
+  min-height:40px!important;
+  flex:0 0 40px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+  padding:0 8px!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:10px!important;
+  background:rgba(23,33,43,.88)!important;
+  color:var(--tg-text)!important;
+}
+.live-head-title{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font:700 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-list-btn{
+  flex:0 0 auto!important;
+  height:40px!important;
+  padding:0 10px!important;
+  border:0!important;
+  border-radius:9px!important;
+  background:#202b36!important;
+  color:var(--tg-text)!important;
+  font:700 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-main{
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  width:100%!important;
+  overflow:hidden!important;
+  border:1px solid rgba(100,181,246,.24)!important;
+  border-radius:12px!important;
+  background:#0b1420!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.26)!important;
+}
+.live-video-frame,
+.live-empty{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+}
+.live-video-frame{position:relative!important;overflow:hidden!important}
+.live-video{
+  width:100%!important;
+  height:100%!important;
+  border:0!important;
+  display:block!important;
+  background:#000!important;
+}
+.live-empty{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:column!important;
+  gap:5px!important;
+  padding:12px!important;
+  text-align:center!important;
+  color:var(--tg-text-secondary)!important;
+}
+.live-empty-title{
+  color:var(--tg-text)!important;
+  font:700 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-empty-text{
+  max-width:90%!important;
+  font:400 9px/1.3 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-video-shade{
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  background:linear-gradient(180deg,rgba(0,0,0,.34),transparent 35%,rgba(0,0,0,.32))!important;
+}
+.live-sound-btn{
+  position:absolute!important;
+  top:7px!important;
+  right:7px!important;
+  width:42px!important;
+  height:42px!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:10px!important;
+  background:rgba(14,22,33,.78)!important;
+  color:#fff!important;
+  pointer-events:auto!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+}
+.live-streamer-badge{
+  position:absolute!important;
+  left:8px!important;
+  top:8px!important;
+  padding:7px 9px!important;
+  border-radius:999px!important;
+  background:rgba(14,22,33,.78)!important;
+  color:#fff!important;
+  font:800 8px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-streamer-info{
+  position:absolute!important;
+  left:8px!important;
+  right:8px!important;
+  bottom:8px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  padding:7px 9px!important;
+  border-radius:10px!important;
+  background:rgba(14,22,33,.78)!important;
+  color:#fff!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+}
+.live-streamer-avatar{
+  width:30px!important;height:30px!important;
+  display:grid!important;place-items:center!important;
+  border-radius:8px!important;background:#253442!important;
+}
+.live-streamer-copy{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  text-align:left!important;
+}
+.live-streamer-copy strong{
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  font:700 10px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-streamer-copy span{
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  color:rgba(255,255,255,.55)!important;
+  font:400 8px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif!important;
+}
+.live-carousel-wrap{
+  display:none!important;
+}
+
+#guestView{
+  height:var(--tg-viewport-height,100dvh)!important;
+  max-height:none!important;
+  padding-top:max(6px,var(--tg-safe-area-inset-top,env(safe-area-inset-top,0px)))!important;
+  padding-bottom:max(6px,var(--tg-safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))!important;
+  overflow:hidden!important;
+}
+#guestView .chat-layout{
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  width:100%!important;
+  margin:0!important;
+  display:flex!important;
+  overflow:hidden!important;
+}
+#guestView .guest-list,
+#guestView .dm-list,
+#guestView .dm-thread{
+  min-height:0!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+}
+#guestView .chat-compose{
+  padding-bottom:env(safe-area-inset-bottom,0px)!important;
+}
+.chat-room-tab{
+  min-height:44px!important;
+}
+.chat-mini-btn{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+}
+.guest-input{
+  min-height:44px!important;
+}
+.guest-send{
+  min-height:44px!important;
+  padding-left:14px!important;
+  padding-right:14px!important;
+}
+
+.modal-overlay,
+.radio-overlay,
+.player-profile-overlay{
+  min-height:0!important;
+}
+.modal-card,
+.player-profile-card,
+.radio-card{
+  max-width:min(94vw,360px)!important;
+  max-height:calc(var(--tg-viewport-height,100dvh) - 24px)!important;
+  overflow:auto!important;
+}
+.avatar-grid,
+.achievements-modal-list{
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+}
+
+.footer-info{
+  flex:0 0 auto!important;
+  min-height:18px!important;
+}
+
+/* Small and short devices: reduce chrome before reducing readable content. */
+@media(max-height:650px){
+  .portal-logo{padding-top:0!important;padding-bottom:0!important}
+  .portal-logo h1{font-size:clamp(26px,7vw,34px)!important}
+  .portal-logo .subtitle{font-size:9px!important}
+  .header-top{min-height:40px!important}
+  .profile-box,.always-btn{height:38px!important;min-height:38px!important}
+  .live-view{height:clamp(108px,22dvh,150px)!important}
+  .live-head{min-height:36px!important;height:36px!important;flex-basis:36px!important}
+  .live-list-btn{height:36px!important}
+  #categoryList{
+    height:82px!important;
+    min-height:82px!important;
+    max-height:82px!important;
+    padding:4px!important;
+  }
+  #categoryList .category-item{min-height:34px!important}
+  #categoryList .category-name{font-size:8px!important}
+  #categoryList .category-count{font-size:7px!important}
+  .category-view{padding-bottom:88px!important}
+  .games-track{gap:5px!important}
+  .games-track .game-card-body{padding:5px 7px!important}
+  .games-track .game-card-title{font-size:11px!important}
+  .games-track .game-card-desc{height:22px!important;font-size:7px!important}
+}
+@media(max-width:359px){
+  .header-top{gap:3px!important}
+  .profile-box{padding:0 7px!important}
+  .always-controls{gap:3px!important}
+  .always-btn{width:38px!important;min-width:38px!important}
+  .live-head-title{font-size:10px!important}
+  .live-list-btn{padding:0 8px!important;font-size:8px!important}
+  #categoryList .category-name{font-size:8px!important}
+}
+@media(orientation:landscape){
+  .portal-logo h1{font-size:clamp(24px,6vw,34px)!important}
+  .live-view{height:clamp(110px,30dvh,190px)!important}
+  .category-view{padding-bottom:112px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .screen-enter-forward,.screen-enter-back,
+  .modal-overlay:not(.hidden),
+  .radio-overlay:not(.hidden),
+  .player-profile-overlay:not(.hidden),
+  #liveListPanel:not(.hidden),
+  .live-offline-info:not(.hidden),
+  .modal-overlay:not(.hidden) .modal-card,
+  .radio-overlay:not(.hidden) .radio-card,
+  .player-profile-overlay:not(.hidden) .player-profile-card{
+    animation:none!important;
+  }
+}
