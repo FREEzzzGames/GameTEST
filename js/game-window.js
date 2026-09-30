@@ -329,7 +329,20 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   }
 
   function setLanguage(lang){
-    if(LANG[lang]){currentLang=lang;renderCatalogBody();}
+    if(!LANG[lang])return;
+    currentLang=lang;
+
+    if(S.mode==="game"){
+      const game=byId[S.gameId];
+      if(game){
+        title(game.title);
+        genre(gameText(S.gameId,"genre"));
+        emoji(game.emoji||"🎮");
+      }
+      return;
+    }
+
+    renderCatalogBody();
   }
 
   function init(){
