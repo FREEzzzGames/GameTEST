@@ -16,6 +16,8 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 /* TELEGRAM MINI APP VIEWPORT SYNC — one geometry source for every screen */
 (function(){
   let raf=0;
+  let tgConfigured=false;
+  let tgThemeKey="";
   function syncMiniAppViewport(){
     cancelAnimationFrame(raf);
     raf=requestAnimationFrame(()=>{
@@ -23,16 +25,23 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
         const root=document.documentElement;
         const tgApp=window.Telegram?.WebApp||null;
         if(tgApp){
-          tgApp.ready?.();
-          tgApp.expand?.();
+          if(!tgConfigured){
+            tgApp.ready?.();
+            tgApp.expand?.();
+            tgConfigured=true;
+          }
           const theme=tgApp.themeParams||{};
           const cs=getComputedStyle(root);
           const header=theme.header_bg_color||theme.bg_color||cs.getPropertyValue("--tg-surface").trim();
           const background=theme.bg_color||cs.getPropertyValue("--tg-bg").trim();
-          tgApp.setHeaderColor?.(header);
-          tgApp.setBackgroundColor?.(background);
-          root.style.setProperty("--telegram-header-color",header);
-          root.style.setProperty("--telegram-bg-color",background);
+          const themeKey=header+"|"+background;
+          if(themeKey!==tgThemeKey){
+            tgThemeKey=themeKey;
+            tgApp.setHeaderColor?.(header);
+            tgApp.setBackgroundColor?.(background);
+            root.style.setProperty("--telegram-header-color",header);
+            root.style.setProperty("--telegram-bg-color",background);
+          }
         }
         const vv=window.visualViewport;
         const viewportHeight=Number(tgApp?.viewportHeight)||Number(vv?.height)||window.innerHeight;
