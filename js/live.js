@@ -7,7 +7,7 @@ const cfg=Object.assign({
   pollMs:300000
 },window.FZG_LIVE_CONFIG||{});
 
-const S={all:[],online:[],selectedId:null,muted:true,loading:false};
+const S={all:[],online:[],selectedId:null,muted:true,loading:false,connectionState:"idle",lastError:""};
 let retryTimer=null;
 
 const $=id=>document.getElementById(id);
@@ -91,8 +91,20 @@ function fmt(v){
 
 function empty(){
   const m=$("liveMain");
-  if(m)m.innerHTML='<div class="live-empty"><div class="live-empty-icon">📡</div><div class="live-empty-title">СЕЙЧАС НЕТ ТРАНСЛЯЦИЙ</div><div class="live-empty-text">Здесь автоматически появится подтверждённый LIVE-эфир.</div></div>';
+  if(m)m.innerHTML='<div class="live-empty"><div class="live-empty-icon">📡</div><div class="live-empty-title">СЕЙЧАС НЕТ ТРАНСЛЯЦИЙ</div><div class="live-empty-text">Зарегистрированные каналы проверяются автоматически.</div></div>';
   if($("liveCarousel"))$("liveCarousel").innerHTML="";
+}
+
+function connectionError(message){
+  const m=$("liveMain");
+  if(m)m.innerHTML='<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-title">LIVE-СЕРВЕР НЕДОСТУПЕН</div><div class="live-empty-text">Связь с сервером трансляций временно отсутствует. Попробуем снова автоматически.</div><div class="live-empty-text" style="opacity:.55">'+esc(message||"connection error")+'</div></div>';
+  if($("liveCarousel"))$("liveCarousel").innerHTML="";
+}
+
+function setConnectionState(state,error=""){
+  S.connectionState=state;
+  S.lastError=error||"";
+  document.getElementById("liveView")?.setAttribute("data-live-state",state);
 }
 
 function main(s){
@@ -208,7 +220,12 @@ function random(){
 }
 
 function refresh(registryPayload,livePayload){
-  S.all=mergePayloads(registryPayload,livePayload);
+  // null means that endpoint failed; keep the last known data instead of
+  // replacing a healthy live list with an artificial empty payload.
+  S.all=mergePayloads(
+    registryPayload===null?S.all:registryPayload,
+    livePayload===null?null:livePayload
+  );
   S.online=S.all.filter(x=>x.live&&x.selectedSource);
 
   const x=S.all.find(v=>v.id===S.selectedId);
@@ -238,20 +255,31 @@ async function poll(){
       fetchJson(cfg.registryEndpoint)
     ]);
 
-    const livePayload=liveResult.status==="fulfilled"?liveResult.value:null;
-    const registryPayload=registryResult.status==="fulfilled"?registryResult.value:null;
+    const liveOk=liveResult.status==="fulfilled";
+    const registryOk=registryResult.status==="fulfilled";
+    const livePayload=liveOk?liveResult.value:null;
+    const registryPayload=registryOk?registryResult.value:null;
 
-    if(!livePayload&&!registryPayload){
-      throw Error("LIVE and registry endpoints unavailable");
+    if(!liveOk&&!registryOk){
+      const reason=[
+        liveResult.status==="rejected"?liveResult.reason?.message:null,
+        registryResult.status==="rejected"?registryResult.reason?.message:null
+      ].filter(Boolean).join("; ");
+      throw Error(reason||"LIVE and registry endpoints unavailable");
     }
 
     refresh(registryPayload,livePayload);
+    setConnectionState(liveOk?"online":"partial",liveOk?"": "LIVE endpoint unavailable");
     clearTimeout(retryTimer);
   }catch(e){
     console.warn("FREEzzzGames LIVE monitor unavailable:",e);
+    setConnectionState("error",String(e?.message||e));
 
+    // Do not turn a transport error into "0 streamers". Keep the last
+    // known state and only show the error when there is no usable state.
     if(!S.all.length){
-      refresh({streamers:[]},{streamers:[]});
+      connectionError(String(e?.message||"connection error"));
+      list();
     }
 
     clearTimeout(retryTimer);
@@ -281,7 +309,9 @@ function init(){
   window.FZG?.state?.subscribe?.(visibility);
   visibility();
 
-  refresh({streamers:[]},{streamers:[]});
+  setConnectionState("loading");
+  connectionError("Подключение к LIVE-серверу…");
+  list();
   poll();
   setInterval(poll,Math.max(15000,Number(cfg.pollMs)||30000));
 }
