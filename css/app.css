@@ -4753,3 +4753,47 @@ body > #liveListPanel .live-panel-close{
     will-change:auto!important;
   }
 }
+/* STREAMER PARALLAX — CONTAINMENT FIX */
+#mainPortal .live-overlay-layer .live-list-drawer{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layers{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  flex:none!important;
+  pointer-events:none!important;
+}
+#mainPortal .live-overlay-layer .live-list-head{
+  flex:0 0 auto!important;
+}
+#mainPortal .live-overlay-layer .live-streamer-list{
+  position:relative!important;
+  z-index:2!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer{
+  top:-18px!important;
+  bottom:-18px!important;
+  left:-18px!important;
+  right:-18px!important;
+  height:auto!important;
+  min-height:0!important;
+}
