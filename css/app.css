@@ -2972,11 +2972,15 @@ input,textarea{
   width:76px!important;
   min-width:76px!important;
   max-width:76px!important;
-  padding:0 4px!important;
+  padding:0 2px!important;
   overflow:hidden!important;
   white-space:nowrap!important;
   text-overflow:ellipsis!important;
   justify-self:end!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:inherit!important;
 }
 #mainPortal .home-media-row .live-dot{
   flex:0 0 auto!important;
@@ -2990,5 +2994,8 @@ input,textarea{
     min-width:70px!important;
     max-width:70px!important;
     font-size:8px!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
   }
 }
