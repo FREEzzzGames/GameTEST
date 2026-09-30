@@ -2951,3 +2951,44 @@ input,textarea{
 #mainPortal .home-media-row.is-hidden{
   display:none!important;
 }
+
+
+/* FINAL FIX — LIVE header must fit inside its half-width panel without overlap. */
+#mainPortal .home-media-row .live-head{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 86px!important;
+  align-items:center!important;
+  gap:5px!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-media-row .live-head-title{
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+#mainPortal .home-media-row .live-list-btn{
+  width:86px!important;
+  min-width:86px!important;
+  max-width:86px!important;
+  padding:0 5px!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  justify-self:end!important;
+}
+#mainPortal .home-media-row .live-dot{
+  flex:0 0 auto!important;
+}
+@media(max-width:380px){
+  #mainPortal .home-media-row .live-head{
+    grid-template-columns:minmax(0,1fr) 78px!important;
+  }
+  #mainPortal .home-media-row .live-list-btn{
+    width:78px!important;
+    min-width:78px!important;
+    max-width:78px!important;
+    font-size:7px!important;
+  }
+}
