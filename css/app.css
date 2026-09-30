@@ -5223,3 +5223,313 @@ body > #liveListPanel .live-panel-close{
   }
   #mainPortal .live-overlay-layer .live-list-main strong{font-size:13px!important}
 }
+
+/* =========================================================
+   HOME DASHBOARD — CHAT + LIVE + persistent GAME WINDOW
+   Existing LIVE/CHAT IDs and modules remain unchanged.
+   ========================================================= */
+#mainPortal .home-media-row{
+  width:100%!important;
+  flex:0 0 clamp(300px,46dvh,420px)!important;
+  height:clamp(300px,46dvh,420px)!important;
+  min-height:300px!important;
+  max-height:420px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"chat game" "live game"!important;
+  gap:7px!important;
+  min-width:0!important;
+  align-items:stretch!important;
+}
+
+#mainPortal .home-media-row .live-view{
+  grid-area:live!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+}
+
+#mainPortal .home-media-row .home-chat-widget{
+  grid-area:chat!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+}
+
+#mainPortal .home-media-row .game-window{
+  grid-area:game!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+}
+
+#mainPortal .game-window{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  border:1px solid rgba(95,183,255,.42)!important;
+  border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(10,22,39,.98),rgba(2,7,15,.98))!important;
+  box-shadow:inset 0 0 24px rgba(52,150,220,.06),0 8px 28px rgba(0,0,0,.20)!important;
+  color:var(--tg-text)!important;
+  z-index:3!important;
+}
+
+#mainPortal .game-window-head{
+  flex:0 0 38px!important;
+  height:38px!important;
+  min-height:38px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:6px!important;
+  padding:4px 5px 4px 7px!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  background:rgba(10,21,35,.92)!important;
+  z-index:4!important;
+}
+
+#mainPortal .game-window-title-wrap{
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  overflow:hidden!important;
+}
+
+#mainPortal .game-window-emoji{
+  width:27px!important;
+  height:27px!important;
+  min-width:27px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:7px!important;
+  background:rgba(255,255,255,.08)!important;
+  font-size:15px!important;
+}
+
+#mainPortal .game-window-title-wrap > div{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:1px!important;
+  overflow:hidden!important;
+}
+
+#mainPortal .game-window-title,
+#mainPortal .game-window-genre{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+#mainPortal .game-window-title{
+  font:700 11px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .game-window-genre{
+  font:400 7px/1 "Handjet",monospace!important;
+  color:var(--tg-text-secondary)!important;
+}
+
+#mainPortal .game-window-actions{
+  display:flex!important;
+  gap:4px!important;
+  flex:0 0 auto!important;
+}
+
+#mainPortal .game-window-action,
+#mainPortal .game-window-foot-expand{
+  width:30px!important;
+  height:30px!important;
+  min-width:30px!important;
+  min-height:30px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  border-radius:8px!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#fff!important;
+  font:700 14px/1 "Handjet",monospace!important;
+  touch-action:manipulation!important;
+}
+
+#mainPortal .game-window-frame-wrap{
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  background:#02050b!important;
+  isolation:isolate!important;
+}
+
+#mainPortal .game-window-frame-wrap iframe{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  border:0!important;
+  display:block!important;
+  background:#02050b!important;
+}
+
+#mainPortal .game-window-hitbar{
+  position:absolute!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  height:22px!important;
+  z-index:3!important;
+  pointer-events:none!important;
+}
+
+#mainPortal .game-window-empty,
+#mainPortal .game-window-loading,
+#mainPortal .game-window-fallback{
+  position:absolute!important;
+  inset:0!important;
+  z-index:2!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  padding:12px!important;
+  text-align:center!important;
+  background:linear-gradient(180deg,rgba(4,11,20,.88),rgba(2,5,10,.95))!important;
+  pointer-events:none!important;
+}
+
+#mainPortal .game-window-empty.hidden,
+#mainPortal .game-window-loading.hidden,
+#mainPortal .game-window-fallback.hidden{
+  display:none!important;
+}
+
+#mainPortal .game-window-empty-icon{
+  font-size:30px!important;
+  line-height:1!important;
+}
+
+#mainPortal .game-window-empty strong,
+#mainPortal .game-window-fallback strong,
+#mainPortal .game-window-loading-title{
+  font:700 12px/1.05 "Handjet",monospace!important;
+}
+
+#mainPortal .game-window-empty span,
+#mainPortal .game-window-fallback span,
+#mainPortal .game-window-loading-text{
+  max-width:220px!important;
+  font:400 8px/1.25 "Handjet",monospace!important;
+  color:var(--tg-text-secondary)!important;
+}
+
+#mainPortal .game-window-fallback{
+  pointer-events:auto!important;
+}
+
+#mainPortal .game-window-fallback-btn{
+  margin-top:5px!important;
+  min-height:32px!important;
+  padding:0 10px!important;
+  border:1px solid var(--tg-blue)!important;
+  border-radius:8px!important;
+  background:var(--tg-btn)!important;
+  color:var(--tg-text)!important;
+  font:700 9px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .game-window-foot{
+  flex:0 0 24px!important;
+  height:24px!important;
+  min-height:24px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  border-top:1px solid rgba(255,255,255,.08)!important;
+  color:rgba(255,255,255,.48)!important;
+  font:500 7px/1 "Handjet",monospace!important;
+  letter-spacing:.5px!important;
+}
+
+#mainPortal .game-window-foot-expand{
+  position:absolute!important;
+  right:4px!important;
+  top:2px!important;
+  width:20px!important;
+  height:20px!important;
+  min-width:20px!important;
+  min-height:20px!important;
+  font-size:11px!important;
+}
+
+#mainPortal .game-window.is-expanded{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  z-index:2147482000!important;
+  border-radius:0!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+#mainPortal .game-window.is-expanded .game-window-head{
+  flex-basis:48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  padding:6px 8px!important;
+}
+
+#mainPortal .game-window.is-expanded .game-window-action{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+}
+
+#mainPortal .game-window.is-expanded .game-window-foot{
+  flex-basis:30px!important;
+  height:30px!important;
+  min-height:30px!important;
+}
+
+#mainPortal .game-window.is-expanded .game-window-foot-expand{
+  display:none!important;
+}
+
+body.game-window-expanded{
+  overflow:hidden!important;
+  touch-action:none!important;
+}
+
+@media(max-height:700px){
+  #mainPortal .home-media-row{
+    flex-basis:clamp(280px,48dvh,360px)!important;
+    height:clamp(280px,48dvh,360px)!important;
+    min-height:280px!important;
+    max-height:360px!important;
+  }
+}
+
+@media(max-width:380px){
+  #mainPortal .home-media-row{
+    gap:5px!important;
+    flex-basis:clamp(270px,48dvh,350px)!important;
+    height:clamp(270px,48dvh,350px)!important;
+    min-height:270px!important;
+    max-height:350px!important;
+  }
+  #mainPortal .game-window-title{font-size:10px!important}
+  #mainPortal .game-window-genre{font-size:6px!important}
+}
