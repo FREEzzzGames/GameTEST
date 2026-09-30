@@ -56,7 +56,7 @@
   <div class="header-top">
     <div class="portal-logo" id="portalLogo">
       <h1>FREEzzzGames</h1>
-      <div class="subtitle" data-i18n="subtitle">ARCADE PORTAL 🕹️</div>
+      <div class="subtitle" data-i18n="subtitle">ARCADE PORTAL</div>
     </div>
     <div class="profile-box" id="userProfileBox" data-action-hint-target="profile">
       <div class="user-avatar" id="currentAvatarEmoji">👾</div>
@@ -70,12 +70,12 @@
   <div class="home-media-row" id="homeMediaRow">
     <section class="live-view" id="liveView" aria-label="FREEzzzGames Live">
       <div class="live-head">
-        <button class="live-list-btn" id="liveListBtn" type="button">☰ СТРИМЕРЫ</button>
-        <div class="live-head-title"><span class="live-dot"></span> FREEzzzGames LIVE</div>
+        <button class="live-list-btn" id="liveListBtn" type="button">СТРИМЕРЫ</button>
+        <div class="live-head-title">FREEzzzGames LIVE</div>
       </div>
       <div class="live-list-panel hidden" id="liveListPanel">
         <div class="live-list-drawer">
-          <div class="live-list-head"><button class="live-list-back" id="liveListBack" type="button" aria-label="Вернуться в LIVE">‹ LIVE</button><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button" aria-label="Закрыть">×</button></div>
+          <div class="live-list-head"><button class="live-list-back" id="liveListBack" type="button">LIVE</button><strong>СТРИМЕРЫ</strong><button class="live-panel-close" id="liveListClose" type="button">ЗАКРЫТЬ</button></div>
           <div class="live-streamer-list" id="liveStreamerList"></div>
         </div>
       </div>
@@ -85,30 +85,30 @@
 
     <section class="home-chat-widget" id="homeChatWidget" aria-label="FREEzzzyChat">
       <div class="home-chat-head">
-        <div class="home-chat-title"><span class="home-chat-dot"></span><strong>FREEzzzyChat</strong><span class="home-chat-status" id="homeChatStatus">ОНЛАЙН</span></div>
-        <button class="home-chat-open" id="homeChatOpen" type="button" aria-label="Открыть чат">↗</button>
+        <div class="home-chat-title"><strong>FREEzzzyChat</strong><span class="home-chat-status" id="homeChatStatus">ОНЛАЙН</span></div>
+        <button class="home-chat-open" id="homeChatOpen" type="button">ОТКРЫТЬ</button>
       </div>
       <div class="home-chat-messages" id="homeChatMessages">
         <div class="home-chat-empty">Открываем чат…</div>
       </div>
       <div class="home-chat-compose">
         <input id="homeChatInput" type="text" maxlength="500" autocomplete="off" placeholder="Напиши сообщение…" aria-label="Сообщение">
-        <button id="homeChatSend" type="button" aria-label="Отправить">➤</button>
+        <button id="homeChatSend" type="button">ОТПРАВИТЬ</button>
       </div>
     </section>
 
     <section class="game-window" id="gameWindow" aria-label="GAME WINDOW" aria-expanded="false">
       <div class="game-window-head">
         <div class="game-window-title-wrap">
-          <span class="game-window-emoji" aria-hidden="true">🎮</span>
+          
           <div>
             <strong class="game-window-title">GAME WINDOW</strong>
             <small class="game-window-genre">ВЫБЕРИ ИГРУ В КАТАЛОГЕ</small>
           </div>
         </div>
         <div class="game-window-actions">
-          <button class="game-window-action" data-game-window-action="expand" type="button" aria-label="Развернуть игру">↗</button>
-          <button class="game-window-action" data-game-window-action="close" type="button" aria-label="Закрыть игру">×</button>
+          <button class="game-window-action" data-game-window-action="expand" type="button">РАЗВЕРНУТЬ</button>
+          <button class="game-window-action" data-game-window-action="close" type="button">ЗАКРЫТЬ</button>
         </div>
       </div>
       <div class="game-window-frame-wrap">
@@ -119,12 +119,12 @@
           <div class="game-window-loading-text">Подготавливаем игру</div>
         </div>
         <div class="game-window-empty">
-          <div class="game-window-empty-icon">🕹️</div>
+          
           <strong>ВЫБЕРИ ИГРУ</strong>
           <span>Открой каталог ниже и запусти игру прямо здесь.</span>
         </div>
         <div class="game-window-fallback hidden">
-          <div class="game-window-empty-icon">↗</div>
+          
           <strong>ИГРА НЕ ВСТРОИЛАСЬ</strong>
           <span>Этот сайт может запрещать запуск внутри окна.</span>
           <button class="game-window-fallback-btn" data-game-window-action="external" type="button">ОТКРЫТЬ ОТДЕЛЬНО</button>
@@ -132,7 +132,7 @@
       </div>
       <div class="game-window-foot">
         <span>DOUBLE TAP — FULLSCREEN</span>
-        <button class="game-window-foot-expand" data-game-window-action="expand" type="button" aria-label="Развернуть игру">↗</button>
+        <button class="game-window-foot-expand" data-game-window-action="expand" type="button">РАЗВЕРНУТЬ</button>
       </div>
     </section>
   </div>  <div class="live-offline-info hidden" id="liveOfflineInfo"></div>
@@ -144,31 +144,31 @@
   </div>
 
   <div class="panel-view hidden" id="achievementsView">
-    <div class="row-card achievement" id="achSnake"><div><span class="row-name">🐍 Мастер Змейки</span><div class="ach-desc">Счет от 100 в Snake</div></div><span class="row-val" id="statSnake">🔒</span></div>
-    <div class="row-card achievement" id="achTetris"><div><span class="row-name">🧱 Архитектор Тетриса</span><div class="ach-desc">Счет от 500 в Tetris</div></div><span class="row-val" id="statTetris">🔒</span></div>
-    <div class="row-card achievement" id="achMario"><div><span class="row-name">🍄 Герой Платформера</span><div class="ach-desc">Пройди Platformer</div></div><span class="row-val" id="statMario">🔒</span></div>
-    <div class="row-card achievement" id="achRacer"><div><span class="row-name">🏎️ Путешественник</span><div class="ach-desc">Открой Slow Roads</div></div><span class="row-val" id="statRacer">🔒</span></div>
+    <div class="row-card achievement" id="achSnake"><div><span class="row-name">Мастер Змейки</span><div class="ach-desc">Счет от 100 в Snake</div></div><span class="row-val" id="statSnake">ЗАКРЫТО</span></div>
+    <div class="row-card achievement" id="achTetris"><div><span class="row-name">Архитектор Тетриса</span><div class="ach-desc">Счет от 500 в Tetris</div></div><span class="row-val" id="statTetris">ЗАКРЫТО</span></div>
+    <div class="row-card achievement" id="achMario"><div><span class="row-name">Герой Платформера</span><div class="ach-desc">Пройди Platformer</div></div><span class="row-val" id="statMario">ЗАКРЫТО</span></div>
+    <div class="row-card achievement" id="achRacer"><div><span class="row-name">Путешественник</span><div class="ach-desc">Открой Slow Roads</div></div><span class="row-val" id="statRacer">ЗАКРЫТО</span></div>
   </div>
 
   <div class="panel-view hidden" id="guestView">
     <div class="chat-auth-state" id="chatAuthState"></div>
     <div class="chat-layout" id="chatLayout">
       <div class="chat-room-tabs">
-        <button class="chat-room-tab active" data-room="main" type="button" data-action-hint-target="chatRooms">🏠 <span data-chat-room-label="main">ОСНОВНАЯ</span></button>
-        <button class="chat-room-tab" data-room="games" type="button">🎮 <span data-chat-room-label="games">ИГРЫ</span></button>
-        <button class="chat-room-tab" data-room="relax" type="button">🌙 <span data-chat-room-label="relax">ОТДЫХ</span></button>
-        <button class="chat-room-tab" data-room="dm" type="button">✉️ <span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
+        <button class="chat-room-tab active" data-room="main" type="button" data-action-hint-target="chatRooms"><span data-chat-room-label="main">ОСНОВНАЯ</span></button>
+        <button class="chat-room-tab" data-room="games" type="button"><span data-chat-room-label="games">ИГРЫ</span></button>
+        <button class="chat-room-tab" data-room="relax" type="button"><span data-chat-room-label="relax">ОТДЫХ</span></button>
+        <button class="chat-room-tab" data-room="dm" type="button"><span data-chat-room-label="dm">ЛИЧНЫЕ СООБЩЕНИЯ</span></button>
       </div>
       <div class="chat-toolbar">
-        <button id="chatBackBtn" class="chat-mini-btn" type="button" aria-label="Назад">‹</button>
-        <span id="chatRoomTitle">🏠 ОСНОВНАЯ</span>
-        <button id="chatRefreshBtn" class="chat-mini-btn" type="button" aria-label="Обновить">↻</button>
+        <button id="chatBackBtn" class="chat-mini-btn" type="button">НАЗАД</button>
+        <span id="chatRoomTitle">ОСНОВНАЯ</span>
+        <button id="chatRefreshBtn" class="chat-mini-btn" type="button">ОБНОВИТЬ</button>
       </div>
       <div class="dm-list hidden" id="dmList"></div>
       <div class="guest-list chat-list" id="guestList"></div>
       <div class="dm-thread hidden" id="dmThread">
         <div class="dm-thread-head">
-          <button id="dmBackBtn" class="chat-mini-btn" type="button">‹</button>
+          <button id="dmBackBtn" class="chat-mini-btn" type="button">НАЗАД</button>
           <span id="dmThreadTitle">Личные сообщения</span>
         </div>
         <div class="guest-list" id="dmMessageList"></div>
@@ -180,14 +180,14 @@
     </div>
   </div>
 
-  <div class="footer-info">FREEzzzGames • <span data-i18n="arcadeHub">ARCADE HUB</span></div>
+  <div class="footer-info">FREEzzzGames — <span data-i18n="arcadeHub">ARCADE HUB</span></div>
 </div>
 
 <!-- ОТДЕЛЬНЫЙ РАДИО-БЛОК TECHNO.FM -->
 <div class="radio-overlay hidden" id="radioOverlay">
   <div class="radio-card" role="dialog" aria-modal="true" aria-label="Techno.FM Radio">
     <div class="radio-head">
-      <strong>📻 Techno.FM</strong>
+      <strong>Techno.FM</strong>
       <button class="radio-close" id="radioCloseBtn" type="button" aria-label="Закрыть">×</button>
     </div>
     <div class="radio-status" id="radioStatus">STOPPED</div>
@@ -212,7 +212,7 @@
 <!-- ВСПЛЫВАЮЩЕЕ МЕНЮ АЧИВОК -->
 <div class="modal-overlay hidden" id="achievementsModal">
   <div class="modal-card achievements-modal-card">
-    <h3 class="achievements-modal-title">🏆 <span id="achievementsModalTitle">АЧИВКИ</span></h3>
+    <h3 class="achievements-modal-title"><span id="achievementsModalTitle">АЧИВКИ</span></h3>
     <p class="achievements-modal-hint">Твои достижения и прогресс</p>
     <div class="achievements-modal-list" id="achievementsModalList"></div>
     <button class="action-btn" style="width:100%;justify-content:center;padding:8px;margin-top:2px;" id="closeAchievementsBtn">ЗАКРЫТЬ</button>
@@ -236,9 +236,9 @@
       <div class="player-stat"><div class="player-stat-value" id="profileChatTime">0м</div><div class="player-stat-label" id="profileChatTimeLabel">В ЧАТЕ</div></div>
       <div class="player-stat"><div class="player-stat-value" id="profileActiveDays">0</div><div class="player-stat-label" id="profileDaysLabel">ДНЕЙ АКТИВНОСТИ</div></div>
     </div>
-    <button class="player-achievements-trigger" id="profileAchievementsTitle" data-action-hint-target="achievements" type="button">🏆 АЧИВКИ</button>
+    <button class="player-achievements-trigger" id="profileAchievementsTitle" data-action-hint-target="achievements" type="button">АЧИВКИ</button>
     <button class="player-profile-close hidden" id="playerProfileMessageBtn">✉️ НАПИСАТЬ</button>
-    <button class="player-hints-toggle" id="profileHintsToggle" type="button">💡 ПОДСКАЗКИ: ВКЛ</button>
+    <button class="player-hints-toggle" id="profileHintsToggle" type="button">ПОДСКАЗКИ: ВКЛ</button>
     <button class="player-profile-close" id="playerProfileClose">ЗАКРЫТЬ</button>
   </div>
 </div>
@@ -261,7 +261,7 @@
 <div class="action-hint-layer hidden" id="actionHintLayer" aria-live="polite">
   <div class="action-hint-target" id="actionHintTarget" aria-hidden="true"></div>
   <div class="action-hint-card" id="actionHintCard" role="dialog" aria-label="Подсказка">
-    <button class="action-hint-close" id="actionHintClose" type="button" aria-label="Закрыть">×</button>
+    <button class="action-hint-close" id="actionHintClose" type="button">ЗАКРЫТЬ</button>
     <div class="action-hint-title" id="actionHintTitle"></div>
     <div class="action-hint-text" id="actionHintText"></div>
     <button class="action-hint-disable" id="actionHintDisable" type="button">Не показывать подсказки</button>
