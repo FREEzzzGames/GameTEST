@@ -6132,3 +6132,156 @@ html,body{
     font-size:8px!important;
   }
 }
+
+
+/* =========================================================
+   FINAL MOBILE GEOMETRY LOCK
+   The screenshot exposed a header-width mismatch on narrow /
+   high-density viewports. This lock keeps the four header
+   zones inside the exact viewport and prevents any horizontal
+   bleed. No module mechanics are changed.
+   ========================================================= */
+
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-x:hidden!important;
+}
+#mainPortal{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  min-width:0!important;
+  height:100dvh!important;
+  max-height:100dvh!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  padding-left:max(6px,env(safe-area-inset-left))!important;
+  padding-right:max(6px,env(safe-area-inset-right))!important;
+}
+
+/* Header = 60% LOGO / 30% PROFILE / fixed RADIO / fixed LANGUAGE. */
+#mainPortal .header-top{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  flex:0 0 50px!important;
+  height:50px!important;
+  min-height:50px!important;
+  max-height:50px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,6fr) minmax(0,3fr) 32px 32px!important;
+  gap:4px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+#mainPortal .header-top .portal-logo{
+  grid-column:1!important;
+  grid-row:1!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:50px!important;
+  min-height:50px!important;
+  max-height:50px!important;
+  padding:2px 5px!important;
+  overflow:hidden!important;
+}
+#mainPortal .header-top .portal-logo h1{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:clip!important;
+  white-space:nowrap!important;
+  font-size:clamp(18px,7vw,32px)!important;
+  line-height:.88!important;
+}
+#mainPortal .header-top .portal-logo .subtitle{
+  width:100%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  font-size:clamp(5px,1.8vw,8px)!important;
+}
+#mainPortal .header-top .profile-box{
+  grid-column:2!important;
+  grid-row:1!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:50px!important;
+  min-height:50px!important;
+  max-height:50px!important;
+  padding:0 6px!important;
+  gap:5px!important;
+  display:grid!important;
+  grid-template-columns:30px minmax(0,1fr)!important;
+  overflow:hidden!important;
+}
+#mainPortal .header-top .profile-box .user-avatar{
+  width:30px!important;
+  min-width:30px!important;
+  height:30px!important;
+  min-height:30px!important;
+  font-size:15px!important;
+}
+#mainPortal .header-top .profile-box #userNameTxt{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:clamp(8px,1.9vw,12px)!important;
+}
+#mainPortal .header-top .always-controls{
+  display:contents!important;
+}
+#mainPortal .header-top .always-btn{
+  width:32px!important;
+  min-width:32px!important;
+  max-width:32px!important;
+  height:50px!important;
+  min-height:50px!important;
+  max-height:50px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:12px!important;
+}
+#mainPortal .header-top .always-btn.radio{font-size:14px!important}
+#mainPortal .header-top .always-btn.lang{font-size:8px!important}
+
+/* The media stage obeys the same viewport box as the header. */
+#mainPortal .home-media-row{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+#mainPortal .home-media-row > *{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:430px){
+  #mainPortal .header-top{
+    grid-template-columns:minmax(0,6fr) minmax(0,3fr) 30px 30px!important;
+    gap:4px!important;
+  }
+  #mainPortal .header-top .always-btn{
+    width:30px!important;
+    min-width:30px!important;
+    max-width:30px!important;
+  }
+  #mainPortal .header-top .portal-logo h1{
+    font-size:clamp(17px,6.8vw,28px)!important;
+  }
+}
