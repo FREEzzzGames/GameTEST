@@ -6355,7 +6355,7 @@ html,body{
 #mainPortal .game-window-actions{display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:4px!important}
 #mainPortal .game-window-action{position:relative!important;inset:auto!important;flex:0 0 auto!important}
 
-#guestView .chat-layout{width:min(100%,520px)!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+#guestView .chat-layout{width:100%!important;max-width:none!important;min-width:0!important;overflow:hidden!important}
 #guestView .chat-room-tabs{width:100%!important;min-width:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
 #guestView .chat-room-tab{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
 #guestView .chat-toolbar{width:100%!important;min-width:0!important;grid-template-columns:minmax(32px,auto) minmax(0,1fr) minmax(32px,auto)!important}
