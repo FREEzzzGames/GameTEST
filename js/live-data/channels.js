@@ -20,10 +20,10 @@ export const LIVE_CHANNELS=[
 ];
 
 export function directSources(){
+  // Static registry only. No URL validation, ONLINE/OFFLINE probing or ID requirement.
   return LIVE_CHANNELS.map(x=>({
     ...x,
-    live:false,
-    sourceMode:"registry",
-    sources:[]
+    channelUrl: x.channelUrl || (x.handle ? "https://www.youtube.com/"+String(x.handle).replace(/^@/,"@") : ""),
+    sourceMode:"direct"
   }));
 }
