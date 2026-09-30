@@ -935,8 +935,12 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
   // Final portal boot. Keep rendering isolated so one optional module cannot blank the whole portal.
   function bootPortal(){
-    try{ applyLanguage(); showCategoryList(false); }
-    catch(err){ console.error("FREEzzzGames portal boot error:",err); }
+    try{
+      applyLanguage();
+      showCategoryList(false);
+      // The portal always opens on the main screen. Chat is an explicit user action.
+      switchTab("games");
+    }catch(err){ console.error("FREEzzzGames portal boot error:",err); }
   }
   bootPortal();
   updateActionHintsControls();
