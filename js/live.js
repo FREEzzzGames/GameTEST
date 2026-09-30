@@ -1,450 +1,340 @@
-import { directSources } from "./live-data/channels.js?v=20260930e8";
+import { directSources } from "./live-data/channels.js?v=20260930f";
 
 (() => {
 "use strict";
 
-const cfg=Object.assign({
-  endpoint:"https://freezzgames-live-monitor.onrender.com/api/live",
-  pollMs:300000
-},window.FZG_LIVE_CONFIG||{});
+/*
+  FREEzzzGames LIVE
+  -----------------
+  The portal owns the streamer catalog and UI.
+  YouTube remains the external source of creator content.
+  There is NO automatic ONLINE/OFFLINE polling and no LIVE monitor dependency.
+*/
 
-const STATIC_SOURCES=directSources();
-const S={all:STATIC_SOURCES,online:[],selectedId:null,muted:true,loading:false,connectionState:"idle",lastError:""};
-let retryTimer=null;
+const S = {
+  all: directSources(),
+  selectedId: null,
+  selectedVideo: null,
+  botTimer: null,
+  botPhraseTimer: null
+};
 
-const $=id=>document.getElementById(id);
-const h=()=>window.FZG?.platform?.haptic?.("light");
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const h = () => window.FZG?.platform?.haptic?.("light");
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"
+}[c]));
 
-function score(x){
-  return Number(x?.qualityScore||0)*.42+
-    Number(x?.trafficScore||0)*.28+
-    Number(x?.stabilityScore||0)*.22+
-    Number(x?.latencyScore||0)*.08;
+const BOT_PHRASES = [
+  "Я проверил интернет. Он всё ещё интернет.",
+  "Трансляций нет. Зато я есть.",
+  "Я хотел запустить стрим, но забыл зачем.",
+  "404: хорошая шутка не найдена.",
+  "ПИНГ КАРТОШКИ: 73 МС.",
+  "Кабель смотрел на меня первым.",
+  "Я занят очень важными роботскими делами.",
+  "Я робот. У меня нет подписки на YouTube.",
+  "Стрим ушёл. Я остался.",
+  "Проверка трансляции завершена. Ничего не проверено.",
+  "Я бы рассказал мем, но он ушёл смотреть стрим.",
+  "Минуточку. Я загружаю настроение.",
+  "Сегодня я официальный эксперт по ничегонеделанию.",
+  "Внимание. Робот находится в рабочем состоянии.",
+  "Я вспомнил шутку. Нет, уже забыл.",
+  "КАРТОШКА НЕ ПОДКЛЮЧЕНА К WIFI."
+];
+
+const BOT_TAPS = [
+  "ОЙ.",
+  "НЕ ТРОГАЙ МОИ ПРОЦЕССОРЫ.",
+  "ЭЙ! Я ТУТ РАБОТАЮ.",
+  "ЗАЧЕМ ТЫ МЕНЯ НАЖАЛ?",
+  "ПЕРЕЗАПУСК ЧУВСТВА ЮМОРА...",
+  "Ладно. Держи мем.",
+  "🤖 *делает вид, что занят*"
+];
+
+function channelUrl(x) {
+  if (x.channelUrl) return x.channelUrl;
+  if (x.channelId) return "https://www.youtube.com/channel/" + encodeURIComponent(x.channelId);
+  if (x.handle) return "https://www.youtube.com/" + String(x.handle).trim();
+  return "";
 }
 
-function source(s){
-  return [...(s.sources||[])]
-    .filter(x=>x.live&&x.embedUrl)
-    .sort((a,b)=>score(b)-score(a))[0]||null;
+function botPhrase(text = null) {
+  const bubble = $("liveBotBubble");
+  if (!bubble) return;
+  const value = text || BOT_PHRASES[Math.floor(Math.random() * BOT_PHRASES.length)];
+  bubble.textContent = value;
+  bubble.classList.remove("is-new");
+  requestAnimationFrame(() => bubble.classList.add("is-new"));
 }
 
-function shuffle(a){
-  a=[...a];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
+function botMove() {
+  const bot = $("liveBot");
+  const area = $("liveMain");
+  if (!bot || !area) return;
+
+  const w = Math.max(30, area.clientWidth - 44);
+  const h = Math.max(30, area.clientHeight - 58);
+  const x = Math.random() * w;
+  const y = Math.random() * h;
+  bot.style.setProperty("--bot-x", Math.round(x) + "px");
+  bot.style.setProperty("--bot-y", Math.round(y) + "px");
+  bot.classList.toggle("face-left", Math.random() > .5);
 }
 
-function normalize(payload){
-  const a=Array.isArray(payload)
-    ? payload
-    : Array.isArray(payload?.streamers)
-      ? payload.streamers
-      : [];
+function renderBot() {
+  const m = $("liveMain");
+  if (!m) return;
 
-  return a.map(raw=>{
-    const x={
-      ...raw,
-      id:String(raw?.id||""),
-      name:String(raw?.name||"Стример"),
-      avatar:String(raw?.avatar||"🎮"),
-      game:String(raw?.game||""),
-      category:String(raw?.category||""),
-      live:!!raw?.live,
-      liveStartedAt:raw?.liveStartedAt||null,
-      lastStreamAt:raw?.lastStreamAt||null,
-      lastStreamTitle:String(raw?.lastStreamTitle||""),
-      previewUrl:String(raw?.previewUrl||""),
-      channelUrl:String(raw?.channelUrl||""),
-      sources:Array.isArray(raw?.sources)?raw.sources:[]
-    };
-    x.selectedSource=source(x);
-    return x;
-  }).filter(x=>x.id);
-}
+  m.innerHTML =
+    '<div class="live-bot-stage" id="liveBotStage">' +
+      '<div class="live-bot-bubble" id="liveBotBubble">Проверяю наличие трансляции...</div>' +
+      '<button class="live-bot" id="liveBot" type="button" aria-label="LIVE Bot">🤖</button>' +
+      '<div class="live-bot-floor">FREEzzzGames LIVE BOT</div>' +
+    '</div>';
 
-function mergePayloads(registryPayload,livePayload){
-  const registryAvailable=registryPayload!==null;
-  const liveAvailable=livePayload!==null;
-  const base=registryAvailable?normalize(registryPayload):normalize(S.all);
-  const live=liveAvailable?normalize(livePayload):normalize(S.all);
-  const map=new Map(base.map(x=>[x.id,x]));
-
-  for(const x of live){
-    const prev=map.get(x.id)||{};
-    map.set(x.id,{...prev,...x});
-  }
-
-  if(!liveAvailable){
-    for(const prev of normalize(S.all)){
-      const current=map.get(prev.id);
-      if(current){
-        map.set(prev.id,{
-          ...current,
-          live:prev.live,
-          liveStartedAt:prev.liveStartedAt,
-          sources:prev.sources,
-          lastStreamTitle:prev.lastStreamTitle
-        });
-      }
-    }
-  }
-
-  return [...map.values()].map(x=>{
-    x.selectedSource=source(x);
-    return x;
-  });
-}
-
-function fmt(v){
-  try{
-    return new Intl.DateTimeFormat("ru-RU",{
-      day:"2-digit",month:"2-digit",year:"numeric",
-      hour:"2-digit",minute:"2-digit"
-    }).format(new Date(v));
-  }catch{
-    return String(v);
-  }
-}
-
-function empty(){
-  const m=$("liveMain");
-  if(m)m.innerHTML='<div class="live-empty"><div class="live-empty-icon">📡</div><div class="live-empty-title">СЕЙЧАС НЕТ ТРАНСЛЯЦИЙ</div><div class="live-empty-text">Зарегистрированные каналы проверяются автоматически.</div></div>';
-  if($("liveCarousel"))$("liveCarousel").innerHTML="";
-}
-
-function connectionError(message){
-  const m=$("liveMain");
-  if(m)m.innerHTML='<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-title">LIVE-СЕРВЕР НЕДОСТУПЕН</div><div class="live-empty-text">Связь с сервером трансляций временно отсутствует. Попробуем снова автоматически.</div><div class="live-empty-text" style="opacity:.55">'+esc(message||"connection error")+'</div></div>';
-  if($("liveCarousel"))$("liveCarousel").innerHTML="";
-}
-
-function setConnectionState(state,error=""){
-  S.connectionState=state;
-  S.lastError=error||"";
-  document.getElementById("liveView")?.setAttribute("data-live-state",state);
-}
-
-function main(s){
-  const m=$("liveMain");
-  if(!m){
-    return;
-  }
-
-  if(!s){
-    empty();
-    return;
-  }
-
-  if(!s.selectedSource){
-    if(s.previewUrl){
-      m.innerHTML='<div class="live-video-frame live-preview-frame"><a class="live-preview-link" href="'+esc(s.channelUrl||"#")+'" target="_blank" rel="noopener noreferrer"><img class="live-preview-image" src="'+esc(s.previewUrl)+'" alt="'+esc(s.name)+'"><span class="live-preview-shade"><span class="live-preview-badge">SOURCE</span><strong>'+esc(s.name)+'</strong><small>'+esc(s.category||"LIVE")+'</small><span class="live-preview-open">ОТКРЫТЬ ЭФИР ↗</span></span></a></div>';
-      return;
-    }
-    empty();
-    return;
-  }
-
-  const u=esc(s.selectedSource.embedUrl);
-  m.innerHTML='<div class="live-video-frame"><iframe class="live-video" src="'+u+'" title="'+esc(s.name)+' — LIVE" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="eager"></iframe><div class="live-video-shade"><div class="live-streamer-badge"><span class="live-dot"></span> LIVE</div><button class="live-sound-btn" id="liveSoundBtn" type="button">🔇</button></div><div class="live-streamer-info"><div class="live-streamer-avatar">'+esc(s.avatar)+'</div><div class="live-streamer-copy"><strong>'+esc(s.name)+'</strong><span>'+esc(s.game||s.category||"LIVE")+'</span></div></div></div>';
-
-  $("liveSoundBtn")?.addEventListener("click",()=>{
-    S.muted=!S.muted;
-    $("liveSoundBtn").textContent=S.muted?"🔇":"🔊";
+  $("liveBot")?.addEventListener("click", () => {
+    botPhrase(BOT_TAPS[Math.floor(Math.random() * BOT_TAPS.length)]);
+    botMove();
     h();
-    window.FZG?.live?.onSoundChange?.(S.muted,s,s.selectedSource);
   });
+
+  botPhrase();
+  botMove();
+
+  clearInterval(S.botTimer);
+  clearInterval(S.botPhraseTimer);
+  S.botTimer = setInterval(botMove, 3500);
+  S.botPhraseTimer = setInterval(() => botPhrase(), 6500);
 }
 
-function carousel(){
-  const host=$("liveCarousel");
-  if(!host)return;
+function renderList() {
+  const host = $("liveStreamerList");
+  if (!host) return;
 
-  const a=shuffle(S.online.filter(x=>x.id!==S.selectedId)).slice(0,8);
-
-  host.innerHTML=a.map(x=>
-    '<button class="live-carousel-card" type="button" data-live-id="'+esc(x.id)+'">'+
-      '<div class="live-carousel-thumb"><span class="live-dot"></span><span class="live-thumb-avatar">'+esc(x.avatar)+'</span></div>'+
-      '<div class="live-carousel-name">'+esc(x.name)+'</div>'+
-      '<div class="live-carousel-game">'+esc(x.game||x.category||"LIVE")+'</div>'+
+  host.innerHTML = S.all.map(x =>
+    '<button class="live-list-row" type="button" data-live-list-id="' + esc(x.id) + '">' +
+      '<span class="live-list-avatar">' + esc(x.avatar) + '</span>' +
+      '<span class="live-list-main">' +
+        '<strong>' + esc(x.name) + '</strong>' +
+        '<small>' + esc(x.category || "YouTube") + '</small>' +
+        '<em>' + esc(x.shortDescription || "YouTube-канал") + '</em>' +
+      '</span>' +
+      '<span class="live-list-status catalog">YT</span>' +
     '</button>'
   ).join("");
 
-  host.querySelectorAll("[data-live-id]").forEach(b=>
-    b.addEventListener("click",()=>select(b.dataset.liveId,true))
-  );
-}
-
-function list(){
-  const host=$("liveStreamerList");
-  if(!host)return;
-
-  const on=S.all.filter(x=>x.live&&x.selectedSource);
-  const off=S.all.filter(x=>!x.live||!x.selectedSource);
-
-  const row=(x,isOn)=>
-    '<button class="live-list-row" type="button" data-live-list-id="'+esc(x.id)+'">'+
-      '<span class="live-list-avatar">'+esc(x.avatar)+'</span>'+
-      '<span class="live-list-main">'+
-        '<strong>'+esc(x.name)+'</strong>'+
-        '<small>'+esc(x.game||x.category||"Стример")+'</small>'+
-        '<em>'+(isOn?"СЕЙЧАС В ЭФИРЕ":(x.lastStreamAt?"Последний эфир: "+fmt(x.lastStreamAt):"Ожидает следующий эфир"))+'</em>'+
-      '</span>'+
-      '<span class="live-list-status '+(isOn?"online":"offline")+'">'+(isOn?"LIVE":"OFF")+'</span>'+
-    '</button>';
-
-  host.innerHTML=
-    '<div class="live-list-section-title">🔴 ONLINE · '+on.length+'</div>'+
-    (on.map(x=>row(x,true)).join("")||'<div class="live-list-none">Сейчас никто не в эфире.</div>')+
-    '<div class="live-list-section-title offline-title">⚫ OFFLINE · '+off.length+'</div>'+
-    (off.map(x=>row(x,false)).join("")||'<div class="live-list-none">Нет зарегистрированных профилей.</div>');
-
-  host.querySelectorAll("[data-live-list-id]").forEach(b=>
-    b.addEventListener("click",()=>{
-      const x=S.all.find(v=>v.id===b.dataset.liveListId);
-      if(!x)return;
+  host.querySelectorAll("[data-live-list-id]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const x = S.all.find(v => v.id === btn.dataset.liveListId);
+      if (!x) return;
       closeList();
-      // The streamer list is a profile directory. Selecting a row always opens
-      // the streamer card first; the card decides whether to offer LIVE playback.
-      streamerCard(x);
-      S.selectedId=x.id;
-      S.muted=true;
+      openCard(x);
       h();
-    })
-  );
+    });
+  });
 }
 
-function positionListPanel(){
-  const panel=$("liveListPanel");
-  const btn=$("liveListBtn");
-  if(!panel||!btn||panel.parentElement!==document.body)return;
-  const r=host.getBoundingClientRect();
-  const gap=5;
-  const maxH=Math.max(180,Math.min(430,window.innerHeight-r.bottom-gap-8));
-  panel.style.position="fixed";
-  panel.style.left=Math.round(r.left)+"px";
-  panel.style.top=Math.round(r.bottom+gap)+"px";
-  panel.style.width=Math.round(r.width)+"px";
-  panel.style.maxHeight=Math.round(maxH)+"px";
-  panel.style.height="auto";
-  panel.style.zIndex="2147483000";
+function openCard(x) {
+  S.selectedId = x.id;
+  S.selectedVideo = null;
+
+  const m = $("liveMain");
+  if (!m) return;
+
+  const url = channelUrl(x);
+
+  m.innerHTML =
+    '<div class="live-streamer-card">' +
+      '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>' +
+      '<div class="live-streamer-card-avatar">' + esc(x.avatar) + '</div>' +
+      '<strong class="live-streamer-card-name">' + esc(x.name) + '</strong>' +
+      '<span class="live-streamer-card-game">' + esc(x.category || "YouTube") + '</span>' +
+      '<p class="live-streamer-card-text">' + esc(x.description || x.shortDescription || "Канал автора на YouTube.") + '</p>' +
+      '<div class="live-streamer-card-actions">' +
+        (url ? '<button class="live-streamer-card-channel" id="liveCardChannel" type="button">КАНАЛ ↗</button>' : '') +
+      '</div>' +
+    '</div>';
+
+  $("liveCardClose")?.addEventListener("click", () => {
+    S.selectedId = null;
+    renderBot();
+  });
+
+  $("liveCardChannel")?.addEventListener("click", () => {
+    openYouTubePanel(x);
+    h();
+  });
 }
 
-function openList(){
-  const panel=$("liveListPanel");
-  const host=$("liveView");
-  if(!panel||!host)return;
-  if(panel.parentElement!==document.body){
-    document.body.appendChild(panel);
-  }
-  panel.classList.remove("hidden");
-  panel.style.display="block";
-  panel.style.pointerEvents="auto";
-  panel.style.touchAction="pan-y";
-  positionListPanel();
-  window.addEventListener("resize",positionListPanel,{passive:true});
-  window.addEventListener("orientationchange",positionListPanel,{passive:true});
+function openYouTubePanel(x) {
+  const m = $("liveMain");
+  if (!m) return;
+
+  const url = channelUrl(x);
+
+  m.innerHTML =
+    '<div class="live-youtube-panel">' +
+      '<div class="live-youtube-head">' +
+        '<button class="live-youtube-back" id="liveYoutubeBack" type="button">‹</button>' +
+        '<div><strong>' + esc(x.name) + '</strong><small>YOUTUBE-КАНАЛ</small></div>' +
+        '<button class="live-youtube-close" id="liveYoutubeClose" type="button">×</button>' +
+      '</div>' +
+      '<div class="live-youtube-body">' +
+        '<div class="live-youtube-logo">▶</div>' +
+        '<strong>Канал находится на YouTube</strong>' +
+        '<p>' + esc(x.shortDescription || "Открой канал, выбери нужное видео или стрим.") + '</p>' +
+        '<button class="live-youtube-open" id="liveYoutubeOpen" type="button">ОТКРЫТЬ КАНАЛ YOUTUBE ↗</button>' +
+        '<small class="live-youtube-note">FREEzzzGames не копирует и не хранит контент YouTube.</small>' +
+      '</div>' +
+    '</div>';
+
+  $("liveYoutubeBack")?.addEventListener("click", () => openCard(x));
+  $("liveYoutubeClose")?.addEventListener("click", () => renderBot());
+  $("liveYoutubeOpen")?.addEventListener("click", () => {
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
+    h();
+  });
+}
+
+function stopPlayback() {
+  S.selectedVideo = null;
+  S.selectedId = null;
+  renderBot();
   h();
 }
 
-function closeList(){
-  const panel=$("liveListPanel");
-  const host=$("liveView");
-  if(!panel)return;
+function renderPlayer(video) {
+  const m = $("liveMain");
+  if (!m || !video?.embedUrl) return;
+
+  m.innerHTML =
+    '<div class="live-video-frame">' +
+      '<iframe class="live-video" src="' + esc(video.embedUrl) + '" title="' + esc(video.title || "YouTube") + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="eager"></iframe>' +
+      '<div class="live-video-shade">' +
+        '<div class="live-streamer-badge">▶ YOUTUBE</div>' +
+        '<button class="live-sound-btn" id="liveStopBtn" type="button">■</button>' +
+      '</div>' +
+    '</div>';
+
+  $("liveStopBtn")?.addEventListener("click", stopPlayback);
+}
+
+function renderCurrentControl() {
+  const host = $("liveCarousel");
+  if (!host) return;
+
+  if (!S.selectedVideo) {
+    host.innerHTML = "";
+    return;
+  }
+
+  host.innerHTML =
+    '<div class="live-current-control">' +
+      '<span>▶ ' + esc(S.selectedVideo.title || "Текущий контент") + '</span>' +
+      '<button id="liveStopBottom" type="button">■ ОСТАНОВИТЬ</button>' +
+    '</div>';
+
+  $("liveStopBottom")?.addEventListener("click", stopPlayback);
+}
+
+function positionListPanel() {
+  const panel = $("liveListPanel");
+  const host = $("liveView");
+  if (!panel || !host || panel.parentElement !== document.body) return;
+
+  const r = host.getBoundingClientRect();
+  const gap = 5;
+  const maxH = Math.max(180, Math.min(430, window.innerHeight - r.bottom - gap - 8));
+
+  panel.style.position = "fixed";
+  panel.style.left = Math.round(r.left) + "px";
+  panel.style.top = Math.round(r.bottom + gap) + "px";
+  panel.style.width = Math.round(r.width) + "px";
+  panel.style.maxHeight = Math.round(maxH) + "px";
+  panel.style.height = "auto";
+  panel.style.zIndex = "2147483000";
+}
+
+function openList() {
+  const panel = $("liveListPanel");
+  const host = $("liveView");
+  if (!panel || !host) return;
+
+  if (panel.parentElement !== document.body) document.body.appendChild(panel);
+  panel.classList.remove("hidden");
+  panel.style.display = "block";
+  panel.style.pointerEvents = "auto";
+  panel.style.touchAction = "pan-y";
+  positionListPanel();
+
+  window.addEventListener("resize", positionListPanel, {passive:true});
+  window.addEventListener("orientationchange", positionListPanel, {passive:true});
+  h();
+}
+
+function closeList() {
+  const panel = $("liveListPanel");
+  const host = $("liveView");
+  if (!panel) return;
+
   panel.classList.add("hidden");
-  panel.style.display="";
-  panel.style.pointerEvents="";
-  panel.style.touchAction="";
-  panel.style.position="";
-  panel.style.left="";
-  panel.style.top="";
-  panel.style.width="";
-  panel.style.maxHeight="";
-  panel.style.height="";
-  panel.style.zIndex="";
-  window.removeEventListener("resize",positionListPanel);
-  window.removeEventListener("orientationchange",positionListPanel);
-  if(host&&panel.parentElement!==host){
-    const main=$("liveMain");
-    if(main)host.insertBefore(panel,main);
+  panel.style.display = "";
+  panel.style.pointerEvents = "";
+  panel.style.touchAction = "";
+  panel.style.position = "";
+  panel.style.left = "";
+  panel.style.top = "";
+  panel.style.width = "";
+  panel.style.maxHeight = "";
+  panel.style.height = "";
+  panel.style.zIndex = "";
+
+  window.removeEventListener("resize", positionListPanel);
+  window.removeEventListener("orientationchange", positionListPanel);
+
+  if (host && panel.parentElement !== host) {
+    const main = $("liveMain");
+    if (main) host.insertBefore(panel, main);
     else host.appendChild(panel);
   }
 }
 
-function channelUrl(x){
-  if(x.channelUrl)return x.channelUrl;
-  if(x.channelId)return "https://www.youtube.com/channel/"+encodeURIComponent(x.channelId);
-  if(x.handle)return "https://www.youtube.com/"+String(x.handle).replace(/^\s+/,"");
-  return "";
+function visibility() {
+  const screen = window.FZG?.state?.get?.().screen || "home";
+  const home = screen === "home";
+  $("liveView")?.classList.toggle("hidden", !home);
+  $("mainPortal")?.classList.toggle("live-home-mode", home);
+  if (!home) closeList();
 }
 
-function streamerCard(x){
-  const m=$("liveMain");
-  if(!m)return;
+function init() {
+  if (!$("liveView")) return;
 
-  const url=channelUrl(x);
-  const isLive=!!(x.live&&x.selectedSource);
-  const status=isLive?"🔴 LIVE":"⚫ OFFLINE";
-  const title=x.lastStreamTitle||"Следующий эфир появится здесь автоматически.";
+  renderList();
+  renderBot();
 
-  m.innerHTML=
-    '<div class="live-streamer-card">'+
-      '<button class="live-streamer-card-close" id="liveCardClose" type="button" aria-label="Закрыть">×</button>'+
-      '<div class="live-streamer-card-avatar">'+esc(x.avatar)+'</div>'+
-      '<strong class="live-streamer-card-name">'+esc(x.name)+'</strong>'+
-      '<span class="live-streamer-card-status">'+status+'</span>'+
-      '<span class="live-streamer-card-game">'+esc(x.game||x.category||"Стример")+'</span>'+
-      '<p class="live-streamer-card-text">'+esc(title)+'</p>'+
-      '<div class="live-streamer-card-actions">'+
-        (isLive?'<button class="live-streamer-card-watch" id="liveCardWatch" type="button">▶ СМОТРЕТЬ ЭФИР</button>':"")+
-        (url?'<a class="live-streamer-card-channel" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">КАНАЛ ↗</a>':"")+
-      '</div>'+
-    '</div>';
-
-  $("liveCardClose")?.addEventListener("click",()=>{
-    const current=S.all.find(v=>v.id===S.selectedId);
-    if(current&&current.live&&current.selectedSource)main(current);
-    else empty();
-  });
-
-  $("liveCardWatch")?.addEventListener("click",()=>{
-    select(x.id,true);
-  });
-}
-
-function offline(x){
-  S.selectedId=x.id;
-  S.muted=true;
-  streamerCard(x);
-  h();
-}
-
-function select(id,user){
-  const x=S.all.find(v=>v.id===id);
-  if(!x||!x.live||!x.selectedSource)return;
-
-  S.selectedId=x.id;
-  S.muted=true;
-  main(x);
-  carousel();
-  if(user)h();
-}
-
-function random(){
-  const x=shuffle(S.online)[0]||null;
-  S.selectedId=x?.id||null;
-  S.muted=true;
-  main(x);
-  carousel();
-}
-
-function refresh(registryPayload,livePayload){
-  // The server is authoritative for LIVE state. The local registry is only
-  // metadata/fallback; it must never manufacture an active broadcast.
-  const incoming=livePayload===null?[]:normalize(livePayload);
-  const registry=new Map(directSources().map(x=>[x.id,x]));
-  const map=new Map();
-  for(const x of incoming){
-    map.set(x.id,{...(registry.get(x.id)||{}),...x});
-  }
-  for(const [id,x] of registry){
-    if(!map.has(id)) map.set(id,x);
-  }
-  S.all=[...map.values()].map(x=>{
-    x.selectedSource=source(x);
-    return x;
-  });
-  S.online=S.all.filter(x=>x.live&&x.selectedSource);
-
-  const x=S.all.find(v=>v.id===S.selectedId);
-  if(!x||!x.live||!x.selectedSource)random();
-  else{
-    S.muted=true;
-    main(x);
-    carousel();
-  }
-
-  list();
-}
-
-async function fetchJson(url){
-  const r=await fetch(url,{cache:"no-store",credentials:"omit"});
-  if(!r.ok)throw Error("LIVE endpoint "+r.status);
-  return r.json();
-}
-
-async function poll(){
-  if(S.loading)return;
-  S.loading=true;
-
-  try{
-    // /api/live already contains the complete streamer cache. One request is
-    // enough, avoids a second round-trip, and reduces cold-start latency.
-    const livePayload=await fetchJson(cfg.endpoint);
-    refresh(null,livePayload);
-    setConnectionState("online","");
-    clearTimeout(retryTimer);
-  }catch(e){
-    console.warn("FREEzzzGames LIVE monitor unavailable:",e);
-    setConnectionState("error",String(e?.message||e));
-
-    // Do not turn a transport error into "0 streamers". Keep the last
-    // known state and only show the error when there is no usable state.
-    if(!S.all.length){
-      connectionError(String(e?.message||"connection error"));
-      list();
-    }else if(S.online.length){
-      const x=S.all.find(v=>v.id===S.selectedId)||S.online[0];
-      S.selectedId=x?.id||null;
-      main(x);
-      carousel();
-      list();
-    }
-
-    clearTimeout(retryTimer);
-    retryTimer=setTimeout(()=>poll(),15000);
-  }finally{
-    S.loading=false;
-  }
-}
-
-function visibility(){
-  const screen=window.FZG?.state?.get?.().screen||"home";
-  const home=screen==="home";
-  $("liveView")?.classList.toggle("hidden",!home);
-  document.getElementById("mainPortal")?.classList.toggle("live-home-mode",home);
-  if(!home)closeList();
-}
-
-function init(){
-  if(!$("liveView"))return;
-
-  $("liveListBtn")?.addEventListener("click",openList);
-  $("liveListClose")?.addEventListener("click",closeList);
-  $("liveListPanel")?.addEventListener("click",e=>{
-    if(e.target.id==="liveListPanel")closeList();
+  $("liveListBtn")?.addEventListener("click", openList);
+  $("liveListClose")?.addEventListener("click", closeList);
+  $("liveListPanel")?.addEventListener("click", e => {
+    if (e.target.id === "liveListPanel") closeList();
   });
 
   window.FZG?.state?.subscribe?.(visibility);
   visibility();
-
-  setConnectionState("loading");
-  connectionError("Подключение к LIVE-серверу…");
-  list();
-  poll();
-  setInterval(poll,Math.max(15000,Number(cfg.pollMs)||30000));
 }
 
-window.FZG=window.FZG||{};
-window.FZG.live={
-  refresh,
-  poll,
-  select,
-  getState:()=>({...S}),
-  onSoundChange:null
+window.FZG = window.FZG || {};
+window.FZG.live = {
+  openStreamer: id => {
+    const x = S.all.find(v => v.id === id);
+    if (x) openCard(x);
+  },
+  playVideo: renderPlayer,
+  stop: stopPlayback,
+  getState: () => ({...S, all:[...S.all]})
 };
 
 init();
