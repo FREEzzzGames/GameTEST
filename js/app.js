@@ -1,4 +1,4 @@
-import { Platform } from "./platform.js";
+import { Platform } from "./platform.js?v=20260930-platform2";
 import { navigate, back, setNavigationBridge } from "./core/router.js";
 import { getState, setState, subscribe } from "./core/state.js";
 import { Storage } from "./core/storage.js";
@@ -15,7 +15,7 @@ async function bootPortalModule(){
   // module must never prevent the LIVE module from loading and polling.
   const [portalResult, liveResult, parallaxResult, streamerParallaxResult, gameWindowResult, tvRemoteResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e12"),
-    import("./live.js?v=20260930-live-bot3"),
+    import("./live.js?v=20260930-live-bot4"),
     import("./parallax.js?v=20260930a"),
     import("./streamer-menu-parallax.js?v=20260930e"),
     import("./game-window.js?v=20260930-gamecatalog10"),
