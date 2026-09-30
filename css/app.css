@@ -3600,3 +3600,78 @@ html, body,
     max-height:min(390px,calc(100dvh - 410px))!important;
   }
 }
+
+
+/* LIVE BUTTON BALANCE — compact controls with equal visual weight */
+#mainPortal .home-media-row .live-head{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:6px!important;
+  padding:4px 6px!important;
+}
+
+#mainPortal .home-media-row .live-list-btn{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:32px!important;
+  min-height:32px!important;
+  padding:0 8px!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:8px!important;
+  background:rgba(255,255,255,.10)!important;
+  box-shadow:none!important;
+  font:600 9px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-head-title{
+  width:100%!important;
+  min-width:0!important;
+  height:32px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 8px!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:8px!important;
+  background:rgba(255,255,255,.035)!important;
+  text-align:center!important;
+  font:700 9px/1 "Handjet",monospace!important;
+}
+
+/* Close control must stay visually balanced with the header, never become a giant button. */
+#mainPortal .home-media-row #liveListPanel .live-panel-close{
+  width:34px!important;
+  min-width:34px!important;
+  max-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  max-height:34px!important;
+  padding:0!important;
+  margin:0!important;
+  flex:0 0 34px!important;
+  border-radius:8px!important;
+  font:500 18px/1 "Handjet",monospace!important;
+}
+
+/* Streamer rows are compact, readable and remain full-width clickable buttons. */
+#mainPortal .home-media-row #liveListPanel .live-list-row{
+  width:100%!important;
+  min-height:50px!important;
+  height:auto!important;
+  padding:6px 8px!important;
+  border-radius:9px!important;
+  box-sizing:border-box!important;
+}
+
+/* Keep the dropdown readable without turning it into an opaque second screen. */
+#mainPortal .home-media-row #liveListPanel .live-list-drawer{
+  background:rgba(11,20,32,.70)!important;
+  border-color:rgba(255,255,255,.10)!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-head{
+  min-height:34px!important;
+  height:34px!important;
+  padding:0 3px 4px 6px!important;
+  background:rgba(11,20,32,.52)!important;
+}
