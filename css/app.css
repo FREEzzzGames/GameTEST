@@ -3847,3 +3847,131 @@ body > #liveListPanel .live-panel-close{
   position:relative!important;
   z-index:21!important;
 }
+
+
+/* =========================================================
+   LIVE OVERLAY LAYER
+   Logical owner: LIVE. Visual position: between media row and
+   bottom category dock. It never changes the portal layout.
+   ========================================================= */
+#mainPortal .live-overlay-layer{
+  position:absolute!important;
+  left:var(--home-rail)!important;
+  right:var(--home-rail)!important;
+  min-height:0!important;
+  z-index:7000!important;
+  display:block!important;
+  pointer-events:none!important;
+}
+#mainPortal .live-overlay-layer.hidden{
+  display:none!important;
+}
+#mainPortal .live-overlay-shell{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  pointer-events:none!important;
+}
+#mainPortal .live-overlay-shell > *{
+  pointer-events:auto!important;
+}
+#mainPortal .live-overlay-layer .live-list-panel{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  margin:0!important;
+  display:block!important;
+  z-index:1!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  pointer-events:auto!important;
+}
+#mainPortal .live-overlay-layer .live-list-drawer{
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  border-radius:12px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+  background:rgba(11,20,32,.98)!important;
+  border:1px solid rgba(100,181,246,.30)!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.48),0 0 24px rgba(74,145,210,.10)!important;
+}
+#mainPortal .live-overlay-layer .live-streamer-list{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+#mainPortal .live-overlay-layer .live-streamer-card,
+#mainPortal .live-overlay-layer .live-youtube-panel{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  border:1px solid rgba(100,181,246,.30)!important;
+  border-radius:12px!important;
+  overflow:hidden!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.48),0 0 24px rgba(74,145,210,.10)!important;
+}
+#mainPortal .live-overlay-layer .live-youtube-panel{
+  display:flex!important;
+  flex-direction:column!important;
+  background:#05070b!important;
+}
+#mainPortal .live-youtube-frame{
+  position:relative!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  width:100%!important;
+  overflow:hidden!important;
+  background:#000!important;
+}
+#mainPortal .live-youtube-iframe{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:200px!important;
+  border:0!important;
+  background:#000!important;
+}
+#mainPortal .live-youtube-unavailable{
+  width:100%!important;
+  height:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  padding:20px!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+  color:#fff!important;
+}
+#mainPortal .live-youtube-unavailable strong{
+  font:700 12px/1.1 "Handjet",monospace!important;
+}
+#mainPortal .live-youtube-unavailable p{
+  margin:0!important;
+  max-width:80%!important;
+  color:rgba(255,255,255,.5)!important;
+  font:400 8px/1.25 "Handjet",monospace!important;
+}
+#mainPortal .live-overlay-layer .live-streamer-card-actions button,
+#mainPortal .live-overlay-layer .live-streamer-card-close,
+#mainPortal .live-overlay-layer .live-youtube-head button{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  position:relative!important;
+  z-index:10!important;
+}
