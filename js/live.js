@@ -273,7 +273,7 @@ function closeList(){
 function channelUrl(x){
   if(x.channelUrl)return x.channelUrl;
   if(x.channelId)return "https://www.youtube.com/channel/"+encodeURIComponent(x.channelId);
-  if(x.handle)return "https://www.youtube.com/"+String(x.handle).replace(/^\\s+/,"");
+  if(x.handle)return "https://www.youtube.com/"+String(x.handle).replace(/^\s+/,"");
   return "";
 }
 
