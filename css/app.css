@@ -5794,8 +5794,8 @@ body.game-window-expanded{
   right:0!important;
   bottom:auto!important;
   width:100%!important;
-  height:min(430px,calc(100dvh - 180px))!important;
-  max-height:calc(100dvh - 180px)!important;
+  height:min(430px,max(180px,calc(var(--tg-viewport-stable-height, 100dvh) - 180px)))!important;
+  max-height:max(180px,calc(var(--tg-viewport-stable-height, 100dvh) - 180px))!important;
   overflow:visible!important;
   z-index:1300!important;
   pointer-events:auto!important;
