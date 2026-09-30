@@ -280,3 +280,71 @@
     min-height:54px!important;
   }
 }
+
+
+/* =========================================================
+   GAME CATALOG v5 — visible labels + reliable touch buttons
+   ========================================================= */
+#mainPortal .game-window.has-catalog .game-category-list{
+  position:relative!important;
+  z-index:20!important;
+  pointer-events:auto!important;
+}
+#mainPortal .game-window.has-catalog .game-category-item{
+  position:relative!important;
+  z-index:21!important;
+  pointer-events:auto!important;
+  isolation:isolate!important;
+  color:#f5fbff!important;
+  opacity:1!important;
+  visibility:visible!important;
+  text-shadow:0 1px 3px rgba(0,0,0,.75)!important;
+}
+#mainPortal .game-window.has-catalog .game-category-copy{
+  position:relative!important;
+  z-index:22!important;
+  min-width:0!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+}
+#mainPortal .game-window.has-catalog .game-category-copy strong{
+  position:relative!important;
+  z-index:23!important;
+  display:block!important;
+  color:#ffffff!important;
+  opacity:1!important;
+  visibility:visible!important;
+  font-family:Arial,"Helvetica Neue",sans-serif!important;
+  font-weight:800!important;
+  font-size:clamp(10px,1.9vw,14px)!important;
+  line-height:1.15!important;
+  letter-spacing:.15px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  text-shadow:0 1px 4px rgba(0,0,0,.9)!important;
+}
+#mainPortal .game-window.has-catalog .game-category-copy small{
+  position:relative!important;
+  z-index:23!important;
+  color:#a9c8dd!important;
+  opacity:1!important;
+  visibility:visible!important;
+  font-family:"Handjet",monospace!important;
+}
+#mainPortal .game-window.has-catalog .game-category-icon,
+#mainPortal .game-window.has-catalog .game-category-arrow{
+  position:relative!important;
+  z-index:23!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+#mainPortal .game-window.has-catalog .game-category-item:focus-visible{
+  outline:2px solid #8ecfff!important;
+  outline-offset:1px!important;
+}
+@media(max-width:430px){
+  #mainPortal .game-window.has-catalog .game-category-copy strong{
+    font-size:10px!important;
+  }
+}
