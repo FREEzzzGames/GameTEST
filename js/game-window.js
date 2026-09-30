@@ -7,47 +7,11 @@ import { GAME_CARDS, GAME_LINKS } from "./portal-data/games.js?v=20260930e4";
   const $ = id => document.getElementById(id);
   const haptic = () => window.FZG?.platform?.haptic?.("light");
   const byId = Object.fromEntries(GAME_CARDS.map(game => [game.id, game]));
-  // External pages can use a fixed desktop canvas. These profiles fit only
-  // the known fixed-layout pages; responsive games keep their native scale.
-  const FRAME_SCALE = {
-    dino: 0.60
-  };
-  const DEFAULT_FRAME_SCALE = 1;
-
-  function host(){ return $("gameWindow"); }
-  function frame(){ return $("gameWindowFrame"); }
-
-  function setExpanded(value){
-    const root = host();
-    if(!root) return false;
-    S.expanded = !!value;
-    root.classList.toggle("is-expanded", S.expanded);
-    root.setAttribute("aria-expanded", S.expanded ? "true" : "false");
-    document.body.classList.toggle("game-window-expanded", S.expanded);
-    window.dispatchEvent(new CustomEvent("freezzz:game-window", {detail:{open:S.open,expanded:S.expanded,gameId:S.gameId}}));
-    haptic();
-    return true;
-  }
-
-  function applyFrameScale(){
-    const wrap=$("gameWindowFrameWrap") || frame()?.parentElement;
-    const f=frame();
-    if(!wrap || !f)return;
-    const scale=FRAME_SCALE[S.gameId] ?? DEFAULT_FRAME_SCALE;
-    f.style.transformOrigin="top left";
-    f.style.transform=scale===1 ? "none" : `scale(${scale})`;
-    f.style.width=scale===1 ? "100%" : `${100/scale}%`;
-    f.style.height=scale===1 ? "100%" : `${100/scale}%`;
-  }
-
-  function resetFrameScale(){
-    const f=frame();
-    if(!f)return;
-    f.style.transform="none";
-    f.style.transformOrigin="top left";
-    f.style.width="100%";
-    f.style.height="100%";
-  }
+  // Universal GAME WINDOW rule:
+  // every game gets the same native iframe viewport.
+  // No game-specific scale factors are used here.
+  // Responsive games adapt to the frame; fixed-layout third-party pages
+  // must expose their own responsive/embed viewport.
 
   function clearFrame(){
     const f=frame();
