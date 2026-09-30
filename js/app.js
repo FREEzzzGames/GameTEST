@@ -17,7 +17,7 @@ async function bootPortalModule(){
   // module must never prevent the LIVE module from loading and polling.
   const [portalResult, liveResult] = await Promise.allSettled([
     import("./portal.js?v=20260930e4"),
-    import("./live.js?v=20260930e2")
+    import("./live.js?v=20260930e4")
   ]);
 
   if(portalResult.status==="fulfilled"){
