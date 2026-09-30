@@ -19,7 +19,8 @@ async function bootPortalModule(){
     import("./portal.js?v=20260930e4"),
     import("./live.js?v=20260930m"),
     import("./parallax.js?v=20260930a"),
-    import("./streamer-menu-parallax.js?v=20260930c")
+    import("./streamer-menu-parallax.js?v=20260930c"),
+    import("./game-window.js?v=20260930a")
   ]);
 
   if(portalResult.status==="fulfilled"){
@@ -64,12 +65,15 @@ function syncTelegramBackButton(){
   const sync=()=>{
     const screen=getState().screen;
     const liveOverlayOpen=!!window.FZG.live?.getState?.().overlayOpen;
-    if(screen==="home" && !liveOverlayOpen) tg.BackButton.hide?.();
+    const gameWindow=window.FZG.gameWindow?.getState?.();
+    const gameWindowActive=!!gameWindow?.open;
+    if(screen==="home" && !liveOverlayOpen && !gameWindowActive) tg.BackButton.hide?.();
     else tg.BackButton.show?.();
   };
 
   tg.BackButton.onClick?.(()=>{
     if(window.FZG.live?.back?.()) return;
+    if(window.FZG.gameWindow?.back?.()) return;
 
     const legacy=window.FZG.legacy;
     const screen=getState().screen;
