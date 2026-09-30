@@ -76,7 +76,7 @@ async function bootPortalModule(){
     window.FZG.liveModuleError=String(err?.stack||err);
     const main=document.getElementById("liveMain");
     if(main){
-      main.innerHTML='<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-title">LIVE-МОДУЛЬ НЕ ЗАПУСТИЛСЯ</div><div class="live-empty-text">Попробуйте обновить приложение.</div></div>';
+      main.innerHTML='<div class="live-empty"><div class="live-empty-title">LIVE-МОДУЛЬ НЕ ЗАПУСТИЛСЯ</div><div class="live-empty-text">Попробуйте обновить приложение.</div></div>';
     }
   }
 
