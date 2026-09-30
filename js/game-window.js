@@ -200,6 +200,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
 
   function handleFrameLoad(){
     host()?.querySelector(".game-window-loading")?.classList.add("hidden");
+    window.FZG?.tvRemote?.focusGameFrame?.();
   }
 
   function handleFrameError(){
