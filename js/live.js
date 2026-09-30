@@ -1,3 +1,5 @@
+import { directSources } from "./live-data/channels.js?v=20260930e5";
+
 (() => {
 "use strict";
 
@@ -6,7 +8,8 @@ const cfg=Object.assign({
   pollMs:300000
 },window.FZG_LIVE_CONFIG||{});
 
-const S={all:[],online:[],selectedId:null,muted:true,loading:false,connectionState:"idle",lastError:""};
+const STATIC_SOURCES=directSources();
+const S={all:STATIC_SOURCES,online:STATIC_SOURCES.filter(x=>x.live&&x.selectedSource),selectedId:STATIC_SOURCES.find(x=>x.live&&x.selectedSource)?.id||null,muted:true,loading:false,connectionState:"idle",lastError:""};
 let retryTimer=null;
 
 const $=id=>document.getElementById(id);
@@ -54,6 +57,8 @@ function normalize(payload){
       liveStartedAt:raw?.liveStartedAt||null,
       lastStreamAt:raw?.lastStreamAt||null,
       lastStreamTitle:String(raw?.lastStreamTitle||""),
+      previewUrl:String(raw?.previewUrl||""),
+      channelUrl:String(raw?.channelUrl||""),
       sources:Array.isArray(raw?.sources)?raw.sources:[]
     };
     x.selectedSource=source(x);
@@ -125,9 +130,20 @@ function setConnectionState(state,error=""){
 
 function main(s){
   const m=$("liveMain");
-  if(!m)return;
+  if(!m){
+    return;
+  }
 
-  if(!s||!s.live||!s.selectedSource){
+  if(!s){
+    empty();
+    return;
+  }
+
+  if(!s.selectedSource){
+    if(s.previewUrl){
+      m.innerHTML='<div class="live-video-frame live-preview-frame"><a class="live-preview-link" href="'+esc(s.channelUrl||"#")+'" target="_blank" rel="noopener noreferrer"><img class="live-preview-image" src="'+esc(s.previewUrl)+'" alt="'+esc(s.name)+'"><span class="live-preview-shade"><span class="live-preview-badge">SOURCE</span><strong>'+esc(s.name)+'</strong><small>'+esc(s.category||"LIVE")+'</small><span class="live-preview-open">ОТКРЫТЬ ЭФИР ↗</span></span></a></div>';
+      return;
+    }
     empty();
     return;
   }
@@ -236,12 +252,15 @@ function random(){
 }
 
 function refresh(registryPayload,livePayload){
-  // null means that endpoint failed; keep the last known data instead of
-  // replacing a healthy live list with an artificial empty payload.
-  S.all=mergePayloads(
-    registryPayload===null?S.all:registryPayload,
-    livePayload===null?null:livePayload
-  );
+  // Direct sources are always present. The server may enrich them, but it
+  // is never allowed to remove the static direct-source fallback.
+  const incoming=livePayload===null?S.all:normalize(livePayload);
+  const map=new Map(directSources().map(x=>[x.id,x]));
+  for(const x of incoming) map.set(x.id,{...map.get(x),...x});
+  S.all=[...map.values()].map(x=>{
+    x.selectedSource=source(x);
+    return x;
+  });
   S.online=S.all.filter(x=>x.live&&x.selectedSource);
 
   const x=S.all.find(v=>v.id===S.selectedId);
@@ -280,6 +299,12 @@ async function poll(){
     // known state and only show the error when there is no usable state.
     if(!S.all.length){
       connectionError(String(e?.message||"connection error"));
+      list();
+    }else if(S.online.length){
+      const x=S.all.find(v=>v.id===S.selectedId)||S.online[0];
+      S.selectedId=x?.id||null;
+      main(x);
+      carousel();
       list();
     }
 
