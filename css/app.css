@@ -7102,3 +7102,47 @@ html,body{
     scroll-behavior:auto!important;
   }
 }
+
+
+/* =========================================================
+   HOME SHELL INVARIANTS — deterministic 3-surface layout
+   Chat = top-left, Game = right/full height, Live = bottom-left.
+   ========================================================= */
+#mainPortal .home-media-row:not(.is-hidden){
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"chat game" "live game"!important;
+  align-items:stretch!important;
+}
+#mainPortal .home-media-row:not(.is-hidden) > .home-chat-widget{
+  display:flex!important;
+  grid-area:chat!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal .home-media-row:not(.is-hidden) > .live-view{
+  display:flex!important;
+  grid-area:live!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal .home-media-row:not(.is-hidden) > .game-window{
+  display:flex!important;
+  grid-area:game!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#mainPortal .header-top:not(.hidden) .profile-box,
+#mainPortal .header-top:not(.hidden) .always-controls,
+#mainPortal .header-top:not(.hidden) .always-btn{
+  visibility:visible!important;
+  opacity:1!important;
+}
+@media (orientation:landscape) and (max-width:959px){
+  #mainPortal .home-media-row:not(.is-hidden){
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-areas:"chat game" "live game"!important;
+  }
+}
