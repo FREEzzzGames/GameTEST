@@ -174,13 +174,7 @@
   window.FZG.streamerMenuParallax = { mount, reset, unmount: unbind };
 
   /* LIVE creates/moves the drawer dynamically. Watch only for that DOM change. */
-  state.observer = new MutationObserver(() => {
-    if (document.getElementById("liveListPanel")) mount();
-  });
-  state.observer.observe(document.getElementById("mainPortal") || document.body, {
-    childList: true,
-    subtree: true
-  });
-
+  // The LIVE drawer is part of the static portal DOM, so there is no need
+  // to watch the entire portal subtree for unrelated mutations.
   mount();
 })();
