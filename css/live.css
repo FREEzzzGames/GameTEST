@@ -269,3 +269,87 @@ body.live-video-expanded{overflow:hidden!important;}
   box-sizing:border-box!important;
   border-radius:12px!important;
 }
+
+/* ============================================================
+   LIVE — CREATOR VIDEO NETWORK FINAL DETAIL PASS
+   Visual-only. Existing player/list controls remain unchanged.
+   ============================================================ */
+#mainPortal .home-media-row .live-view{
+  --lv-bg:#0b0c0f;
+  --lv-panel:#15171b;
+  --lv-line:rgba(255,255,255,.10);
+  --lv-soft:rgba(255,255,255,.62);
+}
+#mainPortal .home-media-row .live-view::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:4;
+  border:1px solid rgba(255,255,255,.045);
+  background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 24%);
+}
+#mainPortal .home-media-row #liveListPanel .live-list-row{
+  position:relative!important;
+  overflow:hidden!important;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-row::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:10px;
+  bottom:10px;
+  width:2px;
+  border-radius:2px;
+  background:rgba(255,55,55,0);
+  transition:background .16s ease,box-shadow .16s ease;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-row:active::before{
+  background:#ff3b3b;
+  box-shadow:0 0 8px rgba(255,59,59,.55);
+}
+#mainPortal .home-media-row .live-video-head{
+  backdrop-filter:blur(10px)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+}
+#mainPortal .home-media-row .live-video-frame-wrap::after{
+  content:"LIVE";
+  position:absolute;
+  top:8px;
+  left:8px;
+  padding:4px 6px;
+  border-radius:4px;
+  background:rgba(255,35,35,.92);
+  color:#fff;
+  font:700 7px/1 "Handjet",monospace;
+  letter-spacing:.7px;
+  box-shadow:0 2px 8px rgba(0,0,0,.28);
+  pointer-events:none;
+  z-index:3;
+  opacity:.92;
+}
+#mainPortal .home-media-row .live-video-window.is-expanded .live-video-frame-wrap::after{
+  top:10px;
+  left:10px;
+}
+#mainPortal .home-media-row .live-video-fallback{
+  background:radial-gradient(circle at 50% 35%,rgba(255,55,55,.06),transparent 32%),#07080a!important;
+}
+#mainPortal .home-media-row .live-video-open{
+  background:#202226!important;
+  border-color:rgba(255,255,255,.16)!important;
+  box-shadow:0 2px 10px rgba(0,0,0,.18)!important;
+}
+#mainPortal .home-media-row .live-video-open:hover{
+  background:#292c31!important;
+}
+#mainPortal .home-media-row .live-video-action:focus-visible,
+#mainPortal .home-media-row .live-video-foot-expand:focus-visible,
+#mainPortal .home-media-row .live-video-open:focus-visible{
+  outline:2px solid rgba(255,255,255,.65)!important;
+  outline-offset:1px!important;
+}
+@media (prefers-reduced-motion:reduce){
+  #mainPortal .home-media-row #liveListPanel .live-list-row{transition:none!important}
+}
