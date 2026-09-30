@@ -4989,3 +4989,24 @@ body > #liveListPanel .live-panel-close{
   }
   #mainPortal .live-overlay-layer .live-list-main strong{font-size:13px!important}
 }
+
+/* STREAMER MENU — restore full visual layer footprint without affecting layout flow */
+#mainPortal .live-overlay-layer .streamer-parallax-layers{
+  position:absolute!important;
+  inset:0!important;
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  flex:none!important;
+}
+#mainPortal .live-overlay-layer .streamer-parallax-layer{
+  position:absolute!important;
+  inset:-18px!important;
+  width:auto!important;
+  height:auto!important;
+}
