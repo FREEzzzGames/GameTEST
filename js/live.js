@@ -349,6 +349,7 @@ function openList() {
   panel.style.maxHeight = "100%";
   panel.style.height = "100%";
 
+  window.FZG?.streamerMenuParallax?.mount?.();
   haptic();
 }
 
@@ -375,6 +376,7 @@ function closeList() {
     else host.appendChild(panel);
   }
 
+  window.FZG?.streamerMenuParallax?.reset?.();
   hideOverlay();
 }
 
