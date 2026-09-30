@@ -10,12 +10,13 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   const PAGE_SIZE=4;
   const $=id=>document.getElementById(id);
   const byId=Object.fromEntries(GAME_CARDS.map(game=>[game.id,game]));
+  const categoryById=Object.fromEntries(CATEGORIES.map(category=>[category.id,category]));
   const haptic=()=>window.FZG?.platform?.haptic?.("light");
   let currentLang=localStorage.getItem("freezzzLang")||"ru";
   if(!LANG[currentLang])currentLang="ru";
 
   const tr=key=>LANG[currentLang]?.[key]||LANG.ru?.[key]||key;
-  const categoryText=id=>CATEGORY_TEXT[id]?.[currentLang]||CATEGORIES.find(c=>c.id===id)?.name||id;
+  const categoryText=id=>CATEGORY_TEXT[id]?.[currentLang]||categoryById[id]?.name||id;
   const gameText=(id,field)=>{
     const x=GAME_TEXT[id]?.[currentLang];
     if(x)return field==="genre"?x[0]:x[1];
@@ -98,7 +99,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       return;
     }
 
-    const category=CATEGORIES.find(c=>c.id===S.categoryId);
+    const category=categoryById[S.categoryId];
     if(!category){S.categoryId=null;renderCatalog();return;}
 
     const pageCount=Math.max(1,Math.ceil(category.ids.length/PAGE_SIZE));
@@ -230,7 +231,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       if(game){openGame(game);return;}
       const action=event.target.closest("[data-game-catalog-action]")?.dataset.gameCatalogAction;
       if(action==="back"){S.categoryId=null;S.page=0;renderCatalog();window.FZG?.state?.set?.({screen:"home",categoryId:null});return;}
-      const categoryData=CATEGORIES.find(c=>c.id===S.categoryId);
+      const categoryData=categoryById[S.categoryId];
       if(!categoryData)return;
       const count=Math.ceil(categoryData.ids.length/PAGE_SIZE);
       if(action==="prev")S.page=Math.max(0,S.page-1);
@@ -247,7 +248,7 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
       const dx=e.clientX-startX,dy=e.clientY-startY,dt=Math.max(1,Date.now()-startTime);
       const velocity=Math.abs(dx)/dt;
       if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.2&&(Math.abs(dx)>60||velocity>.35)){
-        const count=Math.ceil(CATEGORIES.find(c=>c.id===S.categoryId).ids.length/PAGE_SIZE);
+        const count=Math.ceil(categoryById[S.categoryId].ids.length/PAGE_SIZE);
         const next=dx<0?S.page+1:S.page-1;
         if(next>=0&&next<count){S.page=next;renderCatalogBody();haptic();}
       }
