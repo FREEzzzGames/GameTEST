@@ -121,7 +121,7 @@ async function resolveChannel(x){
         // "channelId" match can belong to a recommended video/channel
         // embedded elsewhere in the page.
         const patterns=[
-          /<link[^>]+rel=["']canonical["'][^>]+href=["']https:\\/\\/www\\.youtube\\.com\\/channel\\/(UC[a-zA-Z0-9_-]{22})["']/i,
+          /<link[^>]+rel=["\']canonical["\'][^>]+href=["\'][^"\']*channel\/(UC[a-zA-Z0-9_-]{22})[^"\']*["\']/i,
           /"browseId":"(UC[a-zA-Z0-9_-]{22})"/,
           /"externalId":"(UC[a-zA-Z0-9_-]{22})"/,
           /"channelId":"(UC[a-zA-Z0-9_-]{22})"/,
