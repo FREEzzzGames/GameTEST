@@ -92,8 +92,8 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
           '</button>'
         ).join("")+
         '</div>';
-      title("GAME WINDOW");
-      genre("ВЫБЕРИ КАТЕГОРИЮ");
+      title(tr("games")||"ИГРЫ");
+      genre(currentLang==="de"?"KATEGORIE WÄHLEN":currentLang==="en"?"CHOOSE A CATEGORY":"ВЫБЕРИ КАТЕГОРИЮ");
       emoji("🎮");
       return;
     }
