@@ -7026,3 +7026,159 @@ html,body{
     animation:none!important;
   }
 }
+
+
+/* =========================================================
+   RESPONSIVE CONTRACT — WEB / TELEGRAM / TV
+   One geometry source; no new controls or route changes.
+   ========================================================= */
+:root{
+  --fzg-vh:var(--tg-viewport-height,100dvh);
+  --fzg-vh-stable:var(--tg-viewport-stable-height,100dvh);
+  --fzg-vw:var(--tg-viewport-width,100vw);
+  --fzg-safe-top:var(--tg-content-safe-area-inset-top,var(--tg-safe-area-inset-top,0px));
+  --fzg-safe-right:var(--tg-content-safe-area-inset-right,var(--tg-safe-area-inset-right,0px));
+  --fzg-safe-bottom:var(--tg-content-safe-area-inset-bottom,var(--tg-safe-area-inset-bottom,0px));
+  --fzg-safe-left:var(--tg-content-safe-area-inset-left,var(--tg-safe-area-inset-left,0px));
+}
+#mainPortal{
+  min-height:var(--fzg-vh-stable)!important;
+  height:var(--fzg-vh-stable)!important;
+  padding-top:max(8px,var(--fzg-safe-top))!important;
+  padding-right:max(8px,var(--fzg-safe-right))!important;
+  padding-bottom:max(8px,var(--fzg-safe-bottom))!important;
+  padding-left:max(8px,var(--fzg-safe-left))!important;
+}
+#mainPortal .home-media-row,
+#mainPortal .home-channels,
+#mainPortal .home-category-quick{
+  width:100%!important;
+  max-width:100%!important;
+}
+
+/* Portrait web + Telegram: keep the established vertical portal. */
+@media (orientation:portrait){
+  #mainPortal .home-media-row{
+    min-height:min(420px,46dvh)!important;
+    height:min(420px,46dvh)!important;
+  }
+  #mainPortal .game-window-frame-wrap{
+    min-width:0!important;
+    min-height:0!important;
+  }
+}
+
+/* Horizontal phones/tablets/Telegram: use the full width without clipping. */
+@media (orientation:landscape) and (max-width:959px){
+  #mainPortal{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+  #mainPortal .header-top{
+    min-height:38px!important;
+  }
+  #mainPortal .home-media-row{
+    flex-basis:clamp(250px,68dvh,430px)!important;
+    height:clamp(250px,68dvh,430px)!important;
+    min-height:250px!important;
+    max-height:none!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-areas:"chat game" "live game"!important;
+  }
+  #mainPortal .home-channels{
+    flex-basis:clamp(58px,13dvh,82px)!important;
+    height:clamp(58px,13dvh,82px)!important;
+    min-height:58px!important;
+  }
+  #mainPortal .home-category-quick{
+    flex-basis:clamp(60px,14dvh,86px)!important;
+    height:clamp(60px,14dvh,86px)!important;
+    min-height:60px!important;
+  }
+  #mainPortal .game-window-head{
+    flex-basis:clamp(34px,8dvh,44px)!important;
+    height:clamp(34px,8dvh,44px)!important;
+    min-height:34px!important;
+  }
+  #mainPortal .game-window-frame-wrap{
+    min-height:0!important;
+  }
+}
+
+/* TV / desktop 10-foot layout: larger touch/focus targets, same routes. */
+@media (min-width:960px) and (min-height:540px){
+  #mainPortal{
+    width:100vw!important;
+    max-width:none!important;
+    min-height:100vh!important;
+    height:100vh!important;
+    padding:clamp(12px,1.6vh,24px) clamp(16px,1.8vw,32px)!important;
+    gap:clamp(8px,.9vh,14px)!important;
+  }
+  #mainPortal .header-top{
+    min-height:clamp(42px,5vh,62px)!important;
+  }
+  #mainPortal .home-media-row{
+    flex-basis:clamp(360px,58vh,640px)!important;
+    height:clamp(360px,58vh,640px)!important;
+    min-height:360px!important;
+    max-height:640px!important;
+    gap:clamp(9px,.8vw,14px)!important;
+  }
+  #mainPortal .home-media-row .live-head,
+  #mainPortal .home-media-row .game-window-head{
+    flex-basis:clamp(42px,5vh,58px)!important;
+    height:clamp(42px,5vh,58px)!important;
+    min-height:42px!important;
+  }
+  #mainPortal .home-media-row .live-list-btn,
+  #mainPortal .game-window-action,
+  #mainPortal .home-chat-open,
+  #mainPortal .live-video-action{
+    min-width:42px!important;
+    min-height:42px!important;
+  }
+  #mainPortal .home-channels{
+    flex-basis:clamp(72px,10vh,104px)!important;
+    height:clamp(72px,10vh,104px)!important;
+    min-height:72px!important;
+  }
+  #mainPortal .home-category-quick{
+    flex-basis:clamp(76px,11vh,112px)!important;
+    height:clamp(76px,11vh,112px)!important;
+    min-height:76px!important;
+  }
+  #mainPortal .home-category-quick-item{
+    flex-basis:clamp(220px,20vw,340px)!important;
+    width:clamp(220px,20vw,340px)!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  #mainPortal .game-window.has-catalog .game-category-item,
+  #mainPortal .game-window.has-catalog .game-catalog-card{
+    min-height:0!important;
+  }
+}
+
+/* Ultra-wide web/TV: keep the portal centered and readable. */
+@media (min-width:1440px){
+  #mainPortal{
+    padding-left:max(28px,var(--fzg-safe-left))!important;
+    padding-right:max(28px,var(--fzg-safe-right))!important;
+  }
+  #mainPortal .home-media-row,
+  #mainPortal .home-channels,
+  #mainPortal .home-category-quick{
+    max-width:1600px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+
+/* Reduced motion remains authoritative across every target. */
+@media (prefers-reduced-motion:reduce){
+  #mainPortal *{
+    scroll-behavior:auto!important;
+  }
+}
