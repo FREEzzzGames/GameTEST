@@ -1,7 +1,7 @@
-import { Platform } from "./platform.js";
-import { GAME_CARDS, GAME_LINKS, CATEGORIES } from "./portal-data/games.js?v=20260930e4";
-import { LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
-import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
+import { Platform } from "./platform.js?v=20260930-platform2";
+import { GAME_CARDS, GAME_LINKS, CATEGORIES } from "./portal-data/games.js?v=20260930e5";
+import { LANG, GAME_TEXT, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e5";
+import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e5";
 
 (() => {
   "use strict";
