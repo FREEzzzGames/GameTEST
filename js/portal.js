@@ -670,8 +670,6 @@ import { gameLogoUrl } from "./portal-data/posters.js?v=20260930e4";
   document.getElementById('achievementsModal')?.addEventListener('click',e=>{if(e.target.id==='achievementsModal')closeAchievementsModal();});
 
   // Fixed portal appearance: dark theme is the only standard; sound is always enabled.
-  const themes=["theme-dark"];
-  let currentThemeIdx=0;
   function applyTheme(){ document.getElementById('bodyRoot').className='theme-dark'; }
   applyTheme();
 
