@@ -2,40 +2,40 @@
 const LANGS = ["ru","de","en"];
   const LANG = {
     ru:{
-      code:"RU",subtitle:"ARCADE PORTAL 🕹️",games:"🎮 ИГРЫ",top:"🏆 ТОП",achievements:"🎖️ АЧИВКИ",chat:"💬 ЧАТ",random:"🎲 СЛУЧАЙНАЯ ИГРА",share:"📤 ПОДЕЛИТЬСЯ",
+      code:"RU",subtitle:"ARCADE PORTAL ️",games:"ИГРЫ",top:"ТОП",achievements:"️ АЧИВКИ",chat:"ЧАТ",random:"СЛУЧАЙНАЯ ИГРА",share:"ПОДЕЛИТЬСЯ",
       swipeHint:"СВАЙП ВЛЕВО / ВПРАВО • НАЖМИ, ЧТОБЫ ОТКРЫТЬ ИГРУ",swipeShort:"← СВАЙП →",send:"ОТПРАВИТЬ",close:"ЗАКРЫТЬ",arcadeHub:"АРКАДНЫЙ ПОРТАЛ",
       avatarCollection:"КОЛЛЕКЦИЯ АВАТАРОВ",avatarHint:"Выбирай собранную аватарку или возвращайся каждый день за новой!",
       chatPlaceholder:"Напиши сообщение...",back:"НАЗАД",play:"ИГРАТЬ →",oneGame:"ИГРА",gamesCount:"ИГРЫ",
-      score:"СЧЁТ",locked:"🔒",unlocked:"✅",topTitle:"ТОП ИГР",theme:"ТЕМА",sound:"ЗВУК",
+      score:"СЧЁТ",locked:"",unlocked:"",topTitle:"ТОП ИГР",theme:"ТЕМА",sound:"ЗВУК",
       roomMain:"ОСНОВНАЯ",roomGames:"ИГРЫ",roomRelax:"ОТДЫХ",roomDm:"ЛИЧНЫЕ СООБЩЕНИЯ",dmTitle:"ЛИЧНЫЕ СООБЩЕНИЯ",
       noMessages:"Пока сообщений нет. Будь первым.",noDialogs:"Личных диалогов пока нет.",authOpen:"Открой чат внутри Telegram для авторизации.",
       authOk:"Браузер: локальный вход подтверждён",authError:"Ошибка авторизации: ",chatApiError:"Ошибка чата: ",dmApiError:"Ошибка личных сообщений: ",
       profilePortal:"ПОРТАЛ",profileGames:"ИГРЫ",profileLaunches:"ЗАПУСКОВ ИГР",profileMessages:"СООБЩЕНИЙ",profileChat:"В ЧАТЕ",profileDays:"ДНЕЙ АКТИВНОСТИ",
-      profileAchievements:"🏆 АЧИВКИ",write:"НАПИСАТЬ",player:"Игрок",hintsOn:"💡 ПОДСКАЗКИ: ВКЛ",hintsOff:"💡 ПОДСКАЗКИ: ВЫКЛ",disableHints:"Не показывать подсказки",enableHints:"Показывать подсказки"
+      profileAchievements:"АЧИВКИ",write:"НАПИСАТЬ",player:"Игрок",hintsOn:"ПОДСКАЗКИ: ВКЛ",hintsOff:"ПОДСКАЗКИ: ВЫКЛ",disableHints:"Не показывать подсказки",enableHints:"Показывать подсказки"
     },
     de:{
-      code:"DE",subtitle:"ARCADE-PORTAL 🕹️",games:"🎮 SPIELE",top:"🏆 TOP",achievements:"🎖️ ERFOLGE",chat:"💬 CHAT",random:"🎲 ZUFALLSSPIEL",share:"📤 TEILEN",
+      code:"DE",subtitle:"ARCADE-PORTAL ️",games:"SPIELE",top:"TOP",achievements:"️ ERFOLGE",chat:"CHAT",random:"ZUFALLSSPIEL",share:"TEILEN",
       swipeHint:"NACH LINKS / RECHTS WISCHEN • ANTIPPEN, UM DAS SPIEL ZU ÖFFNEN",swipeShort:"← WISCHEN →",send:"SENDEN",close:"SCHLIESSEN",arcadeHub:"ARCADE-PORTAL",
       avatarCollection:"AVATAR-SAMMLUNG",avatarHint:"Wähle einen gesammelten Avatar oder komm jeden Tag für einen neuen zurück!",
       chatPlaceholder:"Nachricht schreiben...",back:"ZURÜCK",play:"SPIELEN →",oneGame:"SPIEL",gamesCount:"SPIELE",
-      score:"PUNKTZAHL",locked:"🔒",unlocked:"✅",topTitle:"SPIELE-TOP",theme:"THEMA",sound:"TON",
+      score:"PUNKTZAHL",locked:"",unlocked:"",topTitle:"SPIELE-TOP",theme:"THEMA",sound:"TON",
       roomMain:"HAUPTRAUM",roomGames:"SPIELE",roomRelax:"PAUSE",roomDm:"PRIVATNACHRICHTEN",dmTitle:"PRIVATNACHRICHTEN",
       noMessages:"Noch keine Nachrichten. Sei die erste Person.",noDialogs:"Noch keine privaten Gespräche.",authOpen:"Öffne den Chat in Telegram zur Anmeldung.",
       authOk:"Browser: lokaler Zugang bestätigt",authError:"Anmeldung fehlgeschlagen: ",chatApiError:"Chat-Fehler: ",dmApiError:"Fehler bei den Privatnachrichten: ",
       profilePortal:"PORTAL",profileGames:"SPIELE",profileLaunches:"SPIELSTARTS",profileMessages:"NACHRICHTEN",profileChat:"CHATZEIT",profileDays:"AKTIVE TAGE",
-      profileAchievements:"🏆 ERFOLGE",write:"SCHREIBEN",player:"Spieler",hintsOn:"💡 HINWEISE: AN",hintsOff:"💡 HINWEISE: AUS",disableHints:"Hinweise nicht mehr anzeigen",enableHints:"Hinweise anzeigen"
+      profileAchievements:"ERFOLGE",write:"SCHREIBEN",player:"Spieler",hintsOn:"HINWEISE: AN",hintsOff:"HINWEISE: AUS",disableHints:"Hinweise nicht mehr anzeigen",enableHints:"Hinweise anzeigen"
     },
     en:{
-      code:"EN",subtitle:"ARCADE PORTAL 🕹️",games:"🎮 GAMES",top:"🏆 TOP",achievements:"🎖️ ACHIEVEMENTS",chat:"💬 CHAT",random:"🎲 RANDOM GAME",share:"📤 SHARE",
+      code:"EN",subtitle:"ARCADE PORTAL ️",games:"GAMES",top:"TOP",achievements:"️ ACHIEVEMENTS",chat:"CHAT",random:"RANDOM GAME",share:"SHARE",
       swipeHint:"SWIPE LEFT / RIGHT • TAP TO OPEN THE GAME",swipeShort:"← SWIPE →",send:"SEND",close:"CLOSE",arcadeHub:"ARCADE PORTAL",
       avatarCollection:"AVATAR COLLECTION",avatarHint:"Choose a collected avatar or come back every day for a new one!",
       chatPlaceholder:"Write a message...",back:"BACK",play:"PLAY →",oneGame:"GAME",gamesCount:"GAMES",
-      score:"SCORE",locked:"🔒",unlocked:"✅",topTitle:"TOP GAMES",theme:"THEME",sound:"SOUND",
+      score:"SCORE",locked:"",unlocked:"",topTitle:"TOP GAMES",theme:"THEME",sound:"SOUND",
       roomMain:"MAIN",roomGames:"GAMES",roomRelax:"RELAX",roomDm:"PRIVATE MESSAGES",dmTitle:"PRIVATE MESSAGES",
       noMessages:"No messages yet. Be the first.",noDialogs:"No private conversations yet.",authOpen:"Open the chat inside Telegram to sign in.",
       authOk:"Browser: local access confirmed",authError:"Authorization failed: ",chatApiError:"Chat error: ",dmApiError:"Private message error: ",
       profilePortal:"PORTAL",profileGames:"GAMES",profileLaunches:"GAME LAUNCHES",profileMessages:"MESSAGES",profileChat:"CHAT TIME",profileDays:"ACTIVE DAYS",
-      profileAchievements:"🏆 ACHIEVEMENTS",write:"WRITE",player:"Player",hintsOn:"💡 HINTS: ON",hintsOff:"💡 HINTS: OFF",disableHints:"Don’t show hints",enableHints:"Show hints"
+      profileAchievements:"ACHIEVEMENTS",write:"WRITE",player:"Player",hintsOn:"HINTS: ON",hintsOff:"HINTS: OFF",disableHints:"Don’t show hints",enableHints:"Show hints"
     }
   };
   const GAME_TEXT = {
