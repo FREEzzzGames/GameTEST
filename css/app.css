@@ -7462,3 +7462,17 @@ html,body{
   }
 }
 
+/* =========================================================
+   FINAL VISIBILITY CONTRACT — FULL CHAT IS NEVER A COLD START
+   .hidden must always beat the legacy fullscreen CHAT layout.
+   ========================================================= */
+#mainPortal #guestView.hidden{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+#mainPortal #guestView:not(.hidden){
+  display:flex!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
