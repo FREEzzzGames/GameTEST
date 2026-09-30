@@ -6347,3 +6347,9 @@ html,body{
 #mainPortal .header-top .always-btn{
   border-radius:0!important;
 }
+
+/* FIX: header proportions — 70% logo / 20% profile+avatar / 5% radio / 5% language. */
+#mainPortal .header-top{
+  grid-template-columns:70% 20% 5% 5%!important;
+  gap:0!important;
+}
