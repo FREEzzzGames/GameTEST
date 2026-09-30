@@ -1,4 +1,6 @@
 import { directSources } from "./live-data/channels.js?v=20260930f";
+import { CATEGORIES } from "./portal-data/games.js?v=20260930e4";
+import { LANG, CATEGORY_TEXT } from "./portal-data/i18n.js?v=20260930e4";
 
 (() => {
 "use strict";
@@ -108,6 +110,62 @@ function renderBot() {
   clearInterval(S.botPhraseTimer);
   S.botTimer = setInterval(botMove, 3500);
   S.botPhraseTimer = setInterval(() => botPhrase(), 6500);
+}
+
+function currentLang(){
+  const lang=localStorage.getItem("freezzzLang")||"ru";
+  return LANG[lang]?lang:"ru";
+}
+
+function categoryLabel(id){
+  const lang=currentLang();
+  return CATEGORY_TEXT[id]?.[lang] || CATEGORIES.find(x=>x.id===id)?.name || id;
+}
+
+function renderHomeChannels(){
+  const host=$("homeChannelsTrack");
+  if(!host) return;
+  host.innerHTML=S.all.map(channel =>
+    '<button class="home-channel" type="button" data-home-channel-id="'+esc(channel.id)+'">'+
+      '<span class="home-channel-avatar">'+esc(channel.avatar)+'</span>'+
+      '<span class="home-channel-copy">'+
+        '<strong>'+esc(channel.name)+'</strong>'+
+        '<small>'+esc(channel.category||"YouTube")+'</small>'+
+      '</span>'+
+      '<span class="home-channel-mark">YT</span>'+
+    '</button>'
+  ).join("");
+
+  host.querySelectorAll("[data-home-channel-id]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const channel=S.all.find(item=>item.id===button.dataset.homeChannelId);
+      if(channel){ openCard(channel); h(); }
+    });
+  });
+}
+
+function renderHomeCategoryQuick(){
+  const host=$("homeCategoryQuickTrack");
+  if(!host) return;
+  host.innerHTML=CATEGORIES.map(category =>
+    '<button class="home-category-quick-item" type="button" data-home-category="'+esc(category.id)+'">'+
+      '<span class="home-category-quick-copy">'+
+        '<strong>'+esc(categoryLabel(category.id))+'</strong>'+
+        '<small>'+category.ids.length+' '+esc(category.ids.length===1?(LANG[currentLang()]?.oneGame||"ИГРА"):(LANG[currentLang()]?.gamesCount||"ИГРЫ"))+'</small>'+
+      '</span>'+
+    '</button>'
+  ).join("");
+
+  host.querySelectorAll("[data-home-category]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const id=button.dataset.homeCategory;
+      if(window.FZG?.gameWindow?.openCategory?.(id)) h();
+    });
+  });
+}
+
+function refreshHomeCategoryQuick(){
+  renderHomeCategoryQuick();
 }
 
 function renderList() {
@@ -314,6 +372,8 @@ function init() {
   if (!$("liveView")) return;
 
   renderList();
+  renderHomeChannels();
+  renderHomeCategoryQuick();
   renderBot();
 
   $("liveListBtn")?.addEventListener("click", openList);
