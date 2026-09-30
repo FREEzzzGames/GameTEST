@@ -3675,3 +3675,29 @@ html, body,
   padding:0 3px 4px 6px!important;
   background:rgba(11,20,32,.52)!important;
 }
+
+/* LIVE SCROLL FIX — native touch scrolling inside streamer dropdown */
+#mainPortal .home-media-row #liveListPanel{
+  touch-action:pan-y!important;
+  overscroll-behavior:contain!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-list-drawer{
+  height:min(430px,calc(100dvh - 430px))!important;
+  max-height:min(430px,calc(100dvh - 430px))!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  overscroll-behavior-y:contain!important;
+  scrollbar-width:auto!important;
+}
+#mainPortal .home-media-row #liveListPanel .live-streamer-list{
+  min-height:max-content!important;
+  height:auto!important;
+}
+@media(max-width:380px){
+  #mainPortal .home-media-row #liveListPanel .live-list-drawer{
+    height:min(390px,calc(100dvh - 410px))!important;
+    max-height:min(390px,calc(100dvh - 410px))!important;
+  }
+}
