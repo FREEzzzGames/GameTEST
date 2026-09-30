@@ -380,3 +380,84 @@
     min-height:54px!important;
   }
 }
+
+/* ============================================================
+   CYBERPUNK ARCADE — FINAL DETAIL PASS
+   Visual-only. Existing catalog geometry and interaction targets stay intact.
+   ============================================================ */
+#mainPortal .game-window{
+  --gx:#00e5ff;
+  --gm:#ff2fbc;
+  --ga:#ffd34d;
+  position:relative!important;
+  isolation:isolate!important;
+}
+#mainPortal .game-window::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:3;
+  border:1px solid rgba(0,229,255,.08);
+  background:
+    linear-gradient(90deg,transparent 0 8%,rgba(0,229,255,.035) 8% 8.2%,transparent 8.2% 92%,rgba(255,47,188,.035) 92% 92.2%,transparent 92.2%),
+    repeating-linear-gradient(180deg,transparent 0 5px,rgba(255,255,255,.018) 5px 6px);
+  mix-blend-mode:screen;
+  opacity:.65;
+}
+#mainPortal .game-window.has-catalog .game-catalog-title{
+  position:relative!important;
+  border-bottom:1px solid rgba(0,229,255,.10);
+}
+#mainPortal .game-window.has-catalog .game-catalog-title::before{
+  content:"SYS // GAME NETWORK";
+  position:absolute;
+  right:3px;
+  bottom:3px;
+  color:rgba(0,229,255,.25);
+  font:6px/1 "Handjet",monospace;
+  letter-spacing:1px;
+  pointer-events:none;
+}
+#mainPortal .game-window.has-catalog .game-category-item,
+#mainPortal .game-window.has-catalog .game-catalog-card{
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease!important;
+}
+#mainPortal .game-window.has-catalog .game-category-item::after,
+#mainPortal .game-window.has-catalog .game-catalog-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:linear-gradient(110deg,transparent 0 45%,rgba(0,229,255,.07) 50%,transparent 55%);
+  transform:translateX(-110%);
+  opacity:0;
+}
+#mainPortal .game-window.has-catalog .game-category-item:active::after,
+#mainPortal .game-window.has-catalog .game-catalog-card:active::after{
+  animation:fzgGameSweep .34s ease-out;
+}
+@keyframes fzgGameSweep{
+  0%{transform:translateX(-110%);opacity:0}
+  35%{opacity:1}
+  100%{transform:translateX(110%);opacity:0}
+}
+#mainPortal .game-window.has-catalog .game-catalog-art{
+  background:radial-gradient(circle at 50% 50%,rgba(0,229,255,.10),transparent 45%),#03070d!important;
+}
+#mainPortal .game-window.has-catalog .game-catalog-art::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent 0 6%,rgba(0,229,255,.12) 6% 6.5%,transparent 6.5% 93%,rgba(255,47,188,.12) 93% 93.5%,transparent 93.5%);
+  opacity:.55;
+}
+#mainPortal .game-window.has-catalog .game-catalog-pages{
+  border-top:1px solid rgba(0,229,255,.08);
+}
+@media (prefers-reduced-motion:reduce){
+  #mainPortal .game-window.has-catalog .game-category-item,
+  #mainPortal .game-window.has-catalog .game-catalog-card{transition:none!important}
+}
