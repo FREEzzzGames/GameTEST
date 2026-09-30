@@ -117,10 +117,15 @@ async function resolveChannel(x){
       });
       if(r.ok){
         const html=await r.text();
+        // Prefer the channel's canonical URL / browseId. A raw
+        // "channelId" match can belong to a recommended video/channel
+        // embedded elsewhere in the page.
         const patterns=[
-          /"channelId":"(UC[a-zA-Z0-9_-]{22})"/,
+          /<link[^>]+rel=["']canonical["'][^>]+href=["']https:\\/\\/www\\.youtube\\.com\\/channel\\/(UC[a-zA-Z0-9_-]{22})["']/i,
+          /"browseId":"(UC[a-zA-Z0-9_-]{22})"/,
           /"externalId":"(UC[a-zA-Z0-9_-]{22})"/,
-          /channel\/([a-zA-Z0-9_-]{24})/
+          /"channelId":"(UC[a-zA-Z0-9_-]{22})"/,
+          /channel\\/(UC[a-zA-Z0-9_-]{22})/
         ];
         const match=patterns.map(re=>html.match(re)).find(Boolean);
         const channelId=match?.[1]||null;
@@ -134,39 +139,6 @@ async function resolveChannel(x){
   }
 
   return null;
-}
-
-async function searchChannelFallback(x){
-  // Legacy /c/ aliases can occasionally resolve to a stale channel ID in
-  // the public HTML. If the resulting uploads playlist returns 404, use the
-  // official YouTube search endpoint once to recover the canonical channel ID.
-  if(!x?.customUrl)return null;
-
-  const alias=String(x.customUrl).split('/').filter(Boolean).pop()||x.handle||x.name||x.id;
-  try{
-    const data=await api('search',{
-      part:'snippet',
-      q:String(alias).replace(/^@/,''),
-      type:'channel',
-      maxResults:5
-    });
-
-    const items=data.items||[];
-    const preferred=items.find(item=>{
-      const title=String(item.snippet?.channelTitle||'').toLowerCase();
-      return title.includes('stray') || title.includes(String(alias).toLowerCase());
-    })||items[0];
-
-    const channelId=preferred?.snippet?.channelId||preferred?.id?.channelId;
-    if(!channelId)return null;
-
-    const value={channelId,uploadsPlaylistId:null};
-    channelCache.set(x.id,value);
-    return value;
-  }catch(e){
-    console.error('YouTube channel fallback failed for '+(x.handle||x.customUrl||x.id),e);
-    return null;
-  }
 }
 
 async function ensurePlaylist(x){
@@ -212,36 +184,6 @@ async function youtube(list){
       }
     }catch(e){
       const label=x.handle||x.channelId||x.customUrl||x.id;
-
-      // /c/StrayBest is a legacy alias and its page can expose a stale
-      // channel ID. Recover the canonical ID through YouTube search, cache it,
-      // and retry the playlist exactly once in this polling cycle.
-      if(x.customUrl){
-        try{
-          const fallback=await searchChannelFallback(x);
-          if(fallback?.channelId){
-            const p=await api('playlistItems',{
-              part:'contentDetails,snippet',
-              playlistId:(await ensurePlaylist(x))?.uploadsPlaylistId||'',
-              maxResults:15
-            });
-
-            for(const item of (p.items||[])){
-              const videoId=item.contentDetails?.videoId||item.snippet?.resourceId?.videoId;
-              if(videoId)candidates.push({
-                owner:x,
-                videoId,
-                title:item.snippet?.title||'',
-                publishedAt:item.snippet?.publishedAt||null
-              });
-            }
-            continue;
-          }
-        }catch(retryError){
-          console.error('YouTube playlist retry failed for '+label,retryError);
-        }
-      }
-
       console.error('YouTube playlist check failed for '+label,e);
     }
   }
