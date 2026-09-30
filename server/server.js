@@ -25,7 +25,7 @@ const DEFAULT_STREAMER_REGISTRY=[
   {"id":"minecraft","platform":"youtube","handle":"@minecraft","name":"Minecraft","avatar":"🏆","category":"Minecraft резерв","reserve":true},
   {"id":"esportsbattle","platform":"youtube","handle":"@EsportsBattle","name":"ESportsBattle | eFootball","avatar":"🏆","category":"EA/eFootball резерв","reserve":true},
   {"id":"fifa","platform":"youtube","handle":"@easportsfc","name":"FIFA / EA SPORTS FC","avatar":"🏆","category":"EA/FIFA резерв","reserve":true},
-  {"id":"nasa-live","platform":"youtube","handle":"@NASA","name":"NASA Live","avatar":"🚀","category":"Космос • Наука","testLive":true}
+  {"id":"nasa-live","platform":"youtube","handle":"@NASA","channelId":"UCLA_DiR1FfKNvjuUpBHmylQ","name":"NASA Live","avatar":"🚀","category":"Космос • Наука","testLive":true,"testEmbedUrl":"https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ&autoplay=1&mute=1"}
 ];
 
 app.use((req,res,next)=>{
@@ -97,22 +97,38 @@ async function youtube(list){
   const users=list.filter(x=>x.platform==='youtube'&&(x.channelId||x.handle)).slice(0,50);
   if(!users.length)return list;
 
+  // Controlled test streams are resolved locally and must never depend on
+  // YouTube Data API availability. This keeps the pipeline testable even
+  // when one of the normal streamer profiles is broken or slow.
+  const found=new Map();
+  for(const x of users.filter(x=>x.testLive)){
+    found.set(x.id,{
+      ...x,
+      live:true,
+      liveStartedAt:new Date().toISOString(),
+      lastStreamTitle:x.lastStreamTitle||'NASA Live test stream',
+      sources:[{
+        platform:'youtube',
+        embedUrl:x.testEmbedUrl||(
+          x.channelId
+            ? 'https://www.youtube.com/embed/live_stream?channel='+encodeURIComponent(x.channelId)+'&autoplay=1&mute=1'
+            : 'https://www.youtube.com/@NASA/live'
+        ),
+        live:true,
+        test:true,
+        qualityScore:100,
+        trafficScore:100,
+        stabilityScore:100,
+        latencyScore:90
+      }]
+    });
+  }
+
+  // Normal profiles still use YouTube Data API, but they can no longer
+  // block or invalidate the controlled test stream above.
   const candidates=[];
-  for(const x of users){
+  for(const x of users.filter(x=>!x.testLive)){
     try{
-      if(x.testLive){
-        const meta=await ensurePlaylist(x);
-        if(meta?.channelId){
-          candidates.push({
-            owner:x,
-            videoId:null,
-            title:x.lastStreamTitle||"NASA Live test stream",
-            testLive:true,
-            channelId:meta.channelId
-          });
-        }
-        continue;
-      }
       const meta=await ensurePlaylist(x);
       if(!meta?.uploadsPlaylistId)continue;
       const p=await api('playlistItems',{
@@ -129,11 +145,13 @@ async function youtube(list){
     }
   }
 
+  // Never send null/test candidates into videos.list.
   const unique=[...new Map(candidates.map(x=>[x.videoId,x])).values()];
   const videos=new Map();
 
   for(let i=0;i<unique.length;i+=50){
     const ids=unique.slice(i,i+50).map(x=>x.videoId).join(',');
+    if(!ids)continue;
     try{
       const data=await api('videos',{
         part:'snippet,liveStreamingDetails',
@@ -145,30 +163,7 @@ async function youtube(list){
     }
   }
 
-  const found=new Map();
   for(const item of candidates){
-    if(item.testLive){
-      found.set(item.owner.id,{
-        ...item.owner,
-        live:true,
-        liveStartedAt:new Date().toISOString(),
-        lastStreamTitle:item.title||item.owner.lastStreamTitle||'NASA Live test stream',
-        sources:[{
-          platform:'youtube',
-          embedUrl:item.channelId
-            ? 'https://www.youtube.com/embed/live_stream?channel='+encodeURIComponent(item.channelId)+'&autoplay=1&mute=1'
-            : 'https://www.youtube.com/@NASA/live',
-          live:true,
-          test:true,
-          qualityScore:100,
-          trafficScore:100,
-          stabilityScore:100,
-          latencyScore:90
-        }]
-      });
-      continue;
-    }
-
     const v=videos.get(item.videoId);
     const d=v?.liveStreamingDetails;
     const live=!!(v?.snippet?.liveBroadcastContent==='live'&&d?.actualStartTime&&!d?.actualEndTime);
