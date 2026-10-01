@@ -1,159 +1,342 @@
-/* LIVE — streamer list + embedded YouTube window */
+/* FREEzzzGames LIVE — isolated layout
+   No global overlays, no DOM reparenting, no portal-level positioning. */
+
 #mainPortal .home-media-row .live-view{
   position:relative!important;
-  z-index:2000!important;
-  overflow:visible!important;
+  min-width:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
   pointer-events:auto!important;
+  isolation:isolate!important;
+  z-index:20!important;
+}
+
+#mainPortal .home-media-row .live-head{
+  position:relative!important;
+  z-index:20!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:5px!important;
+  min-width:0!important;
+}
+
+#mainPortal .home-media-row .live-head-title{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+#mainPortal .home-media-row .live-list-btn,
+#mainPortal .home-media-row .live-panel-add,
+#mainPortal .home-media-row .live-list-back,
+#mainPortal .home-media-row .live-panel-close,
+#mainPortal .home-media-row .live-player-action,
+#mainPortal .home-media-row .live-player-channel,
+#mainPortal .home-media-row .live-external-card button{
+  min-height:28px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:7px!important;
+  background:rgba(18,22,28,.94)!important;
+  color:#fff!important;
+  padding:0 8px!important;
+  font:700 8px/1 "Handjet",monospace!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+}
+
+#mainPortal .home-media-row .live-list-btn{
+  flex:0 0 auto!important;
 }
 
 #mainPortal .home-media-row #liveListPanel{
   position:absolute!important;
-  top:40px!important;
-  left:0!important;
-  right:0!important;
-  bottom:auto!important;
-  width:100%!important;
-  height:min(900px,calc(var(--tg-viewport-stable-height,100dvh) - 150px))!important;
-  max-height:calc(var(--tg-viewport-stable-height,100dvh) - 150px)!important;
-  min-height:220px!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:hidden!important;
+  inset:0!important;
+  z-index:80!important;
   display:block!important;
-  z-index:5000!important;
-  pointer-events:auto!important;
-  background:transparent!important;
+  overflow:hidden!important;
+  padding:0!important;
+  background:rgba(7,9,12,.985)!important;
+  border-radius:inherit!important;
 }
 
-#mainPortal .home-media-row #liveListPanel.hidden{display:none!important;}
+#mainPortal .home-media-row #liveListPanel.hidden{
+  display:none!important;
+}
 
 #mainPortal .home-media-row #liveListPanel .live-list-drawer{
-  width:100%!important;
-  height:100%!important;
-  max-height:none!important;
+  position:absolute!important;
+  inset:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  min-width:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  padding:5px!important;
+  box-sizing:border-box!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-head{
+  flex:0 0 auto!important;
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr) auto auto!important;
+  align-items:center!important;
+  gap:5px!important;
+  min-height:34px!important;
+  padding:0 1px 5px!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-head strong{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:#fff!important;
+  font:700 10px/1 "Handjet",monospace!important;
+  text-align:center!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-streamer-list{
+  flex:1 1 auto!important;
   min-height:0!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
   -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior-y:contain!important;
+  overscroll-behavior:contain!important;
   touch-action:pan-y!important;
-  pointer-events:auto!important;
-  padding:6px!important;
-  box-sizing:border-box!important;
-}
-
-#mainPortal .home-media-row #liveListPanel .live-streamer-list{
   display:flex!important;
   flex-direction:column!important;
-  gap:6px!important;
-  min-height:max-content!important;
-  height:auto!important;
-  pointer-events:auto!important;
+  gap:5px!important;
+  padding:2px!important;
 }
 
 #mainPortal .home-media-row #liveListPanel .live-list-row{
-  width:100%!important;
+  position:relative!important;
   flex:0 0 auto!important;
-  min-height:64px!important;
+  width:100%!important;
+  min-height:62px!important;
   display:grid!important;
-  grid-template-columns:42px minmax(0,1fr)!important;
+  grid-template-columns:38px minmax(0,1fr) auto!important;
   align-items:center!important;
-  gap:8px!important;
-  padding:7px 9px!important;
+  gap:7px!important;
+  padding:6px!important;
   box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:9px!important;
+  background:rgba(255,255,255,.035)!important;
+  color:#fff!important;
+  text-align:left!important;
   cursor:pointer!important;
-  pointer-events:auto!important;
   touch-action:manipulation!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
 }
 
-#mainPortal .home-media-row #liveListPanel .live-list-row *{
-  pointer-events:none!important;
+#mainPortal .home-media-row #liveListPanel .live-list-row:active{
+  transform:scale(.992)!important;
+  background:rgba(255,255,255,.07)!important;
 }
 
-/* Player occupies the entire empty LIVE area. */
+#mainPortal .home-media-row #liveListPanel .live-list-avatar{
+  width:38px!important;
+  height:38px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:9px!important;
+  background:rgba(255,255,255,.07)!important;
+  font-size:18px!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-main{
+  min-width:0!important;
+  display:grid!important;
+  gap:2px!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-main strong,
+#mainPortal .home-media-row #liveListPanel .live-list-main small,
+#mainPortal .home-media-row #liveListPanel .live-list-main em{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-main strong{
+  color:#fff!important;
+  font:700 10px/1.05 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-main small{
+  color:rgba(255,255,255,.62)!important;
+  font:600 8px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-main em{
+  color:rgba(255,255,255,.42)!important;
+  font:400 7px/1 "Handjet",monospace!important;
+  font-style:normal!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-status{
+  min-width:50px!important;
+  text-align:center!important;
+  font:700 7px/1 "Handjet",monospace!important;
+  letter-spacing:.3px!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-status.online{
+  color:#7dff9b!important;
+}
+
+#mainPortal .home-media-row #liveListPanel .live-list-status.offline{
+  color:#aeb5bf!important;
+}
+
+#mainPortal .home-media-row #liveAddPanel{
+  flex:0 0 auto!important;
+  max-height:55%!important;
+  overflow:auto!important;
+  margin:0 0 5px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:9px!important;
+  background:#101319!important;
+}
+
+#mainPortal .home-media-row #liveAddPanel.hidden{
+  display:none!important;
+}
+
+#mainPortal .home-media-row .live-add-form{
+  display:grid!important;
+  gap:6px!important;
+  padding:8px!important;
+}
+
+#mainPortal .home-media-row .live-add-title{
+  color:#fff!important;
+  font:700 11px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-add-form label{
+  display:grid!important;
+  gap:3px!important;
+  color:rgba(255,255,255,.58)!important;
+  font:600 7px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-add-form input,
+#mainPortal .home-media-row .live-add-form select{
+  width:100%!important;
+  min-height:31px!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+  border-radius:7px!important;
+  outline:none!important;
+  background:#0a0d11!important;
+  color:#fff!important;
+  padding:0 7px!important;
+  font:500 9px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-add-form input:focus,
+#mainPortal .home-media-row .live-add-form select:focus{
+  border-color:rgba(125,255,155,.5)!important;
+}
+
+#mainPortal .home-media-row .live-add-actions{
+  display:flex!important;
+  justify-content:flex-end!important;
+  gap:5px!important;
+}
+
+#mainPortal .home-media-row .live-add-cancel,
+#mainPortal .home-media-row .live-add-submit{
+  min-height:29px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  cursor:pointer!important;
+  font:700 8px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-add-cancel{
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:#171a20!important;
+  color:#fff!important;
+}
+
+#mainPortal .home-media-row .live-add-submit{
+  border:1px solid rgba(125,255,155,.35)!important;
+  background:#17351f!important;
+  color:#baffc9!important;
+}
+
+#mainPortal .home-media-row .live-add-note{
+  color:rgba(255,255,255,.38)!important;
+  font:400 6px/1.25 "Handjet",monospace!important;
+}
+
 #mainPortal .home-media-row .live-main{
   position:relative!important;
   z-index:1!important;
+  min-width:0!important;
+  min-height:0!important;
   width:100%!important;
   height:100%!important;
-  min-height:0!important;
   overflow:hidden!important;
   pointer-events:auto!important;
 }
 
-#mainPortal .home-media-row .live-video-window{
+#mainPortal .home-media-row .live-player{
   position:relative!important;
   width:100%!important;
   height:100%!important;
+  min-width:0!important;
   min-height:0!important;
   display:flex!important;
   flex-direction:column!important;
   overflow:hidden!important;
   background:#000!important;
-  border-radius:inherit!important;
 }
 
-#mainPortal .home-media-row .live-video-window.is-expanded{
-  position:fixed!important;
-  inset:0!important;
-  width:100vw!important;
-  height:100dvh!important;
-  max-height:none!important;
-  z-index:2147483000!important;
-  border-radius:0!important;
-}
-
-body.live-video-expanded{overflow:hidden!important;}
-
-#mainPortal .home-media-row .live-video-head{
+#mainPortal .home-media-row .live-player-head{
   flex:0 0 34px!important;
   min-height:34px!important;
-  height:34px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:space-between!important;
-  gap:6px!important;
-  padding:0 6px!important;
+  gap:5px!important;
+  padding:3px 5px!important;
   box-sizing:border-box!important;
-  background:rgba(8,12,18,.92)!important;
+  background:rgba(8,11,16,.96)!important;
   border-bottom:1px solid rgba(255,255,255,.08)!important;
-  z-index:5!important;
 }
 
-#mainPortal .home-media-row .live-video-head strong{
+#mainPortal .home-media-row .live-player-title{
   min-width:0!important;
+  display:grid!important;
+  gap:2px!important;
+}
+
+#mainPortal .home-media-row .live-player-title strong{
+  color:#fff!important;
+  font:700 9px/1 "Handjet",monospace!important;
   overflow:hidden!important;
   text-overflow:ellipsis!important;
   white-space:nowrap!important;
-  font:700 9px/1 "Handjet",monospace!important;
-  color:#fff!important;
 }
 
-#mainPortal .home-media-row .live-video-actions{
+#mainPortal .home-media-row .live-player-title small{
+  color:rgba(255,255,255,.5)!important;
+  font:500 6px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-player-actions{
   display:flex!important;
   gap:4px!important;
   flex:0 0 auto!important;
 }
 
-#mainPortal .home-media-row .live-video-action,
-#mainPortal .home-media-row .live-video-foot-expand{
-  width:30px!important;
-  height:28px!important;
-  min-width:30px!important;
-  min-height:28px!important;
-  padding:0!important;
-  border:1px solid rgba(255,255,255,.12)!important;
-  border-radius:7px!important;
-  background:rgba(255,255,255,.08)!important;
-  color:#fff!important;
-  font:700 14px/1 "Handjet",monospace!important;
-  cursor:pointer!important;
-  touch-action:manipulation!important;
-}
-
-#mainPortal .home-media-row .live-video-frame-wrap{
+#mainPortal .home-media-row .live-player-frame{
   position:relative!important;
   flex:1 1 auto!important;
   min-height:0!important;
@@ -161,17 +344,39 @@ body.live-video-expanded{overflow:hidden!important;}
   background:#000!important;
 }
 
-#mainPortal .home-media-row .live-video-frame{
+#mainPortal .home-media-row .live-player-iframe{
   display:block!important;
   width:100%!important;
   height:100%!important;
-  min-width:100%!important;
-  min-height:100%!important;
   border:0!important;
   background:#000!important;
 }
 
-#mainPortal .home-media-row .live-video-fallback{
+#mainPortal .home-media-row .live-player-foot{
+  flex:0 0 28px!important;
+  min-height:28px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:5px!important;
+  padding:0 5px!important;
+  box-sizing:border-box!important;
+  background:rgba(8,11,16,.96)!important;
+  border-top:1px solid rgba(255,255,255,.08)!important;
+}
+
+#mainPortal .home-media-row .live-player-foot span{
+  min-width:0!important;
+  color:rgba(255,255,255,.46)!important;
+  font:500 6px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-player-channel{
+  min-height:24px!important;
+  font-size:7px!important;
+}
+
+#mainPortal .home-media-row .live-external-card{
   position:absolute!important;
   inset:0!important;
   display:flex!important;
@@ -180,176 +385,108 @@ body.live-video-expanded{overflow:hidden!important;}
   justify-content:center!important;
   gap:7px!important;
   padding:20px!important;
-  text-align:center!important;
-  background:#05080d!important;
-  color:#fff!important;
-  z-index:4!important;
-}
-
-#mainPortal .home-media-row .live-video-fallback.hidden{display:none!important;}
-
-#mainPortal .home-media-row .live-video-fallback span{
-  font:700 9px/1 "Handjet",monospace!important;
-  opacity:.65;
-}
-
-#mainPortal .home-media-row .live-video-fallback strong{
-  font:700 12px/1.2 "Handjet",monospace!important;
-}
-
-#mainPortal .home-media-row .live-video-fallback small{
-  font:400 8px/1.2 "Handjet",monospace!important;
-  opacity:.6;
-}
-
-#mainPortal .home-media-row .live-video-foot{
-  flex:0 0 28px!important;
-  min-height:28px!important;
-  height:28px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  padding:0 6px!important;
   box-sizing:border-box!important;
-  background:rgba(8,12,18,.92)!important;
-  border-top:1px solid rgba(255,255,255,.08)!important;
-  z-index:5!important;
+  text-align:center!important;
+  color:#fff!important;
+  background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.055),transparent 40%),#080a0e!important;
 }
 
-#mainPortal .home-media-row .live-video-foot span{
-  font:400 6px/1 "Handjet",monospace!important;
+#mainPortal .home-media-row .live-external-badge{
+  color:#aeb5bf!important;
+  font:700 7px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-external-avatar{
+  width:48px!important;
+  height:48px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.07)!important;
+  font-size:24px!important;
+}
+
+#mainPortal .home-media-row .live-external-card strong{
+  font:700 12px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-external-card span{
+  max-width:260px!important;
   color:rgba(255,255,255,.5)!important;
+  font:500 8px/1.3 "Handjet",monospace!important;
 }
 
-#mainPortal .home-media-row .live-video-window.is-expanded .live-video-head{
-  flex-basis:44px!important;
-  min-height:44px!important;
-  height:44px!important;
+#mainPortal .home-media-row .live-bot-stage{
+  position:absolute!important;
+  inset:0!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(112,190,255,.055),transparent 38%),
+    #07090c!important;
 }
 
-#mainPortal .home-media-row .live-video-window.is-expanded .live-video-foot{
-  flex-basis:38px!important;
-  min-height:38px!important;
-  height:38px!important;
+#mainPortal .home-media-row .live-bot-floor{
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  bottom:7px!important;
+  text-align:center!important;
+  color:rgba(255,255,255,.25)!important;
+  font:600 7px/1 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-bot-bubble{
+  position:absolute!important;
+  left:50%!important;
+  top:16%!important;
+  transform:translateX(-50%)!important;
+  width:min(82%,300px)!important;
+  padding:7px 9px!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:9px!important;
+  background:rgba(16,20,26,.9)!important;
+  color:rgba(255,255,255,.72)!important;
+  text-align:center!important;
+  font:500 8px/1.25 "Handjet",monospace!important;
+}
+
+#mainPortal .home-media-row .live-bot-bubble.is-new{
+  animation:liveBotPulse .24s ease-out!important;
+}
+
+#mainPortal .home-media-row .live-bot{
+  position:absolute!important;
+  left:var(--bot-x,50%)!important;
+  top:var(--bot-y,55%)!important;
+  width:48px!important;
+  height:48px!important;
+  border:1px solid rgba(112,190,255,.28)!important;
+  border-radius:13px!important;
+  background:#141b24!important;
+  color:#dff2ff!important;
+  font:800 8px/1 "Handjet",monospace!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.28)!important;
+}
+
+@keyframes liveBotPulse{
+  from{transform:translateX(-50%) scale(.97);opacity:.65}
+  to{transform:translateX(-50%) scale(1);opacity:1}
 }
 
 @media(max-width:420px){
-  #mainPortal .home-media-row #liveListPanel{
-    height:min(900px,calc(var(--tg-viewport-stable-height,100dvh) - 145px))!important;
-    max-height:calc(var(--tg-viewport-stable-height,100dvh) - 145px)!important;
+  #mainPortal .home-media-row #liveListPanel .live-list-row{
+    min-height:58px!important;
+    grid-template-columns:34px minmax(0,1fr) auto!important;
   }
-}
-
-#mainPortal .home-media-row .live-video-open{
-  min-width:132px!important;
-  min-height:32px!important;
-  padding:0 14px!important;
-  border:1px solid rgba(112,190,255,.34)!important;
-  border-radius:9px!important;
-  background:linear-gradient(145deg,#203b53,#182e41)!important;
-  color:#fff!important;
-  font:700 9px/1 "Handjet",monospace!important;
-  cursor:pointer!important;
-  touch-action:manipulation!important;
-}
-#mainPortal .home-media-row .live-video-open:active{
-  transform:scale(.98)!important;
-}
-#mainPortal .home-media-row .live-video-external-body{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-#mainPortal .home-media-row .live-video-external-body .live-video-fallback{
-  position:relative!important;
-  inset:auto!important;
-  width:min(100%,360px)!important;
-  height:auto!important;
-  min-height:180px!important;
-  box-sizing:border-box!important;
-  border-radius:12px!important;
-}
-
-/* ============================================================
-   LIVE — CREATOR VIDEO NETWORK FINAL DETAIL PASS
-   Visual-only. Existing player/list controls remain unchanged.
-   ============================================================ */
-#mainPortal .home-media-row .live-view{
-  --lv-bg:#0b0c0f;
-  --lv-panel:#15171b;
-  --lv-line:rgba(255,255,255,.10);
-  --lv-soft:rgba(255,255,255,.62);
-}
-#mainPortal .home-media-row .live-view::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:4;
-  border:1px solid rgba(255,255,255,.045);
-  background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 24%);
-}
-#mainPortal .home-media-row #liveListPanel .live-list-row{
-  position:relative!important;
-  overflow:hidden!important;
-  transition:background .16s ease,border-color .16s ease,transform .16s ease!important;
-}
-#mainPortal .home-media-row #liveListPanel .live-list-row::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:10px;
-  bottom:10px;
-  width:2px;
-  border-radius:2px;
-  background:rgba(255,55,55,0);
-  transition:background .16s ease,box-shadow .16s ease;
-}
-#mainPortal .home-media-row #liveListPanel .live-list-row:active::before{
-  background:#ff3b3b;
-  box-shadow:0 0 8px rgba(255,59,59,.55);
-}
-#mainPortal .home-media-row .live-video-head{
-  backdrop-filter:blur(10px)!important;
-  -webkit-backdrop-filter:blur(10px)!important;
-}
-#mainPortal .home-media-row .live-video-frame-wrap::after{
-  content:"LIVE";
-  position:absolute;
-  top:8px;
-  left:8px;
-  padding:4px 6px;
-  border-radius:4px;
-  background:rgba(255,35,35,.92);
-  color:#fff;
-  font:700 7px/1 "Handjet",monospace;
-  letter-spacing:.7px;
-  box-shadow:0 2px 8px rgba(0,0,0,.28);
-  pointer-events:none;
-  z-index:3;
-  opacity:.92;
-}
-#mainPortal .home-media-row .live-video-window.is-expanded .live-video-frame-wrap::after{
-  top:10px;
-  left:10px;
-}
-#mainPortal .home-media-row .live-video-fallback{
-  background:radial-gradient(circle at 50% 35%,rgba(255,55,55,.06),transparent 32%),#07080a!important;
-}
-#mainPortal .home-media-row .live-video-open{
-  background:#202226!important;
-  border-color:rgba(255,255,255,.16)!important;
-  box-shadow:0 2px 10px rgba(0,0,0,.18)!important;
-}
-#mainPortal .home-media-row .live-video-open:hover{
-  background:#292c31!important;
-}
-#mainPortal .home-media-row .live-video-action:focus-visible,
-#mainPortal .home-media-row .live-video-foot-expand:focus-visible,
-#mainPortal .home-media-row .live-video-open:focus-visible{
-  outline:2px solid rgba(255,255,255,.65)!important;
-  outline-offset:1px!important;
-}
-@media (prefers-reduced-motion:reduce){
-  #mainPortal .home-media-row #liveListPanel .live-list-row{transition:none!important}
+  #mainPortal .home-media-row #liveListPanel .live-list-avatar{
+    width:34px!important;
+    height:34px!important;
+    font-size:16px!important;
+  }
+  #mainPortal .home-media-row #liveListPanel .live-list-status{
+    min-width:44px!important;
+  }
 }
