@@ -125,6 +125,163 @@ function installEmergencyShell(){
   console.error("FREEzzzGames: GAME WINDOW module unavailable");
 }
 
+
+// -----------------------------------------------------------------------------
+// SERVICE UI MODE BRIDGE
+// The developer/user switch must NEVER navigate, reload, or replace the page.
+// It only changes interface visibility and restores the HOME surface.
+// This is intentionally defensive so older/newer developer panels can use
+// different selectors without breaking the portal.
+// -----------------------------------------------------------------------------
+(function installInterfaceModeBridge(){
+  const USER_MODE_KEY="freezzzInterfaceMode";
+
+  const hideDeveloperSurfaces=()=>{
+    document.querySelectorAll(
+      '[data-dev-only], .developer-only, .dev-only, #developerOverlay, #developerPanel, .developer-panel, .dev-panel'
+    ).forEach(el=>{
+      el.classList.add("hidden");
+      el.setAttribute("aria-hidden","true");
+    });
+  };
+
+  const showUserSurfaces=()=>{
+    document.querySelectorAll(
+      '[data-user-only], .user-only, #userInterface, #userShell, .user-shell'
+    ).forEach(el=>{
+      el.classList.remove("hidden","is-hidden");
+      el.setAttribute("aria-hidden","false");
+    });
+  };
+
+  const closeTransientSurfaces=()=>{
+    document.querySelectorAll(
+      '.modal-overlay:not(#ageGate), .player-profile-overlay, .radio-overlay, .developer-overlay, .dev-overlay'
+    ).forEach(el=>el.classList.add("hidden"));
+
+    document.body.classList.remove(
+      "developer-mode","dev-mode","developer-open","is-developer",
+      "developer-view","interface-developer"
+    );
+    document.documentElement.classList.remove(
+      "developer-mode","dev-mode","developer-open","is-developer",
+      "developer-view","interface-developer"
+    );
+  };
+
+  function restoreUserMode(){
+    try{
+      localStorage.setItem(USER_MODE_KEY,"user");
+      closeTransientSurfaces();
+      hideDeveloperSurfaces();
+      showUserSurfaces();
+
+      // Restore the canonical HOME surface without a navigation/reload.
+      window.FZG?.gameWindow?.closeGame?.();
+      window.FZG?.gameWindow?.showCatalog?.();
+      window.FZG?.live?.back?.();
+
+      window.FZG?.legacy?.switchTab?.("games");
+      window.FZG?.legacy?.showCategoryList?.(false);
+
+      const guest=document.getElementById("guestView");
+      const media=document.getElementById("homeMediaRow");
+      const live=document.getElementById("liveView");
+      const game=document.getElementById("gameWindow");
+      const achievements=document.getElementById("achievementsView");
+
+      guest?.classList.add("hidden","is-hidden");
+      media?.classList.remove("hidden","is-hidden");
+      live?.classList.remove("hidden","is-hidden");
+      game?.classList.remove("hidden","is-hidden");
+      achievements?.classList.add("hidden","is-hidden");
+
+      setState({
+        screen:"home",
+        categoryId:null,
+        gameId:null,
+        modal:null,
+        chat:{mode:"rooms",room:"main",userId:null},
+        radio:{open:false,playing:false}
+      });
+
+      window.FZG?.platform?.ready?.();
+      window.FZG?.platform?.expand?.();
+
+      window.dispatchEvent(new CustomEvent("freezzz:interface-mode",{
+        detail:{mode:"user"}
+      }));
+      window.dispatchEvent(new CustomEvent("freezzz:user-mode-restored"));
+    }catch(error){
+      console.error("FREEzzzGames: failed to restore user mode",error);
+      // Last-resort DOM recovery. Still no navigation and no reload.
+      document.getElementById("guestView")?.classList.add("hidden");
+      document.getElementById("homeMediaRow")?.classList.remove("hidden","is-hidden");
+      document.getElementById("liveView")?.classList.remove("hidden","is-hidden");
+      document.getElementById("gameWindow")?.classList.remove("hidden","is-hidden");
+    }
+    return false;
+  }
+
+  function restoreDeveloperMode(){
+    localStorage.setItem(USER_MODE_KEY,"developer");
+    document.body.classList.add("developer-mode");
+    document.documentElement.classList.add("developer-mode");
+    document.querySelectorAll(
+      '[data-dev-only], .developer-only, .dev-only, #developerOverlay, #developerPanel, .developer-panel, .dev-panel'
+    ).forEach(el=>{
+      el.classList.remove("hidden","is-hidden");
+      el.setAttribute("aria-hidden","false");
+    });
+    window.dispatchEvent(new CustomEvent("freezzz:interface-mode",{
+      detail:{mode:"developer"}
+    }));
+  }
+
+  const userSelector=[
+    '[data-switch-user]','#switchToUserBtn','#userModeBtn',
+    '.switch-user-mode','.developer-user-toggle',
+    '[data-interface-mode="user"]'
+  ].join(",");
+
+  const devSelector=[
+    '[data-switch-developer]','#switchToDeveloperBtn','#developerModeBtn',
+    '.switch-developer-mode','[data-interface-mode="developer"]'
+  ].join(",");
+
+  // Capture phase guarantees that an old handler cannot navigate/reload first.
+  document.addEventListener("click",event=>{
+    const userButton=event.target?.closest?.(userSelector);
+    if(userButton){
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      restoreUserMode();
+      return;
+    }
+
+    const devButton=event.target?.closest?.(devSelector);
+    if(devButton){
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      restoreDeveloperMode();
+    }
+  },true);
+
+  window.FZG=window.FZG||{};
+  window.FZG.interfaceMode={
+    get:()=>localStorage.getItem(USER_MODE_KEY)||"user",
+    user:restoreUserMode,
+    developer:restoreDeveloperMode
+  };
+
+  // If the previous click stored USER mode, repair a blank/hidden shell on boot.
+  if(localStorage.getItem(USER_MODE_KEY)==="user"){
+    requestAnimationFrame(()=>setTimeout(restoreUserMode,0));
+  }
+})();
+
 window.FZG.navigation={navigate,back};
 bootPortalModule();
 
