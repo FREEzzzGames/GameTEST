@@ -159,6 +159,22 @@ function installEmergencyShell(){
       '.modal-overlay:not(#ageGate), .player-profile-overlay, .radio-overlay, .developer-overlay, .dev-overlay'
     ).forEach(el=>el.classList.add("hidden"));
 
+    // A developer shell may hide the entire portal root. Never leave the
+    // user surface display:none/visibility:hidden/inert after switching.
+    document.querySelectorAll("#mainPortal, .portal").forEach(el=>{
+      el.classList.remove(
+        "hidden","is-hidden","developer-only","dev-only",
+        "developer-view","developer-shell","dev-shell"
+      );
+      el.removeAttribute("hidden");
+      el.removeAttribute("inert");
+      el.removeAttribute("aria-hidden");
+      el.style.removeProperty("display");
+      el.style.removeProperty("visibility");
+      el.style.removeProperty("opacity");
+      el.style.removeProperty("pointer-events");
+    });
+
     document.body.classList.remove(
       "developer-mode","dev-mode","developer-open","is-developer",
       "developer-view","interface-developer"
@@ -183,6 +199,18 @@ function installEmergencyShell(){
 
       window.FZG?.legacy?.switchTab?.("games");
       window.FZG?.legacy?.showCategoryList?.(false);
+
+      const root=document.getElementById("mainPortal") || document.querySelector(".portal");
+      if(root){
+        root.classList.remove("hidden","is-hidden","developer-only","dev-only","developer-view","developer-shell","dev-shell");
+        root.removeAttribute("hidden");
+        root.removeAttribute("inert");
+        root.removeAttribute("aria-hidden");
+        root.style.display="flex";
+        root.style.visibility="visible";
+        root.style.opacity="1";
+        root.style.pointerEvents="auto";
+      }
 
       const guest=document.getElementById("guestView");
       const media=document.getElementById("homeMediaRow");
